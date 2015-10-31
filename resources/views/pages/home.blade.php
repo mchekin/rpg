@@ -41,6 +41,8 @@
         <div class="content">
             <img src="{{ asset('images/village.png') }}" height="600" width="600">
             <div class="title">Role Playing Game</div>
+            <a href="{{ URL::to('auth/login') }}">Login</a>
+            <a href="{{ URL::to('auth/register') }}">Register</a>
         </div>
     </div>
 @stop
