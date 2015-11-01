@@ -1,7 +1,7 @@
 @extends("base")
 
 @section("head")
-    <title>Register</title>
+    <title>Login</title>
 @stop
 
 @section("body")
@@ -21,6 +21,10 @@
 
     <div>
         <input type="checkbox" name="remember"> Remember Me
+    </div>
+
+    <div>
+        <a href="{{ URL::to('password/email') }}">I forgot my password?</a>
     </div>
 
     <div>
