@@ -2,6 +2,7 @@
 
 @section("head")
     <title>Send password reset link</title>
+    @parent
 @stop
 
 @section("body")

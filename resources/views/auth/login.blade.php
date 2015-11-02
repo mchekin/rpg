@@ -2,6 +2,7 @@
 
 @section("head")
     <title>Login</title>
+    @parent
 @stop
 
 @section("body")

@@ -2,6 +2,7 @@
 
 @section("head")
     <title>Register</title>
+    @parent
 @stop
 
 @section("body")

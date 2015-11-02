@@ -3,7 +3,7 @@
 @section("head")
     <title>RPG</title>
 
-    <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
+    @parent
 
     <style>
         html, body {
@@ -16,7 +16,6 @@
             width: 100%;
             display: table;
             font-weight: 100;
-            font-family: 'Lato';
         }
 
         .container {
@@ -41,8 +40,8 @@
         <div class="content">
             <img src="{{ asset('images/village.png') }}" height="600" width="600">
             <div class="title">Role Playing Game</div>
-            <a href="{{ URL::to('auth/login') }}">Login</a>
-            <a href="{{ URL::to('auth/register') }}">Register</a>
+            <a href="{{ URL::to('auth/login') }}"  class="btn btn-success">Login</a>
+            <a href="{{ URL::to('auth/register') }}"  class="btn btn-success">Register</a>
         </div>
     </div>
 @stop

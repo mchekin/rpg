@@ -2,6 +2,7 @@
 
 @section("head")
     <title>Reset password</title>
+    @parent
 @stop
 
 @section("body")
