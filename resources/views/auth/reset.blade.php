@@ -10,13 +10,7 @@
         {!! csrf_field() !!}
         <input type="hidden" name="token" value="{{ $token }}">
 
-        @if (count($errors) > 0)
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        @endif
+        @include('partials.errors')
 
         <div>
             Email

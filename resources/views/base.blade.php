@@ -8,7 +8,6 @@
         @show
     </head>
     <body>
-        @include('partials.errors')
         @yield("body")
 
         @section("footer")
