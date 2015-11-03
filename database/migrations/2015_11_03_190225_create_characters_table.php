@@ -16,13 +16,23 @@ class CreateCharactersTable extends Migration
             $table->increments('id');
 
             $table->string('name');
+
             $table->unsignedInteger('xp');
             $table->unsignedInteger('level');
             $table->integer('money');
+
+            // health
             $table->integer('health');
             $table->integer('max_health');
+
+            // mana
             $table->integer('mana');
             $table->integer('max_mana');
+
+            // attributes
+            $table->integer('strength');
+            $table->integer('agility');
+            $table->integer('intelligence');
 
             $table->unsignedInteger('user_id');
             $table->foreign('user_id')
