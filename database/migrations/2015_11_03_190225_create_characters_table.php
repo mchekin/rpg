@@ -14,9 +14,17 @@ class CreateCharactersTable extends Migration
     {
         Schema::create('characters', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->unsignedInteger('user_id');
 
+            $table->string('name');
+            $table->unsignedInteger('xp');
+            $table->unsignedInteger('level');
+            $table->integer('money');
+            $table->integer('health');
+            $table->integer('max_health');
+            $table->integer('mana');
+            $table->integer('max_mana');
+
+            $table->unsignedInteger('user_id');
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
