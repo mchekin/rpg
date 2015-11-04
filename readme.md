@@ -26,7 +26,9 @@
 
         php artisan key:generate
         
-### First option: Running web server using Virtual box + Vagrant (Recommended)
+### Running in development environment
+   
+#### First option:  using Virtual box + Vagrant (Recommended)
 
 - Generate local Homestead files
 
@@ -42,7 +44,7 @@
         php artisan serve  
 - Navigate to [http://localhost:8000/](http://localhost:8000/)
               
-### Second option: Running web server using XAMPP 
+#### Second option: Running web server using XAMPP 
 
 - Place your project `rpg` directory into XAMPP's `xampp/htdocs` directory  
 
