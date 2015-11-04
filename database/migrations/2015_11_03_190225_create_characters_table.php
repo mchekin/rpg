@@ -19,25 +19,26 @@ class CreateCharactersTable extends Migration
 
             $table->unsignedInteger('xp');
             $table->unsignedInteger('level');
+
             $table->integer('money');
-
-            // health
-            $table->integer('health');
-            $table->integer('max_health');
-
-            // mana
-            $table->integer('mana');
-            $table->integer('max_mana');
 
             // attributes
             $table->integer('strength');
             $table->integer('agility');
+            $table->integer('constitution');
             $table->integer('intelligence');
+            $table->integer('charisma');
 
             $table->unsignedInteger('user_id');
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
+                ->onDelete('cascade');
+
+            $table->unsignedInteger('race_id');
+            $table->foreign('race_id')
+                ->references('id')
+                ->on('races')
                 ->onDelete('cascade');
 
             $table->timestamps();
