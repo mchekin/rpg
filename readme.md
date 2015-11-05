@@ -4,7 +4,7 @@
 
 1. [Requirements](#requirments)
 2. [Installation](#installation)
-3. [Running in development environment](#run-in-development-environment)
+3. [Running in development environment](#running_in_development_environment)
 4. [License](#license)
 
 <a name="requirements"></a>
@@ -33,7 +33,7 @@
 
         php artisan key:generate
 
-<a name="run-in-development-environme"></a>
+<a name="running_in_development_environment"></a>
 ### Running in development environment
    
 #### First option:  Vagrant (Recommended)
