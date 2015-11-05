@@ -1,14 +1,20 @@
 ## Online Role Playing Game based on Laravel PHP Framework
 
+###Table of Contents###
+
+1. [Requirements](#requirments)
+2. [Installation](#installation)
+3. [License](#license)
+
+<a name="requirements"></a>
 ### Requirements (for local development)
 
 - PHP 5.5.9 or Higher
 - [Git](https://git-scm.com/)
 - [Composer](https://getcomposer.org/)
-- [VirtualBox](https://www.virtualbox.org/) and [Vagrant](https://www.vagrantup.com/)
-    OR
-- [XAMPP](https://www.apachefriends.org/index.html)
+- [Vagrant](https://www.vagrantup.com/) or [XAMPP](https://www.apachefriends.org/index.html)
 
+<a name="installation"></a>
 ### Installation
 - Clone the repo
 
@@ -28,7 +34,7 @@
         
 ### Running in development environment
    
-#### First option:  using Virtual box + Vagrant (Recommended)
+#### First option:  Vagrant (Recommended)
 
 - Generate local Homestead files
 
@@ -57,7 +63,7 @@
         php artisan migrate 
 
 - Navigate to [http://localhost/rpg/public](http://localhost/rpg/public)    
-    
-        
+
+<a name="license"></a>
 ### License
 Open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
