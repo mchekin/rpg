@@ -10,9 +10,16 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+Route::group(['middleware' => 'guest'], function () {
+    Route::get('/', function () {
+        return view('pages.index');
+    });
+});
 
-Route::get('/', function () {
-    return view('pages.home');
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/home', function () {
+        return view('pages.home');
+    });
 });
 
 // Authentication routes...
