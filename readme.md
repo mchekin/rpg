@@ -4,7 +4,7 @@
 
 1. [Requirements](#requirments)
 2. [Installation](#installation)
-3. [Running in development environment](#running_in_development_environment)
+3. [Running in development environment](#runningindevelopmentenvironment)
 4. [License](#license)
 
 <a name="requirements"></a>
