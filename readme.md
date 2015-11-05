@@ -4,7 +4,8 @@
 
 1. [Requirements](#requirments)
 2. [Installation](#installation)
-3. [License](#license)
+3. [Running in development environment](#run-in-development-environment)
+4. [License](#license)
 
 <a name="requirements"></a>
 ### Requirements (for local development)
@@ -31,7 +32,8 @@
 - Generate Laravel Application key
 
         php artisan key:generate
-        
+
+<a name="run-in-development-environme"></a>
 ### Running in development environment
    
 #### First option:  Vagrant (Recommended)
