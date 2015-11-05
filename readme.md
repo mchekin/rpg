@@ -33,7 +33,7 @@
 
         php artisan key:generate
 
-<a name="running_in_development_environment"></a>
+<a name="runningindevelopmentenvironment"></a>
 ### Running in development environment
    
 #### First option:  Vagrant (Recommended)
