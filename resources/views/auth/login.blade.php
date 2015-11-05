@@ -7,23 +7,26 @@
 
 @section("body")
 
-    <form method="POST" action="/auth/login">
+    <form class="form-central" method="POST" action="/auth/login">
         {!! csrf_field() !!}
 
         @include('partials.errors')
 
+        <h2>Please log in</h2>
         <div>
-            Email
-            <input type="email" name="email" value="{{ old('email') }}">
+            <label for="email" class="sr-only">Email address</label>
+            <input type="email" name="email" value="{{ old('email') }}" class="form-control" placeholder="Email address" required="" autofocus="">
         </div>
 
         <div>
-            Password
-            <input type="password" name="password" id="password">
+            <label for="password" class="sr-only">Password</label>
+            <input type="password" name="password" id="password" class="form-control" placeholder="Password" required="">
         </div>
 
-        <div>
-            <input type="checkbox" name="remember"> Remember Me
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" name="remember"> Remember me
+            </label>
         </div>
 
         <div>
@@ -31,7 +34,7 @@
         </div>
 
         <div>
-            <button type="submit" class="btn btn-primary">Login</button>
+            <button type="submit" class="btn btn-primary btn-block">Log In</button>
         </div>
     </form>
 
