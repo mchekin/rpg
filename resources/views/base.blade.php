@@ -12,6 +12,9 @@
 
         <div class="container">
             @include('partials.navbar')
+
+            @include('partials.errors')
+
             @yield("body")
         </div>
 

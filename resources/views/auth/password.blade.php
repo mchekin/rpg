@@ -7,18 +7,19 @@
 
 @section("body")
 
-    <form method="POST" action="/password/email">
+    @include('partials.status')
+
+    <form role="form" class="form-centered" method="POST" action="/password/email">
         {!! csrf_field() !!}
 
-        @include('partials.errors')
-
+        <h2>Please enter your email address</h2>
         <div>
-            Email
-            <input type="email" name="email" value="{{ old('email') }}">
+            <label for="email" class="sr-only">Email address</label>
+            <input type="email" name="email" value="{{ old('email') }}" class="form-control" placeholder="Email address" required="" autofocus="">
         </div>
 
         <div>
-            <button type="submit" class="btn btn-primary">
+            <button type="submit" class="btn btn-primary btn-block">
                 Send Password Reset Link
             </button>
         </div>

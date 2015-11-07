@@ -7,10 +7,8 @@
 
 @section("body")
 
-    <form class="form-central" method="POST" action="/auth/login">
+    <form role="form" class="form-centered" method="POST" action="/auth/login">
         {!! csrf_field() !!}
-
-        @include('partials.errors')
 
         <h2>Please log in</h2>
         <div>
