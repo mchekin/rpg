@@ -52,12 +52,12 @@
         php artisan serve  
 - Navigate to [http://localhost:8000/](http://localhost:8000/)
               
-#### Second option: Running web server using XAMPP 
+#### Second option: XAMPP 
 
-- Place your project `rpg` directory into XAMPP's `xampp/htdocs` directory  
+- Place your project's directory into XAMPP's web root folder (`htdocs`)  
 
 
-- Set XAMPP's database credentials and schema to fit the DB parameters in `.env` file. 
+- Set XAMPP's database credentials and schema to correspond with the database parameters inside `.env` file. 
  
  
 - Run Laravel database migrations
