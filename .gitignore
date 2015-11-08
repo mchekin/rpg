@@ -6,3 +6,5 @@ Homestead.json
 
 .vagrant
 .idea
+
+_ide_helper.php

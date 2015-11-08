@@ -46,4 +46,9 @@ class User extends Model implements AuthenticatableContract,
     {
         return $this->hasOne('App\Character');
     }
+
+    public function hasNoCharacter()
+    {
+        return !(count($this->character));
+    }
 }

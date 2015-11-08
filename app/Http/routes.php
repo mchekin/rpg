@@ -23,6 +23,11 @@ Route::group(['middleware' => 'guest'], function () {
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', function () {
+
+        if (Auth::user()->hasNoCharacter()) {
+            return redirect()->route('character.create');
+        }
+
         return view('pages.home');
     });
 });
