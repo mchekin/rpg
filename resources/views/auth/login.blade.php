@@ -11,14 +11,18 @@
         {!! csrf_field() !!}
 
         <h2>Please log in</h2>
-        <div>
-            <label for="email" class="sr-only">Email address</label>
-            <input type="email" name="email" value="{{ old('email') }}" class="form-control" placeholder="Email address" required="" autofocus="">
+        <div class="form-group">
+            <div>
+                <label for="email" class="sr-only">Email address</label>
+                <input type="email" name="email" value="{{ old('email') }}" class="form-control" placeholder="Email address" required="" autofocus="">
+            </div>
         </div>
 
-        <div>
-            <label for="password" class="sr-only">Password</label>
-            <input type="password" name="password" id="password" class="form-control" placeholder="Password" required="">
+        <div class="form-group">
+            <div>
+                <label for="password" class="sr-only">Password</label>
+                <input type="password" name="password" id="password" class="form-control" placeholder="Password" required="">
+            </div>
         </div>
 
         <div class="checkbox">
@@ -31,8 +35,10 @@
             <a href="{{ URL::to('password/email') }}">I forgot my password?</a>
         </div>
 
-        <div>
-            <button type="submit" class="btn btn-primary btn-block">Log In</button>
+        <div class="form-group">
+            <div>
+                <button type="submit" class="btn btn-primary btn-block">Log In</button>
+            </div>
         </div>
     </form>
 

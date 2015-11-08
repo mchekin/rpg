@@ -13,9 +13,12 @@
         {!! csrf_field() !!}
 
         <h2>Please enter your email address</h2>
-        <div>
-            <label for="email" class="sr-only">Email address</label>
-            <input type="email" name="email" value="{{ old('email') }}" class="form-control" placeholder="Email address" required="" autofocus="">
+
+        <div class="form-group">
+            <div>
+                <label for="email" class="sr-only">Email address</label>
+                <input type="email" name="email" value="{{ old('email') }}" class="form-control" placeholder="Email address" required="" autofocus="">
+            </div>
         </div>
 
         <div>
