@@ -10,6 +10,11 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+
+// Route models...
+Route::model("characters", 'App\Character');
+
+// Simple routes...
 Route::group(['middleware' => 'guest'], function () {
     Route::get('/', function () {
         return view('pages.index');
@@ -38,3 +43,6 @@ Route::post('password/email', 'Auth\PasswordController@postEmail');
 // Password reset routes...
 Route::get('password/reset/{token}', 'Auth\PasswordController@getReset');
 Route::post('password/reset', 'Auth\PasswordController@postReset');
+
+// Route resources...
+Route::resource("character", "CharacterController");
