@@ -9,7 +9,7 @@
 
     @include('partials.status')
 
-    <form role="form" class="form-centered" method="POST" action="/password/email">
+    <form role="form" class="col-md-4 col-md-offset-4" method="POST" action="/password/email">
         {!! csrf_field() !!}
 
         <h2>Please enter your email address</h2>

@@ -6,7 +6,7 @@
 @stop
 
 @section("body")
-    <form role="form" class="form-centered" method="POST" action="/password/reset">
+    <form role="form" class="col-md-4 col-md-offset-4" method="POST" action="/password/reset">
         {!! csrf_field() !!}
         <input type="hidden" name="token" value="{{ $token }}">
 

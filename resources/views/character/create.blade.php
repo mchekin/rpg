@@ -7,7 +7,7 @@
 
 @section("body")
 
-    <form role="form" class="form-centered" method="POST" action="{{ URL::route('character.store') }}">
+    <form role="form" class="col-md-4 col-md-offset-4" method="POST" action="{{ URL::route('character.store') }}">
         {!! csrf_field() !!}
 
         <h2>Please create your game character</h2>

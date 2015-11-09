@@ -1,17 +1,4 @@
 /* Main title */
 .title {
-    font-size: 60px;
-    margin-bottom: 40px;
-}
-/* Central form */
-
-.form-centered {
-    max-width: 330px;
-    margin: 0 auto;
-}
-
-.content-centered {
-    max-width: 600px;
-    margin: 0 auto;
-    text-align: center;
+    font-size: 50px;
 }

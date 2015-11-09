@@ -7,7 +7,7 @@
 
 @section("body")
 
-    <form role="form" class="form-centered" method="POST" action="/auth/register">
+    <form role="form" class="col-md-4 col-md-offset-4" method="POST" action="/auth/register">
         {!! csrf_field() !!}
 
         <h2>Please register</h2>
