@@ -3,6 +3,17 @@
     font-size: 50px;
 }
 
-.carousel-inner>.item>img.img-race {
-    height: 600px;
+.carousel-control {
+    background-image: none !important;
+    filter: none !important;
+    color:black !important;
+}
+
+.img-race {
+    height: 600px !important;
+}
+
+.carousel-content {
+    display: block;
+    text-align: center;
 }
