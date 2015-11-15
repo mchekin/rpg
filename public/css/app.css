@@ -2,3 +2,7 @@
 .title {
     font-size: 50px;
 }
+
+.carousel-inner>.item>img.img-race {
+    height: 600px;
+}
