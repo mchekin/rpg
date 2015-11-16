@@ -8,6 +8,18 @@
     filter: none !important;
     color:black !important;
 }
+.table-attributes {
+    /*width: 70%;*/
+    /*margin-left: 15%;*/
+    font-size: 1.8rem;
+}
+
+.table-attributes td{
+    border-radius: 25px;
+    background-color: #080808;
+    /*font-weight: bold;*/
+    color: white;
+}
 
 .img-race {
     height: 600px !important;

@@ -7,7 +7,7 @@
 
 @section("body")
     <div class="row">
-        <div class="col-md-4 col-md-offset-1 carousel slide" data-interval="false">
+        <div class="col-md-4 col-md-offset-1 col-sm-6 carousel slide hidden-xs" data-interval="false">
             <!-- Wrapper for slides -->
             <div class="carousel-inner" role="listbox">
                 <div class="item active">
@@ -42,7 +42,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4 col-md-offset-1">
+        <div class="col-md-4 col-md-offset-1 col-sm-6">
             <form role="form" method="POST" action="{{ URL::route('character.store') }}">
                 {!! csrf_field() !!}
                 <h2>Please create your game character</h2>
@@ -90,6 +90,111 @@
                         <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
                         <span class="sr-only">Next</span>
                     </a>
+
+                </div>
+                <div class="form-group carousel" id="character-carousel" data-interval="false">
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner" role="listbox">
+                        <div class="item active carousel-content table-responsive table-attributes">
+                            <table class="table">
+                                <tr>
+                                    <th>Strength</th>
+                                    <td>5</td>
+                                </tr>
+                                <tr>
+                                    <th>Agility</th>
+                                    <td>5</td>
+                                </tr>
+                                <tr>
+                                    <th>Constitution</th>
+                                    <td>5</td>
+                                </tr>
+                                <tr>
+                                    <th>Intelligence</th>
+                                    <td>5</td>
+                                </tr>
+                                <tr>
+                                    <th>Charisma</th>
+                                    <td>5</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="item carousel-content table-responsive table-attributes">
+                            <table class="table">
+                                <tr>
+                                    <th>Strength</th>
+                                    <td>5</td>
+                                </tr>
+                                <tr>
+                                    <th>Agility</th>
+                                    <td>9</td>
+                                </tr>
+                                <tr>
+                                    <th>Constitution</th>
+                                    <td>1</td>
+                                </tr>
+                                <tr>
+                                    <th>Intelligence</th>
+                                    <td>5</td>
+                                </tr>
+                                <tr>
+                                    <th>Charisma</th>
+                                    <td>1</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="item carousel-content table-responsive table-attributes">
+                            <table class="table">
+                                <tr>
+                                    <th>Strength</th>
+                                    <td>5</td>
+                                </tr>
+                                <tr>
+                                    <th>Agility</th>
+                                    <td>1</td>
+                                </tr>
+                                <tr>
+                                    <th>Constitution</th>
+                                    <td>9</td>
+                                </tr>
+                                <tr>
+                                    <th>Intelligence</th>
+                                    <td>5</td>
+                                </tr>
+                                <tr>
+                                    <th>Charisma</th>
+                                    <td>1</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="item carousel-content table-responsive table-attributes">
+                            <table class="table">
+                                <tr>
+                                    <th>Strength</th>
+                                    <td>9</td>
+                                </tr>
+                                <tr>
+                                    <th>Agility</th>
+                                    <td>5</td>
+                                </tr>
+                                <tr>
+                                    <th>Constitution</th>
+                                    <td>5</td>
+                                </tr>
+                                <tr>
+                                    <th>Intelligence</th>
+                                    <td>1</td>
+                                </tr>
+                                <tr>
+                                    <th>Charisma</th>
+                                    <td>1</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
 
                 </div>
 
