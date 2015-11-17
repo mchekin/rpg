@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Character;
+use App\Race;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -33,7 +34,8 @@ class CharacterController extends Controller
      */
     public function create()
     {
-        return view('character.create');
+        $races = Race::all();
+        return view('character.create', compact('races'));
     }
 
     /**

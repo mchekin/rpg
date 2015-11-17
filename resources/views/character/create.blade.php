@@ -7,39 +7,18 @@
 
 @section("body")
     <div class="row">
-        <div class="col-md-4 col-md-offset-1 col-sm-6 carousel slide hidden-xs" data-interval="false">
-            <!-- Wrapper for slides -->
+        <div class="col-md-4 col-md-offset-1 col-sm-6 carousel hidden-xs" data-interval="false">
+            <!-- Race Image slides -->
             <div class="carousel-inner" role="listbox">
-                <div class="item active">
-                    <img class="img-race" src="{{ asset('images/human-male.png') }}">
+                @foreach($races as $i => $race)
+                <div class="item{{ ($i == 0) ? ' active' : '' }}">
+                    <img class="img-race" src="{{ asset('images/'.$race->male_image) }}">
                     <div class="carousel-caption">
-                        <h3>Human</h3>
-                        <p>This race combines in itself all the properties of the other races, albeit they are less pronounced.</p>
+                        <h3>{{ $race->name }}</h3>
+                        <p>{{ $race->description }}</p>
                     </div>
                 </div>
-                <div class="item">
-                    <img class="img-race" src="{{ asset('images/elf-female.png') }}">
-                    <div class="carousel-caption">
-                        <h3>Elf</h3>
-                        <p>This race is known for it's great agility, but lacks constitution.</p>
-                    </div>
-                </div>
-
-                <div class="item">
-                    <img class="img-race" src="{{ asset('images/dwarf-male.png') }}">
-                    <div class="carousel-caption">
-                        <h3>Dwarf</h3>
-                        <p>This race is known for it's constitution and resilience, but lack agility and grace.</p>
-                    </div>
-                </div>
-
-                <div class="item">
-                    <img class="img-race" src="{{ asset('images/orc-male.png') }}">
-                    <div class="carousel-caption">
-                        <h3>Orc</h3>
-                        <p>This race enjoys great physical strength, but lacks intelligence.</p>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
         <div class="col-md-4 col-md-offset-1 col-sm-6">
@@ -53,32 +32,16 @@
                     </div>
                 </div>
                 <div class="form-group carousel" id="character-carousel" data-interval="false">
-                    <!-- Wrapper for slides -->
+                    <!-- Race Name slides -->
                     <div class="carousel-inner" role="listbox">
-                        <div class="item active">
+                        @foreach($races as $i => $race)
+                        <div class="item{{ ($i == 0) ? ' active' : '' }}">
                             <div class="carousel-content">
-                                <h3>Human</h3>
+                                <h3>{{ $race->name }}</h3>
                             </div>
                         </div>
-                        <div class="item">
-                            <div class="carousel-content">
-                                <h3>Elf</h3>
-                            </div>
-                        </div>
-
-                        <div class="item">
-                            <div class="carousel-content">
-                                <h3>Dwarf</h3>
-                            </div>
-                        </div>
-
-                        <div class="item">
-                            <div class="carousel-content">
-                                <h3>Orc</h3>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
-
 
                     <!-- Left and right controls -->
                     <a class="left carousel-control" href="#character-carousel" role="button">
@@ -93,113 +56,40 @@
 
                 </div>
                 <div class="form-group carousel" id="character-carousel" data-interval="false">
-                    <!-- Wrapper for slides -->
+                    <!-- Race Stats slides -->
                     <div class="carousel-inner" role="listbox">
-                        <div class="item active carousel-content table-responsive table-attributes">
+                        @foreach($races as $i => $race)
+                        <div class="item{{ ($i == 0) ? ' active' : '' }} carousel-content table-responsive table-attributes">
                             <table class="table">
                                 <tr>
                                     <th>Strength</th>
-                                    <td>5</td>
+                                    <td>{{ $race->strength }}</td>
                                 </tr>
                                 <tr>
                                     <th>Agility</th>
-                                    <td>5</td>
+                                    <td>{{ $race->agility }}</td>
                                 </tr>
                                 <tr>
                                     <th>Constitution</th>
-                                    <td>5</td>
+                                    <td>{{ $race->constitution }}</td>
                                 </tr>
                                 <tr>
                                     <th>Intelligence</th>
-                                    <td>5</td>
+                                    <td>{{ $race->intelligence }}</td>
                                 </tr>
                                 <tr>
                                     <th>Charisma</th>
-                                    <td>5</td>
+                                    <td>{{ $race->charisma }}</td>
                                 </tr>
                             </table>
                         </div>
-
-                        <div class="item carousel-content table-responsive table-attributes">
-                            <table class="table">
-                                <tr>
-                                    <th>Strength</th>
-                                    <td>5</td>
-                                </tr>
-                                <tr>
-                                    <th>Agility</th>
-                                    <td>9</td>
-                                </tr>
-                                <tr>
-                                    <th>Constitution</th>
-                                    <td>1</td>
-                                </tr>
-                                <tr>
-                                    <th>Intelligence</th>
-                                    <td>5</td>
-                                </tr>
-                                <tr>
-                                    <th>Charisma</th>
-                                    <td>1</td>
-                                </tr>
-                            </table>
-                        </div>
-
-                        <div class="item carousel-content table-responsive table-attributes">
-                            <table class="table">
-                                <tr>
-                                    <th>Strength</th>
-                                    <td>5</td>
-                                </tr>
-                                <tr>
-                                    <th>Agility</th>
-                                    <td>1</td>
-                                </tr>
-                                <tr>
-                                    <th>Constitution</th>
-                                    <td>9</td>
-                                </tr>
-                                <tr>
-                                    <th>Intelligence</th>
-                                    <td>5</td>
-                                </tr>
-                                <tr>
-                                    <th>Charisma</th>
-                                    <td>1</td>
-                                </tr>
-                            </table>
-                        </div>
-
-                        <div class="item carousel-content table-responsive table-attributes">
-                            <table class="table">
-                                <tr>
-                                    <th>Strength</th>
-                                    <td>9</td>
-                                </tr>
-                                <tr>
-                                    <th>Agility</th>
-                                    <td>5</td>
-                                </tr>
-                                <tr>
-                                    <th>Constitution</th>
-                                    <td>5</td>
-                                </tr>
-                                <tr>
-                                    <th>Intelligence</th>
-                                    <td>1</td>
-                                </tr>
-                                <tr>
-                                    <th>Charisma</th>
-                                    <td>1</td>
-                                </tr>
-                            </table>
-                        </div>
+                        @endforeach
                     </div>
 
                 </div>
 
                 <div>
-                    <button type="submit" class="btn btn-primary btn-block">Create</button>
+                    <button type="submit" class="btn btn-primary btn-block">Create Character</button>
                 </div>
             </form>
         </div>
