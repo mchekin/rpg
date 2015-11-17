@@ -16,6 +16,7 @@ class CreateCharactersTable extends Migration
             $table->increments('id');
 
             $table->string('name');
+            $table->enum('gender', ['male', 'female']);
 
             $table->unsignedInteger('xp');
             $table->unsignedInteger('level');
