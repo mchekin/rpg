@@ -18,6 +18,9 @@ class CreateRacesTable extends Migration
             $table->string("name");
             $table->string("description");
 
+            $table->string("male_image");
+            $table->string("female_image");
+
             // attributes
             $table->integer('strength');
             $table->integer('agility');
