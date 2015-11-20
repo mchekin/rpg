@@ -7,12 +7,13 @@
 
 @section("body")
     <div class="row">
-        <div class="col-md-4 col-md-offset-1 col-sm-6 carousel hidden-xs" data-interval="false">
+        <div class="col-md-4 col-md-offset-1 col-sm-6 carousel carousel-race hidden-xs" data-interval="false">
             <!-- Race Image slides -->
             <div class="carousel-inner" role="listbox">
                 @foreach($races as $i => $race)
                 <div class="item{{ ($i == 0) ? ' active' : '' }}">
-                    <img class="img-race" src="{{ asset('images/'.$race->male_image) }}">
+                    <img class="img-race img-male" src="{{ asset('images/'.$race->male_image) }}">
+                    <img class="img-race img-female" src="{{ asset('images/'.$race->female_image) }}" style="display: none;">
                     <div class="carousel-caption">
                         <h3>{{ $race->name }}</h3>
                         <p>{{ $race->description }}</p>
@@ -31,7 +32,7 @@
                         <input type="text" name="name" value="{{ old('name') }}" class="form-control" placeholder="Name" required="" autofocus="">
                     </div>
                 </div>
-                <div class="form-group carousel" id="character-carousel" data-interval="false">
+                <div class="form-group carousel carousel-race" id="character-carousel" data-interval="false">
                     <!-- Race Name slides -->
                     <div class="carousel-inner" role="listbox">
                         @foreach($races as $i => $race)
@@ -44,18 +45,53 @@
                     </div>
 
                     <!-- Left and right controls -->
-                    <a class="left carousel-control" href="#character-carousel" role="button">
+                    <a class="left left-race carousel-control" href="#character-carousel" role="button">
                         <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
                         <span class="sr-only">Previous</span>
                     </a>
 
-                    <a class="right carousel-control" href="#character-carousel" role="button">
+                    <a class="right right-race carousel-control" href="#character-carousel" role="button">
                         <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
                         <span class="sr-only">Next</span>
                     </a>
 
                 </div>
-                <div class="form-group carousel" id="character-carousel" data-interval="false">
+                <div class="form-group carousel carousel-gender" id="gender-carousel" data-interval="false">
+                    <!-- Gender slides -->
+                    <div class="carousel-inner" role="listbox">
+                        <div class="item active" id="male">
+                            <div class="carousel-content">
+                                <h3>Male</h3>
+                            </div>
+                        </div>
+                        <div class="item" id="female">
+                            <div class="carousel-content">
+                                <h3>Female</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Left and right controls -->
+                    <a class="left left-gender carousel-control" href="#gender-carousel" role="button">
+                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+
+                    <a class="right right-gender carousel-control" href="#gender-carousel" role="button">
+                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+
+                </div>
+                {{--<div class="row form-group">--}}
+                    {{--<button type="button" class="btn btn-primary col-xs-3 col-xs-offset-2 btn-gender active">--}}
+                        {{--<span class="fa fa-mars fa-4x"></span>--}}
+                    {{--</button>--}}
+                    {{--<button type="button" class="btn btn-primary col-xs-3 col-xs-offset-2 btn-gender">--}}
+                        {{--<span class="fa fa-venus fa-4x"></span>--}}
+                    {{--</button>--}}
+                {{--</div>--}}
+                <div class="form-group carousel carousel-race" id="character-carousel" data-interval="false">
                     <!-- Race Stats slides -->
                     <div class="carousel-inner" role="listbox">
                         @foreach($races as $i => $race)
@@ -89,7 +125,7 @@
                 </div>
 
                 <div>
-                    <button type="submit" class="btn btn-primary btn-block">Create Character</button>
+                    <button type="submit" class="btn btn-success btn-block">Create Character</button>
                 </div>
             </form>
         </div>

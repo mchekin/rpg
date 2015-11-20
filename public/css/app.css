@@ -3,11 +3,19 @@
     font-size: 50px;
 }
 
+/* Carousel */
 .carousel-control {
     background-image: none !important;
     filter: none !important;
     color:black !important;
 }
+
+.carousel-content {
+    display: block;
+    text-align: center;
+}
+
+/* Character attributes table */
 .table-attributes {
     /*width: 70%;*/
     /*margin-left: 15%;*/
@@ -21,11 +29,7 @@
     color: white;
 }
 
+/* Images */
 .img-race {
     height: 600px !important;
-}
-
-.carousel-content {
-    display: block;
-    text-align: center;
 }
