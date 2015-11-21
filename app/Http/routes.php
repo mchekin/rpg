@@ -21,7 +21,7 @@ Route::group(['middleware' => 'guest'], function () {
     });
 });
 
-Route::group(['middleware' => 'has.character'], function () {
+Route::group(['middleware' => ['auth', 'has.character']], function () {
     Route::get('/home', function () {
         return view('pages.home');
     });

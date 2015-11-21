@@ -25,6 +25,10 @@
         <div class="col-md-4 col-md-offset-1 col-sm-6">
             <form role="form" method="POST" action="{{ URL::route('character.store') }}">
                 {!! csrf_field() !!}
+                <input type="hidden" name="race_id" id="race_id" value="{{ $races[0]->id }}">
+                <input type="hidden" name="user_id" id="user_id" value="{{ $user->id }}">
+                <input type="hidden" name="gender" id="gender" value="male">
+
                 <h2>Please create your game character</h2>
                 <div class="form-group">
                     <div>
@@ -32,11 +36,11 @@
                         <input type="text" name="name" value="{{ old('name') }}" class="form-control" placeholder="Name" required="" autofocus="">
                     </div>
                 </div>
-                <div class="form-group carousel carousel-race" id="character-carousel" data-interval="false">
+                <div class="form-group carousel carousel-race" id="race-carousel" data-interval="false">
                     <!-- Race Name slides -->
                     <div class="carousel-inner" role="listbox">
                         @foreach($races as $i => $race)
-                        <div class="item{{ ($i == 0) ? ' active' : '' }}">
+                        <div class="item{{ ($i == 0) ? ' active' : '' }}" id="race-id-{{ $race->id }}">
                             <div class="carousel-content">
                                 <h3>{{ $race->name }}</h3>
                             </div>
@@ -45,12 +49,12 @@
                     </div>
 
                     <!-- Left and right controls -->
-                    <a class="left left-race carousel-control" href="#character-carousel" role="button">
+                    <a class="left left-race carousel-control" href="#race-carousel" role="button">
                         <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
                         <span class="sr-only">Previous</span>
                     </a>
 
-                    <a class="right right-race carousel-control" href="#character-carousel" role="button">
+                    <a class="right right-race carousel-control" href="#race-carousel" role="button">
                         <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
                         <span class="sr-only">Next</span>
                     </a>
@@ -83,15 +87,7 @@
                     </a>
 
                 </div>
-                {{--<div class="row form-group">--}}
-                    {{--<button type="button" class="btn btn-primary col-xs-3 col-xs-offset-2 btn-gender active">--}}
-                        {{--<span class="fa fa-mars fa-4x"></span>--}}
-                    {{--</button>--}}
-                    {{--<button type="button" class="btn btn-primary col-xs-3 col-xs-offset-2 btn-gender">--}}
-                        {{--<span class="fa fa-venus fa-4x"></span>--}}
-                    {{--</button>--}}
-                {{--</div>--}}
-                <div class="form-group carousel carousel-race" id="character-carousel" data-interval="false">
+                <div class="form-group carousel carousel-race" id="race-carousel" data-interval="false">
                     <!-- Race Stats slides -->
                     <div class="carousel-inner" role="listbox">
                         @foreach($races as $i => $race)

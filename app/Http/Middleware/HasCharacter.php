@@ -15,7 +15,9 @@ class HasCharacter
      */
     public function handle($request, Closure $next)
     {
-        if (!$request->user() || $request->user()->hasNoCharacter()) {
+        $user = $request->user();
+
+        if ($user && $user->hasNoCharacter()) {
             return redirect()->route('character.create');
         }
 

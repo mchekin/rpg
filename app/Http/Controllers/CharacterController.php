@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 class CharacterController extends Controller
 {
@@ -20,7 +22,7 @@ class CharacterController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
@@ -30,19 +32,20 @@ class CharacterController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
         $races = Race::all();
-        return view('character.create', compact('races'));
+        $user = Auth::user();
+        return view('character.create', compact('races', 'user'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function store(Request $request)
     {
@@ -53,7 +56,7 @@ class CharacterController extends Controller
      * Display the specified resource.
      *
      * @param Character $character
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show(Character $character)
     {
@@ -64,7 +67,7 @@ class CharacterController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param Character $character
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function edit(Character $character)
     {
@@ -76,7 +79,7 @@ class CharacterController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @param Character $character
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, Character $character)
     {
@@ -87,7 +90,7 @@ class CharacterController extends Controller
      * Remove the specified resource from storage.
      *
      * @param Character $character
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy(Character $character)
     {
