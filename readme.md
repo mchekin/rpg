@@ -32,6 +32,9 @@
 - Generate Laravel Application key
 
         php artisan key:generate
+- Assign the generated key to the APP_KEY in the .env file, like so:
+
+        APP_KEY=<you generated key>
 
 <a name="runningindevelopmentenvironment"></a>
 ### Running in development environment
