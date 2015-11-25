@@ -47,9 +47,17 @@
 - Boot the virtual machine
 
         vagrant up  
-- Run Laravel database migrations
+        
+- Assign DB_HOST in .env file to the IP you have in your newly created Homestead.yaml file  
+(Optional way to enable running migrations on your host machine)
+        
+        DB_HOST=192.168.10.10
+
+- Run database migrations and seeds
 
         php artisan migrate 
+        php artisan db:seed
+
 - Run PHP build-in development server
 
         php artisan serve  
