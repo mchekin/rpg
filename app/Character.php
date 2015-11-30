@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Character extends Model
 {
+    protected $guarded = ['user_id'];
     /**
      * Get the user of the character
      *

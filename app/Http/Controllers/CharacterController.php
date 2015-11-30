@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Character;
 use App\Race;
+use App\User;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -16,7 +17,8 @@ class CharacterController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth', ['only' => ['create']]);
+        $this->middleware('auth', ['only' => ['create', 'store']]);
+        $this->middleware('no.character', ['only' => ['create', 'store']]);
     }
 
     /**
@@ -49,7 +51,25 @@ class CharacterController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $authenticatedUser = $request->user(); /** @var User $authenticatedUser */
+        $race = Race::findOrFail($request->input('race_id')); /** @var Race $race */
+
+        $character = $authenticatedUser->character()->create([
+            'name' => $request->input('name'),
+            'gender' => $request->input('gender'),
+
+            'xp' => 0,
+            'level' => 0,
+            'money' => 0,
+
+            'strength' => $race->strength,
+            'agility' => $race->agility,
+            'constitution' => $race->constitution,
+            'intelligence' => $race->intelligence,
+            'charisma' => $race->charisma,
+
+            'race_id' => $race->id,
+        ]);
     }
 
     /**

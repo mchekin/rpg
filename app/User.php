@@ -40,15 +40,15 @@ class User extends Model implements AuthenticatableContract,
     /**
      * Get the character for the user.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function character()
     {
         return $this->hasOne('App\Character');
     }
 
-    public function hasNoCharacter()
+    public function hasCharacter()
     {
-        return !(count($this->character));
+        return (count($this->character));
     }
 }

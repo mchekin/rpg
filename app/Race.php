@@ -9,7 +9,7 @@ class Race extends Model
     /**
      * Get the characters for the race.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function characters()
     {

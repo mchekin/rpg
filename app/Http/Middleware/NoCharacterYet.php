@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-class HasCharacter
+class NoCharacterYet
 {
     /**
      * Handle an incoming request.
@@ -17,8 +17,8 @@ class HasCharacter
     {
         $user = $request->user();
 
-        if ($user && !$user->hasCharacter()) {
-            return redirect()->route('character.create');
+        if ($user && $user->hasCharacter()) {
+            return redirect('/home');
         }
 
         return $next($request);
