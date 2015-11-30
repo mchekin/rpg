@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Character;
+use App\Http\Requests\CreateCharacterRequest;
 use App\Race;
 use App\User;
 use Illuminate\Http\Request;
@@ -46,10 +47,10 @@ class CharacterController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param CreateCharacterRequest $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(CreateCharacterRequest $request)
     {
         $authenticatedUser = $request->user(); /** @var User $authenticatedUser */
         $race = Race::findOrFail($request->input('race_id')); /** @var Race $race */
@@ -70,6 +71,8 @@ class CharacterController extends Controller
 
             'race_id' => $race->id,
         ]);
+
+        return redirect()->route("home");
     }
 
     /**

@@ -18,13 +18,13 @@ Route::model("characters", 'App\Character');
 Route::group(['middleware' => 'guest'], function () {
     Route::get('/', function () {
         return view('pages.index');
-    });
+    })->name('index');
 });
 
 Route::group(['middleware' => ['auth', 'has.character']], function () {
     Route::get('/home', function () {
         return view('pages.home');
-    });
+    })->name('home');
 });
 
 // Authentication routes...

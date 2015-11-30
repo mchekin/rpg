@@ -26,7 +26,6 @@
             <form role="form" method="POST" action="{{ URL::route('character.store') }}">
                 {!! csrf_field() !!}
                 <input type="hidden" name="race_id" id="race_id" value="{{ $races[0]->id }}">
-                <input type="hidden" name="user_id" id="user_id" value="{{ $user->id }}">
                 <input type="hidden" name="gender" id="gender" value="male">
 
                 <h2>Please create your game character</h2>
