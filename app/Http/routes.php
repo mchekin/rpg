@@ -23,7 +23,7 @@ Route::group(['middleware' => 'guest'], function () {
 
 Route::group(['middleware' => ['auth', 'has.character']], function () {
     Route::get('/home', function () {
-        return view('pages.home');
+        return view('pages.home')->with('character', Auth::user()->character);
     })->name('home');
 });
 

@@ -27,6 +27,8 @@ class RaceSeeder extends Seeder
                 "constitution" => 5,
                 "intelligence" => 5,
                 "charisma" => 1,
+
+                "starting_location_id" => 1,
             ],
             [
                 "name" => "Elf",
@@ -40,6 +42,8 @@ class RaceSeeder extends Seeder
                 "constitution" => 1,
                 "intelligence" => 5,
                 "charisma" => 1,
+
+                "starting_location_id" => 2,
             ],
             [
                 "name" => "Dwarf",
@@ -53,6 +57,8 @@ class RaceSeeder extends Seeder
                 "constitution" => 9,
                 "intelligence" => 5,
                 "charisma" => 1,
+
+                "starting_location_id" => 3,
             ],
             [
                 "name" => "Orc",
@@ -66,6 +72,8 @@ class RaceSeeder extends Seeder
                 "constitution" => 5,
                 "intelligence" => 1,
                 "charisma" => 1,
+
+                "starting_location_id" => 4,
             ],
         ];
 

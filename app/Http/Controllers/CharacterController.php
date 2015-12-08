@@ -70,6 +70,7 @@ class CharacterController extends Controller
             'charisma' => $race->charisma,
 
             'race_id' => $race->id,
+            'location_id' => $race->starting_location_id,
         ]);
 
         return redirect()->route("home");

@@ -28,6 +28,13 @@ class CreateRacesTable extends Migration
             $table->integer('intelligence');
             $table->integer('charisma');
 
+            // locations
+            $table->unsignedInteger('starting_location_id');
+            $table->foreign('starting_location_id')
+                ->references('id')
+                ->on('locations')
+                ->onDelete('restrict');
+
             $table->timestamps();
         });
     }

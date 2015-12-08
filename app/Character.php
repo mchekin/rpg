@@ -16,6 +16,7 @@ class Character extends Model
     {
         return $this->belongsTo('App\User');
     }
+
     /**
      * Get the user of the character
      *
@@ -24,5 +25,15 @@ class Character extends Model
     public function race()
     {
         return $this->belongsTo('App\Race');
+    }
+
+    /**
+     * Get the current locationi of the character
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function location()
+    {
+        return $this->belongsTo('App\Location');
     }
 }

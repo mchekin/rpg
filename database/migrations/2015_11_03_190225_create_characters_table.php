@@ -36,6 +36,12 @@ class CreateCharactersTable extends Migration
                 ->on('users')
                 ->onDelete('cascade');
 
+            $table->unsignedInteger('location_id');
+            $table->foreign('location_id')
+                ->references('id')
+                ->on('locations')
+                ->onDelete('restrict');
+
             $table->unsignedInteger('race_id');
             $table->foreign('race_id')
                 ->references('id')
