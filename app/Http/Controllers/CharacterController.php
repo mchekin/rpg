@@ -60,7 +60,7 @@ class CharacterController extends Controller
             'gender' => $request->input('gender'),
 
             'xp' => 0,
-            'level' => 0,
+            'level' => 1,
             'money' => 0,
 
             'strength' => $race->strength,
