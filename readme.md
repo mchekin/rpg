@@ -47,18 +47,19 @@
 - Boot the virtual machine
 
         vagrant up  
-        
-- Assign DB_HOST in .env file to the IP you have in your newly created Homestead.yaml file  
-(Optional way to enable running migrations on your host machine)
-        
-        DB_HOST=192.168.10.10
+- SSH into the virtual box 
+( If you are on a Windows machine, you need  [Git Bash CLI](https://git-for-windows.github.io/) since Windows CLI does not support SSH )
 
-- Run database migrations and seeds
+        vagrant ssh   
+- Navigate to the project folder inside the virtual box
+
+        cd rpg
+- Run Laravel database migrations and seeds
 
         php artisan migrate 
         php artisan db:seed
 
-- Run PHP build-in development server
+- Run PHP build-in development server on the host machine
 
         php artisan serve  
 - Navigate to [http://localhost:8000/](http://localhost:8000/)
@@ -74,6 +75,7 @@
 - Run Laravel database migrations
 
         php artisan migrate 
+        php artisan db:seed
 
 - Navigate to [http://localhost/rpg/public](http://localhost/rpg/public)    
 
