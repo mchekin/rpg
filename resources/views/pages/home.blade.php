@@ -25,6 +25,9 @@
             <dt>Level</dt>
             <dd>{{ $character->level }}</dd>
 
+            <dt>Reputation</dt>
+            <dd>{{ $character->reputation }}</dd>
+
             <dt>Gold</dt>
             <dd>{{ $character->money }}</dd>
 

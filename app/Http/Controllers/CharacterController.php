@@ -62,6 +62,7 @@ class CharacterController extends Controller
             'xp' => 0,
             'level' => 1,
             'money' => 0,
+            'reputation' => 0,
 
             'strength' => $race->strength,
             'agility' => $race->agility,

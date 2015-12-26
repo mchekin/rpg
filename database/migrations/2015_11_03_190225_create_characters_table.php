@@ -20,6 +20,7 @@ class CreateCharactersTable extends Migration
 
             $table->unsignedInteger('xp');
             $table->unsignedInteger('level');
+            $table->integer('reputation');
 
             $table->integer('money');
 
