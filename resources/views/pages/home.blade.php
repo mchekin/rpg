@@ -37,6 +37,18 @@
             <dt>Location</dt>
             <dd>{{ $character->location->name }}</dd>
 
+            <dt>Location to the north</dt>
+            <dd>{{ is_null($north = $character->location->locationToTheNorth) ? '[empty]' : $north->name }}</dd>
+
+            <dt>Location to the east</dt>
+            <dd>{{ is_null($east = $character->location->locationToTheNorth) ? '[empty]' : $east->name }}</dd>
+
+            <dt>Location to the south</dt>
+            <dd>{{ is_null($south = $character->location->locationToTheNorth) ? '[empty]' : $south->name }}</dd>
+
+            <dt>Location to the west</dt>
+            <dd>{{ is_null($west = $character->location->locationToTheNorth) ? '[empty]' : $west->name }}</dd>
+
         </dl>
         <hr>
         <dl class="dl-horizontal">

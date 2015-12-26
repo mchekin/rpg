@@ -28,7 +28,7 @@ class Character extends Model
     }
 
     /**
-     * Get the current locationi of the character
+     * Get the current location of the character
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

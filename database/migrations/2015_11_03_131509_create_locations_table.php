@@ -18,6 +18,30 @@ class CreateLocationsTable extends Migration
             $table->string('name')->unique();
             $table->string('description');
 
+            // location to the north of the current location
+            $table->unsignedInteger('north_location_id')->nullable();
+            $table->foreign('north_location_id')
+                ->references('id')
+                ->on('locations');
+
+            // location to the east of the current location
+            $table->unsignedInteger('east_location_id')->nullable();
+            $table->foreign('east_location_id')
+                ->references('id')
+                ->on('locations');
+
+            // location to the south of the current location
+            $table->unsignedInteger('south_location_id')->nullable();
+            $table->foreign('south_location_id')
+                ->references('id')
+                ->on('locations');
+
+            // location to the west of the current location
+            $table->unsignedInteger('west_location_id')->nullable();
+            $table->foreign('west_location_id')
+                ->references('id')
+                ->on('locations');
+
             $table->timestamps();
         });
     }
