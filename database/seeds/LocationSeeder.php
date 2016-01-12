@@ -26,8 +26,8 @@ class LocationSeeder extends Seeder
                 "id"            => 2,
                 "name"          => "Town Hall",
                 "description"   => "Public forum or meeting in which those attending gather to discuss civic or political issues, hear and ask questions about the ideas of a candidate for public office",
-                "image"         => "locations/Inn-800px.png",
-                "image_sm"      => "locations/Inn-300px.png",
+                "image"         => "locations/Townhall-800px.png",
+                "image_sm"      => "locations/Townhall-300px.png",
             ],
             [
                 "id"            => 3,
@@ -39,7 +39,7 @@ class LocationSeeder extends Seeder
             [
                 "id"            => 4,
                 "name"          => "Military academy fortress",
-                "description"   => "An institute where soldiers and mercenaries are train they martial skills",
+                "description"   => "An institute where soldiers and mercenaries train they martial skills",
                 "image"         => "locations/Fortress-800px.png",
                 "image_sm"      => "locations/Fortress-300px.png",
             ],

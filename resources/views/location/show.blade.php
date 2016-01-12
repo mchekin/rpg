@@ -10,6 +10,7 @@
     <div class="col-md-6">
         <h2>{{ $location->name }}</h2>
         <hr>
+        <p>{{ $location->description }}</p>
         <img class="img-responsive col-md-8 col-md-offset-2" src="{{ asset('images/'.$location->image) }}">
     </div>
 
