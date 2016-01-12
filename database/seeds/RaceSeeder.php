@@ -16,11 +16,12 @@ class RaceSeeder extends Seeder
 
         $races = [
             [
+                "id" => 1,
                 "name" => "Human",
                 "description" => "This race combines in itself all the properties of the other races, albeit they are less pronounced.",
 
-                "male_image" => "human-male.png",
-                "female_image" => "human-female.png",
+                "male_image" => "races/human-male.png",
+                "female_image" => "races/human-female.png",
 
                 "strength" => 5,
                 "agility" => 5,
@@ -31,11 +32,12 @@ class RaceSeeder extends Seeder
                 "starting_location_id" => 1,
             ],
             [
+                "id" => 2,
                 "name" => "Elf",
                 "description" => "This race is known for it's great agility, but lacks constitution.",
 
-                "male_image" => "elf-male.png",
-                "female_image" => "elf-female.png",
+                "male_image" => "races/elf-male.png",
+                "female_image" => "races/elf-female.png",
 
                 "strength" => 5,
                 "agility" => 9,
@@ -43,14 +45,15 @@ class RaceSeeder extends Seeder
                 "intelligence" => 5,
                 "charisma" => 1,
 
-                "starting_location_id" => 2,
+                "starting_location_id" => 1,
             ],
             [
+                "id" => 3,
                 "name" => "Dwarf",
                 "description" => "This race is known for it's constitution and resilience, but lack agility and grace.",
 
-                "male_image" => "dwarf-male.png",
-                "female_image" => "dwarf-female.png",
+                "male_image" => "races/dwarf-male.png",
+                "female_image" => "races/dwarf-female.png",
 
                 "strength" => 5,
                 "agility" => 1,
@@ -58,14 +61,15 @@ class RaceSeeder extends Seeder
                 "intelligence" => 5,
                 "charisma" => 1,
 
-                "starting_location_id" => 3,
+                "starting_location_id" => 1,
             ],
             [
+                "id" => 4,
                 "name" => "Orc",
                 "description" => "This race enjoys great physical strength, but lacks intelligence.",
 
-                "male_image" => "orc-male.png",
-                "female_image" => "orc-female.png",
+                "male_image" => "races/orc-male.png",
+                "female_image" => "races/orc-female.png",
 
                 "strength" => 9,
                 "agility" => 5,
@@ -73,7 +77,7 @@ class RaceSeeder extends Seeder
                 "intelligence" => 1,
                 "charisma" => 1,
 
-                "starting_location_id" => 4,
+                "starting_location_id" => 1,
             ],
         ];
 

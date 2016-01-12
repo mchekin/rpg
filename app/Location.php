@@ -7,6 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class Location extends Model
 {
     /**
+     * Get the characters at the location.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function characters()
+    {
+        return $this->hasMany('App\Character');
+    }
+    /**
      * Get the neighboring location to the north of the current location
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

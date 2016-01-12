@@ -16,6 +16,7 @@ class UserSeeder extends Seeder
 
         $users = [
             [
+                "id"            => 1,
                 "name"          => "Misha Chekin",
                 "password"      => Hash::make("1234"),
                 "email"         => "mchekin@gmail.com",

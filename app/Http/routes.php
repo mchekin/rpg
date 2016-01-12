@@ -12,7 +12,8 @@
 */
 
 // Route models...
-Route::model("characters", 'App\Character');
+Route::model("character", 'App\Character');
+Route::model("location", 'App\Location');
 
 // Simple routes...
 Route::group(['middleware' => 'guest'], function () {
@@ -23,7 +24,9 @@ Route::group(['middleware' => 'guest'], function () {
 
 Route::group(['middleware' => ['auth', 'has.character']], function () {
     Route::get('/home', function () {
-        return view('pages.home')->with('character', Auth::user()->character);
+        $location = Auth::user()->character->location;
+        return redirect()->route('location.show', compact('location'));
+//        return view('pages.home')->with('character', Auth::user()->character);
     })->name('home');
 });
 
@@ -46,3 +49,4 @@ Route::post('password/reset', 'Auth\PasswordController@postReset');
 
 // Route resources...
 Route::resource("character", "CharacterController");
+Route::resource("location", "LocationController");

@@ -31,11 +31,11 @@ class CreateCharactersTable extends Migration
             $table->integer('intelligence');
             $table->integer('charisma');
 
-            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('user_id')->nullable();
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
-                ->onDelete('cascade');
+                ->onDelete('set null');
 
             $table->unsignedInteger('location_id');
             $table->foreign('location_id')

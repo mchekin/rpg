@@ -17,23 +17,31 @@ class LocationSeeder extends Seeder
         $locations = [
             [
                 "id"            => 1,
-                "name"          => "Human Barracks",
-                "description"   => "Facility where humans train their new recruits (Starting location)"
+                "name"          => "Inn",
+                "description"   => "An establishment or building providing lodging and, usually, food and drink for travelers (Starting location)",
+                "image"         => "locations/Inn-800px.png",
+                "image_sm"      => "locations/Inn-300px.png",
             ],
             [
                 "id"            => 2,
-                "name"          => "Elf Academy",
-                "description"   => "Facility where elfs train their new recruits (Starting location)"
+                "name"          => "Town Hall",
+                "description"   => "Public forum or meeting in which those attending gather to discuss civic or political issues, hear and ask questions about the ideas of a candidate for public office",
+                "image"         => "locations/Inn-800px.png",
+                "image_sm"      => "locations/Inn-300px.png",
             ],
             [
                 "id"            => 3,
-                "name"          => "Dwarf Forge",
-                "description"   => "Facility where dwarfs train their new recruits (Starting location)"
+                "name"          => "Smithy",
+                "description"   => "A blacksmith's shop. A place to purchase weaponry and armor or train one's skill as a blacksmith",
+                "image"         => "locations/Blacksmith-800px.png",
+                "image_sm"      => "locations/Blacksmith-300px.png",
             ],
             [
                 "id"            => 4,
-                "name"          => "Orc Hatchery",
-                "description"   => "Facility where orcs train their new recruits (Starting location)"
+                "name"          => "Military academy fortress",
+                "description"   => "An institute where soldiers and mercenaries are train they martial skills",
+                "image"         => "locations/Fortress-800px.png",
+                "image_sm"      => "locations/Fortress-300px.png",
             ],
         ];
 

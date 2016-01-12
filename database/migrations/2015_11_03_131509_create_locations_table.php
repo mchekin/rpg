@@ -18,6 +18,9 @@ class CreateLocationsTable extends Migration
             $table->string('name')->unique();
             $table->string('description');
 
+            $table->string("image");
+            $table->string("image_sm");
+
             // location to the north of the current location
             $table->unsignedInteger('north_location_id')->nullable();
             $table->foreign('north_location_id')
