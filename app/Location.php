@@ -2,10 +2,39 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 class Location extends Model
 {
+    static protected $directions = [
+        'north' => 'south',
+        'east' => 'west',
+    ];
+
+    static public function getDirections()
+    {
+        return array_merge(array_keys(Location::$directions), array_values(Location::$directions));
+    }
+
+    static protected function getAppositeDirection($direction)
+    {
+        if (array_key_exists ($direction, self::$directions)) {
+            return self::$directions[$direction];
+        }
+
+        if (in_array($direction, self::$directions)) {
+            return array_search($direction, self::$directions);
+        }
+
+        throw new \InvalidArgumentException('Invalid direction: '.$direction);
+    }
+
+    static protected function isValidDirection($direction)
+    {
+        return array_key_exists ($direction, self::$directions) || in_array($direction, self::$directions);
+    }
+
     /**
      * Get the characters at the location.
      *
@@ -15,40 +44,46 @@ class Location extends Model
     {
         return $this->hasMany('App\Character');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function adjacentLocations()
+    {
+        return $this->belongsToMany('App\Location', 'adjacent_location', 'location_id', 'adjacent_location_id');
+    }
+
     /**
      * Get the neighboring location to the north of the current location
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @param $type
+     * @return mixed
      */
-    public function locationToTheNorth()
+    public function adjacent($type)
     {
-        return $this->belongsTo('App\Location', 'north_location_id');
+        return $this->adjacentLocations()->wherePivot('direction', $type)->first();
     }
+
+    /** TODO: maybe for later use */
     /**
-     * Get the neighboring location to the east of the current location
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @param Location $adjacent
+     * @param $direction
      */
-    public function locationToTheEast()
+    public function addAdjacentLocation(Location $adjacent, $direction)
     {
-        return $this->belongsTo('App\Location', 'east_location_id');
+        if (!self::isValidDirection($direction)) {
+            throw new \InvalidArgumentException('Invalid adjacent direction type: '.$direction);
+        }
+
+        $this->adjacentLocations()->attach($adjacent, ['direction' => $direction]); // add adjacent
+        $adjacent->adjacentLocations()->attach($this, ['direction' => self::getAppositeDirection($direction)]); // add yourself, too
     }
+
     /**
-     * Get the neighboring location to the south of the current location
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @param Location $adjacent
      */
-    public function locationToTheSouth()
+    public function removeAdjacentLocation(Location $adjacent)
     {
-        return $this->belongsTo('App\Location', 'south_location_id');
-    }
-    /**
-     * Get the neighboring location to the west of the current location
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function locationToTheWest()
-    {
-        return $this->belongsTo('App\Location', 'west_location_id');
+        $this->adjacentLocations()->detach($adjacent);   // remove friend
+        $adjacent->adjacentLocations()->detach($this);  // remove yourself, too
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Location;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
@@ -21,29 +22,20 @@ class CreateLocationsTable extends Migration
             $table->string("image");
             $table->string("image_sm");
 
-            // location to the north of the current location
-            $table->unsignedInteger('north_location_id')->nullable();
-            $table->foreign('north_location_id')
-                ->references('id')
-                ->on('locations');
+            $table->timestamps();
+        });
 
-            // location to the east of the current location
-            $table->unsignedInteger('east_location_id')->nullable();
-            $table->foreign('east_location_id')
-                ->references('id')
-                ->on('locations');
+        Schema::create('adjacent_location', function(Blueprint $table) {
 
-            // location to the south of the current location
-            $table->unsignedInteger('south_location_id')->nullable();
-            $table->foreign('south_location_id')
-                ->references('id')
-                ->on('locations');
+            $table->integer('location_id')->unsigned()->index();
+            $table->integer('adjacent_location_id')->unsigned()->index();
 
-            // location to the west of the current location
-            $table->unsignedInteger('west_location_id')->nullable();
-            $table->foreign('west_location_id')
-                ->references('id')
-                ->on('locations');
+            $table->primary(['location_id', 'adjacent_location_id']);
+
+            $table->enum('direction', Location::getDirections());
+
+            $table->foreign('location_id')->references('id')->on('locations')->onDelete('cascade');
+            $table->foreign('adjacent_location_id')->references('id')->on('locations')->onDelete('cascade');
 
             $table->timestamps();
         });
@@ -56,6 +48,7 @@ class CreateLocationsTable extends Migration
      */
     public function down()
     {
+        Schema::drop('adjacent_location');
         Schema::drop('locations');
     }
 }

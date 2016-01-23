@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Character;
 use App\Http\Requests\CreateCharacterRequest;
+use App\Http\Requests\MoveCharacterRequest;
+use App\Location;
 use App\Race;
 use App\User;
 use Illuminate\Http\Request;
@@ -118,6 +120,11 @@ class CharacterController extends Controller
      * @return Response
      */
     public function destroy(Character $character)
+    {
+        //
+    }
+
+    public function getMove(Character $character, Location $location, MoveCharacterRequest $request)
     {
         //
     }

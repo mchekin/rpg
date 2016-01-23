@@ -12,6 +12,7 @@ class LocationSeeder extends Seeder
      */
     public function run()
     {
+        DB::table('adjacent_location')->delete();
         DB::table('locations')->delete();
 
         $locations = [
@@ -48,6 +49,34 @@ class LocationSeeder extends Seeder
         foreach ($locations as $location)
         {
             Location::create($location);
+        }
+
+        $adjacent_locations = [
+            [
+                "location_id"           => 1,
+                "adjacent_location_id"  => 2,
+                "direction"             => "north",
+            ],
+            [
+                "location_id"           => 1,
+                "adjacent_location_id"  => 3,
+                "direction"             => "east",
+            ],
+            [
+                "location_id"           => 1,
+                "adjacent_location_id"  => 4,
+                "direction"             => "south",
+            ],
+        ];
+
+        foreach ($adjacent_locations as $record) {
+            /** @var  $location Location */
+            $location = Location::find($record['location_id']);
+
+            /** @var  $adjacent_location Location */
+            $adjacent_location = Location::find($record['adjacent_location_id']);
+
+            $location->addAdjacentLocation($adjacent_location, $record['direction']);
         }
     }
 }
