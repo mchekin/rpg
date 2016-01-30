@@ -16,16 +16,36 @@
         <div class="col-md-12">
             <ul class="list-inline">
                 @if(!is_null($adjacent = $location->adjacent('north')))
-                    <li>{{ $adjacent->name }} <span class="glyphicon glyphicon-arrow-up"></span></li>
+                    <li>
+                        <a href="{{ route('character.move', ['character' => Auth::user()->character, 'location' => $adjacent]) }}">
+                            {{ $adjacent->name }}
+                            <span class="glyphicon glyphicon-arrow-up"></span>
+                        </a>
+                    </li>
                 @endif
                 @if(!is_null($adjacent = $location->adjacent('east')))
-                    <li>{{ $adjacent->name }} <span class="glyphicon glyphicon-arrow-right"></span></li>
+                    <li>
+                        <a href="{{ route('character.move', ['character' => Auth::user()->character, 'location' => $adjacent]) }}">
+                            {{ $adjacent->name }}
+                            <span class="glyphicon glyphicon-arrow-right"></span>
+                        </a>
+                    </li>
                 @endif
                 @if(!is_null($adjacent = $location->adjacent('south')))
-                    <li>{{ $adjacent->name }} <span class="glyphicon glyphicon-arrow-down"></span></li>
+                    <li>
+                        <a href="{{ route('character.move', ['character' => Auth::user()->character, 'location' => $adjacent]) }}">
+                            {{ $adjacent->name }}
+                            <span class="glyphicon glyphicon-arrow-down"></span>
+                        </a>
+                    </li>
                 @endif
                 @if(!is_null($adjacent = $location->adjacent('west')))
-                    <li>{{ $adjacent->name }} <span class="glyphicon glyphicon-arrow-left"></span></li>
+                    <li>
+                        <a href="{{ route('character.move', ['character' => Auth::user()->character, 'location' => $adjacent]) }}">
+                            {{ $adjacent->name }}
+                            <span class="glyphicon glyphicon-arrow-left"></span>
+                        </a>
+                    </li>
                 @endif
             </ul>
         </div>

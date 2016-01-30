@@ -15,6 +15,9 @@
 Route::model("character", 'App\Character');
 Route::model("location", 'App\Location');
 
+Route::get('/character/{character}/location/{location}/move', 'CharacterController@getMove')
+    ->name('character.move');
+
 // Simple routes...
 Route::group(['middleware' => 'guest'], function () {
     Route::get('/', function () {

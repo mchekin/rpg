@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\User;
 use Closure;
 
 class HasCharacter
@@ -15,6 +16,7 @@ class HasCharacter
      */
     public function handle($request, Closure $next)
     {
+        /** @var User $user */
         $user = $request->user();
 
         if ($user && !$user->hasCharacter()) {

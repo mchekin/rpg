@@ -21,6 +21,8 @@ class CharacterController extends Controller
     public function __construct()
     {
         $this->middleware('auth', ['only' => ['create', 'store']]);
+        $this->middleware('has.character', ['only' => ['getMove']]);
+        $this->middleware('auth', ['only' => ['getMove']]);
         $this->middleware('no.character', ['only' => ['create', 'store']]);
     }
 
@@ -126,6 +128,9 @@ class CharacterController extends Controller
 
     public function getMove(Character $character, Location $location, MoveCharacterRequest $request)
     {
-        //
+        // update character's location
+        $character->location()->associate($location)->save();
+
+        return redirect()->route('location.show', compact('location'));
     }
 }

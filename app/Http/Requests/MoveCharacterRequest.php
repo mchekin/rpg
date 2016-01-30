@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Character;
 use App\Http\Requests\Request;
+use App\Location;
+use Illuminate\Support\Facades\Auth;
 
 class MoveCharacterRequest extends Request
 {
@@ -13,7 +16,21 @@ class MoveCharacterRequest extends Request
      */
     public function authorize()
     {
-        return false;
+        /** @var Character $character */
+        $character = $this->route('character');
+
+        /** @var Location $location */
+        $location = $this->route('location');
+
+        /** @var Location $loggedInCharacterLocation */
+        $characterLocation = $character->location;
+
+        // if this character does not belong to the logged in user
+        if (Auth::user()->id !== $character->user->id || !$characterLocation->adjacentLocations()->where('id', $location->id)->first()) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
