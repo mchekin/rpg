@@ -15,6 +15,7 @@ class LocationController extends Controller
     {
         $this->middleware('auth', ['only' => ['show']]);
         $this->middleware('has.character', ['only' => ['show']]);
+        $this->middleware('character.location', ['only' => ['show']]);
     }
 
     /**
