@@ -16,6 +16,15 @@ class Character extends Model
     {
         return $this->belongsTo('App\User');
     }
+    /**
+     * Check if the character is an Non Player Character ( user field is null )
+     *
+     * @return bool
+     */
+    public function isNPC()
+    {
+        return is_null($this->user);
+    }
 
     /**
      * Get the user of the character
