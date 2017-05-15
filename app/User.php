@@ -5,6 +5,9 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+/**
+ * @property Character character
+ */
 class User extends Authenticatable
 {
     use Notifiable;
@@ -26,4 +29,22 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * Get the character for the user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function character()
+    {
+        return $this->hasOne(Character::class);
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasCharacter()
+    {
+        return $this->character()->getQuery()->exists();
+    }
 }
