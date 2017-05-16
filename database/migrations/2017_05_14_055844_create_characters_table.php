@@ -31,26 +31,23 @@ class CreateCharactersTable extends Migration
             $table->integer('constitution');
             $table->integer('intelligence');
             $table->integer('charisma');
+
+            // stats
             $table->integer('hit_points');
             $table->integer('total_hit_points');
 
+            // statistics
+            $table->integer('battles_won')->default(0);
+            $table->integer('battles_lost')->default(0);
+
             $table->unsignedInteger('user_id')->nullable();
-            $table->foreign('user_id')
-                ->references('id')
-                ->on('users')
-                ->onDelete('set null');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
 
             $table->unsignedInteger('location_id');
-            $table->foreign('location_id')
-                ->references('id')
-                ->on('locations')
-                ->onDelete('restrict');
+            $table->foreign('location_id')->references('id')->on('locations')->onDelete('restrict');
 
             $table->unsignedInteger('race_id');
-            $table->foreign('race_id')
-                ->references('id')
-                ->on('races')
-                ->onDelete('cascade');
+            $table->foreign('race_id')->references('id')->on('races')->onDelete('restrict');
 
             $table->timestamps();
         });

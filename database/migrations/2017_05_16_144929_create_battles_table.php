@@ -15,22 +15,18 @@ class CreateBattlesTable extends Migration
     {
         Schema::create('battles', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('location_id');
-            $table->unsignedInteger('attacker_id');
-            $table->unsignedInteger('defender_id');
 
-            $table->foreign('location_id')
-                ->references('id')
-                ->on('locations')
-                ->onDelete('restrict');
-            $table->foreign('attacker_id')
-                ->references('id')
-                ->on('characters')
-                ->onDelete('restrict');
-            $table->foreign('defender_id')
-                ->references('id')
-                ->on('characters')
-                ->onDelete('restrict');
+            $table->unsignedInteger('location_id');
+            $table->foreign('location_id')->references('id')->on('locations')->onDelete('restrict');
+
+            $table->unsignedInteger('attacker_id');
+            $table->foreign('attacker_id')->references('id')->on('characters')->onDelete('restrict');
+
+            $table->unsignedInteger('defender_id');
+            $table->foreign('defender_id')->references('id')->on('characters')->onDelete('restrict');
+
+            $table->unsignedInteger('victor_id');
+            $table->foreign('victor_id')->references('id')->on('characters')->onDelete('restrict');
 
             $table->timestamps();
         });
