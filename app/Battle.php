@@ -2,14 +2,20 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @property Collection rounds
+ */
 class Battle extends Model
 {
-    protected $guarded = [
-
+    protected $fillable = [
+        'attacker_id',
+        'defender_id',
+        'location_id',
     ];
 
     /**

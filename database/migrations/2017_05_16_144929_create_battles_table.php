@@ -25,7 +25,7 @@ class CreateBattlesTable extends Migration
             $table->unsignedInteger('defender_id');
             $table->foreign('defender_id')->references('id')->on('characters')->onDelete('restrict');
 
-            $table->unsignedInteger('victor_id');
+            $table->unsignedInteger('victor_id')->nullable();
             $table->foreign('victor_id')->references('id')->on('characters')->onDelete('restrict');
 
             $table->timestamps();

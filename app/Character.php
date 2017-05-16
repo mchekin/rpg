@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property User user
  * @property Location location
  * @property integer id
+ * @property integer hit_points
  */
 class Character extends Model
 {

@@ -22,7 +22,7 @@ class CharacterSeeder extends Seeder
             "xp" => 0,
             "level" => 1,
             "reputation" => 0,
-            "hit_points" => 45,
+            "hit_points" => 450,
             "total_hit_points" => 55,
             "money" => 100,
 

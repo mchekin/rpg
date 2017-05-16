@@ -7,6 +7,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class BattleTurn extends Model
 {
+    protected $fillable = [
+        'damage',
+        'executor_id',
+        'target_id',
+    ];
+
     /**
      * @return BelongsTo
      */

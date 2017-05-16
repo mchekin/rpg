@@ -18,7 +18,11 @@
             <li class="list-group-item">
                 {{$battle->defender->name}} (Defender)
             </li>
+            <li class="list-group-item">
+                The winner is: {{$battle->victor->name}}
+            </li>
         </ul>
+        <hr>
 
         <a href="{{ route('index') }}">
             Back
@@ -27,14 +31,21 @@
     </div>
 
     <div class="col-md-6">
-        <h2>Battle logs:</h2>
+        <h2>Battle log:</h2>
         <hr>
         <ul class="list-group">
-            {{--@foreach($battle->logs as $log)--}}
-                {{--<li class="list-group-item">--}}
-                    {{--{{$log->body}}--}}
-                {{--</li>--}}
-            {{--@endforeach--}}
+            @foreach($battle->rounds as $index => $round)
+                <li class="list-group-item">
+                    <h3>Round {{$index}}</h3>
+                    <ul class="list-group">
+                        @foreach($round->turns as $turn)
+                            <li class="list-group-item">
+                                {{ $turn->executor->name }} did {{ $turn->damage }} damage to {{ $turn->target->name }}
+                            </li>
+                        @endforeach
+                    </ul>
+                </li>
+            @endforeach
         </ul>
     </div>
 

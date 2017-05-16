@@ -8,7 +8,10 @@ use App\Http\Requests\CreateCharacterRequest;
 use App\Http\Requests\MoveCharacterRequest;
 use App\Location;
 use App\Race;
+use App\RuleSets\CharacterRuleSet;
+use App\RuleSets\CombatRuleSet;
 use App\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -42,31 +45,13 @@ class CharacterController extends Controller
      * Store a newly created resource in storage.
      *
      * @param CreateCharacterRequest $request
+     * @param CharacterRuleSet $characterRuleSet
+     *
      * @return Response
      */
-    public function store(CreateCharacterRequest $request)
+    public function store(CreateCharacterRequest $request, CharacterRuleSet $characterRuleSet)
     {
-        $authenticatedUser = $request->user(); /** @var User $authenticatedUser */
-        $race = Race::query()->findOrFail($request->input('race_id')); /** @var Race $race */
-
-        $character = $authenticatedUser->character()->create([
-            'name' => $request->input('name'),
-            'gender' => $request->input('gender'),
-
-            'xp' => 0,
-            'level' => 1,
-            'money' => 0,
-            'reputation' => 0,
-
-            'strength' => $race->strength,
-            'agility' => $race->agility,
-            'constitution' => $race->constitution,
-            'intelligence' => $race->intelligence,
-            'charisma' => $race->charisma,
-
-            'race_id' => $race->id,
-            'location_id' => $race->starting_location_id,
-        ]);
+        $character = $characterRuleSet->createCharacter($request);
 
         return redirect()->route("home");
     }
@@ -76,7 +61,7 @@ class CharacterController extends Controller
      * @param Location $location
      * @param MoveCharacterRequest $request
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function getMove(Character $character, Location $location, MoveCharacterRequest $request)
     {
@@ -89,20 +74,17 @@ class CharacterController extends Controller
     /**
      * @param Character $defender
      * @param Request $request
+     * @param CombatRuleSet $combatRuleSet
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
-    public function getAttack(Character $defender, Request $request)
+    public function getAttack(Character $defender, Request $request, CombatRuleSet $combatRuleSet)
     {
         $authenticatedUser = $request->user(); /** @var User $authenticatedUser */
         $attacker = $authenticatedUser->character;
 
         /** @var Battle $battle */
-        $battle = Battle::query()->create([
-            'attacker_id' => $attacker->id,
-            'defender_id' => $defender->id,
-            'location_id' => $defender->location->id,
-        ]);
+        $battle = $combatRuleSet->attack($attacker, $defender);
 
         return redirect()->route('battle.show', compact('battle'));
     }
