@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property User user
+ * @property Location location
+ * @property integer id
  */
 class Character extends Model
 {

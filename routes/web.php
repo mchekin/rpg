@@ -21,6 +21,9 @@ Route::model("location", Location::class);
 Route::get('/character/{character}/location/{location}/move', 'CharacterController@getMove')
     ->name('character.move');
 
+Route::get('/character/{character}/attack', 'CharacterController@getAttack')
+    ->name('character.attack');
+
 // Simple routes...
 Route::group(['middleware' => 'guest'], function () {
     Route::get('/', function () {
@@ -40,3 +43,4 @@ Auth::routes();
 // Route resources...
 Route::resource("character", "CharacterController");
 Route::resource("location", "LocationController");
+Route::resource("battle", "BattleController");

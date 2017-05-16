@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Battle;
 use App\Character;
 use App\Http\Requests\CreateCharacterRequest;
 use App\Http\Requests\MoveCharacterRequest;
 use App\Location;
 use App\Race;
 use App\User;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
@@ -82,5 +84,26 @@ class CharacterController extends Controller
         $character->location()->associate($location)->save();
 
         return redirect()->route('location.show', compact('location'));
+    }
+
+    /**
+     * @param Character $defender
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function getAttack(Character $defender, Request $request)
+    {
+        $authenticatedUser = $request->user(); /** @var User $authenticatedUser */
+        $attacker = $authenticatedUser->character;
+
+        /** @var Battle $battle */
+        $battle = Battle::query()->create([
+            'attacker_id' => $attacker->id,
+            'defender_id' => $defender->id,
+            'location_id' => $defender->location->id,
+        ]);
+
+        return redirect()->route('battle.show', compact('battle'));
     }
 }
