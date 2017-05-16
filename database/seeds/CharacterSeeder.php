@@ -14,6 +14,8 @@ class CharacterSeeder extends Seeder
     {
         DB::table('characters')->delete();
 
+        $totalHitPoints = 100;
+
         Character::query()->create([
             "id" => 1,
             "name" => "Jack Daniels",
@@ -22,8 +24,8 @@ class CharacterSeeder extends Seeder
             "xp" => 0,
             "level" => 1,
             "reputation" => 0,
-            "hit_points" => 450,
-            "total_hit_points" => 55,
+            "hit_points" => $totalHitPoints,
+            "total_hit_points" => $totalHitPoints,
             "money" => 100,
 
             "strength" => 5,
