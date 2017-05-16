@@ -31,6 +31,8 @@ class CreateCharactersTable extends Migration
             $table->integer('constitution');
             $table->integer('intelligence');
             $table->integer('charisma');
+            $table->integer('hit_points');
+            $table->integer('total_hit_points');
 
             $table->unsignedInteger('user_id')->nullable();
             $table->foreign('user_id')

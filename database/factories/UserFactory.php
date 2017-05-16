@@ -29,23 +29,30 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 });
 
 $factory->define(Character::class, function (Faker\Generator $faker) use ($factory) {
+
+    $level = rand(1, 9);
+    $constitution = rand(1, 9);
+    $total_hit_points = $constitution * $level;
+    $hit_points = rand(1, $total_hit_points);
+
     return [
 
         'name'   => $faker->name,
         'gender' => array_rand(['male', 'female']),
 
-        'xp'         => 0,
-        'level'      => 1,
-        'reputation' => rand(-1000, 1000),
-
-        'money'        => rand(0, 5000),
+        'xp'               => 0,
+        'level'            => 1,
+        'reputation'       => rand(-1000, 1000),
+        'hit_points'       => $hit_points,
+        'total_hit_points' => $total_hit_points,
+        'money'            => rand(0, 5000),
 
         // attributes
-        'strength'     => rand(1, 9),
-        'agility'      => rand(1, 9),
-        'constitution' => rand(1, 9),
-        'intelligence' => rand(1, 9),
-        'charisma'     => rand(1, 9),
+        'strength'         => rand(1, 9),
+        'agility'          => rand(1, 9),
+        'constitution'     => $constitution,
+        'intelligence'     => rand(1, 9),
+        'charisma'         => rand(1, 9),
 
         'user_id' => function () {
             return rand(0, 3)

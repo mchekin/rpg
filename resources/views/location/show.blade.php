@@ -72,6 +72,7 @@
                         <span class="fa fa-venus"></span>
                     @endif
                     {{ $character->name }} ({{ $character->race->name }}) {{$description}}
+                    ({{ $character->hit_points }} / {{ $character->total_hit_points }})
                 </a>
             @endforeach
         </div>
