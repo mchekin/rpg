@@ -9,7 +9,6 @@ use App\Http\Requests\MoveCharacterRequest;
 use App\Location;
 use App\Race;
 use App\RuleSets\CharacterRuleSet;
-use App\RuleSets\CombatRuleSet;
 use App\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -57,6 +56,28 @@ class CharacterController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param Character $character
+     * @return Response
+     */
+    public function show(Character $character)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param Character $character
+     * @return Response
+     */
+    public function edit(Character $character)
+    {
+        //
+    }
+
+    /**
      * @param Character $character
      * @param Location $location
      * @param MoveCharacterRequest $request
@@ -74,17 +95,17 @@ class CharacterController extends Controller
     /**
      * @param Character $defender
      * @param Request $request
-     * @param CombatRuleSet $combatRuleSet
+     * @param CharacterRuleSet $characterRuleSet
      *
      * @return RedirectResponse
      */
-    public function getAttack(Character $defender, Request $request, CombatRuleSet $combatRuleSet)
+    public function getAttack(Character $defender, Request $request, CharacterRuleSet $characterRuleSet)
     {
         $authenticatedUser = $request->user(); /** @var User $authenticatedUser */
         $attacker = $authenticatedUser->character;
 
         /** @var Battle $battle */
-        $battle = $combatRuleSet->attack($attacker, $defender);
+        $battle = $characterRuleSet->attack($attacker, $defender);
 
         return redirect()->route('battle.show', compact('battle'));
     }

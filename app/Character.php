@@ -9,10 +9,25 @@ use Illuminate\Database\Eloquent\Model;
  * @property Location location
  * @property integer id
  * @property integer hit_points
+ * @property integer xp
+ * @property Level level
+ * @property integer available_attribute_points
  */
 class Character extends Model
 {
+
     protected $guarded = ['user_id'];
+
+    /**
+     * Get the user of the character
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function level()
+    {
+        return $this->belongsTo(Level::class);
+    }
+
     /**
      * Get the user of the character
      *

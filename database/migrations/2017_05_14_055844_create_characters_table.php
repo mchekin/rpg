@@ -19,8 +19,8 @@ class CreateCharactersTable extends Migration
             $table->string('name')->unique();
             $table->enum('gender', ['male', 'female']);
 
-            $table->unsignedInteger('xp');
-            $table->unsignedInteger('level');
+            $table->unsignedInteger('xp')->default(0);
+            $table->unsignedInteger('available_attribute_points')->default(0);
             $table->integer('reputation');
 
             $table->integer('money');
@@ -39,6 +39,9 @@ class CreateCharactersTable extends Migration
             // statistics
             $table->integer('battles_won')->default(0);
             $table->integer('battles_lost')->default(0);
+
+            $table->unsignedInteger('level_id');
+            $table->foreign('level_id')->references('id')->on('levels')->onDelete('restrict');
 
             $table->unsignedInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');

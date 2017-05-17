@@ -12,6 +12,7 @@
 */
 
 use App\Character;
+use App\Level;
 use App\User;
 use Illuminate\Database\Eloquent\Factory;
 
@@ -30,9 +31,9 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 
 $factory->define(Character::class, function (Faker\Generator $faker) use ($factory) {
 
-    $level = rand(1, 9);
+    $level = Level::query()->inRandomOrder()->first();
     $constitution = rand(1, 9);
-    $total_hit_points = $constitution * $level;
+    $total_hit_points = $constitution * $level->id;
     $hit_points = rand(1, $total_hit_points);
 
     return [
@@ -41,7 +42,6 @@ $factory->define(Character::class, function (Faker\Generator $faker) use ($facto
         'gender' => array_rand(['male', 'female']),
 
         'xp'               => 0,
-        'level'            => 1,
         'reputation'       => rand(-1000, 1000),
         'hit_points'       => $hit_points,
         'total_hit_points' => $total_hit_points,
@@ -53,6 +53,8 @@ $factory->define(Character::class, function (Faker\Generator $faker) use ($facto
         'constitution'     => $constitution,
         'intelligence'     => rand(1, 9),
         'charisma'         => rand(1, 9),
+
+        'level_id'         => $level,
 
         'user_id' => function () {
             return rand(0, 3)
