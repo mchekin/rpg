@@ -58,11 +58,13 @@
             <?php $icon = ''; ?>
             @foreach($location->characters as $character)
                 <?php
+                    /** @var \App\Character $character **/
                     $class = 'list-group-item-warning';
                     $description = '(NPC)';
+
                     if (!$character->isNPC() ) {
-                        $description = ($character->user->id == Auth::user()->id) ? '(you)' : '';
-                        $class = ($character->user->id == Auth::user()->id) ? 'active' : '';
+                        $description = $character->isYou() ? '(you)' : '';
+                        $class = $character->isYou() ? 'active' : '';
                     }
                 ?>
                 <li href="#" class="list-group-item {{ $class }}">
@@ -78,9 +80,11 @@
                         @endcomponent
                     </a>
 
-                    <a href="{{ route('character.attack', ['character' => $character]) }}" class="pull-right">
-                        <span class="fa fa-flash"></span> attack
-                    </a>
+                    @if(!$character->isYou())
+                        <a href="{{ route('character.attack', ['character' => $character]) }}" class="pull-right">
+                            <span class="fa fa-flash"></span> attack
+                        </a>
+                    @endif
 
                 </li>
             @endforeach

@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * @property User user
@@ -37,15 +38,6 @@ class Character extends Model
     {
         return $this->belongsTo(User::class);
     }
-    /**
-     * Check if the character is an Non Player Character ( user_id field is null )
-     *
-     * @return bool
-     */
-    public function isNPC()
-    {
-        return is_null($this->user);
-    }
 
     /**
      * Get the user of the character
@@ -65,5 +57,23 @@ class Character extends Model
     public function location()
     {
         return $this->belongsTo(Location::class);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isYou()
+    {
+        return (!$this->isNPC()) && $this->user->id == Auth::user()->id;
+    }
+
+    /**
+     * Check if the character is an Non Player Character ( user_id field is null )
+     *
+     * @return bool
+     */
+    public function isNPC()
+    {
+        return is_null($this->user);
     }
 }

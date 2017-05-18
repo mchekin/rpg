@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 /**
  * @property Character character
+ * @property integer id
  */
 class User extends Authenticatable
 {

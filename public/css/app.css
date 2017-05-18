@@ -33,3 +33,7 @@
 .img-race {
     height: 600px !important;
 }
+
+.active a{
+    color: white !important;
+}
