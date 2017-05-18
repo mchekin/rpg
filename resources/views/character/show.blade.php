@@ -57,6 +57,12 @@
                         <th>Charisma</th>
                         <td>{{ $character->charisma }}</td>
                     </tr>
+                    @if($character->available_attribute_points > 0)
+                        <tfoot>
+                            <td>Available points</td>
+                            <td>{{ $character->available_attribute_points }}</td>
+                        </tfoot>
+                    @endif
                 </table>
 
                 <table class="table table-responsive">
