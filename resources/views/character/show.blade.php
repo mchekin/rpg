@@ -35,34 +35,47 @@
                     </tr>
                 </table>
 
-                <table class="table table-responsive">
+                <?php
+                    $incrementingCaption = ($character->isYou() && $character->available_attribute_points)
+                            ? "+{$character->available_attribute_points}"
+                            : "";
+                ?>
+
+                <table class="table table-responsive table-attributes">
                     <caption>Attributes</caption>
                     <tr>
                         <th>Strength</th>
                         <td>{{ $character->strength }}</td>
+                        <td class="circle">{{ $incrementingCaption }}</td>
                     </tr>
                     <tr>
                         <th>Agility</th>
                         <td>{{ $character->agility }}</td>
+                        <td class="circle">{{ $incrementingCaption }}</td>
                     </tr>
                     <tr>
                         <th>Constitution</th>
                         <td>{{ $character->constitution }}</td>
+                        <td class="circle">{{ $incrementingCaption }}</td>
                     </tr>
                     <tr>
                         <th>Intelligence</th>
                         <td>{{ $character->intelligence }}</td>
+                        <td class="circle">{{ $incrementingCaption }}</td>
                     </tr>
                     <tr>
                         <th>Charisma</th>
                         <td>{{ $character->charisma }}</td>
+                        <td class="circle">{{ $incrementingCaption }}</td>
                     </tr>
-                    @if($character->available_attribute_points > 0)
+
+                    @if($character->isYou() && $character->available_attribute_points)
                         <tfoot>
-                            <td>Available points</td>
-                            <td>{{ $character->available_attribute_points }}</td>
+                            <th>Available points</th>
+                            <td class="circle">{{ $character->available_attribute_points }}</td>
                         </tfoot>
                     @endif
+
                 </table>
 
                 <table class="table table-responsive">
@@ -103,5 +116,5 @@
 @section("footer")
     @parent
 
-    {{--<script src="{{ asset('js/character-create.js') }}"></script>--}}
+    <script src="{{ asset('js/character-update.js') }}"></script>
 @stop

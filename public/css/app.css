@@ -22,7 +22,7 @@
     font-size: 1.8rem;
 }
 
-.table-attributes td{
+.table-attributes td.circle{
     border-radius: 25px;
     background-color: #337ab7;
     /*font-weight: bold;*/
