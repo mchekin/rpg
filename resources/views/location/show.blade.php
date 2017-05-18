@@ -71,11 +71,17 @@
                     @else
                         <span class="fa fa-venus"></span>
                     @endif
-                    {{ $character->name }} ({{ $character->race->name }}) {{$description}}
-                    ({{ $character->hit_points }} / {{ $character->total_hit_points }})
+
+                    <a href="{{ route('character.show', ['character' => $character]) }}">
+                        @component('components.short_character_description', compact('character'))
+                            {{ $description }}
+                        @endcomponent
+                    </a>
+
                     <a href="{{ route('character.attack', ['character' => $character]) }}" class="pull-right">
                         <span class="fa fa-flash"></span> attack
                     </a>
+
                 </li>
             @endforeach
         </ul>
