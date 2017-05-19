@@ -35,13 +35,13 @@
                     </tr>
                     <tr>
                         <th>XP</th>
-                        <td><progress max="{{ $character->level->nextLevel()->xp_threshold }}" value="{{ $character->xp }}"></progress></td>
+                        <td><progress max="{{ $character->level->next_level_xp_threshold }}" value="{{ $character->xp }}"></progress></td>
                     </tr>
                 </table>
 
                 <?php
                     $incrementingCaption = ($character->isYou() && $character->available_attribute_points)
-                            ? "<td class=\"circle\">+{$character->available_attribute_points}</td>"
+                            ? "<td class=\"circle\"><a href='#'>+1</a></td>"
                             : "";
                 ?>
 

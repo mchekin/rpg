@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property integer id
- * @property integer xp_threshold
+ * @property integer next_level_xp_threshold
  */
 class Level extends Model
 {

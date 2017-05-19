@@ -40,7 +40,11 @@
                     <ul class="list-group">
                         @foreach($round->turns as $turn)
                             <li class="list-group-item">
+                            @if($turn->damage)
                                 {{ $turn->executor->name }} did {{ $turn->damage }} damage to {{ $turn->target->name }}
+                            @else
+                                {{ $turn->executor->name }} was unable to hit {{ $turn->target->name }}
+                            @endif
                             </li>
                         @endforeach
                     </ul>

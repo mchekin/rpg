@@ -27,7 +27,7 @@ class CharacterRuleSet
         /** @var Race $race */
         $race = Race::query()->findOrFail($request->input('race_id'));
 
-        $totalHitPoints = $race->constitution * 10 + rand(10, 20);
+        $totalHitPoints = $race->constitution * 10 + $this->throwTwoDices();
 
         /** @var Character $character */
         $character = $authenticatedUser->character()->create([
@@ -122,19 +122,24 @@ class CharacterRuleSet
      */
     protected function performTurn(BattleRound $currentRound, Character $executor, Character $target)
     {
+        $damageDone = 0;
         $executorXpGained = 0;
-        $executorDamage = rand(1, 10);
+
+        $attackForce = $this->throwOneDice() + $executor->strength;
+        $attackFactor = $this->throwOneDice() + $executor->agility;
+        $defenceFactor = $this->throwOneDice() + $target->agility;
+
+        if ($attackFactor > $defenceFactor) {
+            $damageDone = $attackForce;
+            $target->hit_points -= $damageDone;
+            $executorXpGained = $target->level->id;
+        }
 
         $currentRound->turns()->create([
-            'damage' => $executorDamage,
+            'damage' => $damageDone,
             'executor_id' => $executor->id,
             'target_id' => $target->id,
         ]);
-
-        if ($executorDamage > 0) {
-            $target->hit_points -= $executorDamage;
-            $executorXpGained = $target->level->id;
-        }
 
         return $executorXpGained;
     }
@@ -145,9 +150,7 @@ class CharacterRuleSet
      */
     protected function checkLevelUp(Character $character)
     {
-        $nextLevel = $character->level->nextLevel();
-
-        if ($this->shouldLevelUp($character, $nextLevel)) {
+        while ($this->shouldLevelUp($character, $nextLevel = $character->level->nextLevel())) {
 
             // update character's level
             $character->level()->associate($nextLevel);
@@ -164,8 +167,24 @@ class CharacterRuleSet
      * @param Level $nextLevel
      * @return bool
      */
-    protected function shouldLevelUp(Character $character, Level $nextLevel)
+    protected function shouldLevelUp(Character $character, $nextLevel)
     {
-        return !is_null($nextLevel) && ($character->xp > $nextLevel->xp_threshold);
+        return !is_null($nextLevel) && ($character->xp > $character->level->next_level_xp_threshold);
+    }
+
+    /**
+     * @return int
+     */
+    protected function throwTwoDices()
+    {
+        return $this->throwOneDice() + $this->throwOneDice();
+    }
+
+    /**
+     * @return int
+     */
+    protected function throwOneDice()
+    {
+        return rand(1, 6);
     }
 }

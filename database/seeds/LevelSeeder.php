@@ -17,51 +17,51 @@ class LevelSeeder extends Seeder
         $levels = [
             [
                 "id"            => 1,
-                "xp_threshold"  => 0,
+                "next_level_xp_threshold"  => 5,
             ],
             [
                 "id"            => 2,
-                "xp_threshold"  => 10,
+                "next_level_xp_threshold"  => 10,
             ],
             [
                 "id"            => 3,
-                "xp_threshold"  => 20,
+                "next_level_xp_threshold"  => 20,
             ],
             [
                 "id"            => 4,
-                "xp_threshold"  => 40,
+                "next_level_xp_threshold"  => 40,
             ],
             [
                 "id"            => 5,
-                "xp_threshold"  => 80,
+                "next_level_xp_threshold"  => 80,
             ],
             [
                 "id"            => 6,
-                "xp_threshold"  => 160,
+                "next_level_xp_threshold"  => 160,
             ],
             [
                 "id"            => 7,
-                "xp_threshold"  => 320,
+                "next_level_xp_threshold"  => 320,
             ],
             [
                 "id"            => 8,
-                "xp_threshold"  => 640,
+                "next_level_xp_threshold"  => 640,
             ],
             [
                 "id"            => 9,
-                "xp_threshold"  => 12800,
+                "next_level_xp_threshold"  => 1280,
             ],
             [
                 "id"            => 10,
-                "xp_threshold"  => 25600,
+                "next_level_xp_threshold"  => 2560,
             ],
             [
                 "id"            => 11,
-                "xp_threshold"  => 51200,
+                "next_level_xp_threshold"  => 5120,
             ],
             [
                 "id"            => 12,
-                "xp_threshold"  => 102400,
+                "next_level_xp_threshold"  => 10240,
             ],
         ];
 
