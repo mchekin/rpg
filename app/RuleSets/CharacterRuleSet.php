@@ -27,7 +27,7 @@ class CharacterRuleSet
         /** @var Race $race */
         $race = Race::query()->findOrFail($request->input('race_id'));
 
-        $totalHitPoints = $race->constitution * 10 + rand(10,20);
+        $totalHitPoints = $race->constitution * 10 + rand(10, 20);
 
         /** @var Character $character */
         $character = $authenticatedUser->character()->create([
@@ -81,10 +81,18 @@ class CharacterRuleSet
                 $attackerXpGained += $this->performTurn($currentRound, $attacker, $defender);
 
                 if ($defender->hit_points < 1) {
+                    $attacker->battles_won++;
+                    $defender->battles_lost++;
                     break;
                 }
 
                 $defenderXpGained += $this->performTurn($currentRound, $defender, $attacker);
+
+                if ($attacker->hit_points < 1) {
+                    $defender->battles_won++;
+                    $attacker->battles_lost++;
+                    break;
+                }
             }
 
             // set victor

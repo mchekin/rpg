@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Auth;
  * @property integer xp
  * @property Level level
  * @property integer available_attribute_points
+ * @property integer battles_won
+ * @property integer battles_lost
  */
 class Character extends Model
 {

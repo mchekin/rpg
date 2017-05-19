@@ -33,11 +33,15 @@
                         <th>Level</th>
                         <td>{{ $character->level->id }}</td>
                     </tr>
+                    <tr>
+                        <th>XP</th>
+                        <td><progress max="{{ $character->level->nextLevel()->xp_threshold }}" value="{{ $character->xp }}"></progress></td>
+                    </tr>
                 </table>
 
                 <?php
                     $incrementingCaption = ($character->isYou() && $character->available_attribute_points)
-                            ? "+{$character->available_attribute_points}"
+                            ? "<td class=\"circle\">+{$character->available_attribute_points}</td>"
                             : "";
                 ?>
 
@@ -46,27 +50,27 @@
                     <tr>
                         <th>Strength</th>
                         <td>{{ $character->strength }}</td>
-                        <td class="circle">{{ $incrementingCaption }}</td>
+                        {!! $incrementingCaption !!}
                     </tr>
                     <tr>
                         <th>Agility</th>
                         <td>{{ $character->agility }}</td>
-                        <td class="circle">{{ $incrementingCaption }}</td>
+                        {!! $incrementingCaption !!}
                     </tr>
                     <tr>
                         <th>Constitution</th>
                         <td>{{ $character->constitution }}</td>
-                        <td class="circle">{{ $incrementingCaption }}</td>
+                        {!! $incrementingCaption !!}
                     </tr>
                     <tr>
                         <th>Intelligence</th>
                         <td>{{ $character->intelligence }}</td>
-                        <td class="circle">{{ $incrementingCaption }}</td>
+                        {!! $incrementingCaption !!}
                     </tr>
                     <tr>
                         <th>Charisma</th>
                         <td>{{ $character->charisma }}</td>
-                        <td class="circle">{{ $incrementingCaption }}</td>
+                        {!! $incrementingCaption !!}
                     </tr>
 
                     @if($character->isYou() && $character->available_attribute_points)
@@ -80,10 +84,6 @@
 
                 <table class="table table-responsive">
                     <caption>Statistics</caption>
-                    <tr>
-                        <th>XP</th>
-                        <td>{{ $character->xp }}</td>
-                    </tr>
                     <tr>
                         <th>Reputation</th>
                         <td>{{ $character->reputation }}</td>

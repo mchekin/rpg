@@ -21,31 +21,31 @@ class LevelSeeder extends Seeder
             ],
             [
                 "id"            => 2,
-                "xp_threshold"  => 100,
+                "xp_threshold"  => 10,
             ],
             [
                 "id"            => 3,
-                "xp_threshold"  => 200,
+                "xp_threshold"  => 20,
             ],
             [
                 "id"            => 4,
-                "xp_threshold"  => 400,
+                "xp_threshold"  => 40,
             ],
             [
                 "id"            => 5,
-                "xp_threshold"  => 800,
+                "xp_threshold"  => 80,
             ],
             [
                 "id"            => 6,
-                "xp_threshold"  => 1600,
+                "xp_threshold"  => 160,
             ],
             [
                 "id"            => 7,
-                "xp_threshold"  => 3200,
+                "xp_threshold"  => 320,
             ],
             [
                 "id"            => 8,
-                "xp_threshold"  => 6400,
+                "xp_threshold"  => 640,
             ],
             [
                 "id"            => 9,
