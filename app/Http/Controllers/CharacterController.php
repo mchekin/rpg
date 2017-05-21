@@ -6,6 +6,7 @@ use App\Battle;
 use App\Character;
 use App\Http\Requests\CreateCharacterRequest;
 use App\Http\Requests\MoveCharacterRequest;
+use App\Http\Requests\UpdateCharacterAttributeRequest;
 use App\Location;
 use App\Race;
 use App\RuleSets\CharacterRuleSet;
@@ -23,8 +24,8 @@ class CharacterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth', ['only' => ['create', 'store', 'getMove']]);
-        $this->middleware('has.character', ['only' => ['getMove']]);
+        $this->middleware('auth', ['only' => ['create', 'store', 'getMove', 'update']]);
+        $this->middleware('has.character', ['only' => ['getMove', 'update']]);
         $this->middleware('no.character', ['only' => ['create', 'store']]);
     }
 
@@ -67,14 +68,22 @@ class CharacterController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Update the specified resource in storage.
      *
+     * @param UpdateCharacterAttributeRequest $request
      * @param Character $character
+     *
      * @return Response
      */
-    public function edit(Character $character)
+    public function update(UpdateCharacterAttributeRequest $request, Character $character)
     {
-        //
+        $attribute = $request->input('attribute');
+
+        $character->available_attribute_points--;
+        $character->$attribute++;
+        $character->save();
+
+        return view('character.show', compact('character'));
     }
 
     /**

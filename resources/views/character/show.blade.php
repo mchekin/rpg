@@ -19,9 +19,6 @@
 
         <!-- Right Side -->
         <div class="col-md-4 col-md-offset-1 col-sm-6">
-            <form role="form" method="POST" action="{{ URL::route('character.update', $character) }}">
-                {!! csrf_field() !!}
-
 
                 <table class="table table-responsive">
                     <caption>General</caption>
@@ -39,41 +36,57 @@
                     </tr>
                 </table>
 
-                <?php
-                    $incrementingCaption = ($character->isYou() && $character->available_attribute_points)
-                            ? "<td class=\"circle\"><a href='#'>+1</a></td>"
-                            : "";
-                ?>
+            <?php
+                $hasFreePoints = ($character->isYou() && $character->available_attribute_points);
+            ?>
+
+            @if($hasFreePoints)
+            <form role="form" method="POST" action="{{ URL::route('character.update', $character) }}" id="increment_attribute">
+                {{ method_field('PUT') }}
+                {!! csrf_field() !!}
+
+                <input type="hidden" id="attribute_input" name="attribute" value="strength">
+            @endif
 
                 <table class="table table-responsive table-attributes">
                     <caption>Attributes</caption>
                     <tr>
                         <th>Strength</th>
                         <td>{{ $character->strength }}</td>
-                        {!! $incrementingCaption !!}
+                        @component('components.increment_attribute_button', compact('hasFreePoints'))
+                            {{ 'strength' }}
+                        @endcomponent
                     </tr>
                     <tr>
                         <th>Agility</th>
                         <td>{{ $character->agility }}</td>
-                        {!! $incrementingCaption !!}
+                        @component('components.increment_attribute_button', compact('hasFreePoints'))
+                            {{ 'agility' }}
+                        @endcomponent
                     </tr>
                     <tr>
                         <th>Constitution</th>
                         <td>{{ $character->constitution }}</td>
-                        {!! $incrementingCaption !!}
+                        @component('components.increment_attribute_button', compact('hasFreePoints'))
+                            {{ 'constitution' }}
+                        @endcomponent
                     </tr>
                     <tr>
                         <th>Intelligence</th>
                         <td>{{ $character->intelligence }}</td>
-                        {!! $incrementingCaption !!}
+                        @component('components.increment_attribute_button', compact('hasFreePoints'))
+                            {{ 'intelligence' }}
+                        @endcomponent
                     </tr>
                     <tr>
                         <th>Charisma</th>
                         <td>{{ $character->charisma }}</td>
-                        {!! $incrementingCaption !!}
+                        @component('components.increment_attribute_button', compact('hasFreePoints'))
+                            {{ 'charisma' }}
+                        @endcomponent
                     </tr>
 
-                    @if($character->isYou() && $character->available_attribute_points)
+                    @if($hasFreePoints)
                         <tfoot>
                             <th>Available points</th>
                             <td class="circle">{{ $character->available_attribute_points }}</td>
@@ -81,6 +94,10 @@
                     @endif
 
                 </table>
+
+            @if($hasFreePoints)
+                </form>
+            @endif
 
                 <table class="table table-responsive">
                     <caption>Statistics</caption>
@@ -101,8 +118,6 @@
                         <td>{{ $character->battles_lost }}</td>
                     </tr>
                 </table>
-
-            </form>
 
             <a href="{{ route('location.show', ['location' => $character->location]) }}">
                 Back to {{ $character->location->name }}
