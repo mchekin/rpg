@@ -20,21 +20,27 @@
 - Clone the repo
 
         git clone https://github.com/mchekin/game.git game
+
 - Navigate to the project folder
 
         cd game
+
 - Run composer install to import the dependencies and enable auto-loading
 
         composer install
+
 - Create .env file from the .env.example file
 
         cp .env.example .env
+
 - Generate Laravel Application key
 
         php artisan key:generate
+
 - Creat SQLite database file
 
         touch database/database.sqlite
+
 - Run Laravel database migrations and seeds
 
         php artisan migrate --seed
@@ -45,6 +51,7 @@
 - Run PHP build-in development server on the host machine
 
         php artisan serve  
+
 - Navigate to [http://localhost:8000/](http://localhost:8000/)
 
 <a name="license"></a>
