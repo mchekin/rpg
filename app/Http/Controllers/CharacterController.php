@@ -26,6 +26,7 @@ class CharacterController extends Controller
     {
         $this->middleware('auth', ['only' => ['create', 'store', 'getMove', 'update']]);
         $this->middleware('has.character', ['only' => ['getMove', 'update']]);
+        $this->middleware('owns.character', ['only' => ['update']]);
         $this->middleware('no.character', ['only' => ['create', 'store']]);
     }
 
@@ -79,9 +80,11 @@ class CharacterController extends Controller
     {
         $attribute = $request->input('attribute');
 
-        $character->available_attribute_points--;
-        $character->$attribute++;
-        $character->save();
+        if ($character->available_attribute_points) {
+            $character->available_attribute_points--;
+            $character->$attribute++;
+            $character->save();
+        }
 
         return view('character.show', compact('character'));
     }
