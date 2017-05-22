@@ -13,6 +13,8 @@
 
 use App\Character;
 use App\Level;
+use App\Location;
+use App\Race;
 use App\User;
 use Illuminate\Database\Eloquent\Factory;
 
@@ -32,6 +34,9 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 $factory->define(Character::class, function (Faker\Generator $faker) use ($factory) {
 
     $level = Level::query()->inRandomOrder()->first();
+    $location = Location::query()->inRandomOrder()->first();
+    $race = Race::query()->inRandomOrder()->first();
+
     $constitution = rand(1, 9);
     $total_hit_points = $constitution * $level->id;
     $hit_points = rand(1, $total_hit_points);
@@ -62,8 +67,8 @@ $factory->define(Character::class, function (Faker\Generator $faker) use ($facto
                 : null;
         },
 
-        'location_id' => rand(1, 4),
+        'location_id' => $location,
 
-        'race_id' => rand(1, 4),
+        'race_id' => $race,
     ];
 });
