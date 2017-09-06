@@ -1,84 +1,53 @@
-## Online Role Playing Game based on Laravel PHP Framework
+<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
 
-###Table of Contents###
+<p align="center">
+<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
+</p>
 
-1. [Requirements](#requirments)
-2. [Installation](#installation)
-3. [Running in development environment](#runningindevelopmentenvironment)
-4. [License](#license)
+## About Laravel
 
-<a name="requirements"></a>
-### Requirements (for local development)
+Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
 
-- PHP 5.5.9 or Higher
-- [Git](https://git-scm.com/)
-- [Composer](https://getcomposer.org/)
-- [Vagrant](https://www.vagrantup.com/) or [XAMPP](https://www.apachefriends.org/index.html)
+- [Simple, fast routing engine](https://laravel.com/docs/routing).
+- [Powerful dependency injection container](https://laravel.com/docs/container).
+- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
+- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
+- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
+- [Robust background job processing](https://laravel.com/docs/queues).
+- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-<a name="installation"></a>
-### Installation
-- Clone the repo
+Laravel is accessible, yet powerful, providing tools needed for large, robust applications. A superb combination of simplicity, elegance, and innovation give you tools you need to build any application with which you are tasked.
 
-        git clone https://github.com/mchekin/rpg.git rpg
-- Navigate to the project folder
+## Learning Laravel
 
-        cd rpg
-- Run composer install to import the dependencies and enable auto-loading
+Laravel has the most extensive and thorough documentation and video tutorial library of any modern web application framework. The [Laravel documentation](https://laravel.com/docs) is thorough, complete, and makes it a breeze to get started learning the framework.
 
-        composer install
-- Create .env file from the .env.example file
+If you're not in the mood to read, [Laracasts](https://laracasts.com) contains over 900 video tutorials on a range of topics including Laravel, modern PHP, unit testing, JavaScript, and more. Boost the skill level of yourself and your entire team by digging into our comprehensive video library.
 
-        cp .env.example .env
-- Generate Laravel Application key
+## Laravel Sponsors
 
-        php artisan key:generate
-- Assign the generated key to the APP_KEY in the .env file, like so:
+We would like to extend our thanks to the following sponsors for helping fund on-going Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](http://patreon.com/taylorotwell):
 
-        APP_KEY=<your generated key>
+- **[Vehikl](http://vehikl.com)**
+- **[Tighten Co.](https://tighten.co)**
+- **[British Software Development](https://www.britishsoftware.co)**
+- **[Styde](https://styde.net)**
+- [Fragrantica](https://www.fragrantica.com)
+- [SOFTonSOFA](https://softonsofa.com/)
+- [User10](https://user10.com)
+- [Soumettre.fr](https://soumettre.fr/)
 
-<a name="runningindevelopmentenvironment"></a>
-### Running in development environment
-   
-#### First option:  Vagrant (Recommended)
+## Contributing
 
-- Generate local Homestead files
+Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
 
-        php vendor/bin/homestead make
-- Boot the virtual machine
+## Security Vulnerabilities
 
-        vagrant up  
-- SSH into the virtual box 
-( If you are on a Windows machine, you need  [Git Bash CLI](https://git-for-windows.github.io/) since Windows CLI does not support SSH )
+If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
 
-        vagrant ssh   
-- Navigate to the project folder inside the virtual box
+## License
 
-        cd rpg
-- Run Laravel database migrations and seeds
-
-        php artisan migrate 
-        php artisan db:seed
-
-- Run PHP build-in development server on the host machine
-
-        php artisan serve  
-- Navigate to [http://localhost:8000/](http://localhost:8000/)
-              
-#### Second option: XAMPP 
-
-- Place your project's directory into XAMPP's web root folder (`htdocs`)  
-
-
-- Set XAMPP's database credentials and schema to correspond with the database parameters inside `.env` file. 
- 
- 
-- Run Laravel database migrations
-
-        php artisan migrate 
-        php artisan db:seed
-
-- Navigate to [http://localhost/rpg/public](http://localhost/rpg/public)    
-
-<a name="license"></a>
-### License
-Open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
