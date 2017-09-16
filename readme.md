@@ -32,6 +32,10 @@
 - Create .env file from the .env.example file
 
         cp .env.example .env
+  
+  On Windows:
+  
+        copy .env.example .env
 
 - Generate Laravel Application key
 
@@ -40,6 +44,10 @@
 - Creat SQLite database file
 
         touch database/database.sqlite
+  
+  On Windows:
+  
+        copy NUL database\database.sqlite
 
 - Run Laravel database migrations and seeds
 
