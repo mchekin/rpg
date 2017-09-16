@@ -10,7 +10,7 @@
 <a name="requirements"></a>
 ### Requirements (for local development)
 
-- PHP 5.6 or Higher
+- PHP 7.0.0 or Higher
 - [Git](https://git-scm.com/)
 - [Composer](https://getcomposer.org/)
 - [SQLite](https://www.sqlite.org/)
@@ -19,7 +19,7 @@
 ### Installation
 - Clone the repo
 
-        git clone https://github.com/mchekin/game.git game
+        git clone https://github.com/mchekin/rpg.git game
 
 - Navigate to the project folder
 
