@@ -1,8 +1,8 @@
 ## Online Role Playing Game
 
-![Online Role Playing Game](images/village.png)
+![](https://raw.githubusercontent.com/mchekin/rpg/f19c452aefcbd028c7db521bd50d1cec5995b137/public/images/locations/Blacksmith-300px.png)
 
-###Table of Contents###
+### Table of Contents
 
 1. [Requirements](#requirments)
 2. [Installation](#installation)
