@@ -1,5 +1,7 @@
 ## Online Role Playing Game
 
+![Online Role Playing Game](images/village.png)
+
 ###Table of Contents###
 
 1. [Requirements](#requirments)
@@ -41,7 +43,7 @@
 
         php artisan key:generate
 
-- Creat SQLite database file
+- Create SQLite database file
 
         touch database/database.sqlite
   
