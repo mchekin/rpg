@@ -1,13 +1,13 @@
 language: php
 
 php:
-  - 7.1
+  - 7.0.22
 
 before_script:
   - cp .env.example .env
-  - php artisan key:generate
   - composer self-update
   - composer install --no-interaction
+  - php artisan key:generate
   - touch database/database.sqlite
 
 script:
