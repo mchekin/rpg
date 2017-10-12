@@ -12,21 +12,4 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class CharacterMovementTest extends TestCase
 {
     use DatabaseMigrations;
-
-    /**
-     * @test
-     */
-    public function an_authenticated_user_with_character_record_is_redirected_to_character_location_page()
-    {
-        // Given we have a signed in user that already has a character
-        $user = factory(User::class)->create();
-        $this->actingAs($user);
-        $character = factory(Character::class)->create(['user_id' => $user]);
-
-        // When we hit home folder
-        $response = $this->get('/home');
-
-        // We are redirected to the Character creation page
-        $response->assertRedirect(route('location.show', $character->location));
-    }
 }
