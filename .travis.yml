@@ -6,7 +6,7 @@ php:
   - 7.1
 
 install:
-   - composer self-update
+  - composer self-update
   - travis_retry composer install --no-interaction
 
 before_script:
