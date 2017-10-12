@@ -4,6 +4,9 @@ dist: trusty
 addons:
    chrome: stable
 
+php:
+  - 7.1
+
 install:
    - cp .env.example .env
    - composer self-update
