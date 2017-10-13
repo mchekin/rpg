@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class CharacterTest extends TestCase
+class CharacterCreationTest extends TestCase
 {
     use DatabaseMigrations;
 
