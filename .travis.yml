@@ -14,7 +14,7 @@ before_script:
   - sh -e /etc/init.d/xvfb start
   - ./vendor/laravel/dusk/bin/chromedriver-linux &
   - touch database/database.sqlite
-  - cp .env.example .env
+  - cp .env.travis .env
   - php artisan key:generate
   - php artisan serve &
 
