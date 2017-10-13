@@ -10,12 +10,12 @@ install:
   - travis_retry composer install --no-interaction
 
 before_script:
-  - php artisan key:generate
-  - touch database/database.sqlite
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
   - ./vendor/laravel/dusk/bin/chromedriver-linux &
-  - cp .env.testing .env
+  - touch database/database.sqlite
+  - cp .env.example .env
+  - php artisan key:generate
   - php artisan serve &
 
 script:
