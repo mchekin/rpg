@@ -6,16 +6,15 @@ php:
   - 7.1
 
 install:
-  - composer self-update
+  - cp .env.example .env
   - travis_retry composer install --no-interaction
 
 before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
   - ./vendor/laravel/dusk/bin/chromedriver-linux &
-  - touch database/database.sqlite
-  - cp .env.travis .env
   - php artisan key:generate
+  - touch database/database.sqlite
   - php artisan serve &
 
 script:
