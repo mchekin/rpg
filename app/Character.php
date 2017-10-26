@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Auth;
  * @property integer battles_lost
  * @property integer strength
  * @property integer agility
+ * @property integer location_id
  */
 class Character extends Model
 {
