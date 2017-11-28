@@ -29,10 +29,6 @@
 
         cd game
 
-- Run composer install to import the dependencies and enable auto-loading
-
-        composer install
-
 - Create .env file from the .env.example file
 
         cp .env.example .env
@@ -40,6 +36,10 @@
   On Windows:
   
         copy .env.example .env
+
+- Run composer install to import the dependencies and enable auto-loading
+
+        composer install
 
 - Generate Laravel Application key
 
