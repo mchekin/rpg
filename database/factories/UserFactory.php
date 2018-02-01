@@ -41,10 +41,12 @@ $factory->define(Character::class, function (Faker\Generator $faker) use ($facto
     $total_hit_points = $constitution * $level->id;
     $hit_points = rand(1, $total_hit_points);
 
+    $genders = ['male', 'female'];
+
     return [
 
         'name'   => $faker->name,
-        'gender' => array_rand(['male', 'female']),
+        'gender' => $genders[array_rand($genders)],
 
         'xp'               => 0,
         'reputation'       => rand(-1000, 1000),
