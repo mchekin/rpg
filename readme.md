@@ -74,7 +74,7 @@
             
     2. Add the following line and save
             
-            * * * * * php /path/to/artisan schedule:run >> /dev/null 2>&1
+            * * * * * php <path-to-project>/artisan schedule:run >> /dev/null 2>&1
   
   On Windows:
     
