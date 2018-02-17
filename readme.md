@@ -79,8 +79,19 @@
   On Windows:
     
         schtasks /create /sc minute /mo 1 /tn "RPG SCHEDULER" /tr %cd%\scheduler.bat
-
-
+        
+    To disable the annoying command-line pop-up each time the task runs:
+    
+    1. Open Windows "Run" dialog by pressing "Windows Key + r"
+    2. Enter type "Taskschd.msc" and press Enter. This will open the "Task Scheduler".
+    3. In Task Scheduler's "Active Tasks" section find the "RPG SCHEDULER" task and double-click it.
+    4. In the left "Actions" panel click "Properties". This will open "Properties" pop-up.
+    5. In the pop-up select the "Run whether user is logged in or not" and press Enter.
+    You maybe asked for your Windows user's password to complete the process.
+        
+  To remove the scheduled task you can use
+  
+        schtasks /delete /tn "RPG SCHEDULER" /f
 
 <a name="license"></a>
 ### License
