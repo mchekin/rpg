@@ -66,6 +66,33 @@
 
 - Navigate to [http://localhost:8000/](http://localhost:8000/)
 
+- Enable Laravel Task Scheduling
+
+    1. Open the cron tab file
+    
+            crontab -e
+            
+    2. Add the following line and save
+            
+            * * * * * php <path-to-project>/artisan schedule:run >> /dev/null 2>&1
+  
+  On Windows:
+    
+        schtasks /create /sc minute /mo 1 /tn "RPG SCHEDULER" /tr %cd%\scheduler.bat
+        
+    To disable the annoying command-line pop-up each time the task runs:
+    
+    1. Open Windows "Run" dialog by pressing "Windows Key + r"
+    2. Enter type "Taskschd.msc" and press Enter. This will open the "Task Scheduler".
+    3. In Task Scheduler's "Active Tasks" section find the "RPG SCHEDULER" task and double-click it.
+    4. In the left "Actions" panel click "Properties". This will open "Properties" pop-up.
+    5. In the pop-up select the "Run whether user is logged in or not" and press Enter.
+    You maybe asked for your Windows user's password to complete the process.
+        
+  To remove the scheduled task you can use
+  
+        schtasks /delete /tn "RPG SCHEDULER" /f
+
 <a name="license"></a>
 ### License
 Open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
