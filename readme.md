@@ -66,6 +66,22 @@
 
 - Navigate to [http://localhost:8000/](http://localhost:8000/)
 
+- Enable Laravel Task Scheduling
+
+    1. Open the cron tab file
+    
+            crontab -e
+            
+    2. Add the following line and save
+            
+            * * * * * php /path/to/artisan schedule:run >> /dev/null 2>&1
+  
+  On Windows:
+    
+        schtasks /create /sc minute /mo 1 /tn "RPG SCHEDULER" /tr %cd%\scheduler.bat
+
+
+
 <a name="license"></a>
 ### License
 Open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
