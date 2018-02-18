@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Character;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -24,8 +25,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        $schedule->call(function () {
+            Character::query()
+                ->whereColumn('hit_points', '<', 'total_hit_points')
+                ->increment('hit_points');
+        })->everyMinute();
     }
 
     /**
