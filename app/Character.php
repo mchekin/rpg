@@ -75,7 +75,7 @@ class Character extends Model
     }
 
     /**
-     * Check if the character is an Non Player Character ( user_id field is null )
+     * Check if the character is a Player Character
      *
      * @return bool
      */
@@ -85,7 +85,7 @@ class Character extends Model
     }
 
     /**
-     * Check if the character is an Non Player Character ( user_id field is null )
+     * Check if the character is an Non Player Character
      *
      * @return bool
      */
