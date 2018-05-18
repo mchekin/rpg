@@ -86,7 +86,7 @@ class CharacterController extends Controller
             $character->save();
         }
 
-        return view('character.show', compact('character'));
+        return redirect()->route('character.show', compact('character'));
     }
 
     /**

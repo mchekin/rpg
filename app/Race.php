@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer charisma
  * @property integer starting_location_id
  * @property integer id
+ * @property string name
  */
 class Race extends Model
 {
@@ -24,4 +25,10 @@ class Race extends Model
     {
         return $this->hasMany(Character::class);
     }
+
+    public function getImageByGender($gender)
+    {
+        return $this->{"{$gender}_image"};
+    }
+    
 }
