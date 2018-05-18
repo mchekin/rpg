@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Auth;
  * @property integer strength
  * @property integer agility
  * @property integer location_id
+ * @property Race race
+ * @property string gender
  */
 class Character extends Model
 {
@@ -69,16 +71,66 @@ class Character extends Model
      */
     public function isYou()
     {
-        return (!$this->isNPC()) && $this->user->id == Auth::user()->id;
+        return $this->isPlayerCharacter() && $this->user->id == Auth::id();
     }
 
     /**
-     * Check if the character is an Non Player Character ( user_id field is null )
+     * Check if the character is a Player Character
+     *
+     * @return bool
+     */
+    public function isPlayerCharacter()
+    {
+        return !is_null($this->user);
+    }
+
+    /**
+     * Check if the character is an Non Player Character
      *
      * @return bool
      */
     public function isNPC()
     {
         return is_null($this->user);
+    }
+
+    /**
+     * @return string
+     */
+    public function getImage()
+    {
+        return $this->race->getImageByGender($this->gender);
+    }
+
+    /**
+     * @return string
+     */
+    public function getRaceName()
+    {
+        return $this->race->name;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getLevelNumber()
+    {
+        return $this->level->id;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getNextLevelXp()
+    {
+        return $this->level->next_level_xp_threshold;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLocationName()
+    {
+        return $this->location->name;
     }
 }
