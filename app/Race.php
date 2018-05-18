@@ -26,6 +26,11 @@ class Race extends Model
         return $this->hasMany(Character::class);
     }
 
+    /**
+     * @param $gender
+     *
+     * @return string
+     */
     public function getImageByGender($gender)
     {
         return $this->{"{$gender}_image"};
