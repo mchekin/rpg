@@ -81,9 +81,14 @@
                     </a>
 
                     @if(!$character->isYou())
-                        <a href="{{ route('character.attack', ['character' => $character]) }}" class="pull-right">
-                            <span class="fa fa-flash"></span> attack
-                        </a>
+                        <span class="pull-right">
+                            <a href="{{ route('character.message.store', ['character' => $character]) }}" class="badge label-success">
+                                <span class="fa fa-comment"></span>
+                            </a>
+                            <a href="{{ route('character.attack', ['character' => $character]) }}" class="badge label-danger">
+                                <span class="fa fa-flash"></span>
+                            </a>
+                        </span>
                     @endif
 
                 </li>

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "081892615a11fe97efa31f4efdb2202b",
+    "content-hash": "1e72f9e2c4dd65c89e5124e85dca6847",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -315,6 +315,46 @@
                 "trusted proxy"
             ],
             "time": "2017-06-15T17:19:42+00:00"
+        },
+        {
+            "name": "inani/messager",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/akiyamaSM/messager.git",
+                "reference": "b1c259da89923629c66d77001742cf837c70f7da"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/akiyamaSM/messager/zipball/b1c259da89923629c66d77001742cf837c70f7da",
+                "reference": "b1c259da89923629c66d77001742cf837c70f7da",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5"
+            },
+            "require-dev": {
+                "fzaninotto/faker": "~1.4",
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Inani\\Messager\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Inani El Houssain",
+                    "email": "inanielhoussain@gmail.com"
+                }
+            ],
+            "description": "A simple package to handle messages",
+            "time": "2017-03-06T10:26:04+00:00"
         },
         {
             "name": "jakub-onderka/php-console-color",
