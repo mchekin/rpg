@@ -5,28 +5,6 @@
     @parent
 @stop
 
-<?php
-
-use Inani\Messager\Message;
-
-/** @var \App\Character $currentUserCharacter */
-/** @var \App\Character $character */
-
-/** @var  $messages */
-$messages = Message::query()->where(function ($query) use ($currentUserCharacter, $character) {
-    $query->where([
-        'to_id' => $currentUserCharacter->user->id,
-        'from_id' => $character->user->id,
-    ]);
-})->orWhere(function ($query) use ($currentUserCharacter, $character) {
-    $query->where([
-        'to_id' => $character->user->id,
-        'from_id' => $currentUserCharacter->user->id,
-    ]);
-})->orderByDesc('created_at')->paginate(5);
-
-?>
-
 @section("body")
 
     <div class="col-md-10 col-md-offset-1 col-sm-12">
