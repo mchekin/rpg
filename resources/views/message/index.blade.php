@@ -6,12 +6,25 @@
 @stop
 
 <?php
-        /** @var \App\Character $currentUserCharacter */
-        /** @var \App\Character $character */
-        $othersMessages = $currentUserCharacter->user->received()->from($character->user)->get();
-        $myMessages = $character->user->received()->from($currentUserCharacter->user)->get();
 
-        $allConversationMessages = $myMessages->merge($othersMessages)->sortByDesc('created_at');
+use Inani\Messager\Message;
+
+/** @var \App\Character $currentUserCharacter */
+/** @var \App\Character $character */
+
+/** @var  $messages */
+$messages = Message::query()->where(function ($query) use ($currentUserCharacter, $character) {
+    $query->where([
+        'to_id' => $currentUserCharacter->user->id,
+        'from_id' => $character->user->id,
+    ]);
+})->orWhere(function ($query) use ($currentUserCharacter, $character) {
+    $query->where([
+        'to_id' => $character->user->id,
+        'from_id' => $currentUserCharacter->user->id,
+    ]);
+})->orderByDesc('created_at')->paginate(5);
+
 ?>
 
 @section("body")
@@ -32,7 +45,7 @@
         </div>
 
         <div class="row">
-            @foreach ($allConversationMessages as $message)
+            @foreach ($messages as $message)
                 @if((int)$message->from_id === (int)$currentUserCharacter->user->id)
                     <div class="message-list-container">
                         <img src="https://vignette.wikia.nocookie.net/forgottenrealms/images/f/fa/Jon_Irenicus.jpg" alt="Avatar">
@@ -49,6 +62,7 @@
             @endforeach
         </div>
 
+        {{ $messages->links() }}
     </div>
 
 @stop

@@ -82,9 +82,11 @@
 
                     @if(!$character->isYou())
                         <span class="pull-right">
-                            <a href="{{ route('character.message.store', ['character' => $character]) }}" class="badge label-success">
+                            @if(!$character->isNPC())
+                            <a href="{{ route('character.message.index', ['character' => $character]) }}" class="badge label-success">
                                 <span class="fa fa-comment"></span>
                             </a>
+                            @endif
                             <a href="{{ route('character.attack', ['character' => $character]) }}" class="badge label-danger">
                                 <span class="fa fa-flash"></span>
                             </a>
