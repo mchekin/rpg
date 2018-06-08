@@ -26,6 +26,9 @@ Route::get('/character/{character}/location/{location}/move', 'CharacterControll
 Route::get('/character/{character}/attack', 'CharacterController@getAttack')
     ->name('character.attack');
 
+Route::get('/message/inbox', 'MessageController@inbox')->name('message.inbox');
+Route::get('/message/sent', 'MessageController@sent')->name('message.sent');
+
 // Simple routes...
 Route::group(['middleware' => 'guest'], function () {
     Route::get('/', function () {

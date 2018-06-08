@@ -18,6 +18,22 @@ class MessageController extends Controller
     }
 
     /**
+     * @return Response
+     */
+    public function inbox()
+    {
+        return view('message.inbox');
+    }
+
+    /**
+     * @return Response
+     */
+    public function sent()
+    {
+        return view('message.sent');
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @param Character $character
@@ -26,11 +42,8 @@ class MessageController extends Controller
      */
     public function index(Character $character)
     {
-        /** @var User $currentUser */
-        $currentUser = Auth::user();
-        $currentUserCharacter = $currentUser->character;
 
-        return view('message.index', compact('character', 'currentUserCharacter'));
+        return view('message.index', compact('character'));
     }
 
     /**

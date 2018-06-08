@@ -2,23 +2,15 @@
 
 namespace App\Http\ViewComposers;
 
+use App\Character;
+use App\User;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Inani\Messager\Message;
 
 class MessagingComposer
 {
-
-    /**
-     * Create a new profile composer.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        // Dependencies automatically resolved by service container...
-    }
-
     /**
      * Bind data to the view.
      *
@@ -29,24 +21,27 @@ class MessagingComposer
     {
         $data = $view->getData();
 
-        /** @var \App\Character $currentUserCharacter */
-        /** @var \App\Character $character */
-        $currentUserCharacter = array_get($data, 'currentUserCharacter');
-        $character = array_get($data, 'character');
 
-        $messages = Message::query()->where(function (Builder $query) use ($currentUserCharacter, $character) {
+        /** @var User $currentUser */
+        /** @var Character $otherCharacter */
+        $currentUser = Auth::user();
+
+        $otherCharacter = array_get($data, 'character');
+        $otherUser = $otherCharacter->user;
+
+        $messages = Message::query()->where(function (Builder $query) use ($currentUser, $otherUser) {
             $query->where([
-                'to_id' => $currentUserCharacter->user->id,
-                'from_id' => $character->user->id,
+                'to_id' => $currentUser->id,
+                'from_id' => $otherUser->id,
             ]);
-        })->orWhere(function (Builder $query) use ($currentUserCharacter, $character) {
+        })->orWhere(function (Builder $query) use ($currentUser, $otherUser) {
             $query->where([
-                'to_id' => $character->user->id,
-                'from_id' => $currentUserCharacter->user->id,
+                'to_id' => $otherUser->id,
+                'from_id' => $currentUser->id,
             ]);
         })->orderByDesc('created_at')->paginate(5);
 
 
-        $view->with('messages', $messages);
+        $view->with(compact('messages', 'currentUser'));
     }
 }

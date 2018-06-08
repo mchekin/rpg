@@ -24,23 +24,15 @@
 
         <div class="row">
             @foreach ($messages as $message)
-                @if((int)$message->from_id === (int)$currentUserCharacter->user->id)
-                    <div class="message-list-container">
-                        <img src="https://vignette.wikia.nocookie.net/forgottenrealms/images/f/fa/Jon_Irenicus.jpg" alt="Avatar">
-                        <p>{!! $message->content !!}</p>
-                        <span class="message-list-time-right">{{ $message->created_at }}</span>
-                    </div>
+                @if((int)$message->from_id === (int)$currentUser->id)
+                    @include('message.partials.my-message', compact('message'))
                 @else
-                    <div class="message-list-container message-list-darker">
-                        <img src="https://vignette.wikia.nocookie.net/forgottenrealms/images/9/95/Sarevok_-_Throne_of_Bhaal.png" alt="Avatar" class="right">
-                        <p>{!! $message->content !!}</p>
-                        <span class="message-list-time-left">{{ $message->created_at }}</span>
-                    </div>
+                    @include('message.partials.others-message', compact('message'))
                 @endif
             @endforeach
+            {{ $messages->links() }}
         </div>
 
-        {{ $messages->links() }}
     </div>
 
 @stop
