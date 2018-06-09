@@ -13,9 +13,16 @@
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
                 @if (Auth::check())
-                    <li class="nav-item">
+                    <li class="nav-item button">
                         <a href="{{ URL::route('message.inbox') }}" class="nav-link">
-                            <span class="fa fa-envelope"> <Messages></Messages></span>
+                            <span class="fa fa-envelope">
+                                Messages
+                                @if(Auth::user()->received()->hasNewMessages())
+                                    <span class="label label-danger">
+                                        {{ Auth::user()->received()->unSeen()->count() }}
+                                    </span>
+                                @endif
+                            </span>
                         </a>
                     </li>
                 @endif
@@ -23,11 +30,6 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 @if (Auth::check())
-                    <li class="nav-item">
-                        <a href="{{ URL::route('message.inbox') }}" class="nav-link">
-                            <span class="fa fa-envelope"> Mail</span>
-                        </a>
-                    </li>
                     <li class="nav-item">
                         <a href="#" class="nav-link">
                             <form role="form" method="POST" action="{{ route('logout') }}">

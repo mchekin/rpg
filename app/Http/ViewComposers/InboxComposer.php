@@ -5,6 +5,7 @@ namespace App\Http\ViewComposers;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use Inani\Messager\Message;
 
 class InboxComposer
 {
@@ -20,6 +21,8 @@ class InboxComposer
         $currentUser = Auth::user();
 
         $receivedMessages = $currentUser->received()->orderByDesc('created_at')->paginate(5);
+
+        Message::query()->whereIn('id', $receivedMessages->pluck('id'))->readThem();
 
         $view->with('receivedMessages', $receivedMessages);
     }
