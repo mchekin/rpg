@@ -62,28 +62,6 @@
 
 /* Style images */
 .message-list-container img {
-    float: left;
     max-width: 60px;
     width: 100%;
-    margin-right: 20px;
-    border-radius: 50%;
-}
-
-/* Style the right image */
-.message-list-container img.right {
-    float: right;
-    margin-left: 20px;
-    margin-right:0;
-}
-
-/* Style time text */
-.message-list-time-right {
-    float: right;
-    color: #aaa;
-}
-
-/* Style time text */
-.message-list-time-left {
-    float: left;
-    color: #999;
 }
