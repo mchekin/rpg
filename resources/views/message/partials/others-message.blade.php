@@ -4,7 +4,7 @@
     </div>
     <div class="col-sm-2 text-center">
         <div class="clearfix">
-            <img src="https://vignette.wikia.nocookie.net/forgottenrealms/images/9/95/Sarevok_-_Throne_of_Bhaal.png" alt="Avatar" class="right">
+            <img src="{{ asset('svg/avatar.svg') }}" alt="Avatar">
         </div>
         <div>{{ $message->created_at }}</div>
     </div>
