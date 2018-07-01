@@ -3,11 +3,11 @@
 namespace App\Http\ViewComposers;
 
 use App\Character;
+use App\Message;
 use App\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
-use Inani\Messager\Message;
 
 class MessagingComposer
 {
@@ -20,7 +20,6 @@ class MessagingComposer
     public function compose(View $view)
     {
         $data = $view->getData();
-
 
         /** @var User $currentUser */
         /** @var Character $otherCharacter */
@@ -41,6 +40,7 @@ class MessagingComposer
             ]);
         })->orderByDesc('created_at')->paginate(5);
 
+        $otherUser->sentMessages()->whereIn('id', $messages->pluck('id'))->markAsRead();
 
         $view->with(compact('messages', 'currentUser'));
     }

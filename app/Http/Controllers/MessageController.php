@@ -7,7 +7,6 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Inani\Messager\Message;
 
 class MessageController extends Controller
 {
@@ -59,11 +58,7 @@ class MessageController extends Controller
         /** @var User $currentUser */
         $currentUser = Auth::user();
 
-        $content = $request->get('content');
-
-        $message = new Message(compact('content'));
-
-        $currentUser->writes($message)->to($character->user)->send();
+        $currentUser->sendMessageTo($character->user, $request->get('content'));
 
         return redirect()->route("character.message.index", compact('character'));
     }

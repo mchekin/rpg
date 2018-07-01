@@ -40,7 +40,7 @@
 
                     <div class="row">
                         @foreach ($sentMessages as $message)
-                            @include('message.partials.my-message', compact('message'))
+                            @include('message.partials.my-message-link', compact('message'))
                         @endforeach
                         {{ $sentMessages->links() }}
                     </div>

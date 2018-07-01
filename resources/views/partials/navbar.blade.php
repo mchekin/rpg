@@ -17,9 +17,9 @@
                         <a href="{{ URL::route('message.inbox') }}" class="nav-link">
                             <span class="fa fa-envelope">
                                 Messages
-                                @if(Auth::user()->received()->hasNewMessages())
+                                @if(Auth::user()->receivedMessages()->unread()->count() > 0)
                                     <span class="label label-danger">
-                                        {{ Auth::user()->received()->unSeen()->count() }}
+                                        {{ Auth::user()->receivedMessages()->unread()->count() }}
                                     </span>
                                 @endif
                             </span>

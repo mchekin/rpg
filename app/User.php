@@ -4,7 +4,6 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Inani\Messager\Helpers\MessageAccessible;
 
 /**
  * @property Character character
@@ -13,7 +12,6 @@ use Inani\Messager\Helpers\MessageAccessible;
 class User extends Authenticatable
 {
     use Notifiable;
-    use MessageAccessible;
 
     /**
      * The attributes that are mass assignable.
@@ -32,6 +30,42 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * Get all sent messages.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function sentMessages()
+    {
+        return $this->hasMany(Message::class, 'from_id');
+    }
+
+    /**
+     * Get all received messages.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function receivedMessages()
+    {
+        return $this->hasMany(Message::class, 'to_id');
+    }
+
+    /**
+     * @param User $companion
+     * @param string $content
+     *
+     * @return User
+     */
+    public function sendMessageTo(User $companion, string $content)
+    {
+        $this->sentMessages()->create([
+            'to_id' => $companion->id,
+            'content' => $content,
+        ]);
+
+        return $this;
+    }
 
     /**
      * Get the character for the user.

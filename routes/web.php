@@ -2,7 +2,7 @@
 
 use App\Character;
 use App\Location;
-use Inani\Messager\Message;
+use App\Message;
 
 /*
 |--------------------------------------------------------------------------

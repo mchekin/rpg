@@ -19,7 +19,7 @@ class SentComposer
         /** @var User $currentUser */
         $currentUser = Auth::user();
 
-        $sentMessages = $currentUser->sent()->orderByDesc('created_at')->paginate(5);
+        $sentMessages = $currentUser->sentMessages()->orderByDesc('created_at')->paginate(5);
 
         $view->with('sentMessages', $sentMessages);
     }

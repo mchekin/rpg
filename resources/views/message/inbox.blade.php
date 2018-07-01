@@ -35,7 +35,7 @@
 
                     <div class="row">
                         @foreach ($receivedMessages as $message)
-                            @include('message.partials.others-message', compact('message'))
+                            @include('message.partials.others-message-link', compact('message'))
                         @endforeach
                         {{ $receivedMessages->links() }}
                     </div>
