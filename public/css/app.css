@@ -16,6 +16,10 @@
 }
 
 /* Character attributes table */
+caption.caption-top {
+    caption-side: top!important;
+}
+
 .table-attributes {
     /*width: 70%;*/
     /*margin-left: 15%;*/
@@ -61,7 +65,7 @@
 }
 
 /* Style images */
-.message-list-container img {
+.message-list-container img.profile-picture {
     max-width: 60px;
     width: 100%;
 }

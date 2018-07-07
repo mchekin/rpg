@@ -9,32 +9,36 @@
     <div class="row">
 
         <!-- Left Side -->
-        <div class="col-lg-6">
+        <div class="col-md-6">
 
-            <h2>{{ $character->name }} ({{ $character->hit_points }} / {{ $character->total_hit_points }})</h2>
+            <h2 class="text-center">
+                {{ $character->name }} ({{ $character->hit_points }} / {{ $character->total_hit_points }})
+            </h2>
 
-            <img class="img-race" src="{{ asset('images/' . $character->getImage()) }}">
+            <img class="img-race mx-auto d-block" src="{{ asset('images/' . $character->getImage()) }}">
+
         </div>
 
 
         <!-- Right Side -->
-        <div class="col-lg-6">
-            <table class="table table-responsive">
-                <caption>General</caption>
+        <div class="col-md-6">
+
+            <table class="table">
+                <caption class="caption-top">General</caption>
                 <tr>
-                    <th>Race</th>
+                    <th scope="row">Race</th>
                     <td>{{ $character->getRaceName() }}</td>
                 </tr>
                 <tr>
-                    <th>Gender</th>
+                    <th scope="row">Gender</th>
                     <td>{{ $character->gender }}</td>
                 </tr>
                 <tr>
-                    <th>Level</th>
+                    <th scope="row">Level</th>
                     <td>{{ $character->getLevelNumber() }}</td>
                 </tr>
                 <tr>
-                    <th>XP</th>
+                    <th scope="row">XP</th>
                     <td>
                         <progress value="{{ $character->xp }}" max="{{ $character->getNextLevelXp() }}"></progress>
                     </td>
@@ -42,7 +46,7 @@
             </table>
 
             <?php
-            $hasFreePoints = ($character->isYou() && $character->available_attribute_points);
+                $hasFreePoints = ($character->isYou() && $character->available_attribute_points);
             ?>
 
             @if($hasFreePoints)
@@ -54,38 +58,38 @@
                     <input type="hidden" id="attribute_input" name="attribute" value="strength">
                     @endif
 
-                    <table class="table table-responsive table-attributes">
-                        <caption>Attributes</caption>
+                    <table class="table">
+                        <caption class="caption-top">Attributes</caption>
                         <tr>
-                            <th>Strength</th>
+                            <th scope="row">Strength</th>
                             <td>{{ $character->strength }}</td>
                             @component('components.increment_attribute_button', compact('hasFreePoints'))
                                 {{ 'strength' }}
                             @endcomponent
                         </tr>
                         <tr>
-                            <th>Agility</th>
+                            <th scope="row">Agility</th>
                             <td>{{ $character->agility }}</td>
                             @component('components.increment_attribute_button', compact('hasFreePoints'))
                                 {{ 'agility' }}
                             @endcomponent
                         </tr>
                         <tr>
-                            <th>Constitution</th>
+                            <th scope="row">Constitution</th>
                             <td>{{ $character->constitution }}</td>
                             @component('components.increment_attribute_button', compact('hasFreePoints'))
                                 {{ 'constitution' }}
                             @endcomponent
                         </tr>
                         <tr>
-                            <th>Intelligence</th>
+                            <th scope="row">Intelligence</th>
                             <td>{{ $character->intelligence }}</td>
                             @component('components.increment_attribute_button', compact('hasFreePoints'))
                                 {{ 'intelligence' }}
                             @endcomponent
                         </tr>
                         <tr>
-                            <th>Charisma</th>
+                            <th scope="row">Charisma</th>
                             <td>{{ $character->charisma }}</td>
                             @component('components.increment_attribute_button', compact('hasFreePoints'))
                                 {{ 'charisma' }}
@@ -95,7 +99,7 @@
                         @if($hasFreePoints)
                             <tfoot>
                             <tr>
-                                <th>Available points</th>
+                                <th scope="row">Available points</th>
                                 <td class="circle">{{ $character->available_attribute_points }}</td>
                             </tr>
                             </tfoot>
@@ -107,22 +111,22 @@
                 </form>
             @endif
 
-            <table class="table table-responsive">
-                <caption>Statistics</caption>
+            <table class="table">
+                <caption class="caption-top">Statistics</caption>
                 <tr>
-                    <th>Reputation</th>
+                    <th scope="row">Reputation</th>
                     <td>{{ $character->reputation }}</td>
                 </tr>
                 <tr>
-                    <th>Money</th>
+                    <th scope="row">Money</th>
                     <td>{{ $character->money }}</td>
                 </tr>
                 <tr>
-                    <th>Battles Won</th>
+                    <th scope="row">Battles Won</th>
                     <td>{{ $character->battles_won }}</td>
                 </tr>
                 <tr>
-                    <th>Battles Lost</th>
+                    <th scope="row">Battles Lost</th>
                     <td>{{ $character->battles_lost }}</td>
                 </tr>
             </table>
@@ -131,6 +135,7 @@
                 Back to {{ $character->getLocationName() }}
                 <span class="fa fa-history"></span>
             </a>
+
         </div>
     </div>
 

@@ -9,10 +9,14 @@
 
     <div class="row">
         <div class="col-lg-6">
-            <h2>{{ $location->name }}</h2>
-            <hr>
-            <p>{{ $location->description }}</p>
-            <img class="img-fluid col-lg-8 offset-md-2" src="{{ asset('images/'.$location->image) }}">
+            <div class="row justify-content-center">
+                <h2>{{ $location->name }}</h2>
+                <hr>
+                <p>{{ $location->description }}</p>
+                <div class="col-md-8">
+                    <img class="img-fluid" src="{{ asset('images/'.$location->image) }}">
+                </div>
+            </div>
 
             <div class="row">
                 <ul class="list-unstyled">
