@@ -1,11 +1,8 @@
 <div class="message-list-container row">
-    <div class="col-md-2 text-center">
-        <div class="clearfix">
-            <img class="profile-picture" src="{{ asset('svg/avatar.svg') }}" alt="Avatar">
-        </div>
-        <div>{{ $message->created_at }}</div>
+    <div class="col-sm-2 text-center">
+        @include('message.partials.sender-card', compact('message'))
     </div>
-    <div class="col-md-10">
+    <div class="col-sm-10">
         <p>{!! $message->content !!}</p>
     </div>
 </div>

@@ -1,15 +1,12 @@
 <div class="message-list-container row">
     <div class="col-md-2 text-center">
-        <div class="clearfix">
-            <img class="profile-picture" src="{{ asset('svg/avatar.svg') }}" alt="Avatar">
-        </div>
-        <div>{{ $message->created_at }}</div>
+        @include('message.partials.sender-card', compact('message'))
     </div>
-    <a href="{{ route('character.message.index', ['character' => $message->recipient->character]) }}">
-        <div class="col-md-10">
+    <div class="col-md-10">
+        <a href="{{ route('character.message.index', ['character' => $message->recipient->character]) }}">
             <p>
                 {!! $message->content !!}
             </p>
-        </div>
-    </a>
+        </a>
+    </div>
 </div>
