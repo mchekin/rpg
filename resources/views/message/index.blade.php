@@ -7,22 +7,23 @@
 
 @section("body")
 
-    <div class="col-md-10 col-md-offset-1 col-sm-12">
+    <div class="col-lg-10 offset-md-1 col-md-12">
 
-        <div class="row">
+        <div class="column">
             <form role="form" method="POST" action="{{ URL::route('character.message.store', compact('character')) }}">
                 {!! csrf_field() !!}
-                <div class="form-group">
+                <div class="form-group row">
                     <label for="content" class="sr-only">Message</label>
-                    <textarea class="form-control" placeholder="Write something to {{$character->name}} ..." required="" autofocus="" name="content" rows="3"></textarea>
+                    <textarea class="form-control" placeholder="Write something to {{$character->name}} ..."
+                              required autofocus name="content" rows="3"></textarea>
                 </div>
-                <div>
+                <div class="row">
                     <button type="submit" class="btn btn-success btn-block">Send</button>
                 </div>
             </form>
         </div>
 
-        <div class="row">
+        <div class="column">
             @foreach ($messages as $message)
                 @if((int)$message->from_id === (int)$currentUser->id)
                     @include('message.partials.my-message', compact('message'))

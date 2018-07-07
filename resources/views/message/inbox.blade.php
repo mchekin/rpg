@@ -7,21 +7,17 @@
 
 @section("body")
 
-    <div class="col-md-10 col-md-offset-1 col-sm-12">
-
+    <div class="col-lg-10 offset-md-1 col-md-12">
         <div>
-
             <!-- Nav tabs -->
             <ul class="nav nav-tabs" role="tablist">
-
-                <li role="presentation" class="active">
-                    <a href="#inbox" aria-controls="inbox" role="tab">
+                <li role="presentation" class="active nav-item">
+                    <a href="#inbox" aria-controls="inbox" role="tab" class="nav-link">
                         Inbox
                     </a>
                 </li>
-
-                <li role="presentation">
-                    <a href="{{ URL::route('message.sent') }}" aria-controls="sent" role="tab">
+                <li role="presentation" class="nav-item">
+                    <a href="{{ URL::route('message.sent') }}" aria-controls="sent" role="tab" class="nav-link">
                         Sent
                     </a>
                 </li>
@@ -30,26 +26,17 @@
 
             <!-- Tab panes -->
             <div class="tab-content">
-
-                <div role="tabpanel" class="tab-pane active" id="inbox">
-
-                    <div class="row">
-                        @foreach ($receivedMessages as $message)
-                            @include('message.partials.others-message-link', compact('message'))
-                        @endforeach
-                        {{ $receivedMessages->links() }}
-                    </div>
-
+                <div role="tabpanel" class="tab-pane active column" id="inbox">
+                    @foreach ($receivedMessages as $message)
+                        @include('message.partials.others-message-link', compact('message'))
+                    @endforeach
+                    {{ $receivedMessages->links() }}
                 </div>
-
                 <div role="tabpanel" class="tab-pane" id="sent">
-
                 </div>
-
             </div>
 
         </div>
-
     </div>
 
 @stop

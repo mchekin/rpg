@@ -8,13 +8,13 @@
     // Enable Carousel Controls
     function changeRace() {
         var raceIdRegex = /^(?:\w+)-(?:\w+)-([0-9]+)$/;
-        var raceIdString = $('.item.active', carouselRaceControl).attr('id');
+        var raceIdString = $('.carousel-item.active', carouselRaceControl).attr('id');
         var matches = raceIdRegex.exec(raceIdString);
         $('#race_id').val(matches[1]);
     }
 
     function changeGender() {
-        var gender = $('.item.active', carouselGenderControl).attr('id');
+        var gender = $('.carousel-item.active', carouselGenderControl).attr('id');
         $('.img-race',carouselRace).hide();
         $('.img-'+gender, carouselRace).show();
         $('#gender').val(gender);

@@ -7,7 +7,7 @@
 
 @section("body")
 
-    <div class="col-md-6">
+    <div class="col-lg-6">
         <h2>Participants</h2>
         <hr>
 
@@ -30,7 +30,7 @@
         </a>
     </div>
 
-    <div class="col-md-6">
+    <div class="col-lg-6">
         <h2>Battle log:</h2>
         <hr>
         <ul class="list-group">

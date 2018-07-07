@@ -9,7 +9,7 @@
     <div class="row">
 
         <!-- Left Side -->
-        <div class="col-md-4 col-md-offset-1 col-sm-6 hidden-xs">
+        <div class="col-lg-6">
 
             <h2>{{ $character->name }} ({{ $character->hit_points }} / {{ $character->total_hit_points }})</h2>
 
@@ -18,8 +18,7 @@
 
 
         <!-- Right Side -->
-        <div class="col-md-4 col-md-offset-1 col-sm-6">
-
+        <div class="col-lg-6">
             <table class="table table-responsive">
                 <caption>General</caption>
                 <tr>
