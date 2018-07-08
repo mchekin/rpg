@@ -69,3 +69,22 @@ caption.caption-top {
     max-width: 60px;
     width: 100%;
 }
+
+/** General */
+.badge-lightpink  {
+    color: #fff;
+    background-color: lightpink;
+}
+
+.badge-lightskyblue  {
+    color: #fff;
+    background-color: lightskyblue;
+}
+
+/** Location Navigator */
+
+.location-navigator .row {
+    /*border: 1px solid red;*/
+    height: 50px;
+}
+

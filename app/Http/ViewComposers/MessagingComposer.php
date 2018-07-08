@@ -4,7 +4,6 @@ namespace App\Http\ViewComposers;
 
 use App\Character;
 use App\Message;
-use App\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
@@ -21,27 +20,25 @@ class MessagingComposer
     {
         $data = $view->getData();
 
-        /** @var User $currentUser */
+        /** @var Character $currentCharacter */
         /** @var Character $otherCharacter */
-        $currentUser = Auth::user();
-
+        $currentCharacter = Auth::user()->character;
         $otherCharacter = array_get($data, 'character');
-        $otherUser = $otherCharacter->user;
 
-        $messages = Message::query()->where(function (Builder $query) use ($currentUser, $otherUser) {
+        $messages = Message::query()->where(function (Builder $query) use ($currentCharacter, $otherCharacter) {
             $query->where([
-                'to_id' => $currentUser->id,
-                'from_id' => $otherUser->id,
+                'to_id' => $currentCharacter->id,
+                'from_id' => $otherCharacter->id,
             ]);
-        })->orWhere(function (Builder $query) use ($currentUser, $otherUser) {
+        })->orWhere(function (Builder $query) use ($currentCharacter, $otherCharacter) {
             $query->where([
-                'to_id' => $otherUser->id,
-                'from_id' => $currentUser->id,
+                'to_id' => $otherCharacter->id,
+                'from_id' => $currentCharacter->id,
             ]);
         })->orderByDesc('created_at')->paginate(5);
 
-        $otherUser->sentMessages()->whereIn('id', $messages->pluck('id'))->markAsRead();
+        $otherCharacter->sentMessages()->whereIn('id', $messages->pluck('id'))->markAsRead();
 
-        $view->with(compact('messages', 'currentUser'));
+        $view->with(compact('messages', 'currentCharacter'));
     }
 }

@@ -1,5 +1,5 @@
 <div>
-    {{ $message->sender->character->name }}
+    {{ $message->sender->name }}
 </div>
 <div>
     <img class="profile-picture" src="{{ asset('svg/avatar.svg') }}" alt="Avatar">

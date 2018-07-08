@@ -25,7 +25,7 @@
 
         <div class="column">
             @foreach ($messages as $message)
-                @if((int)$message->from_id === (int)$currentUser->id)
+                @if((int)$message->from_id === (int)$currentCharacter->id)
                     @include('message.partials.my-message', compact('message'))
                 @else
                     @include('message.partials.others-message', compact('message'))

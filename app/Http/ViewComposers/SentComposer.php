@@ -2,7 +2,7 @@
 
 namespace App\Http\ViewComposers;
 
-use App\User;
+use App\Character;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
@@ -16,10 +16,10 @@ class SentComposer
      */
     public function compose(View $view)
     {
-        /** @var User $currentUser */
-        $currentUser = Auth::user();
+        /** @var Character $currentCharacter */
+        $currentCharacter = Auth::user()->character;
 
-        $sentMessages = $currentUser->sentMessages()->orderByDesc('created_at')->paginate(5);
+        $sentMessages = $currentCharacter->sentMessages()->orderByDesc('created_at')->paginate(5);
 
         $view->with('sentMessages', $sentMessages);
     }

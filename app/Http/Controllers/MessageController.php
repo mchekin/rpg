@@ -55,10 +55,10 @@ class MessageController extends Controller
      */
     public function store(Character $character, Request $request)
     {
-        /** @var User $currentUser */
-        $currentUser = Auth::user();
+        /** @var Character $currentCharacter */
+        $currentCharacter = Auth::user()->character;
 
-        $currentUser->sendMessageTo($character->user, $request->get('content'));
+        $currentCharacter->sendMessageTo($character, $request->get('content'));
 
         return redirect()->route("character.message.index", compact('character'));
     }

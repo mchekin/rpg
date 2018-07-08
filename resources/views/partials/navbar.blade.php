@@ -9,14 +9,14 @@
             @if (Auth::check())
                 <li class="nav-item button">
                     <a href="{{ URL::route('message.inbox') }}" class="nav-link">
-                            <span class="fa fa-envelope">
-                                Messages
-                                @if(Auth::user()->receivedMessages()->unread()->count() > 0)
-                                    <span class="badge badge-danger">
-                                         {{ Auth::user()->receivedMessages()->unread()->count() }}
-                                    </span>
-                                @endif
-                            </span>
+                        <span class="fa fa-envelope">
+                            Messages
+                            @if(Auth::user()->hasCharacter() && Auth::user()->character->receivedMessages()->unread()->count() > 0)
+                                <span class="badge badge-danger">
+                                     {{ Auth::user()->character->receivedMessages()->unread()->count() }}
+                                </span>
+                            @endif
+                        </span>
                     </a>
                 </li>
             @endif

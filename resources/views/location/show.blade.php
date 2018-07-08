@@ -9,52 +9,19 @@
 
     <div class="row">
         <div class="col-lg-6">
+            <h2>{{ $location->name }}</h2>
+            <hr>
+            <p>{{ $location->description }}</p>
             <div class="row justify-content-center">
-                <h2>{{ $location->name }}</h2>
-                <hr>
-                <p>{{ $location->description }}</p>
                 <div class="col-md-8">
                     <img class="img-fluid" src="{{ asset('images/'.$location->image) }}">
                 </div>
             </div>
 
-            <div class="row">
-                <ul class="list-unstyled">
-                    @if(!is_null($adjacent = $location->adjacent('north')))
-                        <li>
-                            <a href="{{ route('character.move', ['character' => Auth::user()->character, 'location' => $adjacent]) }}">
-                                {{ $adjacent->name }}
-                                <span class="glyphicon glyphicon-arrow-up"></span>
-                            </a>
-                        </li>
-                    @endif
-                    @if(!is_null($adjacent = $location->adjacent('east')))
-                        <li>
-                            <a href="{{ route('character.move', ['character' => Auth::user()->character, 'location' => $adjacent]) }}">
-                                {{ $adjacent->name }}
-                                <span class="glyphicon glyphicon-arrow-right"></span>
-                            </a>
-                        </li>
-                    @endif
-                    @if(!is_null($adjacent = $location->adjacent('south')))
-                        <li>
-                            <a href="{{ route('character.move', ['character' => Auth::user()->character, 'location' => $adjacent]) }}">
-                                {{ $adjacent->name }}
-                                <span class="glyphicon glyphicon-arrow-down"></span>
-                            </a>
-                        </li>
-                    @endif
-                    @if(!is_null($adjacent = $location->adjacent('west')))
-                        <li>
-                            <a href="{{ route('character.move', ['character' => Auth::user()->character, 'location' => $adjacent]) }}">
-                                {{ $adjacent->name }}
-                                <span class="glyphicon glyphicon-arrow-left"></span>
-                            </a>
-                        </li>
-                    @endif
-                </ul>
-            </div>
+            @include('location.partials.navigator', compact('location'))
+
         </div>
+
         <div class="col-lg-6">
             <h2>Characters at this location:</h2>
             <hr>
@@ -73,9 +40,13 @@
                     ?>
                     <li href="#" class="list-group-item {{ $class }}">
                         @if($character->gender == 'male')
-                            <span class="fa fa-mars"></span>
+                            <span class="badge badge-pill badge-lightskyblue">
+                                <span class="fa fa-mars"></span>
+                            </span>
                         @else
-                            <span class="fa fa-venus"></span>
+                            <span class="badge badge-pill badge-lightpink">
+                                <span class="fa fa-venus"></span>
+                            </span>
                         @endif
 
                         <a href="{{ route('character.show', ['character' => $character]) }}">
@@ -85,18 +56,20 @@
                         </a>
 
                         @if(!$character->isYou())
-                            <span class="pull-right">
-                            @if(!$character->isNPC())
+                            <span class="float-right">
+
+                                @if(!$character->isNPC())
                                     <a href="{{ route('character.message.index', ['character' => $character]) }}"
-                                       class="badge label-success">
-                                <span class="fa fa-comment"></span>
-                            </a>
+                                       class="badge badge-success">
+                                        message <span class="fa fa-comment"></span>
+                                    </a>
                                 @endif
+
                                 <a href="{{ route('character.attack', ['character' => $character]) }}"
-                                   class="badge label-danger">
-                                <span class="fa fa-flash"></span>
-                            </a>
-                        </span>
+                                   class="badge badge-danger">
+                                    attack <span class="fas fa-bolt"></span>
+                                </a>
+                            </span>
                         @endif
 
                     </li>

@@ -1,6 +1,6 @@
 <div class="message-list-container message-list-darker row">
     <div class="col-md-10">
-        <a href="{{ route('character.message.index', ['character' => $message->sender->character]) }}">
+        <a href="{{ route('character.message.index', ['character' => $message->sender]) }}">
             <p>{!! $message->content !!}</p>
         </a>
     </div>

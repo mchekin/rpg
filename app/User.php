@@ -32,42 +32,6 @@ class User extends Authenticatable
     ];
 
     /**
-     * Get all sent messages.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function sentMessages()
-    {
-        return $this->hasMany(Message::class, 'from_id');
-    }
-
-    /**
-     * Get all received messages.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function receivedMessages()
-    {
-        return $this->hasMany(Message::class, 'to_id');
-    }
-
-    /**
-     * @param User $companion
-     * @param string $content
-     *
-     * @return User
-     */
-    public function sendMessageTo(User $companion, string $content)
-    {
-        $this->sentMessages()->create([
-            'to_id' => $companion->id,
-            'content' => $content,
-        ]);
-
-        return $this;
-    }
-
-    /**
      * Get the character for the user.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne

@@ -2,8 +2,8 @@
 
 namespace App\Http\ViewComposers;
 
+use App\Character;
 use App\Message;
-use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
@@ -17,10 +17,10 @@ class InboxComposer
      */
     public function compose(View $view)
     {
-        /** @var User $currentUser */
-        $currentUser = Auth::user();
+        /** @var Character $currentCharacter */
+        $currentCharacter = Auth::user()->character;
 
-        $receivedMessages = $currentUser->receivedMessages()->orderByDesc('created_at')->paginate(5);
+        $receivedMessages = $currentCharacter->receivedMessages()->orderByDesc('created_at')->paginate(5);
 
         Message::query()->whereIn('id', $receivedMessages->pluck('id'))->markAsRead();
 

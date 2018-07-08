@@ -23,7 +23,7 @@ class Message extends Model
      */
     public function sender()
     {
-        return $this->belongsTo(User::class, 'from_id');
+        return $this->belongsTo(Character::class, 'from_id');
     }
 
     /**
@@ -31,7 +31,7 @@ class Message extends Model
      */
     public function recipient()
     {
-        return $this->belongsTo(User::class, 'to_id');
+        return $this->belongsTo(Character::class, 'to_id');
     }
 
     /**

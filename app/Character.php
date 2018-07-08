@@ -24,7 +24,43 @@ use Illuminate\Support\Facades\Auth;
 class Character extends Model
 {
 
-    protected $guarded = ['user_id'];
+    protected $guarded = ['user_id'];/**
+ * Get all sent messages.
+ *
+ * @return \Illuminate\Database\Eloquent\Relations\HasMany
+ */
+    public function sentMessages()
+    {
+        return $this->hasMany(Message::class, 'from_id');
+    }
+
+    /**
+     * Get all received messages.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function receivedMessages()
+    {
+        return $this->hasMany(Message::class, 'to_id');
+    }
+
+    /**
+     * @param Character $companion
+     * @param string $content
+     *
+     * @return $this
+     */
+    public function sendMessageTo(Character $companion, string $content)
+    {
+        $this->sentMessages()->create([
+            'to_id' => $companion->id,
+            'content' => $content,
+        ]);
+
+        return $this;
+    }
+
+
 
     /**
      * Get the user of the character

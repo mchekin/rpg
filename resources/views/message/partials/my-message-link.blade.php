@@ -3,7 +3,7 @@
         @include('message.partials.sender-card', compact('message'))
     </div>
     <div class="col-md-10">
-        <a href="{{ route('character.message.index', ['character' => $message->recipient->character]) }}">
+        <a href="{{ route('character.message.index', ['character' => $message->recipient]) }}">
             <p>
                 {!! $message->content !!}
             </p>
