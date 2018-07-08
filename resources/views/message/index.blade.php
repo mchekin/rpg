@@ -7,7 +7,7 @@
 
 @section("body")
 
-    <div class="col-lg-10 offset-md-1 col-md-12">
+    <div class="col-lg-10 offset-md-1 col-md-12 mt-3">
 
         <div class="column">
             <form role="form" method="POST" action="{{ URL::route('character.message.store', compact('character')) }}">
