@@ -12,10 +12,32 @@
         <div class="col-md-6">
 
             <h2 class="text-center">
-                {{ $character->name }} ({{ $character->hit_points }} / {{ $character->total_hit_points }})
+                {{ $character->name }}
             </h2>
 
-            <img class="img-race mx-auto d-block" src="{{ asset('images/' . $character->getImage()) }}">
+            <?php
+                $hpPercent = ($character->hit_points / $character->total_hit_points) * 100
+            ?>
+
+            <div class="progress mx-5 my-3">
+                <div class="progress-bar bg-danger"
+                     role="progressbar"
+                     style="width: {{ $hpPercent }}%"
+                     aria-valuenow="{{ $hpPercent }}"
+                     aria-valuemin="0"
+                     aria-valuemax="100">
+                    {{ $character->hit_points }} / {{ $character->total_hit_points }}
+                </div>
+            </div>
+
+            <img class="w-50 mx-auto d-block" src="{{ asset('images/' . $character->getImage()) }}">
+
+            <div class="text-center my-5">
+                <a class="btn btn-primary" href="{{ route('location.show', ['location' => $character->location]) }}">
+                    Back to {{ $character->getLocationName() }}
+                    <span class="fa fa-history"></span>
+                </a>
+            </div>
 
         </div>
 
@@ -130,11 +152,6 @@
                     <td>{{ $character->battles_lost }}</td>
                 </tr>
             </table>
-
-            <a href="{{ route('location.show', ['location' => $character->location]) }}">
-                Back to {{ $character->getLocationName() }}
-                <span class="fa fa-history"></span>
-            </a>
 
         </div>
     </div>

@@ -6,20 +6,16 @@
 @stop
 
 @section("body")
-    <div class="col-lg-10 offset-md-1 col-md-12">
+
+    <div class="col-lg-10 offset-md-1 col-md-12 mt-3">
         <div>
             <!-- Nav tabs -->
-            <ul class="nav nav-tabs" role="tablist">
+            <ul class="nav nav-pills nav-fill" role="tablist">
                 <li role="presentation" class="nav-item">
-                    <a href="{{ URL::route('message.inbox') }}" aria-controls="inbox" role="tab"
-                       class="nav-link">
-                        Inbox
-                    </a>
+                    <a class="nav-link" href="{{ URL::route('message.inbox') }}" aria-controls="inbox" role="tab">Inbox</a>
                 </li>
-                <li role="presentation" class="active nav-item">
-                    <a href="#sent" aria-controls="sent" role="tab" class="nav-link">
-                        Sent
-                    </a>
+                <li role="presentation" class="nav-item">
+                    <a class="nav-link active" href="#sent" aria-controls="sent" role="tab">Sent</a>
                 </li>
             </ul>
 

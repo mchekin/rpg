@@ -9,7 +9,7 @@
 
 @section("body")
     <div class="row justify-content-center">
-        <div class="col-lg-8">
+        <div class="col-lg-6">
 
             <img class="img-fluid mt-2" src="{{ asset('images/village.png') }}">
 
