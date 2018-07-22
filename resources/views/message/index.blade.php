@@ -14,8 +14,10 @@
                 {!! csrf_field() !!}
                 <div class="form-group row">
                     <label for="content" class="sr-only">Message</label>
-                    <textarea class="form-control" placeholder="Write something to {{$character->name}} ..."
-                              required autofocus name="content" rows="3"></textarea>
+                    <textarea maxlength="{{ $contentLimit }}"
+                              class="form-control countdown" placeholder="Write something to {{$character->name}} ..."
+                              required autofocus name="content"
+                              rows="5"></textarea>
                 </div>
                 <div class="row">
                     <button type="submit" class="btn btn-success btn-block">Send</button>
@@ -41,5 +43,11 @@
 @section("footer")
     @parent
 
-    {{--<script src="{{ asset('js/message-update.js') }}"></script>--}}
+    <script src="{{ asset('js/vcountdown.min.js') }}"></script>
+    <script>
+        VCountdown({
+            target: '.countdown',
+            maxChars: {{ $contentLimit }}
+        });
+    </script>
 @stop

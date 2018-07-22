@@ -9,6 +9,8 @@ class Message extends Model
     const UNREAD = 1;
     const READ = 2;
 
+    const CONTENT_LIMIT = 500;
+
     protected $fillable = [
         'from_id',
         'to_id',
@@ -54,5 +56,20 @@ class Message extends Model
     public function scopeMarkAsRead($query)
     {
         return $query->update(['state' => Message::READ]);
+    }
+
+    /**
+     * Set the user's first name.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function setContentAttribute($value)
+    {
+        $value = str_replace("\r\n", "\n", $value);
+
+        $limitedString = str_limit($value, self::CONTENT_LIMIT, '');
+
+        $this->attributes['content'] = nl2br(e($limitedString));
     }
 }

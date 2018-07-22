@@ -3,6 +3,6 @@
         @include('message.partials.sender-card', compact('message'))
     </div>
     <div class="col-sm-10">
-        <p>{!! $message->content !!}</p>
+        <p class="text-wrap">{!! $message->content !!}</p>
     </div>
 </div>

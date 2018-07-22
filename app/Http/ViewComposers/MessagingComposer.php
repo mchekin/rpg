@@ -39,6 +39,8 @@ class MessagingComposer
 
         $otherCharacter->sentMessages()->whereIn('id', $messages->pluck('id'))->markAsRead();
 
-        $view->with(compact('messages', 'currentCharacter'));
+        $contentLimit = Message::CONTENT_LIMIT;
+
+        $view->with(compact('messages', 'currentCharacter', 'contentLimit'));
     }
 }

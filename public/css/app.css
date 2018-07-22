@@ -64,10 +64,32 @@ caption.caption-top {
     display: table;
 }
 
-/* Style images */
+/* Message links */
+.message-list-container a {
+    color: black !important;
+}
+.message-list-container a:active {
+    color: red !important;
+}
+
+/* Message avatar */
 .message-list-container img.profile-picture {
     max-width: 60px;
     width: 100%;
+}
+
+/* Message Textarea Counter */
+.chars-length {
+    background-color: whitesmoke;
+    float: left;
+    margin: 20px 0 0;
+    padding: 10px 30px;
+    text-align: center;
+    width: 90px
+}
+.warn {
+    background-color: firebrick;
+    color: #fff;
 }
 
 /** General */
@@ -79,6 +101,10 @@ caption.caption-top {
 .badge-lightskyblue  {
     color: #fff;
     background-color: lightskyblue;
+}
+
+.text-wrap {
+    word-wrap:break-word;
 }
 
 /** Location Navigator */
