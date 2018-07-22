@@ -47,7 +47,7 @@
     <script>
         VCountdown({
             target: '.countdown',
-            maxChars: {{ $contentLimit }}
+            maxChars: '{{ $contentLimit }}'
         });
     </script>
 @stop

@@ -81,11 +81,10 @@ caption.caption-top {
 /* Message Textarea Counter */
 .chars-length {
     background-color: whitesmoke;
-    float: left;
+    font-size: 12px;
     margin: 20px 0 0;
     padding: 10px 30px;
     text-align: center;
-    width: 90px
 }
 .warn {
     background-color: firebrick;
