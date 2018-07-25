@@ -17,7 +17,7 @@
                     <textarea maxlength="{{ $contentLimit }}"
                               class="form-control countdown" placeholder="Write something to {{$character->name}} ..."
                               required autofocus name="content"
-                              rows="5"></textarea>
+                              rows="7"></textarea>
                 </div>
                 <div class="row">
                     <button type="submit" class="btn btn-success btn-block">Send</button>
