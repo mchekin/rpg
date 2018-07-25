@@ -16,6 +16,10 @@
 }
 
 /* Character attributes table */
+caption.caption-top {
+    caption-side: top!important;
+}
+
 .table-attributes {
     /*width: 70%;*/
     /*margin-left: 15%;*/
@@ -37,3 +41,78 @@
 .active a{
     color: white !important;
 }
+
+/* Messages */
+.message-list-container {
+    border: 2px solid #dedede;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+/* Darker chat container */
+.message-list-darker {
+    border-color: #ccc;
+    background-color: #ddd;
+}
+
+/* Clear floats */
+.message-list-container::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+/* Message links */
+.message-list-container a {
+    color: black !important;
+}
+.message-list-container a:active {
+    color: red !important;
+}
+
+/* Message avatar */
+.message-list-container img.profile-picture {
+    max-width: 60px;
+    width: 100%;
+}
+
+/* Message Textarea Counter */
+.chars-length {
+    /*background-color: whitesmoke;*/
+    font-size: 12px;
+    /*margin: 20px 0 0;*/
+    padding: 5px 20px;
+    text-align: center;
+    position:absolute;
+    bottom: 55px;
+    right: 0px;
+}
+.warn {
+    background-color: firebrick;
+    color: #fff;
+}
+
+/** General */
+.badge-lightpink  {
+    color: #fff;
+    background-color: lightpink;
+}
+
+.badge-lightskyblue  {
+    color: #fff;
+    background-color: lightskyblue;
+}
+
+.text-wrap {
+    word-wrap:break-word;
+}
+
+/** Location Navigator */
+
+.location-navigator .row {
+    /*border: 1px solid red;*/
+    height: 50px;
+}
+

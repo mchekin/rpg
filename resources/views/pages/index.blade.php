@@ -8,14 +8,18 @@
 @stop
 
 @section("body")
-    <div class="content col-md-8 col-md-offset-2">
-        <img class="img-responsive col-md-8 col-md-offset-2" src="{{ asset('images/village.png') }}">
-        <div class="row">
-            <div class="title col-md-8 col-md-offset-2">{{ env('APP_NAME') }}</div>
-        </div>
-        <div class="btn-group btn-group-justified">
-            <a href="{{ URL::to('register') }}"  class="btn btn-success">Register</a>
-            <a href="{{ URL::to('login') }}"  class="btn btn-primary">Login</a>
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+
+            <img class="img-fluid mt-2" src="{{ asset('images/village.png') }}">
+
+            <p class="text-center title">{{ env('APP_NAME') }}</p>
+
+            <div class="btn-group d-flex" role="group">
+                <a href="{{ URL::to('register') }}" class="btn btn-success w-100">Register</a>
+                <a href="{{ URL::to('login') }}" class="btn btn-primary w-100">Login</a>
+            </div>
+
         </div>
     </div>
 @stop

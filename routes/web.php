@@ -2,6 +2,7 @@
 
 use App\Character;
 use App\Location;
+use App\Message;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,12 +18,16 @@ use App\Location;
 // Route models...
 Route::model("character", Character::class);
 Route::model("location", Location::class);
+Route::model("message", Message::class);
 
 Route::get('/character/{character}/location/{location}/move', 'CharacterController@getMove')
     ->name('character.move');
 
 Route::get('/character/{character}/attack', 'CharacterController@getAttack')
     ->name('character.attack');
+
+Route::get('/message/inbox', 'MessageController@inbox')->name('message.inbox');
+Route::get('/message/sent', 'MessageController@sent')->name('message.sent');
 
 // Simple routes...
 Route::group(['middleware' => 'guest'], function () {
@@ -44,3 +49,4 @@ Auth::routes();
 Route::resource("character", "CharacterController");
 Route::resource("location", "LocationController");
 Route::resource("battle", "BattleController");
+Route::resource("character.message", "MessageController")->only(['index', 'store']);

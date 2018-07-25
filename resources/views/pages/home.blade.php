@@ -8,7 +8,7 @@
 @stop
 
 @section("body")
-    <div class="col-md-6">
+    <div class="col-lg-6">
         <h2>{{ $character->name }} ({{ $character->race->name }} {{ $character->gender }}) </h2>
         <hr>
         <dl class="dl-horizontal">
