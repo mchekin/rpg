@@ -23,9 +23,11 @@
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane" id="inbox"></div>
                 <div role="tabpanel" class="tab-pane active column" id="sent">
-                    @foreach ($sentMessages as $message)
+                    @forelse ($sentMessages as $message)
                         @include('message.partials.my-message-link', compact('message'))
-                    @endforeach
+                    @empty
+                        @include('message.partials.no-messages')
+                    @endforelse
                     {{ $sentMessages->links() }}
                 </div>
             </div>
