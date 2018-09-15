@@ -28,6 +28,8 @@ class CreateBattlesTable extends Migration
             $table->unsignedInteger('victor_id')->nullable();
             $table->foreign('victor_id')->references('id')->on('characters')->onDelete('restrict');
 
+            $table->unsignedInteger('victor_xp_gained')->default(0);
+
             $table->timestamps();
         });
     }

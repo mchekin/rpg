@@ -114,10 +114,8 @@ class CharacterController extends Controller
     public function getAttack(Character $defender, Request $request, CharacterRuleSet $characterRuleSet)
     {
         $authenticatedUser = $request->user(); /** @var User $authenticatedUser */
-        $attacker = $authenticatedUser->character;
 
-        /** @var Battle $battle */
-        $battle = $characterRuleSet->attack($attacker, $defender);
+        $battle = $authenticatedUser->character->attack($defender);
 
         return redirect()->route('battle.show', compact('battle'));
     }

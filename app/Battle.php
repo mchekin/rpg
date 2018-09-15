@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property Collection rounds
+ * @property Character attacker
+ * @property Character defender
+ * @property int victor_xp_gained
  */
 class Battle extends Model
 {
@@ -58,5 +61,51 @@ class Battle extends Model
     public function location()
     {
         return $this->belongsTo(Location::class);
+    }
+
+    /**
+     * @return $this
+     */
+    public function execute(): self
+    {
+        while ($this->attacker->hit_points > 0 && $this->defender->hit_points > 0 ) {
+            /** @var BattleRound $currentRound */
+            $currentRound = $this->rounds()->create([]);
+
+            $currentRound->performTurn($this->attacker, $this->defender);
+
+            if ($this->defender->hit_points < 1) {
+                break;
+            }
+
+            $currentRound->performTurn($this->defender, $this->attacker);
+        }
+
+        /** @var Character $victor */
+        /** @var Character $loser */
+        list($victor, $loser) = ($this->attacker->hit_points > 0)
+            ? [$this->attacker, $this->defender]
+            : [$this->defender, $this->attacker];
+
+        $victor->battles_won++;
+        $loser->battles_lost++;
+
+        $this->victor_xp_gained = (max($loser->level->id - $victor->level->id, 0) + 1) * 10;
+        $victor->xp += $this->victor_xp_gained;
+        $victor->checkLevelUp();
+
+        $victor->save();
+        $loser->save();
+        $this->victor()->associate($victor)->save();
+
+        return $this;
+    }
+    /**
+     * @param int $constitution
+     * @return int
+     */
+    protected function calculateHP(int $constitution): int
+    {
+        return $constitution * 10 + $this->throwTwoDices();
     }
 }

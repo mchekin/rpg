@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 /**
  * @property User user
@@ -169,4 +170,50 @@ class Character extends Model
     {
         return $this->location->name;
     }
+
+    /**
+     * @param Character $defender
+     * @return Battle
+     */
+    public function attack(Character $defender)
+    {
+        return DB::transaction(function () use ($defender) {
+
+            /** @var Battle $battle */
+            $battle = Battle::query()->create([
+                'attacker_id' => $this->id,
+                'defender_id' => $defender->id,
+                'location_id' => $defender->location->id,
+            ]);
+
+            return $battle->execute();
+        });
+    }
+
+    /**
+     * @return $this
+     */
+    public function checkLevelUp()
+    {
+        while ($this->shouldLevelUp($nextLevel = $this->level->nextLevel())) {
+
+            // update character's level
+            $this->level()->associate($nextLevel);
+
+            // add attribute points
+            $this->available_attribute_points++;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param Level $nextLevel
+     * @return bool
+     */
+    protected function shouldLevelUp($nextLevel): bool
+    {
+        return !is_null($nextLevel) && ($this->xp > $this->level->next_level_xp_threshold);
+    }
+
 }
