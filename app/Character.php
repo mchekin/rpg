@@ -207,7 +207,7 @@ class Character extends Model implements CharacterInterface
 
     public static function createCharacter(Request $request, RaceInterface $race): CharacterInterface
     {
-        $totalHitPoints = self::calculateHP($race->constitution);
+        $totalHitPoints = self::calculateHP($race->getConstitution());
 
         return new Character([
             'name' => $request->input('name'),
@@ -218,17 +218,17 @@ class Character extends Model implements CharacterInterface
             'money' => 0,
             'reputation' => 0,
 
-            'strength' => $race->strength,
-            'agility' => $race->agility,
-            'constitution' => $race->constitution,
-            'intelligence' => $race->intelligence,
-            'charisma' => $race->charisma,
+            'strength' => $race->getStrength(),
+            'agility' => $race->getAgility(),
+            'constitution' => $race->getConstitution(),
+            'intelligence' => $race->getIntelligence(),
+            'charisma' => $race->getCharisma(),
 
             'hit_points' => $totalHitPoints,
             'total_hit_points' => $totalHitPoints,
 
-            'race_id' => $race->id,
-            'location_id' => $race->starting_location_id,
+            'race_id' => $race->getId(),
+            'location_id' => $race->getStartingLocationId(),
         ]);
     }
 

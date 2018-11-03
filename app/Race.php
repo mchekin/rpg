@@ -5,36 +5,54 @@ namespace App;
 use App\Contracts\Models\RaceInterface;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * @property integer strength
- * @property integer agility
- * @property integer constitution
- * @property integer intelligence
- * @property integer charisma
- * @property integer starting_location_id
- * @property integer id
- * @property string name
- */
 class Race extends Model implements RaceInterface
 {
-    /**
-     * Get the characters for the race.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function characters()
-    {
-        return $this->hasMany(Character::class);
-    }
+    const ATTRIBUTE_STRENGTH = 'strength';
+    const ATTRIBUTE_AGILITY = 'agility';
+    const ATTRIBUTE_CONSTITUTION = 'constitution';
+    const ATTRIBUTE_INTELLIGENCE = 'intelligence';
+    const ATTRIBUTE_CHARISMA = 'charisma';
 
-    /**
-     * @param $gender
-     *
-     * @return string
-     */
-    public function getImageByGender($gender)
+    const ATTRIBUTE_STARTING_LOCATION_ID = 'starting_location_id';
+    const ATTRIBUTE_NAME = 'name';
+
+    public function getImageByGender(string $gender):string
     {
         return $this->{"{$gender}_image"};
     }
-    
+
+    public function getId(): int
+    {
+        return $this->getKey();
+    }
+
+    public function getStartingLocationId(): int
+    {
+        return $this->{self::ATTRIBUTE_STARTING_LOCATION_ID};
+    }
+
+    public function getStrength(): int
+    {
+        return $this->{self::ATTRIBUTE_STRENGTH};
+    }
+
+    public function getAgility(): int
+    {
+        return $this->{self::ATTRIBUTE_AGILITY};
+    }
+
+    public function getConstitution(): int
+    {
+        return $this->{self::ATTRIBUTE_CONSTITUTION};
+    }
+
+    public function getIntelligence(): int
+    {
+        return $this->{self::ATTRIBUTE_INTELLIGENCE};
+    }
+
+    public function getCharisma(): int
+    {
+        return $this->{self::ATTRIBUTE_CHARISMA};
+    }
 }

@@ -2,30 +2,21 @@
 
 namespace App\Contracts\Models;
 
-
-/**
- * @property integer strength
- * @property integer agility
- * @property integer constitution
- * @property integer intelligence
- * @property integer charisma
- * @property integer starting_location_id
- * @property integer id
- * @property string name
- */
 interface RaceInterface
 {
-    /**
-     * Get the characters for the race.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function characters();
+    public function getImageByGender(string $gender): string;
 
-    /**
-     * @param $gender
-     *
-     * @return string
-     */
-    public function getImageByGender($gender);
+    public function getStartingLocationId(): int;
+
+    public function getId(): int;
+
+    public function getStrength(): int;
+
+    public function getAgility(): int;
+
+    public function getConstitution(): int;
+
+    public function getIntelligence(): int;
+
+    public function getCharisma(): int;
 }
