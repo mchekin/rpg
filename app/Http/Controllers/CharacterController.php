@@ -8,6 +8,7 @@ use App\Contracts\Models\UserInterface;
 use App\Contracts\Repositories\CharacterRepositoryInterface;
 use App\Contracts\Models\LocationInterface;
 use App\Contracts\Repositories\RaceRepositoryInterface;
+use App\Contracts\Repositories\UserRepositoryInterface;
 use App\Http\Requests\CreateCharacterRequest;
 use App\Http\Requests\MoveCharacterRequest;
 use App\Http\Requests\UpdateCharacterAttributeRequest;
@@ -40,7 +41,7 @@ class CharacterController extends Controller
 
     public function store(
         CreateCharacterRequest $request,
-        CharacterRepositoryInterface $characterRepository,
+        UserRepositoryInterface $userRepository,
         RaceRepositoryInterface $raceRepository
     ): Response {
 
@@ -51,7 +52,7 @@ class CharacterController extends Controller
 
         $character = Character::createCharacter($request, $race);
 
-        $character = $characterRepository->add($authenticatedUser, $character);
+        $character = $userRepository->addCharacter($authenticatedUser, $character);
 
         return redirect()->route('character.show', compact('character'));
     }

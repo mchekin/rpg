@@ -14,14 +14,20 @@ use App\Contracts\Models\LevelInterface;
 use App\Contracts\Models\LocationInterface;
 use App\Contracts\Models\MessageInterface;
 use App\Contracts\Models\RaceInterface;
+use App\Contracts\Models\UserInterface;
+use App\Contracts\Repositories\BattleRepositoryInterface;
 use App\Contracts\Repositories\CharacterRepositoryInterface;
 use App\Contracts\Repositories\RaceRepositoryInterface;
+use App\Contracts\Repositories\UserRepositoryInterface;
 use App\Level;
 use App\Location;
 use App\Message;
 use App\Race;
+use App\Repositories\BattleRepository;
 use App\Repositories\CharacterRepository;
 use App\Repositories\RaceRepository;
+use App\Repositories\UserRepository;
+use App\User;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -89,11 +95,21 @@ class AppServiceProvider extends ServiceProvider
             Race::class
         );
 
+        $this->app->bind(
+            UserInterface::class,
+            User::class
+        );
+
         return $this;
     }
 
     protected function registerRepositoryInterfaces(): self
     {
+        $this->app->bind(
+            BattleRepositoryInterface::class,
+            BattleRepository::class
+        );
+
         $this->app->bind(
             CharacterRepositoryInterface::class,
             CharacterRepository::class
@@ -102,6 +118,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             RaceRepositoryInterface::class,
             RaceRepository::class
+        );
+
+        $this->app->bind(
+            UserRepositoryInterface::class,
+            UserRepository::class
         );
 
         return $this;
