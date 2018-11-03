@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Contracts;
-use App\Battle;
+namespace App\Contracts\Models;
 use App\Character;
-use App\Level;
-use App\Location;
+use App\Contracts\Models\LevelInterface;
+use App\Contracts\Models\LocationInterface;
+use App\Contracts\Models\BattleInterface;
 use App\Race;
 use App\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,18 +14,18 @@ use Illuminate\Http\Request;
 
 /**
  * @property User user
- * @property Location location
+ * @property LocationInterface location
  * @property integer id
  * @property integer hit_points
  * @property integer xp
- * @property Level level
+ * @property LevelInterface level
  * @property integer available_attribute_points
  * @property integer battles_won
  * @property integer battles_lost
  * @property integer strength
  * @property integer agility
  * @property integer location_id
- * @property Race race
+ * @property RaceInterface race
  * @property string gender
  * @property int total_hit_points
  */
@@ -97,7 +97,7 @@ interface CharacterInterface
 
     public function getLocationName(): string;
 
-    public function attack(CharacterInterface $defender): Battle;
+    public function attack(CharacterInterface $defender): BattleInterface;
 
     public function applyAttributeIncrease(string $attribute): CharacterInterface;
 

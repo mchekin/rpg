@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Contracts;
+namespace App\Contracts\Repositories;
 
+
+use App\Contracts\Models\CharacterInterface;
 
 interface CharacterRepositoryInterface
 {

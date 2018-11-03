@@ -2,10 +2,11 @@
 
 namespace App;
 
+use App\Contracts\Models\BattleRoundInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class BattleRound extends Model
+class BattleRound extends Model implements BattleRoundInterface
 {
     /**
      * @return HasMany
@@ -19,7 +20,7 @@ class BattleRound extends Model
      * @param Character $executor
      * @param Character $target
      *
-     * @return BattleRound
+     * @return BattleRoundInterface
      */
     public function performTurn(Character $executor, Character $target)
     {

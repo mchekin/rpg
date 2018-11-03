@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Character;
+use App\Contracts\Models\LocationInterface;
 use App\Location;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -19,10 +20,10 @@ class MoveCharacterRequest extends FormRequest
         /** @var Character $character */
         $character = $this->route('character');
 
-        /** @var Location $location */
+        /** @var LocationInterface $location */
         $location = $this->route('location');
 
-        /** @var Location $loggedInCharacterLocation */
+        /** @var LocationInterface $loggedInCharacterLocation */
         $characterLocation = $character->location;
 
         // if this character does not belong to the logged in user

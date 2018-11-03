@@ -4,8 +4,8 @@ namespace App\Repositories;
 
 
 use App\Character;
-use App\Contracts\CharacterInterface;
-use App\Contracts\CharacterRepositoryInterface;
+use App\Contracts\Models\CharacterInterface;
+use App\Contracts\Repositories\CharacterRepositoryInterface;
 
 class EloquentCharacterRepository implements CharacterRepositoryInterface
 {

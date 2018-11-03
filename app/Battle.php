@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Contracts\Models\BattleInterface;
+use App\Contracts\Models\BattleRoundInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -13,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property Character defender
  * @property int victor_xp_gained
  */
-class Battle extends Model
+class Battle extends Model implements BattleInterface
 {
     protected $fillable = [
         'attacker_id',
@@ -64,12 +66,12 @@ class Battle extends Model
     }
 
     /**
-     * @return $this
+     * @return BattleInterface
      */
-    public function execute(): self
+    public function execute(): BattleInterface
     {
         while ($this->attacker->hit_points > 0 && $this->defender->hit_points > 0 ) {
-            /** @var BattleRound $currentRound */
+            /** @var BattleRoundInterface $currentRound */
             $currentRound = $this->rounds()->create([]);
 
             $currentRound->performTurn($this->attacker, $this->defender);

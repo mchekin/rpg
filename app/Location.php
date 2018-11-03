@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Contracts\Models\LocationInterface;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -11,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property integer id
  * @property string name
  */
-class Location extends Model
+class Location extends Model implements LocationInterface
 {
     static protected $oppositeDirections = [
         'north' => 'south',
@@ -89,10 +90,10 @@ class Location extends Model
 
     /** TODO: maybe for later use */
     /**
-     * @param Location $adjacent
+     * @param LocationInterface $adjacent
      * @param $direction
      */
-    public function addAdjacentLocation(Location $adjacent, $direction)
+    public function addAdjacentLocation(LocationInterface $adjacent, $direction)
     {
         if (!self::isValidDirection($direction)) {
             throw new \InvalidArgumentException('Invalid adjacent direction type: '.$direction);
@@ -112,9 +113,9 @@ class Location extends Model
     }
 
     /**
-     * @param Location $adjacent
+     * @param LocationInterface $adjacent
      */
-    public function removeAdjacentLocation(Location $adjacent)
+    public function removeAdjacentLocation(LocationInterface $adjacent)
     {
         $this->adjacentLocations()->detach($adjacent);   // remove friend
         $adjacent->adjacentLocations()->detach($this);  // remove yourself, too

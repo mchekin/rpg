@@ -2,7 +2,11 @@
 
 namespace App;
 
-use App\Contracts\CharacterInterface;
+use App\Contracts\Models\BattleInterface;
+use App\Contracts\Models\CharacterInterface;
+use App\Contracts\Models\LevelInterface;
+use App\Contracts\Models\LocationInterface;
+use App\Contracts\Models\RaceInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -12,18 +16,18 @@ use Illuminate\Support\Facades\DB;
 
 /**
  * @property User user
- * @property Location location
+ * @property LocationInterface location
  * @property integer id
  * @property integer hit_points
  * @property integer xp
- * @property Level level
+ * @property LevelInterface level
  * @property integer available_attribute_points
  * @property integer battles_won
  * @property integer battles_lost
  * @property integer strength
  * @property integer agility
  * @property integer location_id
- * @property Race race
+ * @property RaceInterface race
  * @property string gender
  * @property int total_hit_points
  */
@@ -142,11 +146,11 @@ class Character extends Model implements CharacterInterface
         return $this->location->name;
     }
 
-    public function attack(CharacterInterface $defender):Battle
+    public function attack(CharacterInterface $defender): BattleInterface
     {
-        return DB::transaction(function () use ($defender) {
+        $battle = DB::transaction(function () use ($defender) {
 
-            /** @var Battle $battle */
+            /** @var BattleInterface $battle */
             $battle = Battle::query()->create([
                 'attacker_id' => $this->id,
                 'defender_id' => $defender->id,
@@ -155,6 +159,8 @@ class Character extends Model implements CharacterInterface
 
             return $battle->execute();
         });
+
+        return $battle;
     }
 
     public function applyAttributeIncrease(string $attribute): CharacterInterface
@@ -203,7 +209,7 @@ class Character extends Model implements CharacterInterface
         /** @var User $authenticatedUser */
         $authenticatedUser = $request->user();
 
-        /** @var Race $race */
+        /** @var RaceInterface $race */
         $race = Race::query()->findOrFail($request->input('race_id'));
 
         $totalHitPoints = self::calculateHP($race->constitution);

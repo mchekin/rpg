@@ -1,9 +1,7 @@
 <?php
 
-namespace App;
+namespace App\Contracts\Models;
 
-use App\Contracts\Models\RaceInterface;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property integer strength
@@ -15,26 +13,19 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer id
  * @property string name
  */
-class Race extends Model implements RaceInterface
+interface RaceInterface
 {
     /**
      * Get the characters for the race.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function characters()
-    {
-        return $this->hasMany(Character::class);
-    }
+    public function characters();
 
     /**
      * @param $gender
      *
      * @return string
      */
-    public function getImageByGender($gender)
-    {
-        return $this->{"{$gender}_image"};
-    }
-    
+    public function getImageByGender($gender);
 }
