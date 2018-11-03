@@ -1,6 +1,6 @@
 <?php
 
-use App\Character;
+use App\Contracts\CharacterInterface;
 use App\Location;
 use App\Message;
 
@@ -16,7 +16,7 @@ use App\Message;
 */
 
 // Route models...
-Route::model("character", Character::class);
+Route::model("character", CharacterInterface::class);
 Route::model("location", Location::class);
 Route::model("message", Message::class);
 

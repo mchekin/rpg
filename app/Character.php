@@ -2,7 +2,10 @@
 
 namespace App;
 
+use App\Contracts\CharacterInterface;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -24,51 +27,15 @@ use Illuminate\Support\Facades\DB;
  * @property string gender
  * @property int total_hit_points
  */
-class Character extends Model
+class Character extends Model implements CharacterInterface
 {
 
-    protected $guarded = ['user_id'];/**
- * Get all sent messages.
- *
- * @return \Illuminate\Database\Eloquent\Relations\HasMany
- */
-    public function sentMessages()
-    {
-        return $this->hasMany(Message::class, 'from_id');
-    }
-
-    /**
-     * Get all received messages.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function receivedMessages()
-    {
-        return $this->hasMany(Message::class, 'to_id');
-    }
-
-    /**
-     * @param Character $companion
-     * @param string $content
-     *
-     * @return $this
-     */
-    public function sendMessageTo(Character $companion, string $content)
-    {
-        $this->sentMessages()->create([
-            'to_id' => $companion->id,
-            'content' => $content,
-        ]);
-
-        return $this;
-    }
-
-
+    protected $guarded = ['user_id'];
 
     /**
      * Get the user of the character
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function level()
     {
@@ -78,7 +45,7 @@ class Character extends Model
     /**
      * Get the user of the character
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function user()
     {
@@ -88,7 +55,7 @@ class Character extends Model
     /**
      * Get the user of the character
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function race()
     {
@@ -98,7 +65,7 @@ class Character extends Model
     /**
      * Get the current location of the character
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function location()
     {
@@ -106,78 +73,76 @@ class Character extends Model
     }
 
     /**
-     * @return bool
+     * Get all received messages.
+     *
+     * @return HasMany
      */
-    public function isYou()
+    public function receivedMessages()
+    {
+        return $this->hasMany(Message::class, 'to_id');
+    }
+
+    /**
+     * Get all sent messages.
+     *
+     * @return HasMany
+     */
+    public function sentMessages()
+    {
+        return $this->hasMany(Message::class, 'from_id');
+    }
+
+    public function sendMessageTo(Character $companion, string $content): CharacterInterface
+    {
+        $this->sentMessages()->create([
+            'to_id' => $companion->id,
+            'content' => $content,
+        ]);
+
+        return $this;
+    }
+
+    public function isYou(): bool
     {
         return $this->isPlayerCharacter() && $this->user->id == Auth::id();
     }
 
-    /**
-     * Check if the character is a Player Character
-     *
-     * @return bool
-     */
-    public function isPlayerCharacter()
+    public function isPlayerCharacter(): bool
     {
         return !is_null($this->user);
     }
 
-    /**
-     * Check if the character is an Non Player Character
-     *
-     * @return bool
-     */
-    public function isNPC()
+    public function isNPC(): bool
     {
         return is_null($this->user);
     }
 
-    /**
-     * @return string
-     */
-    public function getImage()
+    public function getImage(): string
     {
         return $this->race->getImageByGender($this->gender);
     }
 
-    /**
-     * @return string
-     */
-    public function getRaceName()
+    public function getRaceName(): string
     {
         return $this->race->name;
     }
 
-    /**
-     * @return integer
-     */
-    public function getLevelNumber()
+    public function getLevelNumber():int
     {
         return $this->level->id;
     }
 
-    /**
-     * @return integer
-     */
-    public function getNextLevelXp()
+    public function getNextLevelXp():int
     {
         return $this->level->next_level_xp_threshold;
     }
 
-    /**
-     * @return string
-     */
-    public function getLocationName()
+    public function getLocationName():string
     {
         return $this->location->name;
     }
 
-    /**
-     * @param Character $defender
-     * @return Battle
-     */
-    public function attack(Character $defender)
+    public function attack(CharacterInterface $defender):Battle
     {
         return DB::transaction(function () use ($defender) {
 
@@ -192,20 +157,22 @@ class Character extends Model
         });
     }
 
-    public function applyAttributeIncrease(string $attribute): Character
+    public function applyAttributeIncrease(string $attribute): CharacterInterface
     {
-        if ($attribute === 'constitution')
-        {
-            return $this->increaseTotalHitPoints();
+        if ($this->available_attribute_points) {
+
+            $this->available_attribute_points--;
+            $this->$attribute++;
+
+            if ($attribute === 'constitution') {
+                return $this->increaseTotalHitPoints();
+            }
         }
 
         return $this;
     }
 
-    /**
-     * @return $this
-     */
-    public function checkLevelUp(): Character
+    public function checkLevelUp(): CharacterInterface
     {
         while ($this->shouldLevelUp($nextLevel = $this->level->nextLevel())) {
 
@@ -231,7 +198,7 @@ class Character extends Model
         return $this;
     }
 
-    public static function createCharacter(Request $request): Character
+    public static function createCharacter(Request $request): CharacterInterface
     {
         /** @var User $authenticatedUser */
         $authenticatedUser = $request->user();

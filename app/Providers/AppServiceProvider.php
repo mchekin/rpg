@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Character;
+use App\Contracts\CharacterInterface;
+use App\Contracts\CharacterRepositoryInterface;
+use App\Repositories\EloquentCharacterRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +27,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(
+            CharacterInterface::class,
+            Character::class
+        );
+
+        $this->app->bind(
+            CharacterRepositoryInterface::class,
+            EloquentCharacterRepository::class
+        );
     }
 }

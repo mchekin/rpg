@@ -3,15 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Character;
+use App\Contracts\CharacterInterface;
+use App\Contracts\CharacterRepositoryInterface;
 use App\Http\Requests\CreateCharacterRequest;
 use App\Http\Requests\MoveCharacterRequest;
 use App\Http\Requests\UpdateCharacterAttributeRequest;
 use App\Location;
 use App\Race;
 use App\User;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
 
 class CharacterController extends Controller
@@ -40,63 +42,35 @@ class CharacterController extends Controller
         return view('character.create', compact('races', 'user'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param CreateCharacterRequest $request
-     *
-     * @return Response
-     */
-    public function store(CreateCharacterRequest $request)
-    {
+    public function store(
+        CreateCharacterRequest $request,
+        CharacterRepositoryInterface $characterRepository
+    ): Response {
         Character::createCharacter($request);
 
         return redirect()->route("home");
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param Character $character
-     * @return Response
-     */
-    public function show(Character $character)
+    public function show(CharacterInterface $character): View
     {
         return view('character.show', compact('character'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param UpdateCharacterAttributeRequest $request
-     * @param Character $character
-     *
-     * @return Response
-     */
-    public function update(UpdateCharacterAttributeRequest $request, Character $character)
-    {
+    public function update(
+        UpdateCharacterAttributeRequest $request,
+        CharacterInterface $character,
+        CharacterRepositoryInterface $characterRepository
+    ): Response {
         $attribute = $request->input('attribute');
 
-        if ($character->available_attribute_points) {
-            $character->available_attribute_points--;
-            $character->$attribute++;
+        $character->applyAttributeIncrease($attribute);
 
-            $character->applyAttributeIncrease($attribute);
-
-            $character->save();
-        }
+        $characterRepository->save($character);
 
         return redirect()->route('character.show', compact('character'));
     }
 
-    /**
-     * @param Character $character
-     * @param Location $location
-     * @param MoveCharacterRequest $request
-     *
-     * @return RedirectResponse
-     */
-    public function getMove(Character $character, Location $location, MoveCharacterRequest $request)
+    public function getMove(Character $character, Location $location, MoveCharacterRequest $request): Response
     {
         // update character's location
         $character->location()->associate($location)->save();
@@ -104,15 +78,10 @@ class CharacterController extends Controller
         return redirect()->route('location.show', compact('location'));
     }
 
-    /**
-     * @param Character $defender
-     * @param Request $request
-     *
-     * @return RedirectResponse
-     */
-    public function getAttack(Character $defender, Request $request)
+    public function getAttack(Character $defender, Request $request): Response
     {
-        $authenticatedUser = $request->user(); /** @var User $authenticatedUser */
+        $authenticatedUser = $request->user();
+        /** @var User $authenticatedUser */
 
         $battle = $authenticatedUser->character->attack($defender);
 
