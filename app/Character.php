@@ -7,6 +7,7 @@ use App\Contracts\Models\CharacterInterface;
 use App\Contracts\Models\LevelInterface;
 use App\Contracts\Models\LocationInterface;
 use App\Contracts\Models\RaceInterface;
+use App\Contracts\Models\UserInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 /**
- * @property User user
+ * @property UserInterface user
  * @property LocationInterface location
  * @property integer id
  * @property integer hit_points
@@ -204,18 +205,11 @@ class Character extends Model implements CharacterInterface
         return $this;
     }
 
-    public static function createCharacter(Request $request): CharacterInterface
+    public static function createCharacter(Request $request, RaceInterface $race): CharacterInterface
     {
-        /** @var User $authenticatedUser */
-        $authenticatedUser = $request->user();
-
-        /** @var RaceInterface $race */
-        $race = Race::query()->findOrFail($request->input('race_id'));
-
         $totalHitPoints = self::calculateHP($race->constitution);
 
-        /** @var Character $character */
-        $character = $authenticatedUser->character()->create([
+        return new Character([
             'name' => $request->input('name'),
             'gender' => $request->input('gender'),
 
@@ -236,8 +230,6 @@ class Character extends Model implements CharacterInterface
             'race_id' => $race->id,
             'location_id' => $race->starting_location_id,
         ]);
-
-        return $character;
     }
 
     protected static function throwTwoDices(): int

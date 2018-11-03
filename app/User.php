@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Contracts\Models\UserInterface;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -9,7 +10,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property Character character
  * @property integer id
  */
-class User extends Authenticatable
+class User extends Authenticatable implements UserInterface
 {
     use Notifiable;
 
@@ -41,10 +42,7 @@ class User extends Authenticatable
         return $this->hasOne(Character::class);
     }
 
-    /**
-     * @return bool
-     */
-    public function hasCharacter()
+    public function hasCharacter(): bool
     {
         return $this->character()->getQuery()->exists();
     }

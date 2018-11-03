@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Contracts\Models\UserInterface;
 use App\User;
 use Closure;
 
@@ -16,7 +17,7 @@ class UserOwnsCharacter
      */
     public function handle($request, Closure $next)
     {
-        /** @var User $user */
+        /** @var UserInterface $user */
         $user = $request->user();
         $character = $request->route('character');
 

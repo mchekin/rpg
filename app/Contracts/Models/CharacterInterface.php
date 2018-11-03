@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 
 
 /**
- * @property User user
+ * @property UserInterface user
  * @property LocationInterface location
  * @property integer id
  * @property integer hit_points
@@ -103,5 +103,5 @@ interface CharacterInterface
 
     public function checkLevelUp(): CharacterInterface;
 
-    public static function createCharacter(Request $request): CharacterInterface;
+    public static function createCharacter(Request $request, RaceInterface $race): CharacterInterface;
 }

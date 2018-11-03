@@ -4,13 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Character;
 use App\Contracts\Models\CharacterInterface;
+use App\Contracts\Models\UserInterface;
 use App\Contracts\Repositories\CharacterRepositoryInterface;
 use App\Contracts\Models\LocationInterface;
 use App\Contracts\Repositories\RaceRepositoryInterface;
 use App\Http\Requests\CreateCharacterRequest;
 use App\Http\Requests\MoveCharacterRequest;
 use App\Http\Requests\UpdateCharacterAttributeRequest;
-use App\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -40,11 +40,20 @@ class CharacterController extends Controller
 
     public function store(
         CreateCharacterRequest $request,
-        CharacterRepositoryInterface $characterRepository
+        CharacterRepositoryInterface $characterRepository,
+        RaceRepositoryInterface $raceRepository
     ): Response {
-        Character::createCharacter($request);
 
-        return redirect()->route("home");
+        /** @var UserInterface $authenticatedUser */
+        $authenticatedUser = $request->user();
+
+        $race = $raceRepository->findOrFail($request->input('race_id'));
+
+        $character = Character::createCharacter($request, $race);
+
+        $character = $characterRepository->add($authenticatedUser, $character);
+
+        return redirect()->route('character.show', compact('character'));
     }
 
     public function show(CharacterInterface $character): View
@@ -76,7 +85,7 @@ class CharacterController extends Controller
 
     public function getAttack(Character $defender, Request $request): Response
     {
-        /** @var User $authenticatedUser */
+        /** @var UserInterface $authenticatedUser */
         $authenticatedUser = $request->user();
 
         $character = $authenticatedUser->character;
