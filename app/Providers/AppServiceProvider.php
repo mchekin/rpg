@@ -15,11 +15,13 @@ use App\Contracts\Models\LocationInterface;
 use App\Contracts\Models\MessageInterface;
 use App\Contracts\Models\RaceInterface;
 use App\Contracts\Repositories\CharacterRepositoryInterface;
+use App\Contracts\Repositories\RaceRepositoryInterface;
 use App\Level;
 use App\Location;
 use App\Message;
 use App\Race;
-use App\Repositories\EloquentCharacterRepository;
+use App\Repositories\CharacterRepository;
+use App\Repositories\RaceRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -94,7 +96,12 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(
             CharacterRepositoryInterface::class,
-            EloquentCharacterRepository::class
+            CharacterRepository::class
+        );
+
+        $this->app->bind(
+            RaceRepositoryInterface::class,
+            RaceRepository::class
         );
 
         return $this;

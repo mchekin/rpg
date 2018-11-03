@@ -6,11 +6,10 @@ use App\Character;
 use App\Contracts\Models\CharacterInterface;
 use App\Contracts\Repositories\CharacterRepositoryInterface;
 use App\Contracts\Models\LocationInterface;
+use App\Contracts\Repositories\RaceRepositoryInterface;
 use App\Http\Requests\CreateCharacterRequest;
 use App\Http\Requests\MoveCharacterRequest;
 use App\Http\Requests\UpdateCharacterAttributeRequest;
-use App\Location;
-use App\Race;
 use App\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
@@ -31,15 +30,11 @@ class CharacterController extends Controller
         $this->middleware('no.character', ['only' => ['create', 'store']]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
+    public function create(RaceRepositoryInterface $raceRepository): View
     {
-        $races = Race::all();
+        $races = $raceRepository->all();
         $user = Auth::user();
+
         return view('character.create', compact('races', 'user'));
     }
 
