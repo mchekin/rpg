@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\DB;
  * @property integer location_id
  * @property Race race
  * @property string gender
+ * @property int total_hit_points
  */
 class Character extends Model
 {
@@ -191,10 +192,20 @@ class Character extends Model
         });
     }
 
+    public function applyAttributeIncrease(string $attribute): Character
+    {
+        if ($attribute === 'constitution')
+        {
+            return $this->increaseTotalHitPoints();
+        }
+
+        return $this;
+    }
+
     /**
      * @return $this
      */
-    public function checkLevelUp()
+    public function checkLevelUp(): Character
     {
         while ($this->shouldLevelUp($nextLevel = $this->level->nextLevel())) {
 
@@ -208,20 +219,19 @@ class Character extends Model
         return $this;
     }
 
-    /**
-     * @param Level $nextLevel
-     * @return bool
-     */
     protected function shouldLevelUp($nextLevel): bool
     {
         return !is_null($nextLevel) && ($this->xp > $this->level->next_level_xp_threshold);
     }
 
-    /**
-     * @param Request $request
-     * @return Character
-     */
-    public static function createCharacter(Request $request)
+    protected function increaseTotalHitPoints(): Character
+    {
+        $this->total_hit_points += 10 + self::throwTwoDices();
+
+        return $this;
+    }
+
+    public static function createCharacter(Request $request): Character
     {
         /** @var User $authenticatedUser */
         $authenticatedUser = $request->user();
@@ -256,26 +266,17 @@ class Character extends Model
 
         return $character;
     }
-    /**
-     * @return int
-     */
+
     protected static function throwTwoDices(): int
     {
         return self::throwOneDice() + self::throwOneDice();
     }
 
-    /**
-     * @return int
-     */
     protected static function throwOneDice(): int
     {
         return rand(1, 6);
     }
 
-    /**
-     * @param int $constitution
-     * @return int
-     */
     protected static function calculateHP(int $constitution): int
     {
         return $constitution * 10 + self::throwTwoDices();

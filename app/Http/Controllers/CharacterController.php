@@ -80,6 +80,9 @@ class CharacterController extends Controller
         if ($character->available_attribute_points) {
             $character->available_attribute_points--;
             $character->$attribute++;
+
+            $character->applyAttributeIncrease($attribute);
+
             $character->save();
         }
 
