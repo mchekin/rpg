@@ -100,12 +100,4 @@ class Battle extends Model
 
         return $this;
     }
-    /**
-     * @param int $constitution
-     * @return int
-     */
-    protected function calculateHP(int $constitution): int
-    {
-        return $constitution * 10 + $this->throwTwoDices();
-    }
 }
