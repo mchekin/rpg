@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Battle;
 use App\Character;
 use App\Http\Requests\CreateCharacterRequest;
 use App\Http\Requests\MoveCharacterRequest;
 use App\Http\Requests\UpdateCharacterAttributeRequest;
 use App\Location;
 use App\Race;
-use App\RuleSets\CharacterRuleSet;
 use App\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -46,13 +44,12 @@ class CharacterController extends Controller
      * Store a newly created resource in storage.
      *
      * @param CreateCharacterRequest $request
-     * @param CharacterRuleSet $characterRuleSet
      *
      * @return Response
      */
-    public function store(CreateCharacterRequest $request, CharacterRuleSet $characterRuleSet)
+    public function store(CreateCharacterRequest $request)
     {
-        $character = $characterRuleSet->createCharacter($request);
+        Character::createCharacter($request);
 
         return redirect()->route("home");
     }
@@ -107,11 +104,10 @@ class CharacterController extends Controller
     /**
      * @param Character $defender
      * @param Request $request
-     * @param CharacterRuleSet $characterRuleSet
      *
      * @return RedirectResponse
      */
-    public function getAttack(Character $defender, Request $request, CharacterRuleSet $characterRuleSet)
+    public function getAttack(Character $defender, Request $request)
     {
         $authenticatedUser = $request->user(); /** @var User $authenticatedUser */
 

@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -216,4 +217,67 @@ class Character extends Model
         return !is_null($nextLevel) && ($this->xp > $this->level->next_level_xp_threshold);
     }
 
+    /**
+     * @param Request $request
+     * @return Character
+     */
+    public static function createCharacter(Request $request)
+    {
+        /** @var User $authenticatedUser */
+        $authenticatedUser = $request->user();
+
+        /** @var Race $race */
+        $race = Race::query()->findOrFail($request->input('race_id'));
+
+        $totalHitPoints = self::calculateHP($race->constitution);
+
+        /** @var Character $character */
+        $character = $authenticatedUser->character()->create([
+            'name' => $request->input('name'),
+            'gender' => $request->input('gender'),
+
+            'xp' => 0,
+            'level_id' => 1,
+            'money' => 0,
+            'reputation' => 0,
+
+            'strength' => $race->strength,
+            'agility' => $race->agility,
+            'constitution' => $race->constitution,
+            'intelligence' => $race->intelligence,
+            'charisma' => $race->charisma,
+
+            'hit_points' => $totalHitPoints,
+            'total_hit_points' => $totalHitPoints,
+
+            'race_id' => $race->id,
+            'location_id' => $race->starting_location_id,
+        ]);
+
+        return $character;
+    }
+    /**
+     * @return int
+     */
+    protected static function throwTwoDices(): int
+    {
+        return self::throwOneDice() + self::throwOneDice();
+    }
+
+    /**
+     * @return int
+     */
+    protected static function throwOneDice(): int
+    {
+        return rand(1, 6);
+    }
+
+    /**
+     * @param int $constitution
+     * @return int
+     */
+    protected static function calculateHP(int $constitution): int
+    {
+        return $constitution * 10 + self::throwTwoDices();
+    }
 }
