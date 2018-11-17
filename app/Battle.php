@@ -96,9 +96,7 @@ class Battle extends Model implements BattleInterface
         $victor->xp += $this->victor_xp_gained;
         $victor->checkLevelUp();
 
-        $victor->save();
-        $loser->save();
-        $this->victor()->associate($victor)->save();
+        $this->victor()->associate($victor);
 
         return $this;
     }

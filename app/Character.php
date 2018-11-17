@@ -158,7 +158,11 @@ class Character extends Model implements CharacterInterface
                 'location_id' => $defender->location->id,
             ]);
 
-            return $battle->execute();
+            $battle->execute();
+
+            $battle->push();
+
+            return $battle;
         });
 
         return $battle;
