@@ -78,8 +78,6 @@ class Character extends Model implements CharacterInterface
     }
 
     /**
-     * Get all received messages.
-     *
      * @return HasMany
      */
     public function receivedMessages()
@@ -88,13 +86,27 @@ class Character extends Model implements CharacterInterface
     }
 
     /**
-     * Get all sent messages.
-     *
      * @return HasMany
      */
     public function sentMessages()
     {
         return $this->hasMany(Message::class, 'from_id');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function attacks()
+    {
+        return $this->hasMany(Battle::class, 'attacker_id');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function defends()
+    {
+        return $this->hasMany(Battle::class, 'defender_id');
     }
 
     public function sendMessageTo(Character $companion, string $content): CharacterInterface
@@ -151,9 +163,8 @@ class Character extends Model implements CharacterInterface
     {
         $battle = DB::transaction(function () use ($defender) {
 
-            /** @var BattleInterface $battle */
-            $battle = Battle::query()->create([
-                'attacker_id' => $this->id,
+            /** @var BattleInterface|Model $battle */
+            $battle = $this->attacks()->create([
                 'defender_id' => $defender->id,
                 'location_id' => $defender->location->id,
             ]);
