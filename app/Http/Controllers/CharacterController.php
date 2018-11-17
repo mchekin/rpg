@@ -10,7 +10,6 @@ use App\Contracts\Models\LocationInterface;
 use App\Contracts\Repositories\RaceRepositoryInterface;
 use App\Contracts\Repositories\UserRepositoryInterface;
 use App\Http\Requests\CreateCharacterRequest;
-use App\Http\Requests\MoveCharacterRequest;
 use App\Http\Requests\UpdateCharacterAttributeRequest;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
@@ -29,6 +28,7 @@ class CharacterController extends Controller
         $this->middleware('has.character', ['only' => ['getMove', 'update']]);
         $this->middleware('owns.character', ['only' => ['update']]);
         $this->middleware('no.character', ['only' => ['create', 'store']]);
+        $this->middleware('can.move.to.location', ['only' => ['getMove']]);
     }
 
     public function create(RaceRepositoryInterface $raceRepository): View
@@ -76,7 +76,7 @@ class CharacterController extends Controller
         return redirect()->route('character.show', compact('character'));
     }
 
-    public function getMove(Character $character, LocationInterface $location, MoveCharacterRequest $request): Response
+    public function getMove(Character $character, LocationInterface $location): Response
     {
         // update character's location
         $character->location()->associate($location)->save();

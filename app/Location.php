@@ -101,9 +101,6 @@ class Location extends Model implements LocationInterface
         ]); // add yourself, too
     }
 
-    /**
-     * @param LocationInterface $adjacent
-     */
     public function removeAdjacentLocation(LocationInterface $adjacent)
     {
         $this->adjacentLocations()->detach($adjacent);   // remove friend
@@ -113,5 +110,15 @@ class Location extends Model implements LocationInterface
     public function getName(): string
     {
         return $this->name;
+    }
+
+    public function isAdjacentLocation(LocationInterface $location): bool
+    {
+        return (bool)$this->adjacentLocations()->where('id', $location->getId())->first();
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
     }
 }
