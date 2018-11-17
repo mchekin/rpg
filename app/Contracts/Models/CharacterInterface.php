@@ -10,6 +10,12 @@ interface CharacterInterface
 
     public function getId();
 
+    public function getStrength():int;
+
+    public function getAgility():int;
+
+    public function getConstitution():int;
+
     public function sendMessageTo(CharacterInterface $companion, string $content): CharacterInterface;
 
     public function isYou(): bool ;
@@ -39,4 +45,6 @@ interface CharacterInterface
     public function incrementLostBattles(): CharacterInterface;
 
     public function addXp(int $xp): CharacterInterface;
+
+    public function applyDamage($damageDone): CharacterInterface;
 }

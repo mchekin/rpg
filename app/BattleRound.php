@@ -19,19 +19,19 @@ class BattleRound extends Model implements BattleRoundInterface
 
     public function performTurn(CharacterInterface $executor, CharacterInterface $target): BattleRoundInterface
     {
-        $attackForce = $this->throwOneDice() + $executor->strength;
-        $attackFactor = $this->throwOneDice() + $executor->agility;
-        $defenceFactor = $this->throwOneDice() + $target->agility;
+        $attackForce = $this->throwOneDice() + $executor->getStrength();
+        $attackFactor = $this->throwOneDice() + $executor->getAgility();
+        $defenceFactor = $this->throwOneDice() + $target->getAgility();
 
         if ($attackFactor > $defenceFactor) {
             $damageDone = $attackForce;
-            $target->hit_points -= $damageDone;
+            $target->applyDamage($damageDone);
         }
 
         $this->turns()->create([
             'damage' => $damageDone ?? 0,
-            'executor_id' => $executor->id,
-            'target_id' => $target->id,
+            'executor_id' => $executor->getId(),
+            'target_id' => $target->getId(),
         ]);
 
         return $this;

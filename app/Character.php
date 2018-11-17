@@ -27,6 +27,7 @@ use Illuminate\Support\Facades\DB;
  * @property integer battles_lost
  * @property integer strength
  * @property integer agility
+ * @property integer constitution
  * @property integer location_id
  * @property RaceInterface race
  * @property string gender
@@ -292,5 +293,27 @@ class Character extends Model implements CharacterInterface
         $this->xp += $xp;
 
         return $this->checkLevelUp();
+    }
+
+    public function applyDamage($damageDone): CharacterInterface
+    {
+        $this->hit_points -= $damageDone;
+
+        return $this;
+    }
+
+    public function getStrength(): int
+    {
+        return $this->strength;
+    }
+
+    public function getAgility(): int
+    {
+        return $this->agility;
+    }
+
+    public function getConstitution(): int
+    {
+        return $this->constitution;
     }
 }
