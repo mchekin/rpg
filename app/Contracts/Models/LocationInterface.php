@@ -6,7 +6,7 @@ interface LocationInterface
 {
     public function adjacent($type);
 
-    public function addAdjacentLocation(LocationInterface $adjacent, $direction): LocationInterface;
+    public function addAdjacentLocation(LocationInterface $adjacent, $direction);
 
     public function removeAdjacentLocation(LocationInterface $adjacent);
 

@@ -82,7 +82,7 @@ class Location extends Model implements LocationInterface
         return $this->adjacentLocations()->wherePivot('direction', $type)->first();
     }
 
-    public function addAdjacentLocation(LocationInterface $adjacent, $direction): LocationInterface
+    public function addAdjacentLocation(LocationInterface $adjacent, $direction)
     {
         if (!self::isValidDirection($direction)) {
             throw new \InvalidArgumentException('Invalid adjacent direction type: '.$direction);
