@@ -13,4 +13,6 @@ interface UserInterface
     public function getId(): int;
 
     public function isCurrentAuthenticatedUser(): bool;
+
+    public function getCharacter(): CharacterInterface;
 }

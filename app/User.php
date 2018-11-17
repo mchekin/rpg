@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Contracts\Models\CharacterInterface;
 use App\Contracts\Models\UserInterface;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -56,5 +57,10 @@ class User extends Authenticatable implements UserInterface
     public function isCurrentAuthenticatedUser(): bool
     {
         return $this->getId() == Auth::id();
+    }
+
+    public function getCharacter(): CharacterInterface
+    {
+        return $this->character;
     }
 }

@@ -29,6 +29,7 @@ class CharacterController extends Controller
         $this->middleware('owns.character', ['only' => ['update']]);
         $this->middleware('no.character', ['only' => ['create', 'store']]);
         $this->middleware('can.move.to.location', ['only' => ['getMove']]);
+        $this->middleware('can.attack', ['only' => ['getAttack']]);
     }
 
     public function create(RaceRepositoryInterface $raceRepository): View
