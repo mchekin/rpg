@@ -23,6 +23,9 @@
                 <li class="list-group-item">
                     The winner is: {{$battle->victor->name}}
                 </li>
+                <li class="list-group-item">
+                    The winner XP gained: {{$battle->victor_xp_gained}}
+                </li>
             </ul>
             <hr>
 
@@ -38,17 +41,19 @@
             <ul class="list-group">
                 @foreach($battle->rounds as $index => $round)
                     <li class="list-group-item">
-                        <h3>Round {{$index}}</h3>
+                        <h3>Round {{$index + 1}}</h3>
                         <ul class="list-group">
-                            @foreach($round->turns as $turn)
-                                <li class="list-group-item">
-                                    @if($turn->damage)
+                            @foreach($round->turns as $index => $turn)
+                                @if($turn->damage)
+                                    <li class="list-group-item {{ $index % 2 ? 'text-danger' : 'text-success'}}">
                                         {{ $turn->executor->name }} did {{ $turn->damage }} damage
                                         to {{ $turn->target->name }}
-                                    @else
+                                    </li>
+                                @else
+                                    <li class="list-group-item">
                                         {{ $turn->executor->name }} was unable to hit {{ $turn->target->name }}
-                                    @endif
-                                </li>
+                                    </li>
+                                @endif
                             @endforeach
                         </ul>
                     </li>

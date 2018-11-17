@@ -77,6 +77,8 @@
             * * * * * php <path-to-project>/artisan schedule:run >> /dev/null 2>&1
   
   On Windows:
+  
+  Open the Terminal as Administrator, navigate to the project's root folder and run:
     
         schtasks /create /sc minute /mo 1 /tn "RPG SCHEDULER" /tr %cd%\scheduler.bat
         

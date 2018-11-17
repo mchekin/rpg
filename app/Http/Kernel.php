@@ -59,6 +59,8 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'character.location' => \App\Http\Middleware\IsCharacterLocation::class,
         'has.character' => \App\Http\Middleware\HasCharacter::class,
+        'can.move.to.location' => \App\Http\Middleware\CanMoveToLocation::class,
+        'can.attack' => \App\Http\Middleware\CanAttack::class,
         'no.character' => \App\Http\Middleware\NoCharacterYet::class,
         'owns.character' => \App\Http\Middleware\UserOwnsCharacter::class,
     ];

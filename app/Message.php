@@ -2,9 +2,10 @@
 
 namespace App;
 
+use App\Contracts\Models\MessageInterface;
 use Illuminate\Database\Eloquent\Model;
 
-class Message extends Model
+class Message extends Model implements MessageInterface
 {
     const UNREAD = 1;
     const READ = 2;

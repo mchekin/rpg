@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Battle;
 use App\Character;
+use App\Contracts\Models\CharacterInterface;
+use App\Contracts\Models\UserInterface;
+use App\Contracts\Repositories\CharacterRepositoryInterface;
+use App\Contracts\Models\LocationInterface;
+use App\Contracts\Repositories\RaceRepositoryInterface;
+use App\Contracts\Repositories\UserRepositoryInterface;
 use App\Http\Requests\CreateCharacterRequest;
-use App\Http\Requests\MoveCharacterRequest;
 use App\Http\Requests\UpdateCharacterAttributeRequest;
-use App\Location;
-use App\Race;
-use App\RuleSets\CharacterRuleSet;
-use App\User;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
 
 class CharacterController extends Controller
@@ -28,75 +28,56 @@ class CharacterController extends Controller
         $this->middleware('has.character', ['only' => ['getMove', 'update']]);
         $this->middleware('owns.character', ['only' => ['update']]);
         $this->middleware('no.character', ['only' => ['create', 'store']]);
+        $this->middleware('can.move.to.location', ['only' => ['getMove']]);
+        $this->middleware('can.attack', ['only' => ['getAttack']]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
+    public function create(RaceRepositoryInterface $raceRepository): View
     {
-        $races = Race::all();
+        $races = $raceRepository->all();
         $user = Auth::user();
+
         return view('character.create', compact('races', 'user'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param CreateCharacterRequest $request
-     * @param CharacterRuleSet $characterRuleSet
-     *
-     * @return Response
-     */
-    public function store(CreateCharacterRequest $request, CharacterRuleSet $characterRuleSet)
-    {
-        $character = $characterRuleSet->createCharacter($request);
+    public function store(
+        CreateCharacterRequest $request,
+        UserRepositoryInterface $userRepository,
+        RaceRepositoryInterface $raceRepository
+    ): Response {
 
-        return redirect()->route("home");
-    }
+        /** @var UserInterface $authenticatedUser */
+        $authenticatedUser = $request->user();
 
-    /**
-     * Display the specified resource.
-     *
-     * @param Character $character
-     * @return Response
-     */
-    public function show(Character $character)
-    {
-        return view('character.show', compact('character'));
-    }
+        $race = $raceRepository->findOrFail($request->input('race_id'));
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param UpdateCharacterAttributeRequest $request
-     * @param Character $character
-     *
-     * @return Response
-     */
-    public function update(UpdateCharacterAttributeRequest $request, Character $character)
-    {
-        $attribute = $request->input('attribute');
+        $character = Character::createCharacter($request, $race);
 
-        if ($character->available_attribute_points) {
-            $character->available_attribute_points--;
-            $character->$attribute++;
-            $character->save();
-        }
+        $character = $userRepository->addCharacter($authenticatedUser, $character);
 
         return redirect()->route('character.show', compact('character'));
     }
 
-    /**
-     * @param Character $character
-     * @param Location $location
-     * @param MoveCharacterRequest $request
-     *
-     * @return RedirectResponse
-     */
-    public function getMove(Character $character, Location $location, MoveCharacterRequest $request)
+    public function show(CharacterInterface $character): View
+    {
+        return view('character.show', compact('character'));
+    }
+
+    public function update(
+        UpdateCharacterAttributeRequest $request,
+        CharacterInterface $character,
+        CharacterRepositoryInterface $characterRepository
+    ): Response {
+        $attribute = $request->input('attribute');
+
+        $character->applyAttributeIncrease($attribute);
+
+        $characterRepository->save($character);
+
+        return redirect()->route('character.show', compact('character'));
+    }
+
+    public function getMove(Character $character, LocationInterface $location): Response
     {
         // update character's location
         $character->location()->associate($location)->save();
@@ -104,20 +85,14 @@ class CharacterController extends Controller
         return redirect()->route('location.show', compact('location'));
     }
 
-    /**
-     * @param Character $defender
-     * @param Request $request
-     * @param CharacterRuleSet $characterRuleSet
-     *
-     * @return RedirectResponse
-     */
-    public function getAttack(Character $defender, Request $request, CharacterRuleSet $characterRuleSet)
+    public function getAttack(CharacterInterface $defender, Request $request): Response
     {
-        $authenticatedUser = $request->user(); /** @var User $authenticatedUser */
-        $attacker = $authenticatedUser->character;
+        /** @var UserInterface $authenticatedUser */
+        $authenticatedUser = $request->user();
 
-        /** @var Battle $battle */
-        $battle = $characterRuleSet->attack($attacker, $defender);
+        $character = $authenticatedUser->character;
+
+        $battle = $character->attack($defender);
 
         return redirect()->route('battle.show', compact('battle'));
     }

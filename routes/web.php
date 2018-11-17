@@ -1,8 +1,9 @@
 <?php
 
-use App\Character;
-use App\Location;
-use App\Message;
+use App\Contracts\Models\BattleInterface;
+use App\Contracts\Models\CharacterInterface;
+use App\Contracts\Models\LocationInterface;
+use App\Contracts\Models\MessageInterface;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,9 +17,10 @@ use App\Message;
 */
 
 // Route models...
-Route::model("character", Character::class);
-Route::model("location", Location::class);
-Route::model("message", Message::class);
+Route::model("character", CharacterInterface::class);
+Route::model("battle", BattleInterface::class);
+Route::model("location", LocationInterface::class);
+Route::model("message", MessageInterface::class);
 
 Route::get('/character/{character}/location/{location}/move', 'CharacterController@getMove')
     ->name('character.move');
@@ -48,5 +50,5 @@ Auth::routes();
 // Route resources...
 Route::resource("character", "CharacterController");
 Route::resource("location", "LocationController");
-Route::resource("battle", "BattleController");
+Route::resource("battle", "BattleController")->only(['show']);
 Route::resource("character.message", "MessageController")->only(['index', 'store']);

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Contracts\Models\LocationInterface;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -11,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property integer id
  * @property string name
  */
-class Location extends Model
+class Location extends Model implements LocationInterface
 {
     static protected $oppositeDirections = [
         'north' => 'south',
@@ -76,23 +77,12 @@ class Location extends Model
         return $this->belongsToMany(Location::class, 'adjacent_location', 'location_id', 'adjacent_location_id');
     }
 
-    /**
-     * Get the adjacent location to the north of the current location.
-     *
-     * @param $type
-     * @return mixed
-     */
     public function adjacent($type)
     {
         return $this->adjacentLocations()->wherePivot('direction', $type)->first();
     }
 
-    /** TODO: maybe for later use */
-    /**
-     * @param Location $adjacent
-     * @param $direction
-     */
-    public function addAdjacentLocation(Location $adjacent, $direction)
+    public function addAdjacentLocation(LocationInterface $adjacent, $direction)
     {
         if (!self::isValidDirection($direction)) {
             throw new \InvalidArgumentException('Invalid adjacent direction type: '.$direction);
@@ -111,12 +101,24 @@ class Location extends Model
         ]); // add yourself, too
     }
 
-    /**
-     * @param Location $adjacent
-     */
-    public function removeAdjacentLocation(Location $adjacent)
+    public function removeAdjacentLocation(LocationInterface $adjacent)
     {
         $this->adjacentLocations()->detach($adjacent);   // remove friend
         $adjacent->adjacentLocations()->detach($this);  // remove yourself, too
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function isAdjacentLocation(LocationInterface $location): bool
+    {
+        return (bool)$this->adjacentLocations()->where('id', $location->getId())->first();
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
     }
 }

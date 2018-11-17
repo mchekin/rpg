@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Battle;
+use App\Contracts\Models\BattleInterface;
 use Illuminate\Http\Request;
 
 class BattleController extends Controller
@@ -13,13 +14,14 @@ class BattleController extends Controller
         $this->middleware('auth', ['only' => ['show']]);
         $this->middleware('has.character', ['only' => ['show']]);
     }
+
     /**
      * Display the specified resource.
      *
-     * @param  \App\Battle  $battle
+     * @param  BattleInterface $battle
      * @return \Illuminate\Http\Response
      */
-    public function show(Battle $battle)
+    public function show(BattleInterface $battle)
     {
         return view('battle.show', compact('battle'));
     }
