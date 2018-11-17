@@ -5,6 +5,9 @@ namespace App;
 use App\Contracts\Models\RaceInterface;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property string name
+ */
 class Race extends Model implements RaceInterface
 {
     const ATTRIBUTE_STRENGTH = 'strength';
@@ -54,5 +57,10 @@ class Race extends Model implements RaceInterface
     public function getCharisma(): int
     {
         return $this->{self::ATTRIBUTE_CHARISMA};
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
     }
 }

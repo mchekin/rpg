@@ -71,7 +71,7 @@ class Battle extends Model implements BattleInterface
      */
     public function execute(): BattleInterface
     {
-        while ($this->attacker->isAlive() && $this->defender->isAlive()) {
+        while ($this->attacker->isAlive()) {
             /** @var BattleRoundInterface $currentRound */
             $currentRound = $this->rounds()->create([]);
 

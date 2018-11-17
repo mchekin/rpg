@@ -47,4 +47,6 @@ interface CharacterInterface
     public function addXp(int $xp): CharacterInterface;
 
     public function applyDamage($damageDone): CharacterInterface;
+
+    public function getLocationId(): int;
 }

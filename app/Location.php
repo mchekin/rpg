@@ -77,23 +77,12 @@ class Location extends Model implements LocationInterface
         return $this->belongsToMany(Location::class, 'adjacent_location', 'location_id', 'adjacent_location_id');
     }
 
-    /**
-     * Get the adjacent location to the north of the current location.
-     *
-     * @param $type
-     * @return mixed
-     */
     public function adjacent($type)
     {
         return $this->adjacentLocations()->wherePivot('direction', $type)->first();
     }
 
-    /** TODO: maybe for later use */
-    /**
-     * @param LocationInterface $adjacent
-     * @param $direction
-     */
-    public function addAdjacentLocation(LocationInterface $adjacent, $direction)
+    public function addAdjacentLocation(LocationInterface $adjacent, $direction): LocationInterface
     {
         if (!self::isValidDirection($direction)) {
             throw new \InvalidArgumentException('Invalid adjacent direction type: '.$direction);
@@ -119,5 +108,10 @@ class Location extends Model implements LocationInterface
     {
         $this->adjacentLocations()->detach($adjacent);   // remove friend
         $adjacent->adjacentLocations()->detach($this);  // remove yourself, too
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
     }
 }

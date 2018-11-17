@@ -13,4 +13,8 @@ interface LevelInterface
      * @return LevelInterface|null
      */
     public function nextLevel();
+
+    public function getNextLevelXpThreshold();
+
+    public function getId(): int;
 }

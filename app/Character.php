@@ -123,7 +123,7 @@ class Character extends Model implements CharacterInterface
 
     public function isYou(): bool
     {
-        return $this->isPlayerCharacter() && $this->user->id == Auth::id();
+        return $this->isPlayerCharacter() && $this->user->isCurrentAuthenticatedUser();
     }
 
     public function isPlayerCharacter(): bool
@@ -143,32 +143,32 @@ class Character extends Model implements CharacterInterface
 
     public function getRaceName(): string
     {
-        return $this->race->name;
+        return $this->race->getName();
     }
 
     public function getLevelNumber():int
     {
-        return $this->level->id;
+        return $this->level->getId();
     }
 
     public function getNextLevelXp():int
     {
-        return $this->level->next_level_xp_threshold;
+        return $this->level->getNextLevelXpThreshold();
     }
 
     public function getLocationName():string
     {
-        return $this->location->name;
+        return $this->location->getName();
     }
 
     public function attack(CharacterInterface $defender): BattleInterface
     {
-        $battle = DB::transaction(function () use ($defender) {
+        return DB::transaction(function () use ($defender) {
 
             /** @var BattleInterface|Model $battle */
             $battle = $this->attacks()->create([
-                'defender_id' => $defender->id,
-                'location_id' => $defender->location->id,
+                'defender_id' => $defender->getId(),
+                'location_id' => $defender->getLocationId(),
             ]);
 
             $battle->execute();
@@ -177,8 +177,6 @@ class Character extends Model implements CharacterInterface
 
             return $battle;
         });
-
-        return $battle;
     }
 
     public function applyAttributeIncrease(string $attribute): CharacterInterface
@@ -212,7 +210,7 @@ class Character extends Model implements CharacterInterface
 
     protected function shouldLevelUp($nextLevel): bool
     {
-        return !is_null($nextLevel) && ($this->xp > $this->level->next_level_xp_threshold);
+        return !is_null($nextLevel) && ($this->xp > $this->level->getNextLevelXpThreshold());
     }
 
     protected function increaseTotalHitPoints(): Character
@@ -315,5 +313,10 @@ class Character extends Model implements CharacterInterface
     public function getConstitution(): int
     {
         return $this->constitution;
+    }
+
+    public function getLocationId(): int
+    {
+        return $this->location_id;
     }
 }

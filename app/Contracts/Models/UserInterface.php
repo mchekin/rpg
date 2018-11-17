@@ -9,4 +9,8 @@ namespace App\Contracts\Models;
 interface UserInterface
 {
     public function hasCharacter(): bool ;
+
+    public function getId(): int;
+
+    public function isCurrentAuthenticatedUser(): bool;
 }

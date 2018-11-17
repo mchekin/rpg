@@ -19,4 +19,6 @@ interface RaceInterface
     public function getIntelligence(): int;
 
     public function getCharisma(): int;
+
+    public function getName(): string;
 }
