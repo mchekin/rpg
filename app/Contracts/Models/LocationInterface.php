@@ -2,9 +2,6 @@
 
 namespace App\Contracts\Models;
 
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-
 
 /**
  * @property integer id
@@ -12,18 +9,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 interface LocationInterface
 {
-    /**
-     * Get the characters at the location.
-     *
-     * @return HasMany
-     */
-    public function characters();
-
-    /**
-     * @return BelongsToMany
-     */
-    public function adjacentLocations();
-
     /**
      * Get the adjacent location to the north of the current location.
      *

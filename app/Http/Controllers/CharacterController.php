@@ -84,7 +84,7 @@ class CharacterController extends Controller
         return redirect()->route('location.show', compact('location'));
     }
 
-    public function getAttack(Character $defender, Request $request): Response
+    public function getAttack(CharacterInterface $defender, Request $request): Response
     {
         /** @var UserInterface $authenticatedUser */
         $authenticatedUser = $request->user();

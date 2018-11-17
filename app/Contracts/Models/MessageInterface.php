@@ -5,16 +5,6 @@ namespace App\Contracts\Models;
 interface MessageInterface
 {
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function sender();
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function recipient();
-
-    /**
      * Get the number of new messages related to this conversation
      *
      * @param $query

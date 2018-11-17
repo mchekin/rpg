@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Contracts\Models\BattleRoundInterface;
+use App\Contracts\Models\CharacterInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -16,13 +17,7 @@ class BattleRound extends Model implements BattleRoundInterface
         return $this->hasMany(BattleTurn::class);
     }
 
-    /**
-     * @param Character $executor
-     * @param Character $target
-     *
-     * @return BattleRoundInterface
-     */
-    public function performTurn(Character $executor, Character $target)
+    public function performTurn(CharacterInterface $executor, CharacterInterface $target): BattleRoundInterface
     {
         $attackForce = $this->throwOneDice() + $executor->strength;
         $attackFactor = $this->throwOneDice() + $executor->agility;

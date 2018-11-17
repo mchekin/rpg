@@ -31,6 +31,7 @@ use Illuminate\Support\Facades\DB;
  * @property RaceInterface race
  * @property string gender
  * @property int total_hit_points
+ * @property int victor_xp_gained
  */
 class Character extends Model implements CharacterInterface
 {
@@ -109,10 +110,10 @@ class Character extends Model implements CharacterInterface
         return $this->hasMany(Battle::class, 'defender_id');
     }
 
-    public function sendMessageTo(Character $companion, string $content): CharacterInterface
+    public function sendMessageTo(CharacterInterface $companion, string $content): CharacterInterface
     {
         $this->sentMessages()->create([
-            'to_id' => $companion->id,
+            'to_id' => $companion->getId(),
             'content' => $content,
         ]);
 
@@ -194,7 +195,7 @@ class Character extends Model implements CharacterInterface
         return $this;
     }
 
-    public function checkLevelUp(): CharacterInterface
+    protected function checkLevelUp(): CharacterInterface
     {
         while ($this->shouldLevelUp($nextLevel = $this->level->nextLevel())) {
 
@@ -260,5 +261,36 @@ class Character extends Model implements CharacterInterface
     protected static function calculateHP(int $constitution): int
     {
         return $constitution * 10 + self::throwTwoDices();
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function isAlive(): bool
+    {
+        return $this->hit_points > 0;
+    }
+
+    public function incrementWonBattles(): CharacterInterface
+    {
+        $this->battles_won++;
+
+        return $this;
+    }
+
+    public function incrementLostBattles(): CharacterInterface
+    {
+        $this->battles_lost++;
+
+        return $this;
+    }
+
+    public function addXp(int $xp): CharacterInterface
+    {
+        $this->xp += $xp;
+
+        return $this->checkLevelUp();
     }
 }
