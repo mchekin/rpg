@@ -46,8 +46,8 @@ class CreateRacesTable extends Migration
                 "name" => "Human",
                 "description" => "This race combines in itself all the properties of the other races, albeit they are less pronounced.",
 
-                "male_image" => "races/human-male.png",
-                "female_image" => "races/human-female.png",
+                "male_image" => "images/races/human-male.png",
+                "female_image" => "images/races/human-female.png",
 
                 "strength" => 5,
                 "agility" => 5,
@@ -62,8 +62,8 @@ class CreateRacesTable extends Migration
                 "name" => "Elf",
                 "description" => "This race is known for it's great agility, but lacks constitution.",
 
-                "male_image" => "races/elf-male.png",
-                "female_image" => "races/elf-female.png",
+                "male_image" => "images/races/elf-male.png",
+                "female_image" => "images/races/elf-female.png",
 
                 "strength" => 5,
                 "agility" => 9,
@@ -78,8 +78,8 @@ class CreateRacesTable extends Migration
                 "name" => "Dwarf",
                 "description" => "This race is known for it's constitution and resilience, but lack agility and grace.",
 
-                "male_image" => "races/dwarf-male.png",
-                "female_image" => "races/dwarf-female.png",
+                "male_image" => "images/races/dwarf-male.png",
+                "female_image" => "images/races/dwarf-female.png",
 
                 "strength" => 5,
                 "agility" => 1,
@@ -94,8 +94,8 @@ class CreateRacesTable extends Migration
                 "name" => "Orc",
                 "description" => "This race enjoys great physical strength, but lacks intelligence.",
 
-                "male_image" => "races/orc-male.png",
-                "female_image" => "races/orc-female.png",
+                "male_image" => "images/races/orc-male.png",
+                "female_image" => "images/races/orc-female.png",
 
                 "strength" => 9,
                 "agility" => 5,

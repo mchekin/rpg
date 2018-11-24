@@ -60,6 +60,10 @@
 <a name="runningindevelopmentenvironment"></a>
 ### Running in local environment
 
+- Create a symbolic link from "public/storage" to "storage/app/public"
+
+        php artisan storage:link  
+
 - Run PHP build-in development server on the host machine
 
         php artisan serve  

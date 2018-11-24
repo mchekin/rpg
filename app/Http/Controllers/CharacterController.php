@@ -90,7 +90,7 @@ class CharacterController extends Controller
         /** @var UserInterface $authenticatedUser */
         $authenticatedUser = $request->user();
 
-        $character = $authenticatedUser->character;
+        $character = $authenticatedUser->getCharacter();
 
         $battle = $character->attack($defender);
 

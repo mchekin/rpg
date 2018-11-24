@@ -35,7 +35,7 @@ caption.caption-top {
 
 /* Images */
 .img-race {
-    height: 600px !important;
+    width: 80% !important;
 }
 
 .active a{

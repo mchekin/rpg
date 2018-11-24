@@ -30,11 +30,27 @@
                 </div>
             </div>
 
-            <img class="w-50 mx-auto d-block" src="{{ asset('images/' . $character->getImage()) }}">
+            <img class="w-50 mx-auto d-block" src="{{ asset($character->getImage()) }}">
+
+            @if($character->isYou())
+            <div>
+                <form class="mx-5 my-3" role="form" method="POST" action="{{ URL::route('image.store') }}" enctype="multipart/form-data">
+                    {!! csrf_field() !!}
+                    <div class="input-group">
+                        <div class="custom-file">
+                            <input type="file" name="filename" class="form-control" required>
+                        </div>
+                        <div class="mx-2 input-group-append">
+                            <button type="submit" class="btn btn-success">Upload New</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            @endif
 
             <div class="text-center my-5">
                 <a class="btn btn-primary" href="{{ route('location.show', ['location' => $character->location]) }}">
-                    Back to {{ $character->getLocationName() }}
+                    To {{ $character->getLocationName() }}
                     <span class="fa fa-history"></span>
                 </a>
             </div>

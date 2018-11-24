@@ -49,4 +49,8 @@ interface CharacterInterface
     public function applyDamage($damageDone): CharacterInterface;
 
     public function getLocationId(): int;
+
+    public function addImage(string $fileName): ImageInterface;
+
+    public function addProfilePicture(string $fileName): CharacterInterface;
 }
