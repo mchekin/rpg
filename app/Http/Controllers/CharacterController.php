@@ -74,7 +74,7 @@ class CharacterController extends Controller
 
         $characterRepository->save($character);
 
-        return redirect()->route('character.show', compact('character'));
+        return back()->with('status', ucfirst($attribute) . ' + 1');
     }
 
     public function getMove(Character $character, LocationInterface $location): Response
