@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\Models\UserInterface;
+use App\Rules\MaxFileSizeInMegabytes;
 use App\Services\ImageService;
 use Illuminate\Http\Request;
 use Intervention\Image\Constraint;
@@ -13,10 +14,10 @@ class ImageController extends Controller
     public function store(Request $request, ImageService $imageService)
     {
         $this->validate($request, [
-            'filename' => 'image|required'
+            'file' => ['required', 'image', new MaxFileSizeInMegabytes(8)],
         ]);
 
-        $originalImage = $request->file('filename');
+        $originalImage = $request->file('file');
 
         /** @var \Intervention\Image\Image $thumbnailImage */
         $thumbnailImage = Image::make($originalImage);
@@ -46,7 +47,7 @@ class ImageController extends Controller
             . $fileName
         );
 
-        return back()->with('success', 'Your images has been successfully Upload');
+        return back()->with('status', 'Profile picture has been changed');
 
     }
 }

@@ -38,7 +38,7 @@
                     {!! csrf_field() !!}
                     <div class="input-group">
                         <div class="custom-file">
-                            <input type="file" name="filename" class="form-control" required>
+                            <input type="file" name="file" class="form-control" required>
                         </div>
                         <div class="mx-2 input-group-append">
                             <button type="submit" class="btn btn-success">Upload New</button>
