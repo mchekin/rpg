@@ -3,48 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\Models\UserInterface;
-use App\Rules\MaxFileSizeInMegabytes;
-use App\Services\ImageService;
-use Illuminate\Http\Request;
-use Intervention\Image\Constraint;
-use Intervention\Image\Facades\Image;
+use App\Http\Requests\UploadImageRequest;
+use App\Services\FilesystemService;
 
 class ImageController extends Controller
 {
-    public function store(Request $request, ImageService $imageService)
+    public function store(UploadImageRequest $request, FilesystemService $filesystemService)
     {
-        $this->validate($request, [
-            'file' => ['required', 'image', new MaxFileSizeInMegabytes(8)],
-        ]);
-
-        $originalImage = $request->file('file');
-
-        /** @var \Intervention\Image\Image $thumbnailImage */
-        $thumbnailImage = Image::make($originalImage);
-
-        $imagesFolder = storage_path(
-            'app' . DIRECTORY_SEPARATOR
-            . 'public' . DIRECTORY_SEPARATOR
-            . 'images' . DIRECTORY_SEPARATOR
-        );
-
-        $fileName = time() . $originalImage->getClientOriginalName();
-
         /** @var UserInterface $authenticatedUser */
         $authenticatedUser = $request->user();
-
         $character = $authenticatedUser->getCharacter();
 
-        $thumbnailImage
-            ->resize(400, null, function (Constraint $constraint) {
-                $constraint->aspectRatio();
-            })
-            ->save($imagesFolder . $fileName);
+        $imageFile = $filesystemService->writeImage($request->file('file'));
 
         $character->addProfilePicture(
             'storage'. DIRECTORY_SEPARATOR
             . 'images' .DIRECTORY_SEPARATOR
-            . $fileName
+            . $imageFile->basename
         );
 
         return back()->with('status', 'Profile picture has been changed');
