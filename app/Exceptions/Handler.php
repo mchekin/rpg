@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Exceptions\PostTooLargeException;
 
 class Handler extends ExceptionHandler
 {
@@ -31,7 +32,7 @@ class Handler extends ExceptionHandler
      *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
      *
-     * @param  \Exception  $exception
+     * @param  \Exception $exception
      * @return void
      */
     public function report(Exception $exception)
@@ -42,12 +43,48 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $exception
+     * @param  \Illuminate\Http\Request $request
+     * @param  \Exception $exception
      * @return \Illuminate\Http\Response
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof PostTooLargeException) {
+
+            return back()
+                ->withErrors([
+                    'message' => "Uploaded files may not be greater than  {$this->getPostMaxSizeInMegaBytes()} megabytes",
+                ]);
+        }
+
         return parent::render($request, $exception);
+    }
+
+
+
+    /**
+     * Determine the server 'post_max_size' as megabytes.
+     *
+     * @return int
+     */
+    protected function getPostMaxSizeInMegaBytes()
+    {
+        if (is_numeric($postMaxSize = ini_get('post_max_size'))) {
+            return (int) $postMaxSize;
+        }
+
+        $metric = strtoupper(substr($postMaxSize, -1));
+        $postMaxSize = (int) $postMaxSize;
+
+        switch ($metric) {
+            case 'B':
+                return $postMaxSize / 1048576;
+            case 'K':
+                return $postMaxSize / 1024;
+            case 'G':
+                return $postMaxSize * 1024;
+            default:
+                return $postMaxSize;
+        }
     }
 }

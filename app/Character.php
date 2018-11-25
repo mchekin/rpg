@@ -4,6 +4,7 @@ namespace App;
 
 use App\Contracts\Models\BattleInterface;
 use App\Contracts\Models\CharacterInterface;
+use App\Contracts\Models\ImageInterface;
 use App\Contracts\Models\LevelInterface;
 use App\Contracts\Models\LocationInterface;
 use App\Contracts\Models\RaceInterface;
@@ -12,7 +13,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -80,6 +80,24 @@ class Character extends Model implements CharacterInterface
     }
 
     /**
+     * Get the user of the character
+     *
+     * @return BelongsTo
+     */
+    public function profilePicture()
+    {
+        return $this->belongsTo(Image::class, 'profile_picture_id');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function images()
+    {
+        return $this->hasMany(Image::class);
+    }
+
+    /**
      * @return HasMany
      */
     public function receivedMessages()
@@ -138,6 +156,14 @@ class Character extends Model implements CharacterInterface
 
     public function getImage(): string
     {
+        if ($this->profilePicture()->exists())
+        {
+            /** @var ImageInterface $image */
+            $image = $this->profilePicture()->first();
+
+            return $image->getFilename();
+        }
+
         return $this->race->getImageByGender($this->gender);
     }
 
@@ -318,5 +344,24 @@ class Character extends Model implements CharacterInterface
     public function getLocationId(): int
     {
         return $this->location_id;
+    }
+
+    public function addImage(string $fileName): ImageInterface
+    {
+        /** @var ImageInterface $image */
+        $image = $this->images()->create([
+            'filename' => $fileName,
+        ]);
+
+        return $image;
+    }
+
+    public function addProfilePicture(string $fileName): CharacterInterface
+    {
+        $image = $this->addImage($fileName);
+
+        $this->profilePicture()->associate($image)->save();
+
+        return $this;
     }
 }

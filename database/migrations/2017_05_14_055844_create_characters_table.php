@@ -52,6 +52,9 @@ class CreateCharactersTable extends Migration
             $table->unsignedInteger('race_id');
             $table->foreign('race_id')->references('id')->on('races')->onDelete('restrict');
 
+            $table->unsignedInteger('profile_picture_id')->nullable();
+            $table->foreign('profile_picture_id')->references('id')->on('images')->onDelete('set null');
+
             $table->timestamps();
         });
     }
