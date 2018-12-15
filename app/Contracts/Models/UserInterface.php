@@ -15,4 +15,10 @@ interface UserInterface
     public function isCurrentAuthenticatedUser(): bool;
 
     public function getCharacter(): CharacterInterface;
+
+    public function hasThisCharacter(CharacterInterface $character): bool;
+
+    public function updateLastUserActivity(): UserInterface;
+
+    public function isOnline() :bool;
 }

@@ -13,8 +13,8 @@
             <div class="carousel-inner" role="listbox">
                 @foreach($races as $i => $race)
                 <div class="carousel-item{{ ($i == 0) ? ' active' : '' }} text-center">
-                    <img class="img-race img-male" src="{{ asset('images/'.$race->male_image) }}">
-                    <img class="img-race img-female" src="{{ asset('images/'.$race->female_image) }}" style="display: none;">
+                    <img class="img-race img-male" src="{{ asset($race->male_image) }}">
+                    <img class="img-race img-female" src="{{ asset($race->female_image) }}" style="display: none;">
                     <div class="text-dark">
                         <h3>{{ $race->name }}</h3>
                         <p>{{ $race->description }}</p>

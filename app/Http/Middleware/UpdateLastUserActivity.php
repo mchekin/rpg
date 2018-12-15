@@ -2,11 +2,10 @@
 
 namespace App\Http\Middleware;
 
-use App\Contracts\Models\CharacterInterface;
 use App\Contracts\Models\UserInterface;
 use Closure;
 
-class UserOwnsCharacter
+class UpdateLastUserActivity
 {
     /**
      * Handle an incoming request.
@@ -19,12 +18,9 @@ class UserOwnsCharacter
     {
         /** @var UserInterface $user */
         $user = $request->user();
+        if($user) {
 
-        /** @var CharacterInterface $character */
-        $character = $request->route('character');
-
-        if ($user && !$user->hasThisCharacter($character)) {
-            return redirect()->back();
+            $user->updateLastUserActivity();
         }
 
         return $next($request);
