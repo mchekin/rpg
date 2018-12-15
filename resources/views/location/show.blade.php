@@ -26,19 +26,29 @@
             <h2>Characters at this location:</h2>
             <hr>
             <ul class="list-group">
-                <?php $icon = ''; ?>
                 @foreach($location->characters as $character)
                     <?php
-                    /** @var \App\Character $character * */
+                    /** @var \App\Contracts\Models\CharacterInterface $character * */
                     $class = 'list-group-item-warning';
-                    $description = '(NPC)';
 
                     if (!$character->isNPC()) {
-                        $description = $character->isYou() ? '(you)' : '';
                         $class = $character->isYou() ? 'active' : '';
                     }
+
                     ?>
-                    <li href="#" class="list-group-item {{ $class }}">
+                    <li class="list-group-item {{ $class }}">
+
+                        @if($character->isNPC())
+                            <span class="dot dot-npc">
+                            </span>
+                        @elseif($character->isOnline())
+                            <span class="dot dot-online">
+                            </span>
+                        @else
+                            <span class="dot dot-offline">
+                            </span>
+                        @endif
+
                         @if($character->gender == 'male')
                             <span class="badge badge-pill badge-lightskyblue">
                                 <span class="fa fa-mars"></span>
@@ -51,7 +61,6 @@
 
                         <a href="{{ route('character.show', ['character' => $character]) }}">
                             @component('components.short_character_description', compact('character'))
-                                {{ $description }}
                             @endcomponent
                         </a>
 

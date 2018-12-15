@@ -364,4 +364,13 @@ class Character extends Model implements CharacterInterface
 
         return $this;
     }
+
+    public function isOnline(): bool
+    {
+        if($this->isNPC()) {
+            return true;
+        }
+
+        return $this->user->isOnline();
+    }
 }

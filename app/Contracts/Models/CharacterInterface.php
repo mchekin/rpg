@@ -24,6 +24,8 @@ interface CharacterInterface
 
     public function isNPC(): bool;
 
+    public function isOnline(): bool;
+
     public function getImage(): string;
 
     public function getRaceName(): string;

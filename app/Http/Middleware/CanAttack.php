@@ -27,13 +27,13 @@ class CanAttack
 
         if (!$currentUserCharacter->isAlive()) {
             return redirect()->back()->withErrors([
-                'message' => 'You cannot attack in when you character is knocked out',
+                'message' => 'You cannot attack when your character is knocked out',
             ]);
         }
 
         if (!$targetCharacter->isAlive()) {
             return redirect()->back()->withErrors([
-                'message' => 'You cannot attack knocked out character',
+                'message' => 'You cannot attack a knocked out character',
             ]);
         }
 
