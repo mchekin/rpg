@@ -1,11 +1,11 @@
 <?php
 
 namespace App\Contracts\Models;
+use App\Services\FilesystemService\ImageFiles;
 use Illuminate\Http\Request;
 
 interface CharacterInterface
 {
-
     public static function createCharacter(Request $request, RaceInterface $race): CharacterInterface;
 
     public function getId();
@@ -26,7 +26,9 @@ interface CharacterInterface
 
     public function isOnline(): bool;
 
-    public function getImage(): string;
+    public function getProfilePictureFull(): string;
+
+    public function getProfilePictureSmall(): string;
 
     public function getRaceName(): string;
 
@@ -52,7 +54,11 @@ interface CharacterInterface
 
     public function getLocationId(): int;
 
-    public function addImage(string $fileName): ImageInterface;
+    public function addImage(ImageFiles $imageFiles): ImageInterface;
 
-    public function addProfilePicture(string $fileName): CharacterInterface;
+    public function addProfilePicture(ImageFiles $imageFiles): CharacterInterface;
+
+    public function getHitPoints(): int;
+
+    public function getTotalHitPoints(): int;
 }

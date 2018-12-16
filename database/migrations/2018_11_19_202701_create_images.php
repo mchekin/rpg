@@ -19,7 +19,10 @@ class CreateImages extends Migration
             $table->unsignedInteger('character_id')->nullable();
             $table->foreign('character_id')->references('id')->on('characters')->onDelete('restrict');
 
-            $table->string('filename');
+            $table->string('file_path_full');
+            $table->string('file_path_small');
+            $table->string('file_path_icon');
+
             $table->timestamps();
         });
     }

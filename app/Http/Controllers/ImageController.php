@@ -14,15 +14,10 @@ class ImageController extends Controller
         $authenticatedUser = $request->user();
         $character = $authenticatedUser->getCharacter();
 
-        $imageFile = $filesystemService->writeImage($request->file('file'));
+        $imageFiles = $filesystemService->writeImage($request->file('file'), $authenticatedUser);
 
-        $character->addProfilePicture(
-            'storage'. DIRECTORY_SEPARATOR
-            . 'images' .DIRECTORY_SEPARATOR
-            . $imageFile->basename
-        );
+        $character->addProfilePicture($imageFiles);
 
         return back()->with('status', 'Profile picture has been changed');
-
     }
 }

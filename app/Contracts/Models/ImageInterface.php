@@ -6,5 +6,9 @@ interface ImageInterface
 {
     public function getId(): int;
 
-    public function getFilename(): string;
+    public function getFilePathFull(): string;
+
+    public function getFilePathSmall(): string;
+
+    public function getFilePathIcon(): string;
 }
