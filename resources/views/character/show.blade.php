@@ -16,7 +16,8 @@
             </h2>
 
             <?php
-                $hpPercent = ($character->hit_points / $character->total_hit_points) * 100
+                /** @var \App\Contracts\Models\CharacterInterface $character */
+                $hpPercent = ($character->getHitPoints() / $character->getTotalHitPoints()) * 100
             ?>
 
             <div class="progress mx-5 my-3">
@@ -26,11 +27,11 @@
                      aria-valuenow="{{ $hpPercent }}"
                      aria-valuemin="0"
                      aria-valuemax="100">
-                    {{ $character->hit_points }} / {{ $character->total_hit_points }}
+                    {{ $character->getHitPoints() }} / {{ $character->getTotalHitPoints() }}
                 </div>
             </div>
 
-            <img class="w-50 mx-auto d-block" src="{{ asset($character->getImage()) }}">
+            <img class="w-50 mx-auto d-block" src="{{ asset($character->getProfilePictureFull()) }}">
 
             @if($character->isYou())
             <div>

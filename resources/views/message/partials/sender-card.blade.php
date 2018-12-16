@@ -4,7 +4,7 @@
     </a>
 </div>
 <div>
-    <img class="profile-picture" src="{{ asset('svg/avatar.svg') }}" alt="Avatar">
+    <img class="profile-picture" src="{{ asset($message->sender->getProfilePictureSmall()) }}" alt="Avatar">
 </div>
 <div>
     <small>

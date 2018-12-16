@@ -9,6 +9,7 @@ use App\Contracts\Models\LevelInterface;
 use App\Contracts\Models\LocationInterface;
 use App\Contracts\Models\RaceInterface;
 use App\Contracts\Models\UserInterface;
+use App\Services\FilesystemService\ImageFiles;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -154,17 +155,30 @@ class Character extends Model implements CharacterInterface
         return is_null($this->user);
     }
 
-    public function getImage(): string
+    public function getProfilePictureFull(): string
     {
         if ($this->profilePicture()->exists())
         {
             /** @var ImageInterface $image */
             $image = $this->profilePicture()->first();
 
-            return $image->getFilename();
+            return $image->getFilePathFull();
         }
 
         return $this->race->getImageByGender($this->gender);
+    }
+
+    public function getProfilePictureSmall(): string
+    {
+        if ($this->profilePicture()->exists())
+        {
+            /** @var ImageInterface $image */
+            $image = $this->profilePicture()->first();
+
+            return $image->getFilePathSmall();
+        }
+
+        return 'svg/avatar.svg';
     }
 
     public function getRaceName(): string
@@ -346,19 +360,21 @@ class Character extends Model implements CharacterInterface
         return $this->location_id;
     }
 
-    public function addImage(string $fileName): ImageInterface
+    public function addImage(ImageFiles $imageFiles): ImageInterface
     {
         /** @var ImageInterface $image */
         $image = $this->images()->create([
-            'filename' => $fileName,
+            'file_path_full' => $imageFiles->getFullSizePath(),
+            'file_path_small' => $imageFiles->getSmallSizePath(),
+            'file_path_icon' => $imageFiles->getIconSizePath(),
         ]);
 
         return $image;
     }
 
-    public function addProfilePicture(string $fileName): CharacterInterface
+    public function addProfilePicture(ImageFiles $imageFiles): CharacterInterface
     {
-        $image = $this->addImage($fileName);
+        $image = $this->addImage($imageFiles);
 
         $this->profilePicture()->associate($image)->save();
 
@@ -372,5 +388,15 @@ class Character extends Model implements CharacterInterface
         }
 
         return $this->user->isOnline();
+    }
+
+    public function getHitPoints(): int
+    {
+        return $this->hit_points;
+    }
+
+    public function getTotalHitPoints(): int
+    {
+        return $this->total_hit_points;
     }
 }
