@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Contracts\Models;
-use App\Services\FilesystemService\ImageFiles;
+
+use App\Services\FilesystemService\ImageFileCollection;
 use Illuminate\Http\Request;
 
 interface CharacterInterface
@@ -54,9 +55,7 @@ interface CharacterInterface
 
     public function getLocationId(): int;
 
-    public function addImage(ImageFiles $imageFiles): ImageInterface;
-
-    public function addProfilePicture(ImageFiles $imageFiles): CharacterInterface;
+    public function addProfilePicture(ImageFileCollection $imageFiles): CharacterInterface;
 
     public function getHitPoints(): int;
 

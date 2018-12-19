@@ -9,7 +9,7 @@ use App\Contracts\Models\LevelInterface;
 use App\Contracts\Models\LocationInterface;
 use App\Contracts\Models\RaceInterface;
 use App\Contracts\Models\UserInterface;
-use App\Services\FilesystemService\ImageFiles;
+use App\Services\FilesystemService\ImageFileCollection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -360,19 +360,7 @@ class Character extends Model implements CharacterInterface
         return $this->location_id;
     }
 
-    public function addImage(ImageFiles $imageFiles): ImageInterface
-    {
-        /** @var ImageInterface $image */
-        $image = $this->images()->create([
-            'file_path_full' => $imageFiles->getFullSizePath(),
-            'file_path_small' => $imageFiles->getSmallSizePath(),
-            'file_path_icon' => $imageFiles->getIconSizePath(),
-        ]);
-
-        return $image;
-    }
-
-    public function addProfilePicture(ImageFiles $imageFiles): CharacterInterface
+    public function addProfilePicture(ImageFileCollection $imageFiles): CharacterInterface
     {
         $image = $this->addImage($imageFiles);
 
@@ -398,5 +386,17 @@ class Character extends Model implements CharacterInterface
     public function getTotalHitPoints(): int
     {
         return $this->total_hit_points;
+    }
+
+    private function addImage(ImageFileCollection $imageFiles): ImageInterface
+    {
+        /** @var ImageInterface $image */
+        $image = $this->images()->create([
+            'file_path_full' => $imageFiles->getFullSizePath(),
+            'file_path_small' => $imageFiles->getSmallSizePath(),
+            'file_path_icon' => $imageFiles->getIconSizePath(),
+        ]);
+
+        return $image;
     }
 }

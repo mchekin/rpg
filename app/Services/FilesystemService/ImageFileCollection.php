@@ -5,21 +5,21 @@ namespace App\Services\FilesystemService;
 use Illuminate\Support\Collection;
 use Intervention\Image\Image;
 
-class ImageFiles extends Collection
+class ImageFileCollection extends Collection
 {
     /**
      * @var string
      */
-    private $folder;
+    private $folderPath;
 
-    public function __construct(string $folder, $items = [])
+    public function __construct(string $folderPath, $items = [])
     {
         parent::__construct($items);
 
-        $this->folder = $folder;
+        $this->folderPath = $folderPath;
     }
 
-    public function addImageFile($key, Image $image): self
+    public function add($key, Image $image): self
     {
         $this->offsetSet($key, $image);
 
@@ -31,7 +31,7 @@ class ImageFiles extends Collection
         /** @var Image $image */
         $image = $this->get('full');
 
-        $path = $image ? $this->folder . $image->basename : '';
+        $path = $image ? $this->folderPath . $image->basename : '';
 
         return $path;
     }
@@ -41,7 +41,7 @@ class ImageFiles extends Collection
         /** @var Image $image */
         $image = $this->get('small');
 
-        $path = $image ? $this->folder . $image->basename : '';
+        $path = $image ? $this->folderPath . $image->basename : '';
 
         return $path;
     }
@@ -51,7 +51,7 @@ class ImageFiles extends Collection
         /** @var Image $image */
         $image = $this->get('icon');
 
-        $path = $image ? $this->folder . $image->basename : '';
+        $path = $image ? $this->folderPath . $image->basename : '';
 
         return $path;
     }

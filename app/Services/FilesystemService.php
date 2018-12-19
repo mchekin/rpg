@@ -3,11 +3,11 @@
 namespace App\Services;
 
 use App\Contracts\Models\UserInterface;
-use App\Services\FilesystemService\ImageFiles;
-use Illuminate\Support\Facades\File;
+use App\Services\FilesystemService\ImageFileCollectionFactory;
+use App\Services\FilesystemService\ImageFileCollection;
+use Illuminate\Filesystem\Filesystem;
 use Intervention\Image\Constraint;
-use Intervention\Image\Facades\Image as ImageFacade;
-use Intervention\Image\Image as ImageFile;
+use Intervention\Image\ImageManager;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FilesystemService
@@ -22,41 +22,94 @@ class FilesystemService
         'icon' => self::IMAGE_WIDTH_ICON,
     ];
 
+    /**
+     * @var Filesystem
+     */
+    private $filesystem;
+
+    /**
+     * @var ImageManager
+     */
+    private $imageManager;
+
+    /**
+     * @var ImageFileCollectionFactory
+     */
+    private $fileCollectionFactory;
+
+    public function __construct(
+        Filesystem $filesystem,
+        ImageManager $imageManager,
+        ImageFileCollectionFactory $fileCollectionFactory
+    ) {
+        $this->filesystem = $filesystem;
+        $this->imageManager = $imageManager;
+        $this->fileCollectionFactory = $fileCollectionFactory;
+    }
+
     const USERS_IMAGES_FOLDER = 'images' . DIRECTORY_SEPARATOR . 'users' . DIRECTORY_SEPARATOR;
 
-    public function writeImage(UploadedFile $originalImage, UserInterface $user): ImageFiles
+    public function writeImage(UploadedFile $originalImage, UserInterface $user): ImageFileCollection
     {
-        $fullStorageFolderPath = storage_path(
-            'app' . DIRECTORY_SEPARATOR
-            . 'public' . DIRECTORY_SEPARATOR
-            . self::USERS_IMAGES_FOLDER
-            . $user->getId() . DIRECTORY_SEPARATOR
-        );
+        $fullFolderPath = $this->getFullFolderPath($user);
+        $relativeFolderPath = $this->getRelativeFolderPath($user);
 
-        $urlPath = 'storage' . DIRECTORY_SEPARATOR
-            . self::USERS_IMAGES_FOLDER
-            . $user->getId() . DIRECTORY_SEPARATOR;
+        $this->createDirectoryIfMissing($fullFolderPath);
 
-        // creating directory if not exists
-        File::exists($fullStorageFolderPath) or File::makeDirectory($fullStorageFolderPath);
+        $imageFiles = $this->fileCollectionFactory->create($relativeFolderPath);
 
-        $fileName = time() . $originalImage->getClientOriginalName();
-
-        $imageFiles = new ImageFiles($urlPath);
+        $baseFileName = $this->generateBaseFileName($originalImage);
 
         foreach (static::AVAILABLE_IMAGE_WIDTHS as $key => $imageWidth) {
-            /** @var ImageFile $image */
-            $image = ImageFacade::make($originalImage);
+
+            $image = $this->imageManager->make($originalImage);
+
+            $filePath = $fullFolderPath . '_' . $key . '_' . $baseFileName;
 
             $image
                 ->resize($imageWidth, null, function (Constraint $constraint) {
                     $constraint->aspectRatio();
                 })
-                ->save($fullStorageFolderPath . '_' . $key . '_' . $fileName );
+                ->save($filePath);
 
-            $imageFiles->addImageFile($key, $image);
+            $imageFiles->add($key, $image);
         }
 
         return $imageFiles;
+    }
+
+    /**
+     * @param UserInterface $user
+     * @return string
+     */
+    private function getFullFolderPath(UserInterface $user): string
+    {
+        return storage_path(
+            'app' . DIRECTORY_SEPARATOR
+            . 'public' . DIRECTORY_SEPARATOR
+            . $this->getUserImagesPath($user)
+        );
+    }
+
+    private function getRelativeFolderPath(UserInterface $user): string
+    {
+        return 'storage' . DIRECTORY_SEPARATOR
+            . $this->getUserImagesPath($user);
+    }
+
+    private function getUserImagesPath(UserInterface $user): string
+    {
+        return self::USERS_IMAGES_FOLDER . $user->getId() . DIRECTORY_SEPARATOR;
+    }
+
+    private function generateBaseFileName(UploadedFile $originalImage): string
+    {
+        return time() . $originalImage->getClientOriginalName();
+    }
+
+    private function createDirectoryIfMissing(string $fullFolderPath): bool
+    {
+        return $this->filesystem->exists($fullFolderPath)
+            or $this->filesystem->makeDirectory($fullFolderPath);
     }
 }
