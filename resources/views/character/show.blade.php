@@ -35,7 +35,7 @@
 
             @if($character->isYou())
             <div>
-                <form class="mx-5 my-3" role="form" method="POST" action="{{ URL::route('image.store') }}" enctype="multipart/form-data">
+                <form class="mx-5 my-3" role="form" method="POST" action="{{ URL::route('character.profile-picture.store', compact('character')) }}" enctype="multipart/form-data">
                     {!! csrf_field() !!}
                     <div class="input-group">
                         <div class="custom-file">

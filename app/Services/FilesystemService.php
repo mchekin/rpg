@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Contracts\Models\UserInterface;
+use App\Contracts\Models\CharacterInterface;
 use App\Services\FilesystemService\ImageFileCollectionFactory;
 use App\Services\FilesystemService\ImageFileCollection;
 use Illuminate\Filesystem\Filesystem;
@@ -47,14 +47,14 @@ class FilesystemService
         $this->fileCollectionFactory = $fileCollectionFactory;
     }
 
-    const USERS_IMAGES_FOLDER = 'images' . DIRECTORY_SEPARATOR . 'users' . DIRECTORY_SEPARATOR;
+    const CHARACTER_IMAGE_FOLDER = 'images' . DIRECTORY_SEPARATOR . 'characters' . DIRECTORY_SEPARATOR;
 
-    public function writeImage(UploadedFile $originalImage, UserInterface $user): ImageFileCollection
+    public function writeImage(CharacterInterface $character, UploadedFile $originalImage): ImageFileCollection
     {
-        $fullFolderPath = $this->getFullFolderPath($user);
-        $relativeFolderPath = $this->getRelativeFolderPath($user);
+        $fullFolderPath = $this->getFullFolderPath($character);
+        $relativeFolderPath = $this->getRelativeFolderPath($character);
 
-        $this->createDirectoryIfMissing($fullFolderPath);
+        $this->createFolderIfMissing($fullFolderPath);
 
         $imageFiles = $this->fileCollectionFactory->create($relativeFolderPath);
 
@@ -78,28 +78,24 @@ class FilesystemService
         return $imageFiles;
     }
 
-    /**
-     * @param UserInterface $user
-     * @return string
-     */
-    private function getFullFolderPath(UserInterface $user): string
+    private function getFullFolderPath(CharacterInterface $character): string
     {
         return storage_path(
             'app' . DIRECTORY_SEPARATOR
             . 'public' . DIRECTORY_SEPARATOR
-            . $this->getUserImagesPath($user)
+            . $this->getCharacterImageFolder($character)
         );
     }
 
-    private function getRelativeFolderPath(UserInterface $user): string
+    private function getRelativeFolderPath(CharacterInterface $character): string
     {
         return 'storage' . DIRECTORY_SEPARATOR
-            . $this->getUserImagesPath($user);
+            . $this->getCharacterImageFolder($character);
     }
 
-    private function getUserImagesPath(UserInterface $user): string
+    private function getCharacterImageFolder(CharacterInterface $character): string
     {
-        return self::USERS_IMAGES_FOLDER . $user->getId() . DIRECTORY_SEPARATOR;
+        return self::CHARACTER_IMAGE_FOLDER . $character->getId() . DIRECTORY_SEPARATOR;
     }
 
     private function generateBaseFileName(UploadedFile $originalImage): string
@@ -107,7 +103,7 @@ class FilesystemService
         return time() . $originalImage->getClientOriginalName();
     }
 
-    private function createDirectoryIfMissing(string $fullFolderPath): bool
+    private function createFolderIfMissing(string $fullFolderPath): bool
     {
         return $this->filesystem->exists($fullFolderPath)
             or $this->filesystem->makeDirectory($fullFolderPath);

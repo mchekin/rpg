@@ -18,7 +18,6 @@ use Illuminate\Support\Facades\Auth;
 
 class CharacterController extends Controller
 {
-
     /**
      * CharacterController constructor.
      */
