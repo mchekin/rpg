@@ -27,6 +27,10 @@ interface CharacterInterface
 
     public function isOnline(): bool;
 
+    public function hasProfilePicture(): bool;
+
+    public function getProfilePicture();
+
     public function getProfilePictureFull(): string;
 
     public function getProfilePictureSmall(): string;
@@ -56,6 +60,8 @@ interface CharacterInterface
     public function getLocationId(): int;
 
     public function addProfilePicture(ImageFileCollection $imageFiles): CharacterInterface;
+
+    public function deleteProfilePicture(): CharacterInterface;
 
     public function getHitPoints(): int;
 

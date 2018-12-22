@@ -2,6 +2,7 @@
 
 use App\Contracts\Models\BattleInterface;
 use App\Contracts\Models\CharacterInterface;
+use App\Contracts\Models\ImageInterface;
 use App\Contracts\Models\LocationInterface;
 use App\Contracts\Models\MessageInterface;
 
@@ -21,6 +22,7 @@ Route::model("character", CharacterInterface::class);
 Route::model("battle", BattleInterface::class);
 Route::model("location", LocationInterface::class);
 Route::model("message", MessageInterface::class);
+Route::model("profile-image", ImageInterface::class);
 
 Route::get('/character/{character}/location/{location}/move', 'CharacterController@getMove')
     ->name('character.move');
@@ -52,4 +54,4 @@ Route::resource("character", "CharacterController");
 Route::resource("location", "LocationController");
 Route::resource("battle", "BattleController")->only(['show']);
 Route::resource("character.message", "MessageController")->only(['index', 'store']);
-Route::resource("character.profile-picture", "ProfilePictureController")->only(['store', 'delete']);
+Route::resource("character.profile-picture", "ProfilePictureController")->only(['store', 'destroy']);

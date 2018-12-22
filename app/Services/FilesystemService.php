@@ -6,6 +6,7 @@ use App\Contracts\Models\CharacterInterface;
 use App\Services\FilesystemService\ImageFileCollectionFactory;
 use App\Services\FilesystemService\ImageFileCollection;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Filesystem\FilesystemManager;
 use Intervention\Image\Constraint;
 use Intervention\Image\ImageManager;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -49,10 +50,12 @@ class FilesystemService
 
     const CHARACTER_IMAGE_FOLDER = 'images' . DIRECTORY_SEPARATOR . 'characters' . DIRECTORY_SEPARATOR;
 
-    public function writeImage(CharacterInterface $character, UploadedFile $originalImage): ImageFileCollection
+    public function writeProfilePictureFiles(CharacterInterface $character, UploadedFile $originalImage): ImageFileCollection
     {
         $fullFolderPath = $this->getFullFolderPath($character);
         $relativeFolderPath = $this->getRelativeFolderPath($character);
+
+        $this->filesystem->deleteDirectory($fullFolderPath);
 
         $this->createFolderIfMissing($fullFolderPath);
 
@@ -76,6 +79,13 @@ class FilesystemService
         }
 
         return $imageFiles;
+    }
+
+    public function deleteProfilePictureFiles(CharacterInterface $character): bool
+    {
+        $fullFolderPath = $this->getFullFolderPath($character);
+
+        return $this->filesystem->deleteDirectory($fullFolderPath);
     }
 
     private function getFullFolderPath(CharacterInterface $character): string

@@ -34,25 +34,38 @@
             <img class="w-50 mx-auto d-block" src="{{ asset($character->getProfilePictureFull()) }}">
 
             @if($character->isYou())
-            <div>
-                <form class="mx-5 my-3" role="form" method="POST" action="{{ URL::route('character.profile-picture.store', compact('character')) }}" enctype="multipart/form-data">
+            <div class="mx-5 my-3">
+                <form role="form" method="POST" action="{{ URL::route('character.profile-picture.store', compact('character')) }}" enctype="multipart/form-data">
                     {!! csrf_field() !!}
                     <div class="input-group">
                         <div class="custom-file">
                             <input type="file" name="file" class="form-control" required>
                         </div>
                         <div class="mx-2 input-group-append">
-                            <button type="submit" class="btn btn-success">Upload New</button>
+                            <button type="submit" class="btn btn-success">Upload <span class="fas fa-upload"></span></button>
                         </div>
                     </div>
                 </form>
             </div>
             @endif
 
+            @if($character->hasProfilePicture())
+                <div class="text-center">
+                <?php $profilePicture = $character->getProfilePicture() ?>
+                <form role="form" method="POST" action="{{ URL::route('character.profile-picture.destroy', compact('character', 'profilePicture')) }}">
+                    {{ method_field('DELETE') }}
+                    {!! csrf_field() !!}
+                    <div class="mx-2">
+                        <button type="submit" class="btn btn-danger btn-sm">Delete Profile Picture <span class="fas fa-save"></span></button>
+                    </div>
+                </form>
+                </div>
+            @endif
+
             <div class="text-center my-5">
                 <a class="btn btn-primary" href="{{ route('location.show', ['location' => $character->location]) }}">
                     To {{ $character->getLocationName() }}
-                    <span class="fa fa-history"></span>
+                    <span class="fas fa-walking"></span>
                 </a>
             </div>
 

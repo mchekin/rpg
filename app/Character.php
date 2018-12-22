@@ -34,6 +34,7 @@ use Illuminate\Support\Facades\DB;
  * @property string gender
  * @property int total_hit_points
  * @property int victor_xp_gained
+ * @property ImageInterface profilePicture
  */
 class Character extends Model implements CharacterInterface
 {
@@ -153,6 +154,16 @@ class Character extends Model implements CharacterInterface
     public function isNPC(): bool
     {
         return is_null($this->user);
+    }
+
+    public function hasProfilePicture(): bool
+    {
+        return $this->profilePicture()->exists();
+    }
+
+    public function getProfilePicture()
+    {
+        return $this->profilePicture;
     }
 
     public function getProfilePictureFull(): string
@@ -365,6 +376,13 @@ class Character extends Model implements CharacterInterface
         $image = $this->addImage($imageFiles);
 
         $this->profilePicture()->associate($image)->save();
+
+        return $this;
+    }
+
+    public function deleteProfilePicture(): CharacterInterface
+    {
+        $this->profilePicture()->delete();
 
         return $this;
     }
