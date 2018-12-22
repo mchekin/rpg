@@ -2,12 +2,13 @@
 
 namespace App\Services;
 
-use App\Contracts\Models\UserInterface;
-use App\Services\FilesystemService\ImageFiles;
-use Illuminate\Support\Facades\File;
+use App\Contracts\Models\CharacterInterface;
+use App\Services\FilesystemService\ImageFileCollectionFactory;
+use App\Services\FilesystemService\ImageFileCollection;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Filesystem\FilesystemManager;
 use Intervention\Image\Constraint;
-use Intervention\Image\Facades\Image as ImageFacade;
-use Intervention\Image\Image as ImageFile;
+use Intervention\Image\ImageManager;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FilesystemService
@@ -22,41 +23,99 @@ class FilesystemService
         'icon' => self::IMAGE_WIDTH_ICON,
     ];
 
-    const USERS_IMAGES_FOLDER = 'images' . DIRECTORY_SEPARATOR . 'users' . DIRECTORY_SEPARATOR;
+    /**
+     * @var Filesystem
+     */
+    private $filesystem;
 
-    public function writeImage(UploadedFile $originalImage, UserInterface $user): ImageFiles
+    /**
+     * @var ImageManager
+     */
+    private $imageManager;
+
+    /**
+     * @var ImageFileCollectionFactory
+     */
+    private $fileCollectionFactory;
+
+    public function __construct(
+        Filesystem $filesystem,
+        ImageManager $imageManager,
+        ImageFileCollectionFactory $fileCollectionFactory
+    ) {
+        $this->filesystem = $filesystem;
+        $this->imageManager = $imageManager;
+        $this->fileCollectionFactory = $fileCollectionFactory;
+    }
+
+    const CHARACTER_IMAGE_FOLDER = 'images' . DIRECTORY_SEPARATOR . 'characters' . DIRECTORY_SEPARATOR;
+
+    public function writeProfilePictureFiles(CharacterInterface $character, UploadedFile $originalImage): ImageFileCollection
     {
-        $fullStorageFolderPath = storage_path(
-            'app' . DIRECTORY_SEPARATOR
-            . 'public' . DIRECTORY_SEPARATOR
-            . self::USERS_IMAGES_FOLDER
-            . $user->getId() . DIRECTORY_SEPARATOR
-        );
+        $fullFolderPath = $this->getFullFolderPath($character);
+        $relativeFolderPath = $this->getRelativeFolderPath($character);
 
-        $urlPath = 'storage' . DIRECTORY_SEPARATOR
-            . self::USERS_IMAGES_FOLDER
-            . $user->getId() . DIRECTORY_SEPARATOR;
+        $this->filesystem->deleteDirectory($fullFolderPath);
 
-        // creating directory if not exists
-        File::exists($fullStorageFolderPath) or File::makeDirectory($fullStorageFolderPath);
+        $this->createFolderIfMissing($fullFolderPath);
 
-        $fileName = time() . $originalImage->getClientOriginalName();
+        $imageFiles = $this->fileCollectionFactory->create($relativeFolderPath);
 
-        $imageFiles = new ImageFiles($urlPath);
+        $baseFileName = $this->generateBaseFileName($originalImage);
 
         foreach (static::AVAILABLE_IMAGE_WIDTHS as $key => $imageWidth) {
-            /** @var ImageFile $image */
-            $image = ImageFacade::make($originalImage);
+
+            $image = $this->imageManager->make($originalImage);
+
+            $filePath = $fullFolderPath . '_' . $key . '_' . $baseFileName;
 
             $image
                 ->resize($imageWidth, null, function (Constraint $constraint) {
                     $constraint->aspectRatio();
                 })
-                ->save($fullStorageFolderPath . '_' . $key . '_' . $fileName );
+                ->save($filePath);
 
-            $imageFiles->addImageFile($key, $image);
+            $imageFiles->add($key, $image);
         }
 
         return $imageFiles;
+    }
+
+    public function deleteProfilePictureFiles(CharacterInterface $character): bool
+    {
+        $fullFolderPath = $this->getFullFolderPath($character);
+
+        return $this->filesystem->deleteDirectory($fullFolderPath);
+    }
+
+    private function getFullFolderPath(CharacterInterface $character): string
+    {
+        return storage_path(
+            'app' . DIRECTORY_SEPARATOR
+            . 'public' . DIRECTORY_SEPARATOR
+            . $this->getCharacterImageFolder($character)
+        );
+    }
+
+    private function getRelativeFolderPath(CharacterInterface $character): string
+    {
+        return 'storage' . DIRECTORY_SEPARATOR
+            . $this->getCharacterImageFolder($character);
+    }
+
+    private function getCharacterImageFolder(CharacterInterface $character): string
+    {
+        return self::CHARACTER_IMAGE_FOLDER . $character->getId() . DIRECTORY_SEPARATOR;
+    }
+
+    private function generateBaseFileName(UploadedFile $originalImage): string
+    {
+        return time() . $originalImage->getClientOriginalName();
+    }
+
+    private function createFolderIfMissing(string $fullFolderPath): bool
+    {
+        return $this->filesystem->exists($fullFolderPath)
+            or $this->filesystem->makeDirectory($fullFolderPath);
     }
 }

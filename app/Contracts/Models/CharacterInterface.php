@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Contracts\Models;
-use App\Services\FilesystemService\ImageFiles;
+
+use App\Services\FilesystemService\ImageFileCollection;
 use Illuminate\Http\Request;
 
 interface CharacterInterface
@@ -25,6 +26,10 @@ interface CharacterInterface
     public function isNPC(): bool;
 
     public function isOnline(): bool;
+
+    public function hasProfilePicture(): bool;
+
+    public function getProfilePicture();
 
     public function getProfilePictureFull(): string;
 
@@ -54,9 +59,9 @@ interface CharacterInterface
 
     public function getLocationId(): int;
 
-    public function addImage(ImageFiles $imageFiles): ImageInterface;
+    public function addProfilePicture(ImageFileCollection $imageFiles): CharacterInterface;
 
-    public function addProfilePicture(ImageFiles $imageFiles): CharacterInterface;
+    public function deleteProfilePicture(): CharacterInterface;
 
     public function getHitPoints(): int;
 
