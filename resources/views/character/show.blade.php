@@ -47,19 +47,20 @@
                     </div>
                 </form>
             </div>
-            @endif
 
-            @if($character->hasProfilePicture())
-                <div class="text-center">
-                <?php $profilePicture = $character->getProfilePicture() ?>
-                <form role="form" method="POST" action="{{ URL::route('character.profile-picture.destroy', compact('character', 'profilePicture')) }}">
-                    {{ method_field('DELETE') }}
-                    {!! csrf_field() !!}
-                    <div class="mx-2">
-                        <button type="submit" class="btn btn-danger btn-sm">Delete Profile Picture <span class="fas fa-save"></span></button>
+                @if($character->hasProfilePicture())
+                    <div class="text-center">
+                    <?php $profilePicture = $character->getProfilePicture() ?>
+                    <form role="form" method="POST" action="{{ URL::route('character.profile-picture.destroy', compact('character', 'profilePicture')) }}">
+                        {{ method_field('DELETE') }}
+                        {!! csrf_field() !!}
+                        <div class="mx-2">
+                            <button type="submit" class="btn btn-danger btn-sm">Delete Profile Picture <span class="fas fa-save"></span></button>
+                        </div>
+                    </form>
                     </div>
-                </form>
-                </div>
+                @endif
+
             @endif
 
             <div class="text-center my-5">
