@@ -4,7 +4,11 @@ namespace App;
 
 use App\Contracts\Models\MessageInterface;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property int state
+ */
 class Message extends Model implements MessageInterface
 {
     const UNREAD = 1;
@@ -22,7 +26,7 @@ class Message extends Model implements MessageInterface
     public $timestamps = true;
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function sender()
     {
@@ -30,7 +34,7 @@ class Message extends Model implements MessageInterface
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function recipient()
     {
@@ -63,7 +67,7 @@ class Message extends Model implements MessageInterface
      * Set the user's first name.
      *
      * @param  string  $value
-     * @return string
+     * @return void
      */
     public function setContentAttribute($value)
     {
@@ -72,5 +76,10 @@ class Message extends Model implements MessageInterface
         $limitedString = str_limit($value, self::CONTENT_LIMIT, '');
 
         $this->attributes['content'] = nl2br(e($limitedString));
+    }
+
+    public function unseenByRecipient(): bool
+    {
+        return (int)$this->getOriginal('state') === self::UNREAD;
     }
 }

@@ -131,6 +131,14 @@ class Character extends Model implements CharacterInterface
         return $this->hasMany(Battle::class, 'defender_id');
     }
 
+    /**
+     * @return HasMany
+     */
+    public function battles()
+    {
+        return $this->hasMany(Battle::class, 'defender_id');
+    }
+
     public function sendMessageTo(CharacterInterface $companion, string $content): CharacterInterface
     {
         $this->sentMessages()->create([

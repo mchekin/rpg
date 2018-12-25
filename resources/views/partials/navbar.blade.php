@@ -6,12 +6,12 @@
 
     <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav">
-            @if (Auth::check())
+            @if (Auth::check() && Auth::user()->hasCharacter())
                 <li class="nav-item button">
                     <a href="{{ URL::route('message.inbox') }}" class="nav-link">
                         <span class="fa fa-envelope">
                             Messages
-                            @if(Auth::user()->hasCharacter() && Auth::user()->character->receivedMessages()->unread()->count() > 0)
+                            @if(Auth::user()->character->receivedMessages()->unread()->count() > 0)
                                 <span class="badge badge-danger">
                                      {{ Auth::user()->character->receivedMessages()->unread()->count() }}
                                 </span>
@@ -19,8 +19,19 @@
                         </span>
                     </a>
                 </li>
+                <li class="nav-item button">
+                    <a href="{{ URL::route('character.battle.index', ['character' => Auth::user()->character]) }}" class="nav-link">
+                        <span class="fas fa-bolt">
+                            Battles
+                            @if(Auth::user()->character->defends()->unseenByDefender()->count() > 0)
+                                <span class="badge badge-danger">
+                                     {{ Auth::user()->character->defends()->unseenByDefender()->count() }}
+                                </span>
+                            @endif
+                        </span>
+                    </a>
+                </li>
             @endif
-            {{--<li class="active nav-item"><a href="{{ URL::to(&apos;/home&apos;) }}" class="nav-link">Home</a></li>--}}
         </ul>
         <ul class="nav navbar-nav ml-auto">
             @if (Auth::check())

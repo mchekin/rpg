@@ -15,12 +15,6 @@ class BattleController extends Controller
         $this->middleware('has.character', ['only' => ['show']]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  BattleInterface $battle
-     * @return \Illuminate\Http\Response
-     */
     public function show(BattleInterface $battle)
     {
         return view('battle.show', compact('battle'));
