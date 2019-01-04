@@ -1,18 +1,22 @@
 # Contributing
 
-Thanks for your interest.
-Your contribution is highly appriciated.
+Thanks for your interest in the project.
+Your contribution is highly appreciated.
 Here are our guidelines to contributing to the project.
 
-## Submitting bug reports
-- Check the issues to see if your problem has already been brought up.
-- Be sure to be clear and give instructions on how to reproduce the issue you're having.
+## Adding Feature / Improvement suggestions / Submitting bug report
+Feel free to suggest new features, propose improvements or submitting bug reports.
 
-## Code contribution
+- Open Issues tab
+- Create new Issue with an appropriate label
+
+Event better if you create a pull request.
+
+## Creating a pull request
 - Fork the repository.
-- Create a new branch named after your issue and its number:
+- Create a new branch from the master branch:
 
     - `git checkout -b brief-description`
     
-- Push your changes.
-- Submit a pull request.
+- Commit and push your changes.
+- Submit a pull request through.
