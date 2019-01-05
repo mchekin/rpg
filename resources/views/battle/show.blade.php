@@ -15,10 +15,14 @@
 
             <ul class="list-group">
                 <li class="list-group-item">
+                    <a href="{{ route('character.show', ['character' => $battle->getAttacker()]) }}">
                     {{$battle->attacker->name}} (Attacker)
+                    </a>
                 </li>
                 <li class="list-group-item">
+                    <a href="{{ route('character.show', ['character' => $battle->getDefender()]) }}">
                     {{$battle->defender->name}} (Defender)
+                    </a>
                 </li>
                 <li class="list-group-item">
                     The winner is: {{$battle->victor->name}}

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Http\ViewComposers\CharacterBattle\AllCharacterBattlesComposer;
 use App\Http\ViewComposers\InboxComposer;
 use App\Http\ViewComposers\MessagingComposer;
 use App\Http\ViewComposers\SentComposer;
@@ -20,6 +21,8 @@ class ViewComposerServiceProvider extends ServiceProvider
         View::composer('message.index', MessagingComposer::class);
         View::composer('message.inbox', InboxComposer::class);
         View::composer('message.sent', SentComposer::class);
+
+        View::composer('character.battle.index', AllCharacterBattlesComposer::class);
     }
 
     /**

@@ -16,24 +16,24 @@
         </div>
 
         <div class="row">
-            <div class="col text-center my-auto">
+            <div class="col text-right my-auto">
                 @if(!is_null($adjacent = $location->adjacent('west')))
                     <div>
-                        <span class="fa fa-angle-left"></span>
                         <a href="{{ route('character.move', ['character' => Auth::user()->character, 'location' => $location->adjacent('west')]) }}">
                             {{ $location->adjacent('west')->name }}
                         </a>
+                        <span class="fa fa-angle-left"></span>
                     </div>
                 @endif
             </div>
             <div class="col text-center my-auto"><span class="fas fa-walking fa-2x"></span></div>
-            <div class="col text-center my-auto">
+            <div class="col text-left my-auto">
                 @if(!is_null($adjacent = $location->adjacent('east')))
                     <div>
+                        <span class="fa fa-angle-right"></span>
                         <a href="{{ route('character.move', ['character' => Auth::user()->character, 'location' => $location->adjacent('east')]) }}">
                             {{ $location->adjacent('east')->name }}
                         </a>
-                        <span class="fa fa-angle-right"></span>
                     </div>
                 @endif
             </div>

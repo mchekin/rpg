@@ -5,6 +5,7 @@ namespace App;
 use App\Contracts\Models\BattleInterface;
 use App\Contracts\Models\BattleRoundInterface;
 use App\Contracts\Models\CharacterInterface;
+use App\Contracts\Models\LocationInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,6 +16,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property CharacterInterface attacker
  * @property CharacterInterface defender
  * @property int victor_xp_gained
+ * @property LocationInterface location
+ * @property CharacterInterface victor
  */
 class Battle extends Model implements BattleInterface
 {
@@ -67,6 +70,26 @@ class Battle extends Model implements BattleInterface
     }
 
     /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopeUnseenByDefender($query)
+    {
+        return $query->where('seen_by_defender', false);
+    }
+
+    /**
+     * Read the selected Messages
+     *
+     * @param $query
+     * @return mixed
+     */
+    public function scopeMarkAsSeenByDefender($query)
+    {
+        return $query->update(['seen_by_defender' => true]);
+    }
+
+    /**
      * @return BattleInterface
      */
     public function execute(): BattleInterface
@@ -102,5 +125,25 @@ class Battle extends Model implements BattleInterface
         $this->victor_xp_gained = max($loser->getLevelNumber() - $victor->getLevelNumber(), 1) * 10;
 
         return $this->victor_xp_gained;
+    }
+
+    public function getAttacker(): CharacterInterface
+    {
+        return $this->attacker;
+    }
+
+    public function getDefender(): CharacterInterface
+    {
+        return $this->defender;
+    }
+
+    public function getLocation(): LocationInterface
+    {
+        return $this->location;
+    }
+
+    public function isTheVictor(CharacterInterface $character): bool
+    {
+        return $this->victor->id ===  $character->getId();
     }
 }

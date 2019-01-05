@@ -55,3 +55,4 @@ Route::resource("location", "LocationController");
 Route::resource("battle", "BattleController")->only(['show']);
 Route::resource("character.message", "MessageController")->only(['index', 'store']);
 Route::resource("character.profile-picture", "ProfilePictureController")->only(['store', 'destroy']);
+Route::resource("character.battle", "CharacterBattleController")->only(['index']);
