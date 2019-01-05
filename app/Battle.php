@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property CharacterInterface defender
  * @property int victor_xp_gained
  * @property LocationInterface location
+ * @property CharacterInterface victor
  */
 class Battle extends Model implements BattleInterface
 {
@@ -139,5 +140,10 @@ class Battle extends Model implements BattleInterface
     public function getLocation(): LocationInterface
     {
         return $this->location;
+    }
+
+    public function isTheVictor(CharacterInterface $character): bool
+    {
+        return $this->victor->id ===  $character->getId();
     }
 }

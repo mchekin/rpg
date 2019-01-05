@@ -32,7 +32,7 @@ class AllCharacterBattlesComposer
             $query->where([
                 'defender_id' => $character->id,
             ]);
-        })->orderByDesc('created_at')->paginate(20);
+        })->orderByDesc('created_at')->paginate(10);
 
         $unseenBattles = $character->defends()->unseenByDefender()->whereIn('id', $battles->pluck('id'));
 

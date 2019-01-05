@@ -11,4 +11,6 @@ interface BattleInterface
     public function getDefender(): CharacterInterface;
 
     public function getLocation(): LocationInterface;
+
+    public function isTheVictor(CharacterInterface $character): bool;
 }
