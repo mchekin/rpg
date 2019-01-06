@@ -35,6 +35,15 @@
         </ul>
         <ul class="nav navbar-nav ml-auto">
             @if (Auth::check())
+                @if (Auth::user()->hasCharacter() && Auth::user()->character->hasProfilePicture())
+                    <li class="nav-item nav-avatar d-flex">
+                        <a class="align-self-baseline" href="{{ route('character.show', ['character' => Auth::user()->character]) }}">
+                            <img class="profile-picture-nav"
+                                 src="{{ asset(Auth::user()->character->getProfilePictureSmall()) }}"
+                                 alt="Avatar">
+                        </a>
+                    </li>
+                @endif
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <form role="form" method="POST" action="{{ route('logout') }}">

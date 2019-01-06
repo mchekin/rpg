@@ -73,9 +73,20 @@ caption.caption-top {
 }
 
 /* Message avatar */
-.message-list-container img.profile-picture {
-    max-width: 60px;
+.nav-avatar {
+    overflow:hidden;
+    height: 50px;
+}
+
+img.profile-picture-msg {
+    max-width: 90px;
     width: 100%;
+}
+
+img.profile-picture-nav {
+    max-width: 80px;
+    width: 100%;
+    height: 100%;
 }
 
 /* Message Textarea Counter */
