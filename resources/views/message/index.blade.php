@@ -43,7 +43,7 @@
 @section("footer")
     @parent
 
-    <script src="{{ asset('js/vcountdown.min.js') }}"></script>
+    <script src="{{ asset('js/vcountdown.js') }}"></script>
     <script>
         VCountdown({
             target: '.countdown',
