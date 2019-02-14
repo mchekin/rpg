@@ -5,6 +5,8 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Exceptions\PostTooLargeException;
+use Illuminate\Http\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class Handler extends ExceptionHandler
 {
@@ -34,6 +36,8 @@ class Handler extends ExceptionHandler
      *
      * @param  \Exception $exception
      * @return void
+     *
+     * @throws Exception
      */
     public function report(Exception $exception)
     {
@@ -42,10 +46,10 @@ class Handler extends ExceptionHandler
 
     /**
      * Render an exception into an HTTP response.
+     * @param $request
+     * @param Exception $exception
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \Exception $exception
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse|Response
      */
     public function render($request, Exception $exception)
     {
@@ -53,38 +57,15 @@ class Handler extends ExceptionHandler
 
             return back()
                 ->withErrors([
-                    'message' => "Uploaded files may not be greater than  {$this->getPostMaxSizeInMegaBytes()} megabytes",
+                    'message' => "The file may not be greater than {$this->getMaxSizeInKiloBytes()} kilobytes",
                 ]);
         }
 
         return parent::render($request, $exception);
     }
 
-
-
-    /**
-     * Determine the server 'post_max_size' as megabytes.
-     *
-     * @return int
-     */
-    protected function getPostMaxSizeInMegaBytes()
+    private function getMaxSizeInKiloBytes(): float
     {
-        if (is_numeric($postMaxSize = ini_get('post_max_size'))) {
-            return (int) $postMaxSize;
-        }
-
-        $metric = strtoupper(substr($postMaxSize, -1));
-        $postMaxSize = (int) $postMaxSize;
-
-        switch ($metric) {
-            case 'B':
-                return $postMaxSize / 1048576;
-            case 'K':
-                return $postMaxSize / 1024;
-            case 'G':
-                return $postMaxSize * 1024;
-            default:
-                return $postMaxSize;
-        }
+        return bytes_to_kilobytes(config('filesystems.max_size_in_bytes'));
     }
 }
