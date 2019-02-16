@@ -65,4 +65,9 @@ return [
 
     ],
 
+    'max_size_in_bytes' => min(
+        ini_size_to_bytes(ini_get('post_max_size')),
+        ini_size_to_bytes(ini_get('upload_max_filesize')),
+        ini_size_to_bytes(env('MAX_FILE_SIZE','2M'))
+    ),
 ];

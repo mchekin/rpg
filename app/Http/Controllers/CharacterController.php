@@ -23,8 +23,8 @@ class CharacterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth', ['only' => ['create', 'store', 'getMove', 'update']]);
-        $this->middleware('has.character', ['only' => ['getMove', 'update']]);
+        $this->middleware('auth');
+        $this->middleware('has.character', ['except' => ['create', 'store', 'update']]);
         $this->middleware('owns.character', ['only' => ['update']]);
         $this->middleware('no.character', ['only' => ['create', 'store']]);
         $this->middleware('can.move.to.location', ['only' => ['getMove']]);

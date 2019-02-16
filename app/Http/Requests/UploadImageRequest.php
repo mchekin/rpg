@@ -2,18 +2,10 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\MaxFileSizeInMegabytes;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UploadImageRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    const MAX_SIZE_IN_MEGABYTES = 8;
-
     public function authorize()
     {
         return true;
@@ -27,7 +19,12 @@ class UploadImageRequest extends FormRequest
     public function rules()
     {
         return [
-            'file' => ['required', 'image', new MaxFileSizeInMegabytes(self::MAX_SIZE_IN_MEGABYTES)],
+            'file' => [
+                'required',
+                'image',
+                'mimes:jpeg,png,gif',
+                'max:' . bytes_to_kilobytes(config('filesystems.max_size_in_bytes'))
+            ],
         ];
     }
 }
