@@ -22,6 +22,7 @@ class UploadImageRequest extends FormRequest
             'file' => [
                 'required',
                 'image',
+                'mimes:jpeg,png,gif',
                 'max:' . bytes_to_kilobytes(config('filesystems.max_size_in_bytes'))
             ],
         ];
