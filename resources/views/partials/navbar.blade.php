@@ -8,6 +8,20 @@
         <ul class="nav navbar-nav">
             @if (Auth::check() && Auth::user()->hasCharacter())
                 <li class="nav-item button">
+                    <a href="{{ route('character.show', ['character' => Auth::user()->character]) }}" class="nav-link">
+                        <span class="fa fa-user-circle" aria-hidden="true">
+                            Character
+                        </span>
+                    </a>
+                </li>
+                <li class="nav-item button">
+                    <a href="{{ route('location.show', ['location' => Auth::user()->character->location]) }}" class="nav-link">
+                        <span class="fa fa-university" aria-hidden="true">
+                            Location
+                        </span>
+                    </a>
+                </li>
+                <li class="nav-item button">
                     <a href="{{ URL::route('message.inbox') }}" class="nav-link">
                         <span class="fa fa-envelope">
                             Messages
