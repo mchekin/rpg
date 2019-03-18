@@ -1,7 +1,9 @@
 <?php
 
 use App\Character;
+use App\User;
 use Illuminate\Database\Seeder;
+use Ramsey\Uuid\Uuid;
 
 class CharacterSeeder extends Seeder
 {
@@ -16,8 +18,11 @@ class CharacterSeeder extends Seeder
 
         $totalHitPoints = 100;
 
+        /** @var User $user */
+        $user = User::query()->first();
+
         Character::query()->create([
-            "id" => 1,
+            "id" => Uuid::uuid4(),
             "name" => "Jack Daniels",
             "gender" => 'male',
 
@@ -34,7 +39,7 @@ class CharacterSeeder extends Seeder
             "charisma" => 1,
 
             "level_id" => 1,
-            "user_id" => 1,
+            "user_id" => $user->getId(),
             "location_id" => 1,
             "race_id" => 1,
         ]);

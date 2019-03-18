@@ -14,20 +14,20 @@ class CreateBattlesTable extends Migration
     public function up()
     {
         Schema::create('battles', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id')->primary();
 
             $table->boolean('seen_by_defender')->default(0);
 
             $table->unsignedInteger('location_id');
             $table->foreign('location_id')->references('id')->on('locations')->onDelete('restrict');
 
-            $table->unsignedInteger('attacker_id');
+            $table->uuid('attacker_id');
             $table->foreign('attacker_id')->references('id')->on('characters')->onDelete('restrict');
 
-            $table->unsignedInteger('defender_id');
+            $table->uuid('defender_id');
             $table->foreign('defender_id')->references('id')->on('characters')->onDelete('restrict');
 
-            $table->unsignedInteger('victor_id')->nullable();
+            $table->uuid('victor_id')->nullable();
             $table->foreign('victor_id')->references('id')->on('characters')->onDelete('restrict');
 
             $table->unsignedInteger('victor_xp_gained')->default(0);

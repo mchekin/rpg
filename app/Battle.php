@@ -7,7 +7,6 @@ use App\Contracts\Models\BattleRoundInterface;
 use App\Contracts\Models\CharacterInterface;
 use App\Contracts\Models\LocationInterface;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -19,7 +18,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property LocationInterface location
  * @property CharacterInterface victor
  */
-class Battle extends Model implements BattleInterface
+class Battle extends BaseModel implements BattleInterface
 {
     protected $fillable = [
         'attacker_id',

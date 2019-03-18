@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Ramsey\Uuid\Uuid;
 
 /**
  * @property Character character
@@ -17,6 +18,25 @@ use Illuminate\Support\Facades\Cache;
 class User extends Authenticatable implements UserInterface
 {
     use Notifiable;
+
+    /**
+     * Indicates if the IDs are auto-incrementing.
+     *
+     * @var bool
+     */
+    public $incrementing = false;
+
+    /**
+     * Boot the Model.
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($instance) {
+            $instance->id = Uuid::uuid4();
+        });
+    }
 
     /**
      * The attributes that are mass assignable.
@@ -51,7 +71,7 @@ class User extends Authenticatable implements UserInterface
         return $this->character()->getQuery()->exists();
     }
 
-    public function getId(): int
+    public function getId()
     {
         return $this->id;
     }

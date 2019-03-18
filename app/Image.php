@@ -3,7 +3,6 @@
 namespace App;
 
 use App\Contracts\Models\ImageInterface;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property string file_path_full
@@ -11,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string file_path_icon
  * @property int id
  */
-class Image extends Model implements ImageInterface
+class Image extends BaseModel implements ImageInterface
 {
     protected $fillable = [
         'file_path_full',
@@ -19,7 +18,7 @@ class Image extends Model implements ImageInterface
         'file_path_icon',
     ];
 
-    public function getId(): int
+    public function getId()
     {
         return $this->id;
     }

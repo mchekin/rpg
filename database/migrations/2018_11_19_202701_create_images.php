@@ -14,9 +14,9 @@ class CreateImages extends Migration
     public function up()
     {
         Schema::create('images', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id')->primary();
 
-            $table->unsignedInteger('character_id')->nullable();
+            $table->uuid('character_id')->nullable();
             $table->foreign('character_id')->references('id')->on('characters')->onDelete('restrict');
 
             $table->string('file_path_full');

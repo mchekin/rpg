@@ -2,6 +2,7 @@
 
 use App\User;
 use Illuminate\Database\Seeder;
+use Ramsey\Uuid\Uuid;
 
 class UserSeeder extends Seeder
 {
@@ -16,7 +17,7 @@ class UserSeeder extends Seeder
 
         $users = [
             [
-                "id"            => 1,
+                "id"            => Uuid::uuid4(),
                 "name"          => "Misha Chekin",
                 "password"      => Hash::make("1234"),
                 "email"         => "mchekin@gmail.com",

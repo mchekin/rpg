@@ -3,10 +3,9 @@
 namespace App;
 
 use App\Contracts\Models\BattleTurnInterface;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class BattleTurn extends Model implements BattleTurnInterface
+class BattleTurn extends BaseModel implements BattleTurnInterface
 {
     protected $fillable = [
         'damage',

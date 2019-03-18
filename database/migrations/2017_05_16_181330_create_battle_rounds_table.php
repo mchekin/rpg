@@ -14,9 +14,9 @@ class CreateBattleRoundsTable extends Migration
     public function up()
     {
         Schema::create('battle_rounds', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id')->primary();
 
-            $table->unsignedInteger('battle_id');
+            $table->uuid('battle_id');
             $table->foreign('battle_id')->references('id')->on('battles')->onDelete('restrict');
 
             $table->timestamps();

@@ -4,10 +4,9 @@ namespace App;
 
 use App\Contracts\Models\BattleRoundInterface;
 use App\Contracts\Models\CharacterInterface;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class BattleRound extends Model implements BattleRoundInterface
+class BattleRound extends BaseModel implements BattleRoundInterface
 {
     /**
      * @return HasMany

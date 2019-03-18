@@ -14,7 +14,7 @@ class CreateCharactersTable extends Migration
     public function up()
     {
         Schema::create('characters', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id')->primary();
 
             $table->string('name')->unique();
             $table->enum('gender', ['male', 'female']);
@@ -43,7 +43,7 @@ class CreateCharactersTable extends Migration
             $table->unsignedInteger('level_id');
             $table->foreign('level_id')->references('id')->on('levels')->onDelete('restrict');
 
-            $table->unsignedInteger('user_id')->nullable();
+            $table->uuid('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
 
             $table->unsignedInteger('location_id');
@@ -52,7 +52,7 @@ class CreateCharactersTable extends Migration
             $table->unsignedInteger('race_id');
             $table->foreign('race_id')->references('id')->on('races')->onDelete('restrict');
 
-            $table->unsignedInteger('profile_picture_id')->nullable();
+            $table->uuid('profile_picture_id')->nullable();
             $table->foreign('profile_picture_id')->references('id')->on('images')->onDelete('set null');
 
             $table->timestamps();

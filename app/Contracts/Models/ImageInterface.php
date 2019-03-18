@@ -4,7 +4,7 @@ namespace App\Contracts\Models;
 
 interface ImageInterface
 {
-    public function getId(): int;
+    public function getId();
 
     public function getFilePathFull(): string;
 
