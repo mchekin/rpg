@@ -4,17 +4,19 @@
 namespace App;
 
 
-use Illuminate\Database\Eloquent\Model;
 use Ramsey\Uuid\Uuid;
 
-class BaseModel extends Model
+trait UsesUuid
 {
-    /**
-     * Indicates if the IDs are auto-incrementing.
-     *
-     * @var bool
-     */
-    public $incrementing = false;
+    public function getIncrementing()
+    {
+        return false;
+    }
+
+    public function getKeyType()
+    {
+        return 'string';
+    }
 
     /**
      * Boot the Model.

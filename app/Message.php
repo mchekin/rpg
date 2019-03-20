@@ -3,13 +3,16 @@
 namespace App;
 
 use App\Contracts\Models\MessageInterface;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property int state
  */
-class Message extends BaseModel implements MessageInterface
+class Message extends Model implements MessageInterface
 {
+    use UsesUuid;
+
     const UNREAD = 1;
     const READ = 2;
 

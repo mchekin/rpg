@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Contracts\Models\ImageInterface;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property string file_path_full
@@ -10,8 +11,10 @@ use App\Contracts\Models\ImageInterface;
  * @property string file_path_icon
  * @property int id
  */
-class Image extends BaseModel implements ImageInterface
+class Image extends Model implements ImageInterface
 {
+    use UsesUuid;
+
     protected $fillable = [
         'file_path_full',
         'file_path_small',

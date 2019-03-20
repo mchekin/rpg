@@ -36,8 +36,9 @@ use Illuminate\Support\Facades\DB;
  * @property int victor_xp_gained
  * @property ImageInterface profilePicture
  */
-class Character extends BaseModel implements CharacterInterface
+class Character extends Model implements CharacterInterface
 {
+    use UsesUuid;
 
     protected $guarded = ['user_id'];
 
