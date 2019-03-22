@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
+use App\Modules\User\Domain\Services\UserService;
+use App\Modules\User\Presentation\Http\RequestMappers\CreateUserRequestMapper;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -30,13 +31,26 @@ class RegisterController extends Controller
     protected $redirectTo = '/home';
 
     /**
+     * @var UserService
+     */
+    private $userService;
+    /**
+     * @var CreateUserRequestMapper
+     */
+    private $mapper;
+
+    /**
      * Create a new controller instance.
      *
-     * @return void
+     * @param UserService $userService
+     * @param CreateUserRequestMapper $mapper
      */
-    public function __construct()
+    public function __construct(UserService $userService, CreateUserRequestMapper $mapper)
     {
         $this->middleware('guest');
+
+        $this->userService = $userService;
+        $this->mapper = $mapper;
     }
 
     /**
@@ -57,15 +71,16 @@ class RegisterController extends Controller
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
+     * @param  array $data
+     *
      * @return \App\User
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-        ]);
+        $request = $this->mapper->map($data);
+
+        $user = $this->userService->create($request);
+
+        return $user->getUserModel();
     }
 }

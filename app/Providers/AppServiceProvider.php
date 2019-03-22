@@ -18,7 +18,7 @@ use App\Contracts\Models\UserInterface;
 use App\Contracts\Repositories\BattleRepositoryInterface;
 use App\Contracts\Repositories\CharacterRepositoryInterface;
 use App\Contracts\Repositories\RaceRepositoryInterface;
-use App\Contracts\Repositories\UserRepositoryInterface;
+use App\Modules\User\Domain\Contracts\UserRepositoryInterface;
 use App\Level;
 use App\Location;
 use App\Message;
@@ -26,7 +26,7 @@ use App\Race;
 use App\Repositories\BattleRepository;
 use App\Repositories\CharacterRepository;
 use App\Repositories\RaceRepository;
-use App\Repositories\UserRepository;
+use App\Modules\User\Infrastructure\Repositories\UserRepository;
 use App\User;
 use Illuminate\Support\ServiceProvider;
 

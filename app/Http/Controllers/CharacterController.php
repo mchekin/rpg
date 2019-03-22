@@ -8,7 +8,7 @@ use App\Contracts\Models\UserInterface;
 use App\Contracts\Repositories\CharacterRepositoryInterface;
 use App\Contracts\Models\LocationInterface;
 use App\Contracts\Repositories\RaceRepositoryInterface;
-use App\Contracts\Repositories\UserRepositoryInterface;
+use App\Modules\User\Domain\Contracts\UserRepositoryInterface;
 use App\Http\Requests\CreateCharacterRequest;
 use App\Http\Requests\UpdateCharacterAttributeRequest;
 use Illuminate\Contracts\View\View;
