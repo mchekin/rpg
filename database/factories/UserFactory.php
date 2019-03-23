@@ -17,6 +17,7 @@ use App\Location;
 use App\Race;
 use App\User;
 use Illuminate\Database\Eloquent\Factory;
+use Ramsey\Uuid\Uuid;
 
 /** @var Factory $factory */
 
@@ -24,6 +25,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     static $password;
 
     return [
+        'id'             => Uuid::uuid4(),
         'name'           => $faker->name,
         'email'          => $faker->unique()->safeEmail,
         'password'       => $password ?: $password = bcrypt('secret'),
@@ -44,6 +46,7 @@ $factory->define(Character::class, function (Faker\Generator $faker) use ($facto
     $genders = ['male', 'female'];
 
     return [
+        'id'               => Uuid::uuid4(),
 
         'name'   => $faker->name,
         'gender' => $genders[array_rand($genders)],
