@@ -29,18 +29,21 @@ use Illuminate\Support\Facades\DB;
  * @property integer strength
  * @property integer agility
  * @property integer constitution
+ * @property integer intelligence
+ * @property integer charisma
  * @property integer location_id
  * @property RaceInterface race
  * @property string gender
  * @property int total_hit_points
  * @property int victor_xp_gained
  * @property ImageInterface profilePicture
+ * @property string name
  */
 class Character extends Model implements CharacterInterface
 {
-    use UsesUuid;
+    use UsesStringId;
 
-    protected $guarded = ['user_id'];
+    protected $guarded = [];
 
     /**
      * Get the user of the character
@@ -375,6 +378,16 @@ class Character extends Model implements CharacterInterface
         return $this->constitution;
     }
 
+    public function getIntelligence(): int
+    {
+        return $this->intelligence;
+    }
+
+    public function getCharisma(): int
+    {
+        return $this->charisma;
+    }
+
     public function getLocationId(): int
     {
         return $this->location_id;
@@ -425,5 +438,30 @@ class Character extends Model implements CharacterInterface
         ]);
 
         return $image;
+    }
+
+    public function getUserId(): string
+    {
+        return $this->user->getId();
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function getGender(): string
+    {
+        return $this->gender;
+    }
+
+    public function getRaceId(): int
+    {
+        return $this->race->getId();
+    }
+
+    public function getXp():int
+    {
+        return $this->xp;
     }
 }

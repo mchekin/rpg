@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property string name
+ * @property string description
+ * @property string male_image
+ * @property string female_image
  */
 class Race extends Model implements RaceInterface
 {
@@ -62,5 +65,20 @@ class Race extends Model implements RaceInterface
     public function getName(): string
     {
         return $this->name;
+    }
+
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    public function getMaleImage(): string
+    {
+        return $this->male_image;
+    }
+
+    public function getFemaleImage(): string
+    {
+        return $this->female_image;
     }
 }

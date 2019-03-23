@@ -5,13 +5,26 @@ namespace App;
 use App\Contracts\Models\MessageInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Ramsey\Uuid\Uuid;
 
 /**
  * @property int state
  */
 class Message extends Model implements MessageInterface
 {
-    use UsesUuid;
+    use UsesStringId;
+
+    /**
+     * Boot the Model.
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($instance) {
+            $instance->id = Uuid::uuid4();
+        });
+    }
 
     const UNREAD = 1;
     const READ = 2;

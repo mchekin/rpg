@@ -3,7 +3,6 @@
 
 namespace App\Modules\User\Domain\Models;
 
-use App\Modules\Character\Domain\Models\Character;
 use App\User as UserModel;
 
 class User
@@ -24,47 +23,17 @@ class User
      * @var UserModel
      */
     private $userModel;
+    /**
+     * @var string
+     */
+    private $id;
 
-    public function __construct(string $name, string $email, string $password)
+    public function __construct(string $id, string $name, string $email, string $password)
     {
+        $this->id = $id;
         $this->name = $name;
         $this->email = $email;
         $this->password = $password;
-    }
-
-    public function hasCharacter(): bool
-    {
-        // TODO: Implement hasCharacter() method.
-    }
-
-    public function getId()
-    {
-        // TODO: Implement getId() method.
-    }
-
-    public function isCurrentAuthenticatedUser(): bool
-    {
-        // TODO: Implement isCurrentAuthenticatedUser() method.
-    }
-
-    public function getCharacter(): Character
-    {
-        // TODO: Implement getCharacter() method.
-    }
-
-    public function hasThisCharacter(Character $character): bool
-    {
-        // TODO: Implement hasThisCharacter() method.
-    }
-
-    public function updateLastUserActivity(): User
-    {
-        // TODO: Implement updateLastUserActivity() method.
-    }
-
-    public function isOnline(): bool
-    {
-        // TODO: Implement isOnline() method.
     }
 
     /**
@@ -91,14 +60,12 @@ class User
         return $this->password;
     }
 
-    public function setModel(UserModel $userModel)
+    // Todo: temporary hack of having reference to the Eloquent model
+    public function setUserModel(UserModel $userModel)
     {
         $this->userModel = $userModel;
     }
 
-    /**
-     * @return UserModel
-     */
     public function getUserModel(): UserModel
     {
         return $this->userModel;

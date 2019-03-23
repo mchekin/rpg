@@ -5,10 +5,23 @@ namespace App;
 use App\Contracts\Models\BattleTurnInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Ramsey\Uuid\Uuid;
 
 class BattleTurn extends Model implements BattleTurnInterface
 {
-    use UsesUuid;
+    use UsesStringId;
+
+    /**
+     * Boot the Model.
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($instance) {
+            $instance->id = Uuid::uuid4();
+        });
+    }
 
     protected $fillable = [
         'damage',

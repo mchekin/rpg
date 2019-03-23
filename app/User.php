@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Cache;
 class User extends Authenticatable implements UserInterface
 {
     use Notifiable;
-    use UsesUuid;
+    use UsesStringId;
 
     /**
      * The attributes that are mass assignable.
@@ -25,7 +25,7 @@ class User extends Authenticatable implements UserInterface
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'id', 'name', 'email', 'password',
     ];
 
     /**

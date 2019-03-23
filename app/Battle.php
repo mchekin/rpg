@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Ramsey\Uuid\Uuid;
 
 /**
  * @property Collection rounds
@@ -21,7 +22,19 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class Battle extends Model implements BattleInterface
 {
-    use UsesUuid;
+    use UsesStringId;
+
+    /**
+     * Boot the Model.
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($instance) {
+            $instance->id = Uuid::uuid4();
+        });
+    }
 
     protected $fillable = [
         'attacker_id',

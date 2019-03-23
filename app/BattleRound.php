@@ -6,10 +6,23 @@ use App\Contracts\Models\BattleRoundInterface;
 use App\Contracts\Models\CharacterInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Ramsey\Uuid\Uuid;
 
 class BattleRound extends Model implements BattleRoundInterface
 {
-    use UsesUuid;
+    use UsesStringId;
+
+    /**
+     * Boot the Model.
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($instance) {
+            $instance->id = Uuid::uuid4();
+        });
+    }
 
     /**
      * @return HasMany

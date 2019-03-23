@@ -4,6 +4,7 @@ namespace App;
 
 use App\Contracts\Models\ImageInterface;
 use Illuminate\Database\Eloquent\Model;
+use Ramsey\Uuid\Uuid;
 
 /**
  * @property string file_path_full
@@ -13,7 +14,19 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Image extends Model implements ImageInterface
 {
-    use UsesUuid;
+    use UsesStringId;
+
+    /**
+     * Boot the Model.
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($instance) {
+            $instance->id = Uuid::uuid4();
+        });
+    }
 
     protected $fillable = [
         'file_path_full',
