@@ -15,17 +15,27 @@ use App\Contracts\Models\LocationInterface;
 use App\Contracts\Models\MessageInterface;
 use App\Contracts\Models\RaceInterface;
 use App\Contracts\Models\UserInterface;
+use App\Contracts\Repositories\BattleRepositoryInterface as BattleRepositoryInterfaceLegacy;
 use App\Contracts\Repositories\BattleRepositoryInterface;
-use App\Contracts\Repositories\CharacterRepositoryInterface;
-use App\Contracts\Repositories\RaceRepositoryInterface;
+use App\Contracts\Repositories\CharacterRepositoryInterface as CharacterRepositoryInterfaceLegacy;
+use App\Contracts\Repositories\RaceRepositoryInterface as RaceRepositoryInterfaceLegacy;
+use App\Modules\Character\Domain\Contracts\CharacterRepositoryInterface;
+use App\Modules\Character\Domain\Contracts\LevelRepositoryInterface;
+use App\Modules\Character\Domain\Contracts\LocationRepositoryInterface;
+use App\Modules\Character\Domain\Contracts\RaceRepositoryInterface;
+use App\Modules\Character\Infrastructure\Repositories\CharacterRepository;
+use App\Modules\Character\Infrastructure\Repositories\LevelRepository;
+use App\Modules\Character\Infrastructure\Repositories\LocationRepository;
+use App\Modules\Character\Infrastructure\Repositories\RaceRepository;
 use App\Modules\User\Domain\Contracts\UserRepositoryInterface;
 use App\Level;
 use App\Location;
 use App\Message;
 use App\Race;
+use App\Repositories\BattleRepository as BattleRepositoryLegacy;
 use App\Repositories\BattleRepository;
-use App\Repositories\CharacterRepository;
-use App\Repositories\RaceRepository;
+use App\Repositories\CharacterRepository as CharacterRepositoryLegacy;
+use App\Repositories\RaceRepository as RaceRepositoryLegacy;
 use App\Modules\User\Infrastructure\Repositories\UserRepository;
 use App\User;
 use Illuminate\Support\ServiceProvider;
@@ -106,13 +116,28 @@ class AppServiceProvider extends ServiceProvider
     protected function registerRepositoryInterfaces(): self
     {
         $this->app->bind(
-            BattleRepositoryInterface::class,
-            BattleRepository::class
+            BattleRepositoryInterfaceLegacy::class,
+            BattleRepositoryLegacy::class
         );
 
         $this->app->bind(
-            CharacterRepositoryInterface::class,
-            CharacterRepository::class
+            CharacterRepositoryInterfaceLegacy::class,
+            CharacterRepositoryLegacy::class
+        );
+
+        $this->app->bind(
+            RaceRepositoryInterfaceLegacy::class,
+            RaceRepositoryLegacy::class
+        );
+
+        $this->app->bind(
+            UserRepositoryInterface::class,
+            UserRepository::class
+        );
+
+        $this->app->bind(
+            LevelRepositoryInterface::class,
+            LevelRepository::class
         );
 
         $this->app->bind(
@@ -121,8 +146,17 @@ class AppServiceProvider extends ServiceProvider
         );
 
         $this->app->bind(
-            UserRepositoryInterface::class,
-            UserRepository::class
+            LocationRepositoryInterface::class,
+            LocationRepository::class
+        );
+        $this->app->bind(
+            BattleRepositoryInterface::class,
+            BattleRepository::class
+        );
+
+        $this->app->bind(
+            CharacterRepositoryInterface::class,
+            CharacterRepository::class
         );
 
         return $this;

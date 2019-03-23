@@ -8,7 +8,8 @@ use App\Contracts\Models\UserInterface;
 use App\Contracts\Repositories\CharacterRepositoryInterface;
 use App\Contracts\Models\LocationInterface;
 use App\Contracts\Repositories\RaceRepositoryInterface;
-use App\Modules\User\Domain\Contracts\UserRepositoryInterface;
+use App\Modules\Character\Domain\Services\CharacterService;
+use App\Modules\Character\Presentation\Http\RequestMappers\CreateCharacterRequestMapper;
 use App\Http\Requests\CreateCharacterRequest;
 use App\Http\Requests\UpdateCharacterAttributeRequest;
 use Illuminate\Contracts\View\View;
@@ -19,9 +20,16 @@ use Illuminate\Support\Facades\Auth;
 class CharacterController extends Controller
 {
     /**
-     * CharacterController constructor.
+     * @var CharacterService
      */
-    public function __construct()
+    private $characterService;
+
+    /**
+     * CharacterController constructor.
+     *
+     * @param CharacterService $characterService
+     */
+    public function __construct(CharacterService $characterService)
     {
         $this->middleware('auth');
         $this->middleware('has.character', ['except' => ['create', 'store', 'update']]);
@@ -29,6 +37,8 @@ class CharacterController extends Controller
         $this->middleware('no.character', ['only' => ['create', 'store']]);
         $this->middleware('can.move.to.location', ['only' => ['getMove']]);
         $this->middleware('can.attack', ['only' => ['getAttack']]);
+
+        $this->characterService = $characterService;
     }
 
     public function create(RaceRepositoryInterface $raceRepository): View
@@ -41,25 +51,20 @@ class CharacterController extends Controller
 
     public function store(
         CreateCharacterRequest $request,
-        UserRepositoryInterface $userRepository,
-        RaceRepositoryInterface $raceRepository
+        CreateCharacterRequestMapper $requestMapper
     ): Response {
+        $createRequest = $requestMapper->map($request);
 
-        /** @var UserInterface $authenticatedUser */
-        $authenticatedUser = $request->user();
+        $character = $this->characterService->create($createRequest);
 
-        $race = $raceRepository->findOrFail($request->input('race_id'));
-
-        $character = Character::createCharacter($request, $race);
-
-        $character = $userRepository->addCharacter($authenticatedUser, $character);
-
-        return redirect()->route('character.show', compact('character'));
+        return redirect()->route('character.show', ['character' => $character->getCharacterModel()]);
     }
 
     public function show(CharacterInterface $character): View
     {
-        return view('character.show', compact('character'));
+        $character = $this->characterService->getOne($character->getId());
+
+        return view('character.show', ['character' => $character->getCharacterModel()]);
     }
 
     public function update(
