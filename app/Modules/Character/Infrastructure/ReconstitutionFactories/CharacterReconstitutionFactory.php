@@ -3,13 +3,13 @@
 
 namespace App\Modules\Character\Infrastructure\ReconstitutionFactories;
 
-use App\Modules\Character\Domain\Models\Attributes;
-use App\Modules\Character\Domain\Models\Character;
-use App\Modules\Character\Domain\Models\Gender;
-use App\Modules\Character\Domain\Models\Money;
-use App\Modules\Character\Domain\Models\ValueObjects\HitPoints;
-use App\Modules\Character\Domain\Models\ValueObjects\Reputation;
-use App\Modules\Character\Domain\Models\ValueObjects\Xp;
+use App\Modules\Character\Domain\Entities\Attributes;
+use App\Modules\Character\Domain\Entities\Character;
+use App\Modules\Character\Domain\Entities\Gender;
+use App\Modules\Character\Domain\Entities\Money;
+use App\Modules\Character\Domain\Entities\ValueObjects\HitPoints;
+use App\Modules\Character\Domain\Entities\ValueObjects\Reputation;
+use App\Modules\Character\Domain\Entities\ValueObjects\Xp;
 use App\Character as CharacterModel;
 
 

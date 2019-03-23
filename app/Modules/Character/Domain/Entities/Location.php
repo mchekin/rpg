@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Modules\Character\Domain\Models;
+namespace App\Modules\Character\Domain\Entities;
 
 
 class Location

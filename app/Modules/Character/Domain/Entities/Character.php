@@ -1,11 +1,11 @@
 <?php
 
 
-namespace App\Modules\Character\Domain\Models;
+namespace App\Modules\Character\Domain\Entities;
 
-use App\Modules\Character\Domain\Models\ValueObjects\HitPoints;
-use App\Modules\Character\Domain\Models\ValueObjects\Reputation;
-use App\Modules\Character\Domain\Models\ValueObjects\Xp;
+use App\Modules\Character\Domain\Entities\ValueObjects\HitPoints;
+use App\Modules\Character\Domain\Entities\ValueObjects\Reputation;
+use App\Modules\Character\Domain\Entities\ValueObjects\Xp;
 use App\Character as CharacterModel;
 
 class Character

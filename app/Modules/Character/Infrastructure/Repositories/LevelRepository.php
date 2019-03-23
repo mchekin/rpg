@@ -3,7 +3,7 @@
 namespace App\Modules\Character\Infrastructure\Repositories;
 
 use App\Modules\Character\Domain\Contracts\LevelRepositoryInterface;
-use App\Modules\Character\Domain\Models\Level;
+use App\Modules\Character\Domain\Entities\Level;
 
 class LevelRepository implements LevelRepositoryInterface
 {

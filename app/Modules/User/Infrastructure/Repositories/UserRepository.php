@@ -3,7 +3,7 @@
 namespace App\Modules\User\Infrastructure\Repositories;
 
 use App\Modules\User\Domain\Contracts\UserRepositoryInterface;
-use App\Modules\User\Domain\Models\User;
+use App\Modules\User\Domain\Entities\User;
 use App\User as UserModel;
 
 class UserRepository implements UserRepositoryInterface

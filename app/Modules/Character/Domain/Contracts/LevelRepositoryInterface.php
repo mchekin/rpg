@@ -2,7 +2,7 @@
 
 namespace App\Modules\Character\Domain\Contracts;
 
-use App\Modules\Character\Domain\Models\Level;
+use App\Modules\Character\Domain\Entities\Level;
 
 interface LevelRepositoryInterface
 {

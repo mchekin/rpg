@@ -2,7 +2,7 @@
 
 namespace App\Modules\Character\Domain\Contracts;
 
-use App\Modules\Character\Domain\Models\Character;
+use App\Modules\Character\Domain\Entities\Character;
 
 interface CharacterRepositoryInterface
 {

@@ -3,8 +3,8 @@
 namespace App\Modules\Character\Infrastructure\Repositories;
 
 use App\Modules\Character\Domain\Contracts\RaceRepositoryInterface;
-use App\Modules\Character\Domain\Models\Attributes;
-use App\Modules\Character\Domain\Models\Race;
+use App\Modules\Character\Domain\Entities\Attributes;
+use App\Modules\Character\Domain\Entities\Race;
 use App\Race as RaceModel;
 
 class RaceRepository implements RaceRepositoryInterface

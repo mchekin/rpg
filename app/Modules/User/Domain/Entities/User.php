@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Modules\User\Domain\Models;
+namespace App\Modules\User\Domain\Entities;
 
 use App\User as UserModel;
 

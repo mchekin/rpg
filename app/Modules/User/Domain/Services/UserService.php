@@ -6,7 +6,7 @@ namespace App\Modules\User\Domain\Services;
 
 use App\Modules\User\Domain\Contracts\UserRepositoryInterface;
 use App\Modules\User\Domain\Factories\UserFactory;
-use App\Modules\User\Domain\Models\User;
+use App\Modules\User\Domain\Entities\User;
 use App\Modules\User\Domain\Requests\CreateUserRequest;
 
 class UserService

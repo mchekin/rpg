@@ -6,7 +6,7 @@ namespace App\Modules\Character\Domain\Services;
 
 use App\Modules\Character\Domain\Contracts\CharacterRepositoryInterface;
 use App\Modules\Character\Domain\Factories\CharacterFactory;
-use App\Modules\Character\Domain\Models\Character;
+use App\Modules\Character\Domain\Entities\Character;
 use App\Modules\Character\Domain\Requests\CreateCharacterRequest;
 
 class CharacterService
