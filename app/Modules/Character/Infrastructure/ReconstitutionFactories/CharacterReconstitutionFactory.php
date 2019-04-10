@@ -6,10 +6,10 @@ namespace App\Modules\Character\Infrastructure\ReconstitutionFactories;
 use App\Modules\Character\Domain\Entities\Attributes;
 use App\Modules\Character\Domain\Entities\Character;
 use App\Modules\Character\Domain\Entities\Gender;
-use App\Modules\Character\Domain\Entities\Money;
-use App\Modules\Character\Domain\Entities\ValueObjects\HitPoints;
-use App\Modules\Character\Domain\Entities\ValueObjects\Reputation;
-use App\Modules\Character\Domain\Entities\ValueObjects\Xp;
+use App\Modules\Character\Domain\ValueObjects\Money;
+use App\Modules\Character\Domain\ValueObjects\HitPoints;
+use App\Modules\Character\Domain\ValueObjects\Reputation;
+use App\Modules\Character\Domain\ValueObjects\Xp;
 use App\Character as CharacterModel;
 
 

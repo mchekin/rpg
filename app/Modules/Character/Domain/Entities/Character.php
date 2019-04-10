@@ -3,9 +3,10 @@
 
 namespace App\Modules\Character\Domain\Entities;
 
-use App\Modules\Character\Domain\Entities\ValueObjects\HitPoints;
-use App\Modules\Character\Domain\Entities\ValueObjects\Reputation;
-use App\Modules\Character\Domain\Entities\ValueObjects\Xp;
+use App\Modules\Character\Domain\ValueObjects\HitPoints;
+use App\Modules\Character\Domain\ValueObjects\Reputation;
+use App\Modules\Character\Domain\ValueObjects\Xp;
+use App\Modules\Character\Domain\ValueObjects\Money;
 use App\Character as CharacterModel;
 
 class Character

@@ -1,10 +1,10 @@
 <?php
 
 
-namespace App\Modules\Character\Domain\Entities\ValueObjects;
+namespace App\Modules\Character\Domain\ValueObjects;
 
 
-class Xp
+class Reputation
 {
     /**
      * @var int

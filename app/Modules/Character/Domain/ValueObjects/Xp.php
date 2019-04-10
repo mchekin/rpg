@@ -1,10 +1,10 @@
 <?php
 
 
-namespace App\Modules\Character\Domain\Entities;
+namespace App\Modules\Character\Domain\ValueObjects;
 
 
-class Money
+class Xp
 {
     /**
      * @var int
