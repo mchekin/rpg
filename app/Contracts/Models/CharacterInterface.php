@@ -45,8 +45,6 @@ interface CharacterInterface
 
     public function attack(CharacterInterface $defender): BattleInterface;
 
-    public function applyAttributeIncrease(string $attribute): CharacterInterface;
-
     public function isAlive(): bool;
 
     public function incrementWonBattles(): CharacterInterface;

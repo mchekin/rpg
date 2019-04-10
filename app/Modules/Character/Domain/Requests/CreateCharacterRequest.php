@@ -32,33 +32,21 @@ class CreateCharacterRequest
         $this->userId = $userId;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return string
-     */
     public function getGender(): string
     {
         return $this->gender;
     }
 
-    /**
-     * @return int
-     */
     public function getRaceId(): int
     {
         return $this->raceId;
     }
 
-    /**
-     * @return string
-     */
     public function getUserId(): string
     {
         return $this->userId;

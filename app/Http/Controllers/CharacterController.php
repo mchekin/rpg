@@ -5,13 +5,13 @@ namespace App\Http\Controllers;
 use App\Character;
 use App\Contracts\Models\CharacterInterface;
 use App\Contracts\Models\UserInterface;
-use App\Contracts\Repositories\CharacterRepositoryInterface;
 use App\Contracts\Models\LocationInterface;
 use App\Contracts\Repositories\RaceRepositoryInterface;
 use App\Modules\Character\Domain\Services\CharacterService;
 use App\Modules\Character\Presentation\Http\RequestMappers\CreateCharacterRequestMapper;
 use App\Http\Requests\CreateCharacterRequest;
 use App\Http\Requests\UpdateCharacterAttributeRequest;
+use App\Modules\Character\Presentation\Http\RequestMappers\IncreaseAttributeRequestMapper;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -69,16 +69,15 @@ class CharacterController extends Controller
 
     public function update(
         UpdateCharacterAttributeRequest $request,
-        CharacterInterface $character,
-        CharacterRepositoryInterface $characterRepository
+        IncreaseAttributeRequestMapper $requestMapper,
+        CharacterInterface $character
     ): Response {
-        $attribute = $request->input('attribute');
 
-        $character->applyAttributeIncrease($attribute);
+        $increaseAttributeRequest = $requestMapper->map($character->getId(), $request);
 
-        $characterRepository->save($character);
+        $this->characterService->increaseAttribute($increaseAttributeRequest);
 
-        return back()->with('status', ucfirst($attribute) . ' + 1');
+        return back()->with('status', ucfirst($increaseAttributeRequest->getAttribute()) . ' + 1');
     }
 
     public function getMove(Character $character, LocationInterface $location): Response

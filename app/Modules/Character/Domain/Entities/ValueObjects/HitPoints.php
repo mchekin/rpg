@@ -4,8 +4,13 @@
 namespace App\Modules\Character\Domain\Entities\ValueObjects;
 
 
+use App\Modules\Character\Domain\Entities\Race;
+use App\Traits\ThrowsDice;
+
 class HitPoints
 {
+    use ThrowsDice;
+
     /**
      * @var int
      */
@@ -15,6 +20,28 @@ class HitPoints
      * @var int
      */
     private $maximumHitPoints;
+
+    public static function generatedByRace(Race $race): HitPoints
+    {
+        $maximumHitPoints =  self::constitutionToHitPoints($race->getConstitution());
+
+        return new HitPoints($maximumHitPoints, $maximumHitPoints);
+    }
+
+    public static function incremented(HitPoints $hitPoints): HitPoints
+    {
+        $maximumHitPoints = $hitPoints->getMaximumHitPoints() + self::constitutionToHitPoints(1);
+
+        return new HitPoints(
+            $hitPoints->getCurrentHitPoints(),
+            $maximumHitPoints
+        );
+    }
+
+    protected static function constitutionToHitPoints(int $constitutionPoints): int
+    {
+        return $constitutionPoints * 10 + self::throwTwoDices();
+    }
 
     public function __construct(int $currentHitPoints, int $maximumHitPoints)
     {

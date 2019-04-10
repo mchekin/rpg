@@ -182,6 +182,24 @@ class Character
         return $this->reputation;
     }
 
+    public function applyAttributeIncrease(string $attribute): Character
+    {
+        $unassignedPoints = $this->attributes->get('unassigned');
+        $attributeValue = $this->attributes->get($attribute);
+
+        if ($unassignedPoints) {
+
+            $this->attributes->offsetSet('unassigned', $unassignedPoints - 1);
+            $this->attributes->offsetSet($attribute, $attributeValue + 1);
+
+            if ($attribute === 'constitution') {
+                $this->hitPoints = HitPoints::incremented($this->hitPoints);
+            }
+        }
+
+        return $this;
+    }
+
     // Todo: temporary hack of having reference to the Eloquent model
     public function setCharacterModel(CharacterModel $characterModel)
     {

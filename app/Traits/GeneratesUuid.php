@@ -1,13 +1,13 @@
 <?php
 
 
-namespace App\Factories;
+namespace App\Traits;
 
 use Ramsey\Uuid\Uuid;
 
 trait GeneratesUuid
 {
-    public function generateUuid()
+    protected function generateUuid()
     {
         return Uuid::uuid4();
     }

@@ -3,7 +3,7 @@
 
 namespace App\Modules\User\Domain\Factories;
 
-use App\Factories\GeneratesUuid;
+use App\Traits\GeneratesUuid;
 use App\Modules\User\Domain\Entities\User;
 use App\Modules\User\Domain\Requests\CreateUserRequest;
 

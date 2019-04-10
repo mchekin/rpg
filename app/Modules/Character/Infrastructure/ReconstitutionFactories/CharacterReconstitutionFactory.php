@@ -34,6 +34,7 @@ class CharacterReconstitutionFactory
                 'constitution' => $characterModel->getConstitution(),
                 'intelligence' => $characterModel->getIntelligence(),
                 'charisma' => $characterModel->getCharisma(),
+                'unassigned' => $characterModel->getAvailableAttributePoints(),
             ]),
             new HitPoints(
                 $characterModel->getHitPoints(),

@@ -242,21 +242,6 @@ class Character extends Model implements CharacterInterface
         });
     }
 
-    public function applyAttributeIncrease(string $attribute): CharacterInterface
-    {
-        if ($this->available_attribute_points) {
-
-            $this->available_attribute_points--;
-            $this->$attribute++;
-
-            if ($attribute === 'constitution') {
-                return $this->increaseTotalHitPoints();
-            }
-        }
-
-        return $this;
-    }
-
     protected function checkLevelUp(): CharacterInterface
     {
         while ($this->shouldLevelUp($nextLevel = $this->level->nextLevel())) {
@@ -274,13 +259,6 @@ class Character extends Model implements CharacterInterface
     protected function shouldLevelUp($nextLevel): bool
     {
         return !is_null($nextLevel) && ($this->xp > $this->level->getNextLevelXpThreshold());
-    }
-
-    protected function increaseTotalHitPoints(): Character
-    {
-        $this->total_hit_points += 10 + self::throwTwoDices();
-
-        return $this;
     }
 
     public static function createCharacter(Request $request, RaceInterface $race): CharacterInterface
@@ -460,8 +438,13 @@ class Character extends Model implements CharacterInterface
         return $this->race->getId();
     }
 
-    public function getXp():int
+    public function getXp(): int
     {
         return $this->xp;
+    }
+
+    public function getAvailableAttributePoints(): int
+    {
+        return $this->available_attribute_points;
     }
 }

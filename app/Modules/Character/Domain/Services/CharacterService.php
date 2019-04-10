@@ -8,6 +8,7 @@ use App\Modules\Character\Domain\Contracts\CharacterRepositoryInterface;
 use App\Modules\Character\Domain\Factories\CharacterFactory;
 use App\Modules\Character\Domain\Entities\Character;
 use App\Modules\Character\Domain\Requests\CreateCharacterRequest;
+use App\Modules\Character\Domain\Requests\IncreaseAttributeRequest;
 
 class CharacterService
 {
@@ -40,5 +41,14 @@ class CharacterService
     public function getOne(string $characterId): Character
     {
         return $this->characterRepository->getOne($characterId);
+    }
+
+    public function increaseAttribute(IncreaseAttributeRequest $request)
+    {
+        $character = $this->characterRepository->getOne($request->getCharacterId());
+
+        $character->applyAttributeIncrease($request->getAttribute());
+
+        $this->characterRepository->update($character);
     }
 }

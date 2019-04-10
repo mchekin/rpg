@@ -3,13 +3,13 @@
 
 namespace App\Modules\Character\Domain\Factories;
 
-use App\Factories\GeneratesUuid;
+use App\Modules\Character\Domain\Entities\ValueObjects\HitPoints;
+use App\Traits\GeneratesUuid;
 use App\Modules\Character\Domain\Contracts\RaceRepositoryInterface;
 use App\Modules\Character\Domain\Entities\Attributes;
 use App\Modules\Character\Domain\Entities\Character;
 use App\Modules\Character\Domain\Entities\Gender;
 use App\Modules\Character\Domain\Entities\Money;
-use App\Modules\Character\Domain\Entities\ValueObjects\HitPoints;
 use App\Modules\Character\Domain\Entities\ValueObjects\Reputation;
 use App\Modules\Character\Domain\Entities\ValueObjects\Xp;
 use App\Modules\Character\Domain\Requests\CreateCharacterRequest;
@@ -50,26 +50,9 @@ class CharacterFactory
                 'constitution' => $race->getConstitution(),
                 'intelligence' => $race->getIntelligence(),
                 'charisma' => $race->getCharisma(),
+                'unassigned' => 0,
             ]),
-            new HitPoints(
-                $this->calculateHP($race->getConstitution()),
-                $this->calculateHP($race->getConstitution())
-            )
+            HitPoints::generatedByRace($race)
         );
-    }
-
-    protected function calculateHP(int $constitution): int
-    {
-        return $constitution * 10 + $this->throwTwoDices();
-    }
-
-    protected function throwTwoDices(): int
-    {
-        return $this->throwOneDice() + $this->throwOneDice();
-    }
-
-    protected function throwOneDice(): int
-    {
-        return rand(1, 6);
     }
 }

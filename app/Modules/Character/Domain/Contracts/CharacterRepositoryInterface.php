@@ -9,4 +9,6 @@ interface CharacterRepositoryInterface
     public function add(Character $character);
 
     public function getOne(string $characterId): Character;
+
+    public function update(Character $character);
 }
