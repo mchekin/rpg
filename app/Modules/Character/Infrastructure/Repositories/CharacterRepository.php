@@ -60,27 +60,26 @@ class CharacterRepository implements CharacterRepositoryInterface
 
     public function update(Character $character)
     {
-        CharacterModel::query()->where('id', $character->getId())->update(
-            [
-                'name' => $character->getName(),
-                'gender' => $character->getGender()->getValue(),
+        CharacterModel::query()->where('id', $character->getId())->update([
+            'name' => $character->getName(),
+            'gender' => $character->getGender()->getValue(),
 
-                'xp' => $character->getXp()->getValue(),
-                'level_id' => $character->getLevelNumber(),
-                'money' => $character->getMoney()->getValue(),
-                'reputation' => $character->getReputation()->getValue(),
+            'xp' => $character->getXp()->getValue(),
+            'level_id' => $character->getLevelNumber(),
+            'money' => $character->getMoney()->getValue(),
+            'reputation' => $character->getReputation()->getValue(),
 
-                'strength' => $character->getStrength(),
-                'agility' => $character->getAgility(),
-                'constitution' => $character->getConstitution(),
-                'intelligence' => $character->getIntelligence(),
-                'charisma' => $character->getCharisma(),
+            'strength' => $character->getStrength(),
+            'agility' => $character->getAgility(),
+            'constitution' => $character->getConstitution(),
+            'intelligence' => $character->getIntelligence(),
+            'charisma' => $character->getCharisma(),
+            'available_attribute_points' => $character->getUnassignedAttributePoints(),
 
-                'hit_points' => $character->getHitPoints(),
-                'total_hit_points' => $character->getTotalHitPoints(),
+            'hit_points' => $character->getHitPoints(),
+            'total_hit_points' => $character->getTotalHitPoints(),
 
-                'location_id' => $character->getLocationId(),
-            ]
-        );
+            'location_id' => $character->getLocationId(),
+        ]);
     }
 }

@@ -127,6 +127,11 @@ class Character
         return $this->attributes->get('charisma');
     }
 
+    public function getUnassignedAttributePoints(): int
+    {
+        return $this->attributes->get('unassigned');
+    }
+
     public function getLocationId(): int
     {
         return $this->locationId;
