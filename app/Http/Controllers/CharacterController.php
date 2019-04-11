@@ -12,6 +12,7 @@ use App\Modules\Character\Presentation\Http\RequestMappers\CreateCharacterReques
 use App\Http\Requests\CreateCharacterRequest;
 use App\Http\Requests\UpdateCharacterAttributeRequest;
 use App\Modules\Character\Presentation\Http\RequestMappers\IncreaseAttributeRequestMapper;
+use App\Modules\Character\Presentation\Http\RequestMappers\MoveCharacterRequestMapper;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -80,10 +81,14 @@ class CharacterController extends Controller
         return back()->with('status', ucfirst($increaseAttributeRequest->getAttribute()) . ' + 1');
     }
 
-    public function getMove(Character $character, LocationInterface $location): Response
-    {
-        // update character's location
-        $character->location()->associate($location)->save();
+    public function getMove(
+        MoveCharacterRequestMapper $requestMapper,
+        Character $character,
+        LocationInterface $location
+    ): Response {
+        $moveCharacterRequest = $requestMapper->map($character->getId(), $location->getId());
+
+        $this->characterService->move($moveCharacterRequest);
 
         return redirect()->route('location.show', compact('location'));
     }

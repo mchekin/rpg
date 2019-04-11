@@ -216,4 +216,11 @@ class Character
     {
         return $this->characterModel;
     }
+
+    public function setLocationId(int $locationId): Character
+    {
+        $this->locationId = $locationId;
+
+        return $this;
+    }
 }
