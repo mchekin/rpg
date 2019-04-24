@@ -3,6 +3,7 @@
 
 namespace App\Modules\Character\Domain\Factories;
 
+use App\Modules\Character\Domain\Entities\Statistics;
 use App\Traits\GeneratesUuid;
 use App\Modules\Character\Domain\Contracts\RaceRepositoryInterface;
 use App\Modules\Character\Domain\Entities\Attributes;
@@ -41,7 +42,7 @@ class CharacterFactory
             $race->getStartingLocationId(),
             $request->getName(),
             new Gender($request->getGender()),
-            new Xp(0),
+            0,
             new Money(0),
             new Reputation(0),
             new Attributes([
@@ -52,7 +53,11 @@ class CharacterFactory
                 'charisma' => $race->getCharisma(),
                 'unassigned' => 0,
             ]),
-            HitPoints::generatedByRace($race)
+            HitPoints::byRace($race),
+            new Statistics([
+                'battlesLost' => 0,
+                'battlesWon' => 0,
+            ])
         );
     }
 }

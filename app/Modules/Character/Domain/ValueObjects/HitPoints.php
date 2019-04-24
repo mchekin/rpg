@@ -21,20 +21,26 @@ class HitPoints
      */
     private $maximumHitPoints;
 
-    public static function generatedByRace(Race $race): HitPoints
+    public static function byRace(Race $race): HitPoints
     {
-        $maximumHitPoints =  self::constitutionToHitPoints($race->getConstitution());
+        $maximumHitPoints = self::constitutionToHitPoints($race->getConstitution());
 
         return new HitPoints($maximumHitPoints, $maximumHitPoints);
     }
 
-    public static function incremented(HitPoints $hitPoints): HitPoints
+    public function withIncrementedConstitution(): HitPoints
     {
-        $maximumHitPoints = $hitPoints->getMaximumHitPoints() + self::constitutionToHitPoints(1);
-
         return new HitPoints(
-            $hitPoints->getCurrentHitPoints(),
-            $maximumHitPoints
+            $this->currentHitPoints,
+            $this->maximumHitPoints + self::constitutionToHitPoints(1)
+        );
+    }
+
+    public function withUpdatedCurrentValue(int $points): HitPoints
+    {
+        return new HitPoints(
+            $this->currentHitPoints + $points,
+            $this->maximumHitPoints
         );
     }
 

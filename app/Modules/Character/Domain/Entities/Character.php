@@ -5,12 +5,14 @@ namespace App\Modules\Character\Domain\Entities;
 
 use App\Modules\Character\Domain\ValueObjects\HitPoints;
 use App\Modules\Character\Domain\ValueObjects\Reputation;
-use App\Modules\Character\Domain\ValueObjects\Xp;
 use App\Modules\Character\Domain\ValueObjects\Money;
-use App\Character as CharacterModel;
+use App\Traits\ContainsModel;
 
 class Character
 {
+    // Todo: temporary hack of having reference to the Eloquent model
+    use ContainsModel;
+
     /**
      * @var string
      */
@@ -32,7 +34,7 @@ class Character
      */
     private $locationId;
     /**
-     * @var Xp
+     * @var int
      */
     private $xp;
     /**
@@ -60,9 +62,9 @@ class Character
      */
     private $userId;
     /**
-     * @var CharacterModel
+     * @var Statistics
      */
-    private $characterModel;
+    private $statistics;
 
     public function __construct(
         string $id,
@@ -72,13 +74,15 @@ class Character
         int $locationId,
         string $name,
         Gender $gender,
-        Xp $xp,
+        int $xp,
         Money $money,
         Reputation $reputation,
         Attributes $attributes,
-        HitPoints $hitPoints
+        HitPoints $hitPoints,
+        Statistics $statistics
     )
     {
+        $this->id = $id;
         $this->name = $name;
         $this->gender = $gender;
         $this->levelId = $levelId;
@@ -89,8 +93,8 @@ class Character
         $this->reputation = $reputation;
         $this->attributes = $attributes;
         $this->hitPoints = $hitPoints;
-        $this->id = $id;
         $this->userId = $userId;
+        $this->statistics = $statistics;
     }
 
     public function getLevelNumber(): int
@@ -105,32 +109,32 @@ class Character
 
     public function getStrength(): int
     {
-        return $this->attributes->get('strength');
+        return $this->attributes->getStrength();
     }
 
     public function getAgility(): int
     {
-        return $this->attributes->get('agility');
+        return $this->attributes->getAgility();
     }
 
     public function getConstitution(): int
     {
-        return $this->attributes->get('constitution');
+        return $this->attributes->getConstitution();
     }
 
     public function getIntelligence(): int
     {
-        return $this->attributes->get('intelligence');
+        return $this->attributes->getIntelligence();
     }
 
     public function getCharisma(): int
     {
-        return $this->attributes->get('charisma');
+        return $this->attributes->getCharisma();
     }
 
     public function getUnassignedAttributePoints(): int
     {
-        return $this->attributes->get('unassigned');
+        return $this->attributes->getUnassignedAttributePoints();
     }
 
     public function getLocationId(): int
@@ -168,7 +172,7 @@ class Character
         return $this->gender;
     }
 
-    public function getXp(): Xp
+    public function getXp(): int
     {
         return $this->xp;
     }
@@ -188,33 +192,16 @@ class Character
         return $this->reputation;
     }
 
-    public function applyAttributeIncrease(string $attribute): Character
+    public function applyAttributeIncrease(string $attribute)
     {
-        $unassignedPoints = $this->attributes->get('unassigned');
-        $attributeValue = $this->attributes->get($attribute);
+        if ($this->attributes->hasAvailablePoints()) {
 
-        if ($unassignedPoints) {
-
-            $this->attributes->offsetSet('unassigned', $unassignedPoints - 1);
-            $this->attributes->offsetSet($attribute, $attributeValue + 1);
+            $this->attributes = $this->attributes->assignAvailablePoint($attribute);
 
             if ($attribute === 'constitution') {
-                $this->hitPoints = HitPoints::incremented($this->hitPoints);
+                $this->hitPoints = $this->hitPoints->withIncrementedConstitution();
             }
         }
-
-        return $this;
-    }
-
-    // Todo: temporary hack of having reference to the Eloquent model
-    public function setCharacterModel(CharacterModel $characterModel)
-    {
-        $this->characterModel = $characterModel;
-    }
-
-    public function getCharacterModel(): CharacterModel
-    {
-        return $this->characterModel;
     }
 
     public function setLocationId(int $locationId): Character
@@ -222,5 +209,47 @@ class Character
         $this->locationId = $locationId;
 
         return $this;
+    }
+
+    public function isAlive(): bool
+    {
+        return $this->hitPoints->getCurrentHitPoints() > 0;
+    }
+
+    public function incrementWonBattles()
+    {
+        $this->statistics = $this->statistics->withIncreaseWonBattles();
+    }
+
+    public function incrementLostBattles()
+    {
+        $this->statistics = $this->statistics->withIncreaseLostBattles();
+    }
+
+    public function addXp(int $xp)
+    {
+        $this->xp = $this->xp + $xp;
+    }
+
+    public function getBattlesWon(): int
+    {
+        return (int) $this->statistics->get('battlesWon');
+    }
+
+    public function getBattlesLost(): int
+    {
+        return (int) $this->statistics->get('battlesLost');
+    }
+
+    public function applyDamage($damageDone)
+    {
+        $this->hitPoints = $this->hitPoints->withUpdatedCurrentValue(-$damageDone);
+    }
+
+    public function updateLevel(int $levelId)
+    {
+        $points = $levelId - $this->levelId;
+
+        $this->attributes = $this->attributes->addAvailablePoints($points);
     }
 }

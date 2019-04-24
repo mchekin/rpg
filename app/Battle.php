@@ -36,11 +36,7 @@ class Battle extends Model implements BattleInterface
         });
     }
 
-    protected $fillable = [
-        'attacker_id',
-        'defender_id',
-        'location_id',
-    ];
+    protected $guarded = [];
 
     /**
      * @return HasMany

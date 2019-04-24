@@ -3,10 +3,13 @@
 
 namespace App\Modules\User\Domain\Entities;
 
-use App\User as UserModel;
+use App\Traits\ContainsModel;
 
 class User
 {
+    // Todo: temporary hack of having reference to the Eloquent model
+    use ContainsModel;
+
     /**
      * @var string
      */
@@ -19,10 +22,6 @@ class User
      * @var string
      */
     private $password;
-    /**
-     * @var UserModel
-     */
-    private $userModel;
     /**
      * @var string
      */
@@ -54,16 +53,5 @@ class User
     public function getPassword(): string
     {
         return $this->password;
-    }
-
-    // Todo: temporary hack of having reference to the Eloquent model
-    public function setUserModel(UserModel $userModel)
-    {
-        $this->userModel = $userModel;
-    }
-
-    public function getUserModel(): UserModel
-    {
-        return $this->userModel;
     }
 }

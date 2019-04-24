@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Modules\User\Domain\Services\UserService;
 use App\Modules\User\Presentation\Http\RequestMappers\CreateUserRequestMapper;
 use App\Http\Controllers\Controller;
+use App\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -73,7 +74,7 @@ class RegisterController extends Controller
      *
      * @param  array $data
      *
-     * @return \App\User
+     * @return User
      */
     protected function create(array $data)
     {
@@ -81,6 +82,9 @@ class RegisterController extends Controller
 
         $user = $this->userService->create($request);
 
-        return $user->getUserModel();
+        /** @var User $userModel */
+        $userModel = $user->getModel();
+
+        return $userModel;
     }
 }

@@ -10,7 +10,6 @@ class UserRepository implements UserRepositoryInterface
 {
     public function add(User $user)
     {
-        /** @var UserModel $userModel */
         $userModel = UserModel::query()->create([
             'id' => $user->getId(),
             'name' => $user->getName(),
@@ -18,6 +17,6 @@ class UserRepository implements UserRepositoryInterface
             'password' => $user->getPassword()
         ]);
 
-        $user->setUserModel($userModel);
+        $user->setModel($userModel);
     }
 }

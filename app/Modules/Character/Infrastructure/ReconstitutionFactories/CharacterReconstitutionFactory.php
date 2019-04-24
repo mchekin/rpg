@@ -6,10 +6,10 @@ namespace App\Modules\Character\Infrastructure\ReconstitutionFactories;
 use App\Modules\Character\Domain\Entities\Attributes;
 use App\Modules\Character\Domain\Entities\Character;
 use App\Modules\Character\Domain\Entities\Gender;
+use App\Modules\Character\Domain\Entities\Statistics;
 use App\Modules\Character\Domain\ValueObjects\Money;
 use App\Modules\Character\Domain\ValueObjects\HitPoints;
 use App\Modules\Character\Domain\ValueObjects\Reputation;
-use App\Modules\Character\Domain\ValueObjects\Xp;
 use App\Character as CharacterModel;
 
 
@@ -25,7 +25,7 @@ class CharacterReconstitutionFactory
             $characterModel->getLocationId(),
             $characterModel->getName(),
             new Gender($characterModel->getGender()),
-            new Xp($characterModel->getXp()),
+            $characterModel->getXp(),
             new Money(0),
             new Reputation(0),
             new Attributes([
@@ -39,10 +39,14 @@ class CharacterReconstitutionFactory
             new HitPoints(
                 $characterModel->getHitPoints(),
                 $characterModel->getTotalHitPoints()
-            )
+            ),
+            new Statistics([
+                'battlesLost' => $characterModel->getBattlesLost(),
+                'battlesWon' => $characterModel->getBattlesWon(),
+            ])
         );
 
-        $character->setCharacterModel($characterModel);
+        $character->setModel($characterModel);
 
         return $character;
     }

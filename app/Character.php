@@ -418,9 +418,9 @@ class Character extends Model implements CharacterInterface
         return $image;
     }
 
-    public function getUserId(): string
+    public function getUserId()
     {
-        return $this->user->getId();
+        return $this->user ? $this->user->getId() : '';
     }
 
     public function getName(): string
@@ -446,5 +446,15 @@ class Character extends Model implements CharacterInterface
     public function getAvailableAttributePoints(): int
     {
         return $this->available_attribute_points;
+    }
+
+    public function getBattlesLost(): int
+    {
+        return $this->battles_lost;
+    }
+
+    public function getBattlesWon(): int
+    {
+        return $this->battles_won;
     }
 }

@@ -8,6 +8,7 @@ use App\Contracts\Models\UserInterface;
 use App\Contracts\Models\LocationInterface;
 use App\Contracts\Repositories\RaceRepositoryInterface;
 use App\Modules\Character\Domain\Services\CharacterService;
+use App\Modules\Character\Presentation\Http\RequestMappers\AttackCharacterRequestMapper;
 use App\Modules\Character\Presentation\Http\RequestMappers\CreateCharacterRequestMapper;
 use App\Http\Requests\CreateCharacterRequest;
 use App\Http\Requests\UpdateCharacterAttributeRequest;
@@ -58,14 +59,14 @@ class CharacterController extends Controller
 
         $character = $this->characterService->create($createRequest);
 
-        return redirect()->route('character.show', ['character' => $character->getCharacterModel()]);
+        return redirect()->route('character.show', ['character' => $character->getModel()]);
     }
 
     public function show(CharacterInterface $character): View
     {
         $character = $this->characterService->getOne($character->getId());
 
-        return view('character.show', ['character' => $character->getCharacterModel()]);
+        return view('character.show', ['character' => $character->getModel()]);
     }
 
     public function update(
@@ -93,15 +94,19 @@ class CharacterController extends Controller
         return redirect()->route('location.show', compact('location'));
     }
 
-    public function getAttack(CharacterInterface $defender, Request $request): Response
-    {
+    public function getAttack(
+        CharacterInterface $defender,
+        Request $request,
+        AttackCharacterRequestMapper $requestMapper
+    ): Response {
         /** @var UserInterface $authenticatedUser */
         $authenticatedUser = $request->user();
-
         $character = $authenticatedUser->getCharacter();
 
-        $battle = $character->attack($defender);
+        $attackCharacterRequest = $requestMapper->map($character->getId(), $defender->getId());
 
-        return redirect()->route('battle.show', compact('battle'));
+        $battle = $this->characterService->attack($attackCharacterRequest);
+
+        return redirect()->route('battle.show', ['battle' => $battle->getModel()]);
     }
 }

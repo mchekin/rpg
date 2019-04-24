@@ -1,10 +1,10 @@
 <?php
 
 
-namespace App\Modules\Character\Domain\ValueObjects;
+namespace App\Modules\Battle\Domain\Entities;
 
 
-class Xp
+class DiceRoll
 {
     /**
      * @var int

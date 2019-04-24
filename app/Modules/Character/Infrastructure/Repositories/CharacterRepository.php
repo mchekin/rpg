@@ -29,7 +29,7 @@ class CharacterRepository implements CharacterRepositoryInterface
             'name' => $character->getName(),
             'gender' => $character->getGender()->getValue(),
 
-            'xp' => $character->getXp()->getValue(),
+            'xp' => $character->getXp(),
             'level_id' => $character->getLevelNumber(),
             'money' => $character->getMoney()->getValue(),
             'reputation' => $character->getReputation()->getValue(),
@@ -45,9 +45,12 @@ class CharacterRepository implements CharacterRepositoryInterface
 
             'race_id' => $character->getRaceId(),
             'location_id' => $character->getLocationId(),
+
+            'battles_won' => $character->getBattlesWon(),
+            'battles_lost' => $character->getBattlesLost(),
         ]);
 
-        $character->setCharacterModel($characterModel);
+        $character->setModel($characterModel);
     }
 
     public function getOne(string $characterId): Character
@@ -64,7 +67,7 @@ class CharacterRepository implements CharacterRepositoryInterface
             'name' => $character->getName(),
             'gender' => $character->getGender()->getValue(),
 
-            'xp' => $character->getXp()->getValue(),
+            'xp' => $character->getXp(),
             'level_id' => $character->getLevelNumber(),
             'money' => $character->getMoney()->getValue(),
             'reputation' => $character->getReputation()->getValue(),
