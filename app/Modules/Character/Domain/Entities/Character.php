@@ -250,6 +250,8 @@ class Character
     {
         $points = $levelId - $this->levelId;
 
+        $this->levelId = $levelId;
+
         $this->attributes = $this->attributes->addAvailablePoints($points);
     }
 }

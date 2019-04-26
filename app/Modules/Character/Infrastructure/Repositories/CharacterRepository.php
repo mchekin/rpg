@@ -82,6 +82,9 @@ class CharacterRepository implements CharacterRepositoryInterface
             'hit_points' => $character->getHitPoints(),
             'total_hit_points' => $character->getTotalHitPoints(),
 
+            'battles_won' => $character->getBattlesWon(),
+            'battles_lost' => $character->getBattlesLost(),
+
             'location_id' => $character->getLocationId(),
         ]);
     }
