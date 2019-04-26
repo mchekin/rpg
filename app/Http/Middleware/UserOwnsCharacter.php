@@ -2,8 +2,8 @@
 
 namespace App\Http\Middleware;
 
-use App\Contracts\Models\CharacterInterface;
-use App\Contracts\Models\UserInterface;
+use App\Character;
+use App\User;
 use Closure;
 
 class UserOwnsCharacter
@@ -17,10 +17,10 @@ class UserOwnsCharacter
      */
     public function handle($request, Closure $next)
     {
-        /** @var UserInterface $user */
+        /** @var User $user */
         $user = $request->user();
 
-        /** @var CharacterInterface $character */
+        /** @var Character $character */
         $character = $request->route('character');
 
         if ($user && !$user->hasThisCharacter($character)) {

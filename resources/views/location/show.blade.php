@@ -28,7 +28,7 @@
             <ul class="list-group">
                 @foreach($location->characters as $character)
                     <?php
-                    /** @var \App\Contracts\Models\CharacterInterface $character * */
+                    /** @var \App\Character $character * */
                     $class = 'list-group-item-warning';
 
                     if (!$character->isNPC()) {

@@ -6,5 +6,5 @@ use App\Modules\Character\Domain\Entities\Race;
 
 interface RaceRepositoryInterface
 {
-    public function get(int $raceId): Race;
+    public function getOne(int $raceId): Race;
 }

@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Contracts\Models\ImageInterface;
+use App\Traits\UsesStringId;
 use Illuminate\Database\Eloquent\Model;
 use Ramsey\Uuid\Uuid;
 
@@ -12,7 +12,7 @@ use Ramsey\Uuid\Uuid;
  * @property string file_path_icon
  * @property int id
  */
-class Image extends Model implements ImageInterface
+class Image extends Model
 {
     use UsesStringId;
 

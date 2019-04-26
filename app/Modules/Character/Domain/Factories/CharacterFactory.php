@@ -32,7 +32,7 @@ class CharacterFactory
 
     public function create(CreateCharacterRequest $request): Character
     {
-        $race = $this->raceRepository->get($request->getRaceId());
+        $race = $this->raceRepository->getOne($request->getRaceId());
 
         return new Character(
             $this->generateUuid(),

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Contracts\Models\CharacterInterface;
+use App\Character;
 use App\Http\Requests\UploadImageRequest;
 use App\Services\FilesystemService;
 
@@ -16,7 +16,7 @@ class ProfilePictureController extends Controller
         $this->middleware('owns.character');
     }
 
-    public function store(CharacterInterface $character, UploadImageRequest $request, FilesystemService $filesystemService)
+    public function store(Character $character, UploadImageRequest $request, FilesystemService $filesystemService)
     {
         $imageFiles = $filesystemService->writeProfilePictureFiles($character, $request->file('file'));
 
@@ -25,7 +25,7 @@ class ProfilePictureController extends Controller
         return back()->with('status', 'Profile picture has been changed');
     }
 
-    public function destroy(CharacterInterface $character, FilesystemService $filesystemService)
+    public function destroy(Character $character, FilesystemService $filesystemService)
     {
         $filesystemService->deleteProfilePictureFiles($character);
 

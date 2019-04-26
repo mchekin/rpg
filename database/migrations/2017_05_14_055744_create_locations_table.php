@@ -96,10 +96,10 @@ class CreateLocationsTable extends Migration
         ];
 
         foreach ($adjacent_locations as $record) {
-            /** @var  $location \App\Contracts\Models\LocationInterface */
+            /** @var  $location \App\Location */
             $location = Location::query()->find($record['location_id']);
 
-            /** @var  $adjacent_location \App\Contracts\Models\LocationInterface */
+            /** @var  $adjacent_location \App\Location */
             $adjacent_location = Location::query()->find($record['adjacent_location_id']);
 
             $location->addAdjacentLocation($adjacent_location, $record['direction']);

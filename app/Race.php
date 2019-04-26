@@ -2,7 +2,6 @@
 
 namespace App;
 
-use App\Contracts\Models\RaceInterface;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -11,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string male_image
  * @property string female_image
  */
-class Race extends Model implements RaceInterface
+class Race extends Model
 {
     const ATTRIBUTE_STRENGTH = 'strength';
     const ATTRIBUTE_AGILITY = 'agility';

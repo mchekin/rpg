@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Contracts\Models\UserInterface;
+use App\User;
 use Closure;
 
 class IsCharacterLocation
@@ -16,7 +16,7 @@ class IsCharacterLocation
      */
     public function handle($request, Closure $next)
     {
-        /** @var UserInterface $user */
+        /** @var User $user */
         $user = $request->user();
         $location = $user->character->location;
 

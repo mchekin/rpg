@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Contracts\Models\LocationInterface;
 use App\Location;
 
 class LocationController extends Controller
@@ -18,10 +17,10 @@ class LocationController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param LocationInterface $location
+     * @param Location $location
      * @return \Illuminate\Http\Response
      */
-    public function show(LocationInterface $location)
+    public function show(Location $location)
     {
         return view('location.show', compact('location'));
     }

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App;
+namespace App\Traits;
 
 trait UsesStringId
 {

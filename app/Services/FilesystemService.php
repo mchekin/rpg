@@ -2,11 +2,10 @@
 
 namespace App\Services;
 
-use App\Contracts\Models\CharacterInterface;
+use App\Character;
 use App\Services\FilesystemService\ImageFileCollectionFactory;
 use App\Services\FilesystemService\ImageFileCollection;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Filesystem\FilesystemManager;
 use Intervention\Image\Constraint;
 use Intervention\Image\ImageManager;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -50,7 +49,7 @@ class FilesystemService
 
     const CHARACTER_IMAGE_FOLDER = 'images' . DIRECTORY_SEPARATOR . 'characters' . DIRECTORY_SEPARATOR;
 
-    public function writeProfilePictureFiles(CharacterInterface $character, UploadedFile $originalImage): ImageFileCollection
+    public function writeProfilePictureFiles(Character $character, UploadedFile $originalImage): ImageFileCollection
     {
         $fullFolderPath = $this->getFullFolderPath($character);
         $relativeFolderPath = $this->getRelativeFolderPath($character);
@@ -81,14 +80,14 @@ class FilesystemService
         return $imageFiles;
     }
 
-    public function deleteProfilePictureFiles(CharacterInterface $character): bool
+    public function deleteProfilePictureFiles(Character $character): bool
     {
         $fullFolderPath = $this->getFullFolderPath($character);
 
         return $this->filesystem->deleteDirectory($fullFolderPath);
     }
 
-    private function getFullFolderPath(CharacterInterface $character): string
+    private function getFullFolderPath(Character $character): string
     {
         return storage_path(
             'app' . DIRECTORY_SEPARATOR
@@ -97,13 +96,13 @@ class FilesystemService
         );
     }
 
-    private function getRelativeFolderPath(CharacterInterface $character): string
+    private function getRelativeFolderPath(Character $character): string
     {
         return 'storage' . DIRECTORY_SEPARATOR
             . $this->getCharacterImageFolder($character);
     }
 
-    private function getCharacterImageFolder(CharacterInterface $character): string
+    private function getCharacterImageFolder(Character $character): string
     {
         return self::CHARACTER_IMAGE_FOLDER . $character->getId() . DIRECTORY_SEPARATOR;
     }

@@ -9,7 +9,7 @@ use App\Race as RaceModel;
 
 class RaceRepository implements RaceRepositoryInterface
 {
-    public function get(int $raceId): Race
+    public function getOne(int $raceId): Race
     {
         /** @var RaceModel $race */
         $race = RaceModel::query()->findOrFail($raceId);

@@ -2,17 +2,16 @@
 
 namespace App;
 
-use App\Contracts\Models\LevelInterface;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property integer id
  * @property integer next_level_xp_threshold
  */
-class Level extends Model implements LevelInterface
+class Level extends Model
 {
     /**
-     * @return LevelInterface|Model|null
+     * @return Level|Model|null
      */
     public function nextLevel()
     {

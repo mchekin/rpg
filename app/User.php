@@ -2,8 +2,7 @@
 
 namespace App;
 
-use App\Contracts\Models\CharacterInterface;
-use App\Contracts\Models\UserInterface;
+use App\Traits\UsesStringId;
 use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -14,7 +13,7 @@ use Illuminate\Support\Facades\Cache;
  * @property Character character
  * @property integer id
  */
-class User extends Authenticatable implements UserInterface
+class User extends Authenticatable
 {
     use Notifiable;
     use UsesStringId;
@@ -62,17 +61,17 @@ class User extends Authenticatable implements UserInterface
         return $this->getId() == Auth::id();
     }
 
-    public function getCharacter(): CharacterInterface
+    public function getCharacter(): Character
     {
         return $this->character;
     }
 
-    public function hasThisCharacter(CharacterInterface $character): bool
+    public function hasThisCharacter(Character $character): bool
     {
         return $this->character->id === $character->getId();
     }
 
-    public function updateLastUserActivity(): UserInterface
+    public function updateLastUserActivity(): User
     {
         $expiresAt = Carbon::now()->addMinutes(5);
 

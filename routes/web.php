@@ -1,10 +1,10 @@
 <?php
 
-use App\Contracts\Models\BattleInterface;
-use App\Contracts\Models\CharacterInterface;
-use App\Contracts\Models\ImageInterface;
-use App\Contracts\Models\LocationInterface;
-use App\Contracts\Models\MessageInterface;
+use App\Battle;
+use App\Character;
+use App\Image;
+use App\Location;
+use App\Message;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,11 +18,11 @@ use App\Contracts\Models\MessageInterface;
 */
 
 // Route models...
-Route::model("character", CharacterInterface::class);
-Route::model("battle", BattleInterface::class);
-Route::model("location", LocationInterface::class);
-Route::model("message", MessageInterface::class);
-Route::model("profile-image", ImageInterface::class);
+Route::model("character", Character::class);
+Route::model("battle", Battle::class);
+Route::model("location", Location::class);
+Route::model("message", Message::class);
+Route::model("profile-image", Image::class);
 
 Route::get('/character/{character}/location/{location}/move', 'CharacterController@getMove')
     ->name('character.move');

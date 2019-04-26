@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Contracts\Models\UserInterface;
+use App\User;
 use Closure;
 
 class NoCharacterYet
@@ -16,7 +16,7 @@ class NoCharacterYet
      */
     public function handle($request, Closure $next)
     {
-        /** @var UserInterface $user */
+        /** @var User $user */
         $user = $request->user();
 
         if ($user && $user->hasCharacter()) {

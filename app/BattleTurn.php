@@ -2,12 +2,12 @@
 
 namespace App;
 
-use App\Contracts\Models\BattleTurnInterface;
+use App\Traits\UsesStringId;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Ramsey\Uuid\Uuid;
 
-class BattleTurn extends Model implements BattleTurnInterface
+class BattleTurn extends Model
 {
     use UsesStringId;
 

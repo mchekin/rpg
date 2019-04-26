@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Contracts\Models\MessageInterface;
+use App\Traits\UsesStringId;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Ramsey\Uuid\Uuid;
@@ -10,7 +10,7 @@ use Ramsey\Uuid\Uuid;
 /**
  * @property int state
  */
-class Message extends Model implements MessageInterface
+class Message extends Model
 {
     use UsesStringId;
 

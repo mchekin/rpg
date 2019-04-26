@@ -2,27 +2,20 @@
 
 namespace App;
 
-use App\Contracts\Models\BattleInterface;
-use App\Contracts\Models\CharacterInterface;
-use App\Contracts\Models\ImageInterface;
-use App\Contracts\Models\LevelInterface;
-use App\Contracts\Models\LocationInterface;
-use App\Contracts\Models\RaceInterface;
-use App\Contracts\Models\UserInterface;
 use App\Services\FilesystemService\ImageFileCollection;
+use App\Traits\UsesStringId;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 /**
- * @property UserInterface user
- * @property LocationInterface location
+ * @property User user
+ * @property Location location
  * @property integer id
  * @property integer hit_points
  * @property integer xp
- * @property LevelInterface level
+ * @property Level level
  * @property integer available_attribute_points
  * @property integer battles_won
  * @property integer battles_lost
@@ -32,14 +25,14 @@ use Illuminate\Support\Facades\DB;
  * @property integer intelligence
  * @property integer charisma
  * @property integer location_id
- * @property RaceInterface race
+ * @property Race race
  * @property string gender
  * @property int total_hit_points
  * @property int victor_xp_gained
- * @property ImageInterface profilePicture
+ * @property Image profilePicture
  * @property string name
  */
-class Character extends Model implements CharacterInterface
+class Character extends Model
 {
     use UsesStringId;
 
@@ -143,7 +136,7 @@ class Character extends Model implements CharacterInterface
         return $this->hasMany(Battle::class, 'defender_id');
     }
 
-    public function sendMessageTo(CharacterInterface $companion, string $content): CharacterInterface
+    public function sendMessageTo(Character $companion, string $content): Character
     {
         $this->sentMessages()->create([
             'to_id' => $companion->getId(),
@@ -182,7 +175,7 @@ class Character extends Model implements CharacterInterface
     {
         if ($this->profilePicture()->exists())
         {
-            /** @var ImageInterface $image */
+            /** @var Image $image */
             $image = $this->profilePicture()->first();
 
             return $image->getFilePathFull();
@@ -195,7 +188,7 @@ class Character extends Model implements CharacterInterface
     {
         if ($this->profilePicture()->exists())
         {
-            /** @var ImageInterface $image */
+            /** @var Image $image */
             $image = $this->profilePicture()->first();
 
             return $image->getFilePathSmall();
@@ -224,25 +217,7 @@ class Character extends Model implements CharacterInterface
         return $this->location->getName();
     }
 
-    public function attack(CharacterInterface $defender): BattleInterface
-    {
-        return DB::transaction(function () use ($defender) {
-
-            /** @var BattleInterface|Model $battle */
-            $battle = $this->attacks()->create([
-                'defender_id' => $defender->getId(),
-                'location_id' => $defender->getLocationId(),
-            ]);
-
-            $battle->execute();
-
-            $battle->push();
-
-            return $battle;
-        });
-    }
-
-    protected function checkLevelUp(): CharacterInterface
+    protected function checkLevelUp(): Character
     {
         while ($this->shouldLevelUp($nextLevel = $this->level->nextLevel())) {
 
@@ -261,7 +236,7 @@ class Character extends Model implements CharacterInterface
         return !is_null($nextLevel) && ($this->xp > $this->level->getNextLevelXpThreshold());
     }
 
-    public static function createCharacter(Request $request, RaceInterface $race): CharacterInterface
+    public static function createCharacter(Request $request, Race $race): Character
     {
         $totalHitPoints = self::calculateHP($race->getConstitution());
 
@@ -313,28 +288,21 @@ class Character extends Model implements CharacterInterface
         return $this->hit_points > 0;
     }
 
-    public function incrementWonBattles(): CharacterInterface
+    public function incrementWonBattles(): Character
     {
         $this->battles_won++;
 
         return $this;
     }
 
-    public function incrementLostBattles(): CharacterInterface
+    public function incrementLostBattles(): Character
     {
         $this->battles_lost++;
 
         return $this;
     }
 
-    public function addXp(int $xp): CharacterInterface
-    {
-        $this->xp += $xp;
-
-        return $this->checkLevelUp();
-    }
-
-    public function applyDamage($damageDone): CharacterInterface
+    public function applyDamage($damageDone): Character
     {
         $this->hit_points -= $damageDone;
 
@@ -371,7 +339,7 @@ class Character extends Model implements CharacterInterface
         return $this->location_id;
     }
 
-    public function addProfilePicture(ImageFileCollection $imageFiles): CharacterInterface
+    public function addProfilePicture(ImageFileCollection $imageFiles): Character
     {
         $image = $this->addImage($imageFiles);
 
@@ -380,7 +348,7 @@ class Character extends Model implements CharacterInterface
         return $this;
     }
 
-    public function deleteProfilePicture(): CharacterInterface
+    public function deleteProfilePicture(): Character
     {
         $this->profilePicture()->delete();
 
@@ -406,9 +374,9 @@ class Character extends Model implements CharacterInterface
         return $this->total_hit_points;
     }
 
-    private function addImage(ImageFileCollection $imageFiles): ImageInterface
+    private function addImage(ImageFileCollection $imageFiles): Image
     {
-        /** @var ImageInterface $image */
+        /** @var Image $image */
         $image = $this->images()->create([
             'file_path_full' => $imageFiles->getFullSizePath(),
             'file_path_small' => $imageFiles->getSmallSizePath(),

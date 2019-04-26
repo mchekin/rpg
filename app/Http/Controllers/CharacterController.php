@@ -3,10 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Character;
-use App\Contracts\Models\CharacterInterface;
-use App\Contracts\Models\UserInterface;
-use App\Contracts\Models\LocationInterface;
-use App\Contracts\Repositories\RaceRepositoryInterface;
+use App\Location;
 use App\Modules\Character\Domain\Services\CharacterService;
 use App\Modules\Character\Presentation\Http\RequestMappers\AttackCharacterRequestMapper;
 use App\Modules\Character\Presentation\Http\RequestMappers\CreateCharacterRequestMapper;
@@ -14,6 +11,8 @@ use App\Http\Requests\CreateCharacterRequest;
 use App\Http\Requests\UpdateCharacterAttributeRequest;
 use App\Modules\Character\Presentation\Http\RequestMappers\IncreaseAttributeRequestMapper;
 use App\Modules\Character\Presentation\Http\RequestMappers\MoveCharacterRequestMapper;
+use App\Race;
+use App\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -43,9 +42,9 @@ class CharacterController extends Controller
         $this->characterService = $characterService;
     }
 
-    public function create(RaceRepositoryInterface $raceRepository): View
+    public function create(): View
     {
-        $races = $raceRepository->all();
+        $races = Race::all();
         $user = Auth::user();
 
         return view('character.create', compact('races', 'user'));
@@ -62,7 +61,7 @@ class CharacterController extends Controller
         return redirect()->route('character.show', ['character' => $character->getModel()]);
     }
 
-    public function show(CharacterInterface $character): View
+    public function show(Character $character): View
     {
         $character = $this->characterService->getOne($character->getId());
 
@@ -72,7 +71,7 @@ class CharacterController extends Controller
     public function update(
         UpdateCharacterAttributeRequest $request,
         IncreaseAttributeRequestMapper $requestMapper,
-        CharacterInterface $character
+        Character $character
     ): Response {
 
         $increaseAttributeRequest = $requestMapper->map($character->getId(), $request);
@@ -85,7 +84,7 @@ class CharacterController extends Controller
     public function getMove(
         MoveCharacterRequestMapper $requestMapper,
         Character $character,
-        LocationInterface $location
+        Location $location
     ): Response {
         $moveCharacterRequest = $requestMapper->map($character->getId(), $location->getId());
 
@@ -95,11 +94,11 @@ class CharacterController extends Controller
     }
 
     public function getAttack(
-        CharacterInterface $defender,
+        Character $defender,
         Request $request,
         AttackCharacterRequestMapper $requestMapper
     ): Response {
-        /** @var UserInterface $authenticatedUser */
+        /** @var User $authenticatedUser */
         $authenticatedUser = $request->user();
         $character = $authenticatedUser->getCharacter();
 
