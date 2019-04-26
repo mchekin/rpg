@@ -75,27 +75,27 @@ class Race
 
     public function getStrength(): int
     {
-        return $this->attributes->get('strength');
+        return $this->attributes->getStrength();
     }
 
     public function getAgility(): int
     {
-        return $this->attributes->get('agility');
+        return $this->attributes->getAgility();
     }
 
     public function getConstitution(): int
     {
-        return $this->attributes->get('constitution');
+        return $this->attributes->getConstitution();
     }
 
     public function getIntelligence(): int
     {
-        return $this->attributes->get('intelligence');
+        return $this->attributes->getIntelligence();
     }
 
     public function getCharisma(): int
     {
-        return $this->attributes->get('charisma');
+        return $this->attributes->getCharisma();
     }
 
     /**
