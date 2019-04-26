@@ -13,6 +13,7 @@ use App\Modules\Character\Domain\Requests\CreateCharacterRequest;
 use App\Modules\Character\Domain\Requests\IncreaseAttributeRequest;
 use App\Modules\Character\Domain\Requests\MoveCharacterRequest;
 use App\Modules\Level\Domain\Services\LevelService;
+use Illuminate\Support\Facades\DB;
 
 class CharacterService
 {
@@ -79,26 +80,29 @@ class CharacterService
 
     public function attack(AttackCharacterRequest $request): Battle
     {
-        $attacker = $this->characterRepository->getOne($request->getAttackerId());
-        $defender = $this->characterRepository->getOne($request->getDefenderId());
+        return DB::transaction(function () use ($request) {
 
-        $battle = $this->battleService->create($attacker, $defender);
+            $attacker = $this->characterRepository->getOne($request->getAttackerId());
+            $defender = $this->characterRepository->getOne($request->getDefenderId());
 
-        $victor = $battle->getVictor();
-        $loser = $battle->getLoser();
+            $battle = $this->battleService->create($attacker, $defender);
 
-        $victor->incrementWonBattles();
-        $loser->incrementLostBattles();
+            $victor = $battle->getVictor();
+            $loser = $battle->getLoser();
 
-        $victor->addXp($battle->getVictorXpGained());
+            $victor->incrementWonBattles();
+            $loser->incrementLostBattles();
 
-        $newLevel = $this->levelService->getLevelByXp($victor->getXp());
+            $victor->addXp($battle->getVictorXpGained());
 
-        $victor->updateLevel($newLevel->getId());
+            $newLevel = $this->levelService->getLevelByXp($victor->getXp());
 
-        $this->characterRepository->update($victor);
-        $this->characterRepository->update($loser);
+            $victor->updateLevel($newLevel->getId());
 
-        return $battle;
+            $this->characterRepository->update($victor);
+            $this->characterRepository->update($loser);
+
+            return $battle;
+        });
     }
 }
