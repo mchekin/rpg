@@ -43,9 +43,4 @@ class BattleRepository implements BattleRepositoryInterface
 
         $battle->setModel($battleModel);
     }
-
-    public function getOne(string $battleId): Battle
-    {
-        // TODO: Implement getOne() method.
-    }
 }

@@ -45,9 +45,4 @@ class BattleService
 
         return $battle;
     }
-
-    public function getOne(string $battleId): Battle
-    {
-        return $this->battleRepository->getOne($battleId);
-    }
 }
