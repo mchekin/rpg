@@ -12,6 +12,8 @@ use App\Modules\Level\Domain\Contracts\LevelRepositoryInterface;
 use App\Modules\Level\Infrastructure\Repositories\LevelRepository;
 use App\Modules\Character\Infrastructure\Repositories\LocationRepository;
 use App\Modules\Character\Infrastructure\Repositories\RaceRepository;
+use App\Modules\Message\Domain\Contracts\MessageRepositoryInterface;
+use App\Modules\Message\Infrastructure\Repositories\MessageRepository;
 use App\Modules\User\Domain\Contracts\UserRepositoryInterface;
 use App\Modules\User\Infrastructure\Repositories\UserRepository;
 use Illuminate\Support\ServiceProvider;
@@ -68,6 +70,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             BattleRepositoryInterface::class,
             BattleRepository::class
+        );
+
+        $this->app->bind(
+            MessageRepositoryInterface::class,
+            MessageRepository::class
         );
 
 

@@ -9,6 +9,9 @@ use Ramsey\Uuid\Uuid;
 
 /**
  * @property int state
+ * @property string from_id
+ * @property string to_id
+ * @property string content
  */
 class Message extends Model
 {

@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 /**
  * @property User user
  * @property Location location
- * @property integer id
+ * @property string id
  * @property integer hit_points
  * @property integer xp
  * @property Level level
