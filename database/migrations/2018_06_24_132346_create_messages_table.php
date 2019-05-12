@@ -20,7 +20,7 @@ class CreateMessagesTable extends Migration
             $table->uuid('to_id')->nullable();
 
             $table->text('content');
-            $table->integer('state')->default(1);
+            $table->enum('state', ['unread', 'read'])->default('unread');
 
             $table->timestamps();
             $table->softDeletes();

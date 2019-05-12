@@ -11,7 +11,8 @@ class Message
     // Todo: temporary hack of having reference to the Eloquent model
     use ContainsModel;
 
-    const DEFAULT_STATE = 0;
+    const UNREAD = 'unread';
+    const READ = 'read';
 
     /**
      * @var string
@@ -30,7 +31,7 @@ class Message
      */
     private $content;
     /**
-     * @var int
+     * @var string
      */
     private $state;
 
@@ -39,7 +40,7 @@ class Message
         string $senderId,
         string $recipientId,
         string $content,
-        int $state = self::DEFAULT_STATE
+        string $state = self::UNREAD
     ) {
         $this->id = $id;
         $this->senderId = $senderId;
@@ -68,7 +69,7 @@ class Message
         return $this->content;
     }
 
-    public function getState(): int
+    public function getState(): string
     {
         return $this->state;
     }

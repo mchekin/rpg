@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * @property int state
+ * @property string state
  * @property string from_id
  * @property string to_id
  * @property string content
@@ -17,8 +17,8 @@ class Message extends Model
 {
     use UsesStringId;
 
-    const UNREAD = 1;
-    const READ = 2;
+    const UNREAD = 'unread';
+    const READ = 'read';
 
     const CONTENT_LIMIT = 500;
 
@@ -81,6 +81,6 @@ class Message extends Model
 
     public function unseenByRecipient(): bool
     {
-        return (int)$this->getOriginal('state') === self::UNREAD;
+        return (string)$this->getOriginal('state') === self::UNREAD;
     }
 }
