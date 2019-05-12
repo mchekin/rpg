@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Ramsey\Uuid\Uuid;
 
 /**
  * @property Collection rounds
@@ -20,18 +19,6 @@ use Ramsey\Uuid\Uuid;
 class Battle extends Model
 {
     use UsesStringId;
-
-    /**
-     * Boot the Model.
-     */
-    public static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($instance) {
-            $instance->id = Uuid::uuid4();
-        });
-    }
 
     protected $guarded = [];
 

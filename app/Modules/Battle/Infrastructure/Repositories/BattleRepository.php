@@ -29,11 +29,14 @@ class BattleRepository implements BattleRepositoryInterface
         foreach ($battle->getRounds()->all() as $round) {
 
             /** @var BattleRoundModel $roundModel */
-            $roundModel = $battleModel->rounds()->create([]);
+            $roundModel = $battleModel->rounds()->create([
+                'id' => $round->getId(),
+            ]);
 
             /** @var BattleTurn $turn */
             foreach ($round->getTurns()->all() as $turn) {
                 $roundModel->turns()->create([
+                    'id' => $turn->getId(),
                     'damage' => $turn->getDamageDone() ?? 0,
                     'executor_id' => $turn->getOwner()->getId(),
                     'target_id' => $turn->getTarget()->getId(),

@@ -16,6 +16,10 @@ class Message
     /**
      * @var string
      */
+    private $id;
+    /**
+     * @var string
+     */
     private $senderId;
     /**
      * @var string
@@ -31,15 +35,22 @@ class Message
     private $state;
 
     public function __construct(
+        string $id,
         string $senderId,
         string $recipientId,
         string $content,
         int $state = self::DEFAULT_STATE
     ) {
+        $this->id = $id;
         $this->senderId = $senderId;
         $this->recipientId = $recipientId;
         $this->content = $content;
         $this->state = $state;
+    }
+
+    public function getId(): string
+    {
+        return $this->id;
     }
 
     public function getSenderId(): string

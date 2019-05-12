@@ -5,23 +5,12 @@ namespace App;
 use App\Traits\UsesStringId;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Ramsey\Uuid\Uuid;
 
 class BattleRound extends Model
 {
     use UsesStringId;
 
-    /**
-     * Boot the Model.
-     */
-    public static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($instance) {
-            $instance->id = Uuid::uuid4();
-        });
-    }
+    protected $guarded = [];
 
     /**
      * @return HasMany

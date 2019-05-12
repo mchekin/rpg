@@ -23,6 +23,7 @@ class MessageRepository implements MessageRepositoryInterface
     {
         /** @var MessageModel $messageModel */
         $messageModel = MessageModel::query()->create([
+            'id' => $message->getId(),
             'from_id' => $message->getSenderId(),
             'to_id' => $message->getRecipientId(),
             'content' => $message->getContent(),

@@ -5,41 +5,24 @@ namespace App;
 use App\Traits\UsesStringId;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Ramsey\Uuid\Uuid;
 
 /**
  * @property int state
  * @property string from_id
  * @property string to_id
  * @property string content
+ * @property string id
  */
 class Message extends Model
 {
     use UsesStringId;
-
-    /**
-     * Boot the Model.
-     */
-    public static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($instance) {
-            $instance->id = Uuid::uuid4();
-        });
-    }
 
     const UNREAD = 1;
     const READ = 2;
 
     const CONTENT_LIMIT = 500;
 
-    protected $fillable = [
-        'from_id',
-        'to_id',
-        'content',
-        'state',
-    ];
+    protected $guarded = [];
 
     public $timestamps = true;
 
