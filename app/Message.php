@@ -2,26 +2,27 @@
 
 namespace App;
 
-use App\Contracts\Models\MessageInterface;
+use App\Traits\UsesStringId;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * @property int state
+ * @property string state
+ * @property string from_id
+ * @property string to_id
+ * @property string content
+ * @property string id
  */
-class Message extends Model implements MessageInterface
+class Message extends Model
 {
-    const UNREAD = 1;
-    const READ = 2;
+    use UsesStringId;
+
+    const UNREAD = 'unread';
+    const READ = 'read';
 
     const CONTENT_LIMIT = 500;
 
-    protected $fillable = [
-        'from_id',
-        'to_id',
-        'content',
-        'state',
-    ];
+    protected $guarded = [];
 
     public $timestamps = true;
 
@@ -80,6 +81,6 @@ class Message extends Model implements MessageInterface
 
     public function unseenByRecipient(): bool
     {
-        return (int)$this->getOriginal('state') === self::UNREAD;
+        return (string)$this->getOriginal('state') === self::UNREAD;
     }
 }

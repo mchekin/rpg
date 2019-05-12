@@ -2,8 +2,9 @@
 
 namespace App;
 
-use App\Contracts\Models\ImageInterface;
+use App\Traits\UsesStringId;
 use Illuminate\Database\Eloquent\Model;
+use Ramsey\Uuid\Uuid;
 
 /**
  * @property string file_path_full
@@ -11,19 +12,16 @@ use Illuminate\Database\Eloquent\Model;
  * @property string file_path_icon
  * @property int id
  */
-class Image extends Model implements ImageInterface
+class Image extends Model
 {
-    protected $fillable = [
-        'file_path_full',
-        'file_path_small',
-        'file_path_icon',
-    ];
+    use UsesStringId;
 
-    public function getId(): int
+    protected $guarded = [];
+
+    public function getId()
     {
         return $this->id;
     }
-
 
     public function getFilePathFull(): string
     {

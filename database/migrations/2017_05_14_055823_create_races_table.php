@@ -1,5 +1,6 @@
 <?php
 
+use App\Location;
 use App\Race;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
@@ -15,7 +16,7 @@ class CreateRacesTable extends Migration
     public function up()
     {
         Schema::create('races', function (Blueprint $table) {
-            $table->increments('id');
+            $table->integer('id')->unsigned()->primary();
 
             $table->string("name");
             $table->string("description");
@@ -31,7 +32,7 @@ class CreateRacesTable extends Migration
             $table->integer('charisma');
 
             // locations
-            $table->unsignedInteger('starting_location_id');
+            $table->uuid('starting_location_id');
             $table->foreign('starting_location_id')
                 ->references('id')
                 ->on('locations')
@@ -39,6 +40,9 @@ class CreateRacesTable extends Migration
 
             $table->timestamps();
         });
+
+        /** @var Location $location */
+        $location = Location::query()->firstOrFail();
 
         $races = [
             [
@@ -55,7 +59,7 @@ class CreateRacesTable extends Migration
                 "intelligence" => 5,
                 "charisma" => 1,
 
-                "starting_location_id" => 1,
+                "starting_location_id" => $location->getId(),
             ],
             [
                 "id" => 2,
@@ -71,7 +75,7 @@ class CreateRacesTable extends Migration
                 "intelligence" => 5,
                 "charisma" => 1,
 
-                "starting_location_id" => 1,
+                "starting_location_id" => $location->getId(),
             ],
             [
                 "id" => 3,
@@ -87,7 +91,7 @@ class CreateRacesTable extends Migration
                 "intelligence" => 5,
                 "charisma" => 1,
 
-                "starting_location_id" => 1,
+                "starting_location_id" => $location->getId(),
             ],
             [
                 "id" => 4,
@@ -103,7 +107,7 @@ class CreateRacesTable extends Migration
                 "intelligence" => 1,
                 "charisma" => 1,
 
-                "starting_location_id" => 1,
+                "starting_location_id" => $location->getId(),
             ],
         ];
 

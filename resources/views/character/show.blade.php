@@ -1,7 +1,7 @@
 @extends("base")
 
 @section("head")
-    <title>{{ $character->name }} (Level: {{ $character->level->id }})</title>
+    <title>{{ $character->getName() }} (Level: {{ $character->getLevelNumber() }})</title>
     @parent
 @stop
 
@@ -12,11 +12,11 @@
         <div class="col-md-6">
 
             <h2 class="text-center">
-                {{ $character->name }}
+                {{ $character->getName() }}
             </h2>
 
             <?php
-            /** @var \App\Contracts\Models\CharacterInterface $character */
+            /** @var \App\Character $character */
             $hpPercent = ($character->getHitPoints() / $character->getTotalHitPoints()) * 100
             ?>
 

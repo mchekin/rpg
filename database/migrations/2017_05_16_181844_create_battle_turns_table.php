@@ -14,17 +14,17 @@ class CreateBattleTurnsTable extends Migration
     public function up()
     {
         Schema::create('battle_turns', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id')->primary();
 
             $table->integer('damage')->default(0);
 
-            $table->unsignedInteger('executor_id');
+            $table->uuid('executor_id');
             $table->foreign('executor_id')->references('id')->on('characters')->onDelete('restrict');
 
-            $table->unsignedInteger('target_id');
+            $table->uuid('target_id');
             $table->foreign('target_id')->references('id')->on('characters')->onDelete('restrict');
 
-            $table->unsignedInteger('battle_round_id');
+            $table->uuid('battle_round_id');
             $table->foreign('battle_round_id')->references('id')->on('battle_rounds')->onDelete('restrict');
 
             $table->timestamps();

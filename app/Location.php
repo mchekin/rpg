@@ -2,18 +2,20 @@
 
 namespace App;
 
-use App\Contracts\Models\LocationInterface;
+use App\Traits\UsesStringId;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * @property integer id
+ * @property string id
  * @property string name
  */
-class Location extends Model implements LocationInterface
+class Location extends Model
 {
+    use UsesStringId;
+
     static protected $oppositeDirections = [
         'north' => 'south',
         'east' => 'west',
@@ -82,7 +84,7 @@ class Location extends Model implements LocationInterface
         return $this->adjacentLocations()->wherePivot('direction', $type)->first();
     }
 
-    public function addAdjacentLocation(LocationInterface $adjacent, $direction)
+    public function addAdjacentLocation(Location $adjacent, $direction)
     {
         if (!self::isValidDirection($direction)) {
             throw new \InvalidArgumentException('Invalid adjacent direction type: '.$direction);
@@ -101,7 +103,7 @@ class Location extends Model implements LocationInterface
         ]); // add yourself, too
     }
 
-    public function removeAdjacentLocation(LocationInterface $adjacent)
+    public function removeAdjacentLocation(Location $adjacent)
     {
         $this->adjacentLocations()->detach($adjacent);   // remove friend
         $adjacent->adjacentLocations()->detach($this);  // remove yourself, too
@@ -112,12 +114,12 @@ class Location extends Model implements LocationInterface
         return $this->name;
     }
 
-    public function isAdjacentLocation(LocationInterface $location): bool
+    public function isAdjacentLocation(Location $location): bool
     {
         return (bool)$this->adjacentLocations()->where('id', $location->getId())->first();
     }
 
-    public function getId(): int
+    public function getId(): string
     {
         return $this->id;
     }

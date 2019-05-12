@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Character;
-use App\Contracts\Models\UserInterface;
+use App\User;
 use Closure;
 use Illuminate\Http\Request;
 
@@ -21,7 +21,7 @@ class CanAttack
         /** @var Character $targetCharacter */
         $targetCharacter = $request->route('character');
 
-        /** @var UserInterface $user */
+        /** @var User $user */
         $user = $request->user();
         $currentUserCharacter = $user->getCharacter();
 

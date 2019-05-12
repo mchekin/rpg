@@ -2,17 +2,15 @@
 
 namespace App;
 
-use App\Contracts\Models\BattleTurnInterface;
+use App\Traits\UsesStringId;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class BattleTurn extends Model implements BattleTurnInterface
+class BattleTurn extends Model
 {
-    protected $fillable = [
-        'damage',
-        'executor_id',
-        'target_id',
-    ];
+    use UsesStringId;
+
+    protected $guarded = [];
 
     /**
      * @return BelongsTo

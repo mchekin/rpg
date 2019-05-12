@@ -15,7 +15,7 @@ class CreateLevelsTable extends Migration
     public function up()
     {
         Schema::create('levels', function (Blueprint $table) {
-            $table->increments('id');
+            $table->integer('id')->unsigned()->primary();
 
             $table->unsignedInteger('next_level_xp_threshold');
 

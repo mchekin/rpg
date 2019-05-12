@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Battle;
-use App\Contracts\Models\BattleInterface;
-use Illuminate\Http\Request;
 
 class BattleController extends Controller
 {
@@ -15,7 +13,7 @@ class BattleController extends Controller
         $this->middleware('has.character', ['only' => ['show']]);
     }
 
-    public function show(BattleInterface $battle)
+    public function show(Battle $battle)
     {
         return view('battle.show', compact('battle'));
     }

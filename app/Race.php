@@ -2,13 +2,15 @@
 
 namespace App;
 
-use App\Contracts\Models\RaceInterface;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property string name
+ * @property string description
+ * @property string male_image
+ * @property string female_image
  */
-class Race extends Model implements RaceInterface
+class Race extends Model
 {
     const ATTRIBUTE_STRENGTH = 'strength';
     const ATTRIBUTE_AGILITY = 'agility';
@@ -29,7 +31,7 @@ class Race extends Model implements RaceInterface
         return $this->getKey();
     }
 
-    public function getStartingLocationId(): int
+    public function getStartingLocationId(): string
     {
         return $this->{self::ATTRIBUTE_STARTING_LOCATION_ID};
     }
@@ -62,5 +64,20 @@ class Race extends Model implements RaceInterface
     public function getName(): string
     {
         return $this->name;
+    }
+
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    public function getMaleImage(): string
+    {
+        return $this->male_image;
+    }
+
+    public function getFemaleImage(): string
+    {
+        return $this->female_image;
     }
 }

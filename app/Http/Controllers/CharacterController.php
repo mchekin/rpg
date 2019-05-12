@@ -3,14 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Character;
-use App\Contracts\Models\CharacterInterface;
-use App\Contracts\Models\UserInterface;
-use App\Contracts\Repositories\CharacterRepositoryInterface;
-use App\Contracts\Models\LocationInterface;
-use App\Contracts\Repositories\RaceRepositoryInterface;
-use App\Contracts\Repositories\UserRepositoryInterface;
+use App\Location;
+use App\Modules\Character\Domain\Services\CharacterService;
+use App\Modules\Character\Presentation\Http\RequestMappers\AttackCharacterRequestMapper;
+use App\Modules\Character\Presentation\Http\RequestMappers\CreateCharacterRequestMapper;
 use App\Http\Requests\CreateCharacterRequest;
 use App\Http\Requests\UpdateCharacterAttributeRequest;
+use App\Modules\Character\Presentation\Http\RequestMappers\IncreaseAttributeRequestMapper;
+use App\Modules\Character\Presentation\Http\RequestMappers\MoveCharacterRequestMapper;
+use App\Race;
+use App\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,9 +21,16 @@ use Illuminate\Support\Facades\Auth;
 class CharacterController extends Controller
 {
     /**
-     * CharacterController constructor.
+     * @var CharacterService
      */
-    public function __construct()
+    private $characterService;
+
+    /**
+     * CharacterController constructor.
+     *
+     * @param CharacterService $characterService
+     */
+    public function __construct(CharacterService $characterService)
     {
         $this->middleware('auth');
         $this->middleware('has.character', ['except' => ['create', 'store', 'update']]);
@@ -29,11 +38,13 @@ class CharacterController extends Controller
         $this->middleware('no.character', ['only' => ['create', 'store']]);
         $this->middleware('can.move.to.location', ['only' => ['getMove']]);
         $this->middleware('can.attack', ['only' => ['getAttack']]);
+
+        $this->characterService = $characterService;
     }
 
-    public function create(RaceRepositoryInterface $raceRepository): View
+    public function create(): View
     {
-        $races = $raceRepository->all();
+        $races = Race::all();
         $user = Auth::user();
 
         return view('character.create', compact('races', 'user'));
@@ -41,58 +52,60 @@ class CharacterController extends Controller
 
     public function store(
         CreateCharacterRequest $request,
-        UserRepositoryInterface $userRepository,
-        RaceRepositoryInterface $raceRepository
+        CreateCharacterRequestMapper $requestMapper
     ): Response {
+        $createRequest = $requestMapper->map($request);
 
-        /** @var UserInterface $authenticatedUser */
-        $authenticatedUser = $request->user();
+        $character = $this->characterService->create($createRequest);
 
-        $race = $raceRepository->findOrFail($request->input('race_id'));
-
-        $character = Character::createCharacter($request, $race);
-
-        $character = $userRepository->addCharacter($authenticatedUser, $character);
-
-        return redirect()->route('character.show', compact('character'));
+        return redirect()->route('character.show', ['character' => $character->getModel()]);
     }
 
-    public function show(CharacterInterface $character): View
+    public function show(Character $character): View
     {
-        return view('character.show', compact('character'));
+        $character = $this->characterService->getOne($character->getId());
+
+        return view('character.show', ['character' => $character->getModel()]);
     }
 
     public function update(
         UpdateCharacterAttributeRequest $request,
-        CharacterInterface $character,
-        CharacterRepositoryInterface $characterRepository
+        IncreaseAttributeRequestMapper $requestMapper,
+        Character $character
     ): Response {
-        $attribute = $request->input('attribute');
 
-        $character->applyAttributeIncrease($attribute);
+        $increaseAttributeRequest = $requestMapper->map($character->getId(), $request);
 
-        $characterRepository->save($character);
+        $this->characterService->increaseAttribute($increaseAttributeRequest);
 
-        return back()->with('status', ucfirst($attribute) . ' + 1');
+        return back()->with('status', ucfirst($increaseAttributeRequest->getAttribute()) . ' + 1');
     }
 
-    public function getMove(Character $character, LocationInterface $location): Response
-    {
-        // update character's location
-        $character->location()->associate($location)->save();
+    public function getMove(
+        MoveCharacterRequestMapper $requestMapper,
+        Character $character,
+        Location $location
+    ): Response {
+        $moveCharacterRequest = $requestMapper->map($character->getId(), $location->getId());
+
+        $this->characterService->move($moveCharacterRequest);
 
         return redirect()->route('location.show', compact('location'));
     }
 
-    public function getAttack(CharacterInterface $defender, Request $request): Response
-    {
-        /** @var UserInterface $authenticatedUser */
+    public function getAttack(
+        Character $defender,
+        Request $request,
+        AttackCharacterRequestMapper $requestMapper
+    ): Response {
+        /** @var User $authenticatedUser */
         $authenticatedUser = $request->user();
-
         $character = $authenticatedUser->getCharacter();
 
-        $battle = $character->attack($defender);
+        $attackCharacterRequest = $requestMapper->map($character->getId(), $defender->getId());
 
-        return redirect()->route('battle.show', compact('battle'));
+        $battle = $this->characterService->attack($attackCharacterRequest);
+
+        return redirect()->route('battle.show', ['battle' => $battle->getModel()]);
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Character;
-use App\Contracts\Models\LocationInterface;
+use App\Location;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,10 +22,10 @@ class CanMoveToLocation
         /** @var Character $character */
         $character = $request->route('character');
 
-        /** @var LocationInterface $location */
+        /** @var Location $location */
         $location = $request->route('location');
 
-        /** @var LocationInterface $characterLocation */
+        /** @var Location $characterLocation */
         $characterLocation = $character->location;
 
         // if this character does not belong to the logged in user
