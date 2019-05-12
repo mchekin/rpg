@@ -7,7 +7,7 @@ use App\Modules\Character\Domain\Requests\MoveCharacterRequest;
 
 class MoveCharacterRequestMapper
 {
-    public function map(string $characterId, int $locationId): MoveCharacterRequest
+    public function map(string $characterId, string $locationId): MoveCharacterRequest
     {
         return new MoveCharacterRequest(
             $characterId,

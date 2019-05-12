@@ -31,7 +31,7 @@ class Race extends Model
         return $this->getKey();
     }
 
-    public function getStartingLocationId(): int
+    public function getStartingLocationId(): string
     {
         return $this->{self::ATTRIBUTE_STARTING_LOCATION_ID};
     }

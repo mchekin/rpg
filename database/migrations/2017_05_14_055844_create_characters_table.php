@@ -46,7 +46,7 @@ class CreateCharactersTable extends Migration
             $table->uuid('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
 
-            $table->unsignedInteger('location_id');
+            $table->uuid('location_id');
             $table->foreign('location_id')->references('id')->on('locations')->onDelete('restrict');
 
             $table->unsignedInteger('race_id');

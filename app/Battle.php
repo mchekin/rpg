@@ -94,11 +94,6 @@ class Battle extends Model
         return $this->defender;
     }
 
-    public function getLocation(): Location
-    {
-        return $this->location;
-    }
-
     public function isTheVictor(Character $character): bool
     {
         return $this->victor->id ===  $character->getId();

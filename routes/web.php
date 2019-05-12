@@ -51,7 +51,7 @@ Auth::routes();
 
 // Route resources...
 Route::resource("character", "CharacterController");
-Route::resource("location", "LocationController");
+Route::resource("location", "LocationController")->only(['show']);
 Route::resource("battle", "BattleController")->only(['show']);
 Route::resource("character.message", "MessageController")->only(['index', 'store']);
 Route::resource("character.profile-picture", "ProfilePictureController")->only(['store', 'destroy']);

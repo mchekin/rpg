@@ -18,7 +18,7 @@ class CreateBattlesTable extends Migration
 
             $table->boolean('seen_by_defender')->default(0);
 
-            $table->unsignedInteger('location_id');
+            $table->uuid('location_id');
             $table->foreign('location_id')->references('id')->on('locations')->onDelete('restrict');
 
             $table->uuid('attacker_id');

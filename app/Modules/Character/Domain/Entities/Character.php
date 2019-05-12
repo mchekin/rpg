@@ -30,7 +30,7 @@ class Character
      */
     private $raceId;
     /**
-     * @var int
+     * @var string
      */
     private $locationId;
     /**
@@ -75,7 +75,7 @@ class Character
         string $userId,
         int $raceId,
         int $levelId,
-        int $locationId,
+        string $locationId,
         string $name,
         Gender $gender,
         int $xp,
@@ -143,7 +143,7 @@ class Character
         return $this->attributes->getUnassignedAttributePoints();
     }
 
-    public function getLocationId(): int
+    public function getLocationId(): string
     {
         return $this->locationId;
     }
@@ -210,7 +210,7 @@ class Character
         }
     }
 
-    public function setLocationId(int $locationId): Character
+    public function setLocationId(string $locationId): Character
     {
         $this->locationId = $locationId;
 

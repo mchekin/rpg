@@ -2,17 +2,20 @@
 
 namespace App;
 
+use App\Traits\UsesStringId;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * @property integer id
+ * @property string id
  * @property string name
  */
 class Location extends Model
 {
+    use UsesStringId;
+
     static protected $oppositeDirections = [
         'north' => 'south',
         'east' => 'west',
@@ -116,7 +119,7 @@ class Location extends Model
         return (bool)$this->adjacentLocations()->where('id', $location->getId())->first();
     }
 
-    public function getId(): int
+    public function getId(): string
     {
         return $this->id;
     }

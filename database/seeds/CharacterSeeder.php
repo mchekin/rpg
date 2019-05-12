@@ -1,6 +1,7 @@
 <?php
 
 use App\Character;
+use App\Location;
 use App\User;
 use Illuminate\Database\Seeder;
 use Ramsey\Uuid\Uuid;
@@ -21,6 +22,9 @@ class CharacterSeeder extends Seeder
         /** @var User $user */
         $user = User::query()->first();
 
+        /** @var Location $location */
+        $location = Location::query()->firstOrFail();
+
         Character::query()->create([
             "id" => Uuid::uuid4(),
             "name" => "Jack Daniels",
@@ -40,7 +44,7 @@ class CharacterSeeder extends Seeder
 
             "level_id" => 1,
             "user_id" => $user->getId(),
-            "location_id" => 1,
+            "location_id" => $location->getId(),
             "race_id" => 1,
         ]);
 

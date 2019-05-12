@@ -12,11 +12,11 @@ class MoveCharacterRequest
     private $characterId;
 
     /**
-     * @var int
+     * @var string
      */
     private $locationId;
 
-    public function __construct(string $characterId, int $locationId)
+    public function __construct(string $characterId, string $locationId)
     {
         $this->characterId = $characterId;
         $this->locationId = $locationId;
@@ -27,7 +27,7 @@ class MoveCharacterRequest
         return $this->characterId;
     }
 
-    public function getLocationId(): int
+    public function getLocationId(): string
     {
         return $this->locationId;
     }

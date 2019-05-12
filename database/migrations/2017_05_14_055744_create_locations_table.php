@@ -1,12 +1,15 @@
 <?php
 
 use App\Location;
+use App\Traits\GeneratesUuid;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 class CreateLocationsTable extends Migration
 {
+    use GeneratesUuid;
+
     /**
      * Run the migrations.
      *
@@ -15,7 +18,7 @@ class CreateLocationsTable extends Migration
     public function up()
     {
         Schema::create('locations', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id')->primary();
 
             $table->string('name')->unique();
             $table->string('description');
@@ -28,8 +31,8 @@ class CreateLocationsTable extends Migration
 
         Schema::create('adjacent_location', function(Blueprint $table) {
 
-            $table->integer('location_id')->unsigned()->index();
-            $table->integer('adjacent_location_id')->unsigned()->index();
+            $table->uuid('location_id')->index();
+            $table->uuid('adjacent_location_id')->index();
 
             $table->primary(['location_id', 'adjacent_location_id']);
 
@@ -43,28 +46,28 @@ class CreateLocationsTable extends Migration
 
         $locations = [
             [
-                "id"            => 1,
+                "id"            => $this->generateUuid(),
                 "name"          => "Inn",
                 "description"   => "An establishment or building providing lodging and, usually, food and drink for travelers (Starting location)",
                 "image"         => "locations/Inn-800px.png",
                 "image_sm"      => "locations/Inn-300px.png",
             ],
             [
-                "id"            => 2,
+                "id"            => $this->generateUuid(),
                 "name"          => "Town Hall",
                 "description"   => "Public forum or meeting in which those attending gather to discuss civic or political issues, hear and ask questions about the ideas of a candidate for public office",
                 "image"         => "locations/Townhall-800px.png",
                 "image_sm"      => "locations/Townhall-300px.png",
             ],
             [
-                "id"            => 3,
+                "id"            => $this->generateUuid(),
                 "name"          => "Smithy",
                 "description"   => "A blacksmith's shop. A place to purchase weaponry and armor or train one's skill as a blacksmith",
                 "image"         => "locations/Blacksmith-800px.png",
                 "image_sm"      => "locations/Blacksmith-300px.png",
             ],
             [
-                "id"            => 4,
+                "id"            => $this->generateUuid(),
                 "name"          => "Military academy fortress",
                 "description"   => "An institute where soldiers and mercenaries train they martial skills",
                 "image"         => "locations/Fortress-800px.png",
@@ -79,18 +82,18 @@ class CreateLocationsTable extends Migration
 
         $adjacent_locations = [
             [
-                "location_id"           => 1,
-                "adjacent_location_id"  => 2,
+                "location_id"           => $locations[0]['id'],
+                "adjacent_location_id"  => $locations[1]['id'],
                 "direction"             => "north",
             ],
             [
-                "location_id"           => 1,
-                "adjacent_location_id"  => 3,
+                "location_id"           => $locations[0]['id'],
+                "adjacent_location_id"  => $locations[2]['id'],
                 "direction"             => "east",
             ],
             [
-                "location_id"           => 1,
-                "adjacent_location_id"  => 4,
+                "location_id"           => $locations[0]['id'],
+                "adjacent_location_id"  => $locations[3]['id'],
                 "direction"             => "south",
             ],
         ];

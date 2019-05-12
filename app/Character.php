@@ -22,7 +22,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property integer constitution
  * @property integer intelligence
  * @property integer charisma
- * @property integer location_id
+ * @property string location_id
  * @property Race race
  * @property string gender
  * @property int total_hit_points
@@ -259,7 +259,7 @@ class Character extends Model
         return $this->charisma;
     }
 
-    public function getLocationId(): int
+    public function getLocationId(): string
     {
         return $this->location_id;
     }

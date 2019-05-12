@@ -18,7 +18,7 @@ class Battle
     private $id;
 
     /**
-     * @var int
+     * @var string
      */
     private $locationId;
 
@@ -54,7 +54,7 @@ class Battle
 
     public function __construct(
         string $id,
-        int $locationId,
+        string $locationId,
         Character $attacker,
         Character $defender,
         BattleRoundFactory $roundFactory,
@@ -134,7 +134,7 @@ class Battle
         return $this->victor->getId() === $this->attacker->getId() ? $this->defender : $this->attacker;
     }
 
-    public function getLocationId(): int
+    public function getLocationId(): string
     {
         return $this->locationId;
     }
