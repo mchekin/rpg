@@ -8,6 +8,8 @@ use App\Modules\Character\Domain\Contracts\CharacterRepositoryInterface;
 use App\Modules\Character\Domain\Contracts\LocationRepositoryInterface;
 use App\Modules\Character\Domain\Contracts\RaceRepositoryInterface;
 use App\Modules\Character\Infrastructure\Repositories\CharacterRepository;
+use App\Modules\Image\Domain\Contracts\ImageRepositoryInterface;
+use App\Modules\Image\Infrastructure\Repositories\ImageRepository;
 use App\Modules\Level\Domain\Contracts\LevelRepositoryInterface;
 use App\Modules\Level\Infrastructure\Repositories\LevelRepository;
 use App\Modules\Character\Infrastructure\Repositories\LocationRepository;
@@ -75,6 +77,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             MessageRepositoryInterface::class,
             MessageRepository::class
+        );
+
+        $this->app->bind(
+            ImageRepositoryInterface::class,
+            ImageRepository::class
         );
 
 

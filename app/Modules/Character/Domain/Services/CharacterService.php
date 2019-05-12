@@ -12,6 +12,7 @@ use App\Modules\Character\Domain\Requests\AttackCharacterRequest;
 use App\Modules\Character\Domain\Requests\CreateCharacterRequest;
 use App\Modules\Character\Domain\Requests\IncreaseAttributeRequest;
 use App\Modules\Character\Domain\Requests\MoveCharacterRequest;
+use App\Modules\Image\Domain\Entities\Image;
 use App\Modules\Level\Domain\Services\LevelService;
 use Illuminate\Support\Facades\DB;
 
@@ -104,5 +105,23 @@ class CharacterService
 
             return $battle;
         });
+    }
+
+    public function updateProfilePicture(Image $picture)
+    {
+        $character = $this->characterRepository->getOne($picture->getCharacterId());
+
+        $character->setProfilePictureId($picture->getId());
+
+        $this->characterRepository->update($character);
+    }
+
+    public function removeProfilePicture(string $characterId)
+    {
+        $character = $this->characterRepository->getOne($characterId);
+
+        $character->removeProfilePicture();
+
+        $this->characterRepository->update($character);
     }
 }

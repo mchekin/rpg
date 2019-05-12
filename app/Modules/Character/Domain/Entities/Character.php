@@ -65,6 +65,10 @@ class Character
      * @var Statistics
      */
     private $statistics;
+    /**
+     * @var string
+     */
+    private $profilePictureId;
 
     public function __construct(
         string $id,
@@ -79,7 +83,8 @@ class Character
         Reputation $reputation,
         Attributes $attributes,
         HitPoints $hitPoints,
-        Statistics $statistics
+        Statistics $statistics,
+        string $profilePictureId = null
     )
     {
         $this->id = $id;
@@ -95,6 +100,7 @@ class Character
         $this->hitPoints = $hitPoints;
         $this->userId = $userId;
         $this->statistics = $statistics;
+        $this->profilePictureId = $profilePictureId;
     }
 
     public function getLevelNumber(): int
@@ -253,5 +259,23 @@ class Character
         $this->levelId = $levelId;
 
         $this->attributes = $this->attributes->addAvailablePoints($points);
+    }
+
+    public function setProfilePictureId(string $profilePictureId)
+    {
+        $this->profilePictureId = $profilePictureId;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getProfilePictureId()
+    {
+        return $this->profilePictureId;
+    }
+
+    public function removeProfilePicture()
+    {
+        $this->profilePictureId = null;
     }
 }

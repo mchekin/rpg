@@ -16,29 +16,12 @@ class Image extends Model
 {
     use UsesStringId;
 
-    /**
-     * Boot the Model.
-     */
-    public static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($instance) {
-            $instance->id = Uuid::uuid4();
-        });
-    }
-
-    protected $fillable = [
-        'file_path_full',
-        'file_path_small',
-        'file_path_icon',
-    ];
+    protected $guarded = [];
 
     public function getId()
     {
         return $this->id;
     }
-
 
     public function getFilePathFull(): string
     {

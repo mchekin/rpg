@@ -16,7 +16,7 @@ class CreateImages extends Migration
         Schema::create('images', function (Blueprint $table) {
             $table->uuid('id')->primary();
 
-            $table->uuid('character_id')->nullable();
+            $table->uuid('character_id');
             $table->foreign('character_id')->references('id')->on('characters')->onDelete('restrict');
 
             $table->string('file_path_full');

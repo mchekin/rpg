@@ -48,6 +48,8 @@ class CharacterRepository implements CharacterRepositoryInterface
 
             'battles_won' => $character->getBattlesWon(),
             'battles_lost' => $character->getBattlesLost(),
+
+            'profile_picture_id' => $character->getProfilePictureId(),
         ]);
 
         $character->setModel($characterModel);
@@ -86,6 +88,8 @@ class CharacterRepository implements CharacterRepositoryInterface
             'battles_lost' => $character->getBattlesLost(),
 
             'location_id' => $character->getLocationId(),
+
+            'profile_picture_id' => $character->getProfilePictureId(),
         ]);
     }
 }
