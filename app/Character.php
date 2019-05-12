@@ -2,12 +2,10 @@
 
 namespace App;
 
-use App\Services\FilesystemService\ImageFileCollection;
 use App\Traits\UsesStringId;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Http\Request;
 
 /**
  * @property User user
@@ -166,6 +164,15 @@ class Character extends Model
         return $this->profilePicture()->exists();
     }
 
+    public function isOnline(): bool
+    {
+        if($this->isNPC()) {
+            return true;
+        }
+
+        return $this->user->isOnline();
+    }
+
     public function getProfilePicture()
     {
         return $this->profilePicture;
@@ -217,67 +224,6 @@ class Character extends Model
         return $this->location->getName();
     }
 
-    protected function checkLevelUp(): Character
-    {
-        while ($this->shouldLevelUp($nextLevel = $this->level->nextLevel())) {
-
-            // update character's level
-            $this->level()->associate($nextLevel);
-
-            // add attribute points
-            $this->available_attribute_points++;
-        }
-
-        return $this;
-    }
-
-    protected function shouldLevelUp($nextLevel): bool
-    {
-        return !is_null($nextLevel) && ($this->xp > $this->level->getNextLevelXpThreshold());
-    }
-
-    public static function createCharacter(Request $request, Race $race): Character
-    {
-        $totalHitPoints = self::calculateHP($race->getConstitution());
-
-        return new Character([
-            'name' => $request->input('name'),
-            'gender' => $request->input('gender'),
-
-            'xp' => 0,
-            'level_id' => 1,
-            'money' => 0,
-            'reputation' => 0,
-
-            'strength' => $race->getStrength(),
-            'agility' => $race->getAgility(),
-            'constitution' => $race->getConstitution(),
-            'intelligence' => $race->getIntelligence(),
-            'charisma' => $race->getCharisma(),
-
-            'hit_points' => $totalHitPoints,
-            'total_hit_points' => $totalHitPoints,
-
-            'race_id' => $race->getId(),
-            'location_id' => $race->getStartingLocationId(),
-        ]);
-    }
-
-    protected static function throwTwoDices(): int
-    {
-        return self::throwOneDice() + self::throwOneDice();
-    }
-
-    protected static function throwOneDice(): int
-    {
-        return rand(1, 6);
-    }
-
-    protected static function calculateHP(int $constitution): int
-    {
-        return $constitution * 10 + self::throwTwoDices();
-    }
-
     public function getId()
     {
         return $this->id;
@@ -286,27 +232,6 @@ class Character extends Model
     public function isAlive(): bool
     {
         return $this->hit_points > 0;
-    }
-
-    public function incrementWonBattles(): Character
-    {
-        $this->battles_won++;
-
-        return $this;
-    }
-
-    public function incrementLostBattles(): Character
-    {
-        $this->battles_lost++;
-
-        return $this;
-    }
-
-    public function applyDamage($damageDone): Character
-    {
-        $this->hit_points -= $damageDone;
-
-        return $this;
     }
 
     public function getStrength(): int
@@ -339,31 +264,6 @@ class Character extends Model
         return $this->location_id;
     }
 
-    public function addProfilePicture(ImageFileCollection $imageFiles): Character
-    {
-        $image = $this->addImage($imageFiles);
-
-        $this->profilePicture()->associate($image)->save();
-
-        return $this;
-    }
-
-    public function deleteProfilePicture(): Character
-    {
-        $this->profilePicture()->delete();
-
-        return $this;
-    }
-
-    public function isOnline(): bool
-    {
-        if($this->isNPC()) {
-            return true;
-        }
-
-        return $this->user->isOnline();
-    }
-
     public function getHitPoints(): int
     {
         return $this->hit_points;
@@ -372,18 +272,6 @@ class Character extends Model
     public function getTotalHitPoints(): int
     {
         return $this->total_hit_points;
-    }
-
-    private function addImage(ImageFileCollection $imageFiles): Image
-    {
-        /** @var Image $image */
-        $image = $this->images()->create([
-            'file_path_full' => $imageFiles->getFullSizePath(),
-            'file_path_small' => $imageFiles->getSmallSizePath(),
-            'file_path_icon' => $imageFiles->getIconSizePath(),
-        ]);
-
-        return $image;
     }
 
     public function getUserId()

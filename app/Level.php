@@ -10,14 +10,6 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Level extends Model
 {
-    /**
-     * @return Level|Model|null
-     */
-    public function nextLevel()
-    {
-        return Level::query()->find($this->id + 1);
-    }
-
     public function getNextLevelXpThreshold()
     {
         return $this->next_level_xp_threshold;

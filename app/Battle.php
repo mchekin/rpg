@@ -84,13 +84,6 @@ class Battle extends Model
         return $query->update(['seen_by_defender' => true]);
     }
 
-    protected function calculateVictorXpGained(Character $loser, Character $victor): int
-    {
-        $this->victor_xp_gained = max($loser->getLevelNumber() - $victor->getLevelNumber(), 1) * 10;
-
-        return $this->victor_xp_gained;
-    }
-
     public function getAttacker(): Character
     {
         return $this->attacker;
