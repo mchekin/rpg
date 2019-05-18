@@ -1,7 +1,7 @@
 @extends("base")
 
 @section("head")
-    <title>{{ $character->name }} battles</title>
+    <title>{{ _t(':name's battles', ['name' => $character->name]) }}</title>
     @parent
 @stop
 
@@ -9,7 +9,7 @@
 
     <div class="row">
         <div class="col-md-10 offset-md-1">
-            <h2 class="text-center">{{ $character->name }}'s battles</h2>
+            <h2 class="text-center">{{ _t(':name's battles', ['name' => $character->name]) }}</h2>
             <ul class="list-group">
                 @forelse ($battles as $battle)
                     <li class="list-group-item text-center">
@@ -27,9 +27,9 @@
                                 </div>
                                 <div class="col-md-2">
                                     @if($battle->isTheVictor($character))
-                                        <span class="fas fa-check text-success"> victory</span>
+                                        <span class="fas fa-check text-success"> {{ _t('victory') }}</span>
                                     @else
-                                        <span class="fas fa-times text-danger"> loss</span>
+                                        <span class="fas fa-times text-danger"> {{ _t('loss') }}</span>
                                     @endif
                                 </div>
                             </div>

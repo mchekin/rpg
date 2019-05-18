@@ -13,38 +13,38 @@
         <hr>
         <dl class="dl-horizontal">
 
-            <dt>XP</dt>
+            <dt>{{ _t('XP') }}</dt>
             <dd>{{ $character->xp }}</dd>
 
-            <dt>Level</dt>
+            <dt>{{ _t('Level') }}</dt>
             <dd>{{ $character->level }}</dd>
 
-            <dt>Reputation</dt>
+            <dt>{{ _t('Reputation') }}</dt>
             <dd>{{ $character->reputation }}</dd>
 
-            <dt>Gold</dt>
+            <dt>{{ _t('Gold') }}</dt>
             <dd>{{ $character->money }}</dd>
 
-            <dt>Location</dt>
+            <dt>{{ _t('Location') }}</dt>
             <dd>{{ $character->location->name }}</dd>
 
         </dl>
         <hr>
         <dl class="dl-horizontal">
 
-            <dt>Strength</dt>
+            <dt>{{ _t('Strength') }}</dt>
             <dd>{{ $character->strength }}</dd>
 
-            <dt>Agility</dt>
+            <dt>{{ _t('Agility') }}</dt>
             <dd>{{ $character->agility }}</dd>
 
-            <dt>Constitution</dt>
+            <dt>{{ _t('Constitution') }}</dt>
             <dd>{{ $character->constitution }}</dd>
 
-            <dt>Intelligence</dt>
+            <dt>{{ _t('Intelligence') }}</dt>
             <dd>{{ $character->intelligence }}</dd>
 
-            <dt>Charisma</dt>
+            <dt>{{ _t('Charisma') }}</dt>
             <dd>{{ $character->charisma }}</dd>
         </dl>
         <hr>

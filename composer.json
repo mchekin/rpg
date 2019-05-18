@@ -9,7 +9,8 @@
         "fideloper/proxy": "~3.3",
         "intervention/image": "^2.4",
         "laravel/framework": "5.5.*",
-        "laravel/tinker": "~1.0"
+        "laravel/tinker": "~1.0",
+        "stevebauman/translation": "^1.4"
     },
     "require-dev": {
         "filp/whoops": "~2.0",

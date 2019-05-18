@@ -96,21 +96,21 @@
         <div class="col-md-6">
 
             <table class="table">
-                <caption class="caption-top">General</caption>
+                <caption class="caption-top">{{ _t('General') }}</caption>
                 <tr>
-                    <th scope="row">Race</th>
+                    <th scope="row">{{ _t('Race') }}</th>
                     <td>{{ $character->getRaceName() }}</td>
                 </tr>
                 <tr>
-                    <th scope="row">Gender</th>
+                    <th scope="row">{{ _t('Gender') }}</th>
                     <td>{{ $character->gender }}</td>
                 </tr>
                 <tr>
-                    <th scope="row">Level</th>
+                    <th scope="row">{{ _t('Level') }}</th>
                     <td>{{ $character->getLevelNumber() }}</td>
                 </tr>
                 <tr>
-                    <th scope="row">XP</th>
+                    <th scope="row">{{ _t('XP') }}</th>
                     <td>
                         <progress value="{{ $character->xp }}" max="{{ $character->getNextLevelXp() }}"></progress>
                     </td>
@@ -131,37 +131,37 @@
                     @endif
 
                     <table class="table">
-                        <caption class="caption-top">Attributes</caption>
+                        <caption class="caption-top">{{ _t('Attributes') }}</caption>
                         <tr>
-                            <th scope="row">Strength</th>
+                            <th scope="row">{{ _t('Strength') }}</th>
                             <td>{{ $character->strength }}</td>
                             @component('components.increment_attribute_button', compact('hasFreePoints'))
                                 {{ 'strength' }}
                             @endcomponent
                         </tr>
                         <tr>
-                            <th scope="row">Agility</th>
+                            <th scope="row">{{ _t('Agility') }}</th>
                             <td>{{ $character->agility }}</td>
                             @component('components.increment_attribute_button', compact('hasFreePoints'))
                                 {{ 'agility' }}
                             @endcomponent
                         </tr>
                         <tr>
-                            <th scope="row">Constitution</th>
+                            <th scope="row">{{ _t('Constitution') }}</th>
                             <td>{{ $character->constitution }}</td>
                             @component('components.increment_attribute_button', compact('hasFreePoints'))
                                 {{ 'constitution' }}
                             @endcomponent
                         </tr>
                         <tr>
-                            <th scope="row">Intelligence</th>
+                            <th scope="row">{{ _t('Intelligence') }}</th>
                             <td>{{ $character->intelligence }}</td>
                             @component('components.increment_attribute_button', compact('hasFreePoints'))
                                 {{ 'intelligence' }}
                             @endcomponent
                         </tr>
                         <tr>
-                            <th scope="row">Charisma</th>
+                            <th scope="row">{{ _t('Charisma') }}</th>
                             <td>{{ $character->charisma }}</td>
                             @component('components.increment_attribute_button', compact('hasFreePoints'))
                                 {{ 'charisma' }}
@@ -171,7 +171,7 @@
                         @if($hasFreePoints)
                             <tfoot>
                             <tr>
-                                <th scope="row">Available points</th>
+                                <th scope="row">{{ _t('Available points') }}</th>
                                 <td class="circle">{{ $character->available_attribute_points }}</td>
                             </tr>
                             </tfoot>
@@ -184,19 +184,19 @@
             @endif
 
             <table class="table">
-                <caption class="caption-top">Statistics</caption>
+                <caption class="caption-top">{{ _t('Statistics') }}</caption>
                 <tr>
-                    <th scope="row">Reputation</th>
+                    <th scope="row">{{ _t('Reputation') }}</th>
                     <td>{{ $character->reputation }}</td>
                 </tr>
                 <tr>
-                    <th scope="row">Money</th>
+                    <th scope="row">{{ _t('Money') }}</th>
                     <td>{{ $character->money }}</td>
                 </tr>
                 <tr>
                     <th scope="row">
                         <a href="{{ URL::route('character.battle.index', compact('character')) }}">
-                            Battles Won
+                            {{ _t('Battles Won') }}
                         </a>
                     </th>
                     <td>{{ $character->battles_won }}</td>
@@ -204,7 +204,7 @@
                 <tr>
                     <th scope="row">
                         <a href="{{ URL::route('character.battle.index', compact('character')) }}">
-                            Battles Lost
+                            {{ _t('Battles Lost') }}
                         </a></th>
                     <td>{{ $character->battles_lost }}</td>
                 </tr>

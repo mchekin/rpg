@@ -1,7 +1,7 @@
 @extends("base")
 
 @section("head")
-    <title>Create Character</title>
+    <title>{{ _t('Create Character') }}</title>
     @parent
 @stop
 
@@ -30,7 +30,7 @@
                 <input type="hidden" name="race_id" id="race_id" value="{{ $races[0]->id }}">
                 <input type="hidden" name="gender" id="gender" value="male">
 
-                <h3 class="text-center">Create game character</h3>
+                <h3 class="text-center">{{ _t('Create game character') }}</h3>
                 <div class="form-group">
                     <div>
                         <label for="name" class="sr-only">Name</label>
@@ -54,11 +54,11 @@
                     <!-- Left and right controls -->
                     <a class="left-race carousel-control-prev text-dark" href="#race-carousel" role="button">
                         <span class="fa fa-chevron-left" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
+                        <span class="sr-only">{{ _t('Previous') }}</span>
                     </a>
                     <a class="right-race carousel-control-next text-dark" href="#race-carousel" role="button">
                         <span class="fa fa-chevron-right" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
+                        <span class="sr-only">{{ _t('Next') }}</span>
                     </a>
 
                 </div>
@@ -67,23 +67,23 @@
                     <div class="carousel-inner text-center" role="listbox">
 
                         <div class="carousel-item active" id="male">
-                            <h3>Male</h3>
+                            <h3>{{ _t('Male') }}</h3>
                         </div>
 
                         <div class="carousel-item" id="female">
-                            <h3>Female</h3>
+                            <h3>{{ _t('Female') }}</h3>
                         </div>
 
                     </div>
 
                     <a class="left-gender carousel-control-prev text-dark" href="#gender-carousel" role="button">
                         <span class="fa fa-chevron-left" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
+                        <span class="sr-only">{{ _t('Previous') }}</span>
                     </a>
 
                     <a class="right-gender carousel-control-next text-dark" href="#gender-carousel" role="button">
                         <span class="fa fa-chevron-right" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
+                        <span class="sr-only">{{ _t('Next') }}</span>
                     </a>
 
                 </div>
@@ -94,23 +94,23 @@
                         <div class="carousel-item{{ ($i == 0) ? ' active' : '' }} table-responsive table-attributes">
                             <table class="table">
                                 <tr>
-                                    <th>Strength</th>
+                                    <th>{{ _t('Strength') }}</th>
                                     <td>{{ $race->strength }}</td>
                                 </tr>
                                 <tr>
-                                    <th>Agility</th>
+                                    <th>{{ _t('Agility') }}</th>
                                     <td>{{ $race->agility }}</td>
                                 </tr>
                                 <tr>
-                                    <th>Constitution</th>
+                                    <th>{{ _t('Constitution') }}</th>
                                     <td>{{ $race->constitution }}</td>
                                 </tr>
                                 <tr>
-                                    <th>Intelligence</th>
+                                    <th>{{ _t('Intelligence') }}</th>
                                     <td>{{ $race->intelligence }}</td>
                                 </tr>
                                 <tr>
-                                    <th>Charisma</th>
+                                    <th>{{ _t('Charisma') }}</th>
                                     <td>{{ $race->charisma }}</td>
                                 </tr>
                             </table>
@@ -121,7 +121,7 @@
                 </div>
 
                 <div>
-                    <button type="submit" class="btn btn-success btn-block">Create Character</button>
+                    <button type="submit" class="btn btn-success btn-block">{{ _t('Create Character') }}</button>
                 </div>
             </form>
         </div>

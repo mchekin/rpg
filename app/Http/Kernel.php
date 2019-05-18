@@ -64,5 +64,7 @@ class Kernel extends HttpKernel
         'can.attack' => \App\Http\Middleware\CanAttack::class,
         'no.character' => \App\Http\Middleware\NoCharacterYet::class,
         'owns.character' => \App\Http\Middleware\UserOwnsCharacter::class,
+        // Insert Locale Middleware
+        'locale' => \Stevebauman\Translation\Middleware\LocaleMiddleware::class
     ];
 }

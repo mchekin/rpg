@@ -47,8 +47,8 @@ class CreateRacesTable extends Migration
         $races = [
             [
                 "id" => 1,
-                "name" => "Human",
-                "description" => "This race combines in itself all the properties of the other races, albeit they are less pronounced.",
+                "name" => _t("Human"),
+                "description" => _t("This race combines in itself all the properties of the other races, albeit they are less pronounced."),
 
                 "male_image" => "images/races/human-male.png",
                 "female_image" => "images/races/human-female.png",
@@ -63,8 +63,8 @@ class CreateRacesTable extends Migration
             ],
             [
                 "id" => 2,
-                "name" => "Elf",
-                "description" => "This race is known for it's great agility, but lacks constitution.",
+                "name" => _t("Elf"),
+                "description" => _t("This race is known for it's great agility, but lacks constitution."),
 
                 "male_image" => "images/races/elf-male.png",
                 "female_image" => "images/races/elf-female.png",
@@ -79,8 +79,8 @@ class CreateRacesTable extends Migration
             ],
             [
                 "id" => 3,
-                "name" => "Dwarf",
-                "description" => "This race is known for it's constitution and resilience, but lack agility and grace.",
+                "name" => _t("Dwarf"),
+                "description" => _t("This race is known for it's constitution and resilience, but lack agility and grace."),
 
                 "male_image" => "images/races/dwarf-male.png",
                 "female_image" => "images/races/dwarf-female.png",
@@ -95,8 +95,8 @@ class CreateRacesTable extends Migration
             ],
             [
                 "id" => 4,
-                "name" => "Orc",
-                "description" => "This race enjoys great physical strength, but lacks intelligence.",
+                "name" => _t("Orc"),
+                "description" => _t("This race enjoys great physical strength, but lacks intelligence."),
 
                 "male_image" => "images/races/orc-male.png",
                 "female_image" => "images/races/orc-female.png",

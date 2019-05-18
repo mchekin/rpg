@@ -16,43 +16,46 @@ use App\Message;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::group(['prefix' => Translation::getRoutePrefix(), 'middleware' => ['locale']], function()
+{
+    // Route models...
+    Route::model("character", Character::class);
+    Route::model("battle", Battle::class);
+    Route::model("location", Location::class);
+    Route::model("message", Message::class);
+    Route::model("image", Image::class);
 
-// Route models...
-Route::model("character", Character::class);
-Route::model("battle", Battle::class);
-Route::model("location", Location::class);
-Route::model("message", Message::class);
-Route::model("image", Image::class);
+    Route::get('/character/{character}/location/{location}/move', 'CharacterController@getMove')
+        ->name('character.move');
 
-Route::get('/character/{character}/location/{location}/move', 'CharacterController@getMove')
-    ->name('character.move');
+    Route::get('/character/{character}/attack', 'CharacterController@getAttack')
+        ->name('character.attack');
 
-Route::get('/character/{character}/attack', 'CharacterController@getAttack')
-    ->name('character.attack');
+    Route::get('/message/inbox', 'MessageController@inbox')->name('message.inbox');
+    Route::get('/message/sent', 'MessageController@sent')->name('message.sent');
 
-Route::get('/message/inbox', 'MessageController@inbox')->name('message.inbox');
-Route::get('/message/sent', 'MessageController@sent')->name('message.sent');
+    // Simple routes...
+    Route::group(['middleware' => 'guest'], function () {
+        Route::get('/', function () {
+            return view('pages.index');
+        })->name('index');
+    });
 
-// Simple routes...
-Route::group(['middleware' => 'guest'], function () {
-    Route::get('/', function () {
-        return view('pages.index');
-    })->name('index');
+    Route::group(['middleware' => ['auth', 'has.character']], function () {
+        Route::get('/home', function () {
+            $location = Auth::user()->character->location;
+            return redirect()->route('location.show', compact('location'));
+        })->name('home');
+    });
+
+    Auth::routes();
+
+    // Route resources...
+    Route::resource("character", "CharacterController");
+    Route::resource("location", "LocationController")->only(['show']);
+    Route::resource("battle", "BattleController")->only(['show']);
+    Route::resource("character.message", "MessageController")->only(['index', 'store']);
+    Route::resource("character.profile-picture", "ProfilePictureController")->only(['store', 'destroy']);
+    Route::resource("character.battle", "CharacterBattleController")->only(['index']);
+
 });
-
-Route::group(['middleware' => ['auth', 'has.character']], function () {
-    Route::get('/home', function () {
-        $location = Auth::user()->character->location;
-        return redirect()->route('location.show', compact('location'));
-    })->name('home');
-});
-
-Auth::routes();
-
-// Route resources...
-Route::resource("character", "CharacterController");
-Route::resource("location", "LocationController")->only(['show']);
-Route::resource("battle", "BattleController")->only(['show']);
-Route::resource("character.message", "MessageController")->only(['index', 'store']);
-Route::resource("character.profile-picture", "ProfilePictureController")->only(['store', 'destroy']);
-Route::resource("character.battle", "CharacterBattleController")->only(['index']);

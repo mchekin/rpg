@@ -10,21 +10,21 @@
                 <li class="nav-item button">
                     <a href="{{ route('character.show', ['character' => Auth::user()->character]) }}" class="nav-link">
                         <span class="fa fa-user-circle" aria-hidden="true">
-                            Character
+                        {{ _t('Character') }}
                         </span>
                     </a>
                 </li>
                 <li class="nav-item button">
                     <a href="{{ route('location.show', ['location' => Auth::user()->character->location]) }}" class="nav-link">
                         <span class="fa fa-university" aria-hidden="true">
-                            Location
+                            {{ _t('Location') }}
                         </span>
                     </a>
                 </li>
                 <li class="nav-item button">
                     <a href="{{ URL::route('message.inbox') }}" class="nav-link">
                         <span class="fa fa-envelope">
-                            Messages
+                            {{ _t('Messages') }}
                             @if(Auth::user()->character->receivedMessages()->unread()->count() > 0)
                                 <span class="badge badge-danger">
                                      {{ Auth::user()->character->receivedMessages()->unread()->count() }}
@@ -36,7 +36,7 @@
                 <li class="nav-item button">
                     <a href="{{ URL::route('character.battle.index', ['character' => Auth::user()->character]) }}" class="nav-link">
                         <span class="fas fa-bolt">
-                            Battles
+                            {{ _t('Battles') }}
                             @if(Auth::user()->character->defends()->unseenByDefender()->count() > 0)
                                 <span class="badge badge-danger">
                                      {{ Auth::user()->character->defends()->unseenByDefender()->count() }}
@@ -62,7 +62,7 @@
                     <a href="#" class="nav-link">
                         <form role="form" method="POST" action="{{ route('logout') }}">
                             {{ csrf_field() }}
-                            <button type="submit"><span class="glyphicon glyphicon-log-out"></span> Logout</button>
+                            <button type="submit"><span class="glyphicon glyphicon-log-out"></span> {{ _t('Logout') }}</button>
                         </form>
                     </a>
                 </li>
@@ -70,13 +70,13 @@
                 <li class="nav-item">
                     <a href="{{ URL::to('register') }}" class="nav-link">
                             <span class="glyphicon glyphicon-user">
-                            </span> Register
+                            </span> {{ _t('Register') }}
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ URL::to('login') }}" class="nav-link">
                             <span class="glyphicon glyphicon-log-in">
-                            </span> Login
+                            </span> {{ _t('Login') }}
                     </a>
                 </li>
             @endif

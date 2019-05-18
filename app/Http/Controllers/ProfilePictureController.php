@@ -27,7 +27,7 @@ class ProfilePictureController extends Controller
 
         $profilePictureService->update($addImageRequest);
 
-        return back()->with('status', 'Profile picture has been changed');
+        return back()->with('status', _t('Profile picture has been changed'));
     }
 
     public function destroy(
@@ -36,6 +36,6 @@ class ProfilePictureController extends Controller
     ) {
         $profilePictureService->delete($character->getId());
 
-        return back()->with('status', 'Profile picture has been deleted');
+        return back()->with('status', _t('Profile picture has been deleted'));
     }
 }

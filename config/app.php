@@ -78,7 +78,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => env('APP_LANGUAGE', 'en'),
 
     /*
     |--------------------------------------------------------------------------
@@ -91,7 +91,7 @@ return [
     |
     */
 
-    'fallback_locale' => 'en',
+    'fallback_locale' => env('APP_DEBUG', 'en'),
 
     /*
     |--------------------------------------------------------------------------
@@ -178,6 +178,10 @@ return [
         App\Providers\RouteServiceProvider::class,
         \App\Providers\ViewComposerServiceProvider::class,
 
+        /**
+         * Translate
+         */
+        Stevebauman\Translation\TranslationServiceProvider::class,
     ],
 
     /*
@@ -227,6 +231,10 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
+        /**
+         * Translate
+         */
+        'Translation' => 'Stevebauman\Translation\Facades\Translation',
     ],
 
 ];
