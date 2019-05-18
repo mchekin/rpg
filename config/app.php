@@ -91,7 +91,7 @@ return [
     |
     */
 
-    'fallback_locale' => env('APP_DEBUG', 'en'),
+    'fallback_locale' => env('APP_LANGUAGE', 'en'),
 
     /*
     |--------------------------------------------------------------------------
