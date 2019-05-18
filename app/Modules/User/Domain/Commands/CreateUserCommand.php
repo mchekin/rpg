@@ -1,10 +1,10 @@
 <?php
 
 
-namespace App\Modules\User\Domain\Requests;
+namespace App\Modules\User\Domain\Commands;
 
 
-class CreateUserRequest
+class CreateUserCommand
 {
     /**
      * @var string

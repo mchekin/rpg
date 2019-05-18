@@ -5,20 +5,20 @@ namespace App\Modules\Message\Domain\Factories;
 
 
 use App\Modules\Message\Domain\Entities\Message;
-use App\Modules\Message\Domain\Requests\SendMessageRequest;
+use App\Modules\Message\Domain\Commands\SendMessageCommand;
 use App\Traits\GeneratesUuid;
 
 class MessageFactory
 {
     use GeneratesUuid;
 
-    public function create(SendMessageRequest $request): Message
+    public function create(SendMessageCommand $command): Message
     {
         return new Message(
             $this->generateUuid(),
-            $request->getSenderId(),
-            $request->getRecipientId(),
-            $request->getContent()
+            $command->getSenderId(),
+            $command->getRecipientId(),
+            $command->getContent()
         );
     }
 }

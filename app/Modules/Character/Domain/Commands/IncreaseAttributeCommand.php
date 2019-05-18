@@ -1,10 +1,10 @@
 <?php
 
 
-namespace App\Modules\Character\Domain\Requests;
+namespace App\Modules\Character\Domain\Commands;
 
 
-class IncreaseAttributeRequest
+class IncreaseAttributeCommand
 {
     /**
      * @var string

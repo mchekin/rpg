@@ -11,7 +11,7 @@ class Race
      */
     private $id;
     /**
-     * @var int
+     * @var string
      */
     private $startingLocationId;
     /**
@@ -37,7 +37,7 @@ class Race
 
     public function __construct(
         int $id,
-        int $startingLocationId,
+        string $startingLocationId,
         string $name,
         string $description,
         string $maleImage,
@@ -68,7 +68,7 @@ class Race
         return $this->{"{$gender}_image"};
     }
 
-    public function getStartingLocationId(): int
+    public function getStartingLocationId(): string
     {
         return $this->startingLocationId;
     }

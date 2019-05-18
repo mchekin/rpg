@@ -5,13 +5,10 @@ namespace App\Http\Controllers;
 use App\Character;
 use App\Http\Requests\UploadImageRequest;
 use App\Modules\Image\Domain\Services\ProfilePictureService;
-use App\Modules\Image\Presentation\Http\RequestMappers\AddImageRequestMapper;
+use App\Modules\Image\Presentation\Http\CommandMappers\AddImageCommandMapper;
 
 class ProfilePictureController extends Controller
 {
-    /**
-     * CharacterController constructor.
-     */
     public function __construct()
     {
         $this->middleware('owns.character');
@@ -21,11 +18,11 @@ class ProfilePictureController extends Controller
         Character $character,
         UploadImageRequest $request,
         ProfilePictureService $profilePictureService,
-        AddImageRequestMapper $requestMapper
+        AddImageCommandMapper $commandMapper
     ) {
-        $addImageRequest = $requestMapper->map($character->getId(), $request->file('file'));
+        $addImageCommand = $commandMapper->map($character->getId(), $request->file('file'));
 
-        $profilePictureService->update($addImageRequest);
+        $profilePictureService->update($addImageCommand);
 
         return back()->with('status', 'Profile picture has been changed');
     }

@@ -6,7 +6,7 @@ namespace App\Modules\Message\Domain\Services;
 
 use App\Modules\Message\Domain\Contracts\MessageRepositoryInterface;
 use App\Modules\Message\Domain\Factories\MessageFactory;
-use App\Modules\Message\Domain\Requests\SendMessageRequest;
+use App\Modules\Message\Domain\Commands\SendMessageCommand;
 
 class MessageService
 {
@@ -25,9 +25,9 @@ class MessageService
         $this->messageRepository = $messageRepository;
     }
 
-    public function send(SendMessageRequest $request)
+    public function send(SendMessageCommand $command)
     {
-        $message = $this->factory->create($request);
+        $message = $this->factory->create($command);
 
         $this->messageRepository->add($message);
     }

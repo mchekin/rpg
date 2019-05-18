@@ -6,7 +6,7 @@ namespace App\Modules\Character\Infrastructure\ReconstitutionFactories;
 use App\Modules\Character\Domain\Entities\Attributes;
 use App\Modules\Character\Domain\Entities\Character;
 use App\Modules\Character\Domain\Entities\Gender;
-use App\Modules\Character\Domain\Entities\Statistics;
+use App\Modules\Character\Domain\ValueObjects\Statistics;
 use App\Modules\Character\Domain\ValueObjects\Money;
 use App\Modules\Character\Domain\ValueObjects\HitPoints;
 use App\Modules\Character\Domain\ValueObjects\Reputation;

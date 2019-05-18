@@ -1,11 +1,11 @@
 <?php
 
 
-namespace App\Modules\Image\Domain\Requests;
+namespace App\Modules\Image\Domain\Commands;
 
 use Illuminate\Http\UploadedFile;
 
-class AddImageRequest
+class AddImageCommand
 {
     /**
      * @var string
