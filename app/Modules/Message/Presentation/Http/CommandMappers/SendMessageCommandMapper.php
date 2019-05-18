@@ -1,21 +1,21 @@
 <?php
 
 
-namespace App\Modules\Message\Presentation\Http\RequestMappers;
+namespace App\Modules\Message\Presentation\Http\CommandMappers;
 
 use App\Character;
-use App\Modules\Message\Domain\Requests\SendMessageRequest;
+use App\Modules\Message\Domain\Commands\SendMessageCommand;
 use Illuminate\Http\Request;
 
-class SendMessageRequestMapper
+class SendMessageCommandMapper
 {
-    public function map(Request $request): SendMessageRequest
+    public function map(Request $request): SendMessageCommand
     {
         /** @var Character $currentCharacter */
         $user = $request->user();
         $currentCharacter = $user->character;
 
-        return new SendMessageRequest(
+        return new SendMessageCommand(
             $currentCharacter->id,
             (string)$request->route('character')->id,
             (string)$request->get('content')

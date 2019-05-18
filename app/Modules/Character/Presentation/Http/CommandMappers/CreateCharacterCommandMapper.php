@@ -1,20 +1,20 @@
 <?php
 
 
-namespace App\Modules\Character\Presentation\Http\RequestMappers;
+namespace App\Modules\Character\Presentation\Http\CommandMappers;
 
-use App\Modules\Character\Domain\Requests\CreateCharacterRequest;
+use App\Modules\Character\Domain\Commands\CreateCharacterCommand;
 use Illuminate\Http\Request;
 use App\User as UserModel;
 
-class CreateCharacterRequestMapper
+class CreateCharacterCommandMapper
 {
-    public function map(Request $request): CreateCharacterRequest
+    public function map(Request $request): CreateCharacterCommand
     {
         /** @var UserModel $userModel */
         $userModel = $request->user();
 
-        return new CreateCharacterRequest(
+        return new CreateCharacterCommand(
             $request->input('name'),
             $request->input('gender'),
             $request->input('race_id'),

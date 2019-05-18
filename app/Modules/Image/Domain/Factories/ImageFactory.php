@@ -4,7 +4,7 @@
 namespace App\Modules\Image\Domain\Factories;
 
 
-use App\Modules\Image\Domain\Entities\ImageFile;
+use App\Modules\Image\Domain\ValueObjects\ImageFile;
 use App\Modules\Image\Domain\Entities\Image;
 use App\Traits\GeneratesUuid;
 

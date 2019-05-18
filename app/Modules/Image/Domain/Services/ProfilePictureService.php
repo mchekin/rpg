@@ -6,7 +6,7 @@ namespace App\Modules\Image\Domain\Services;
 use App\Modules\Character\Domain\Services\CharacterService;
 use App\Modules\Image\Domain\Contracts\ImageRepositoryInterface;
 use App\Modules\Image\Domain\Factories\ImageFactory;
-use App\Modules\Image\Domain\Requests\AddImageRequest;
+use App\Modules\Image\Domain\Commands\AddImageCommand;
 
 class ProfilePictureService
 {
@@ -33,15 +33,15 @@ class ProfilePictureService
         $this->characterService = $characterService;
     }
 
-    public function update(AddImageRequest $request)
+    public function update(AddImageCommand $command)
     {
         $profilePicture = $this->imageFactory->create(
-            $request->getCharacterId()
+            $command->getCharacterId()
         );
 
-        $this->imageRepository->delete($request->getCharacterId());
+        $this->imageRepository->delete($command->getCharacterId());
 
-        $this->imageRepository->add($profilePicture, $request->getUploadedFile());
+        $this->imageRepository->add($profilePicture, $command->getUploadedFile());
 
         $this->characterService->updateProfilePicture($profilePicture);
     }

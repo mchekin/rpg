@@ -1,10 +1,10 @@
 <?php
 
 
-namespace App\Modules\Character\Domain\Requests;
+namespace App\Modules\Character\Domain\Commands;
 
 
-class CreateCharacterRequest
+class CreateCharacterCommand
 {
 
     /**

@@ -2,6 +2,8 @@
 
 namespace App\Modules\Image\Domain\Entities;
 
+use App\Modules\Image\Domain\ValueObjects\ImageFile;
+
 class Image
 {
     /**

@@ -1,10 +1,10 @@
 <?php
 
 
-namespace App\Modules\Message\Domain\Requests;
+namespace App\Modules\Message\Domain\Commands;
 
 
-class SendMessageRequest
+class SendMessageCommand
 {
     /**
      * @var string

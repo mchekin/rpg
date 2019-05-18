@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Modules\User\Domain\Services\UserService;
-use App\Modules\User\Presentation\Http\RequestMappers\CreateUserRequestMapper;
+use App\Modules\User\Presentation\Http\CommandMappers\CreateUserCommandMapper;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Support\Facades\Validator;
@@ -36,7 +36,7 @@ class RegisterController extends Controller
      */
     private $userService;
     /**
-     * @var CreateUserRequestMapper
+     * @var CreateUserCommandMapper
      */
     private $mapper;
 
@@ -44,9 +44,9 @@ class RegisterController extends Controller
      * Create a new controller instance.
      *
      * @param UserService $userService
-     * @param CreateUserRequestMapper $mapper
+     * @param CreateUserCommandMapper $mapper
      */
-    public function __construct(UserService $userService, CreateUserRequestMapper $mapper)
+    public function __construct(UserService $userService, CreateUserCommandMapper $mapper)
     {
         $this->middleware('guest');
 
