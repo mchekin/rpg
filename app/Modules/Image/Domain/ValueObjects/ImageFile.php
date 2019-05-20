@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Modules\Image\Domain\Entities;
+namespace App\Modules\Image\Domain\ValueObjects;
 
 class ImageFile
 {

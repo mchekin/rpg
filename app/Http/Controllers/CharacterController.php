@@ -5,14 +5,13 @@ namespace App\Http\Controllers;
 use App\Character;
 use App\Location;
 use App\Modules\Character\Domain\Services\CharacterService;
-use App\Modules\Character\Presentation\Http\RequestMappers\AttackCharacterRequestMapper;
-use App\Modules\Character\Presentation\Http\RequestMappers\CreateCharacterRequestMapper;
+use App\Modules\Character\Presentation\Http\CommandMappers\AttackCharacterCommandMapper;
+use App\Modules\Character\Presentation\Http\CommandMappers\CreateCharacterCommandMapper;
 use App\Http\Requests\CreateCharacterRequest;
 use App\Http\Requests\UpdateCharacterAttributeRequest;
-use App\Modules\Character\Presentation\Http\RequestMappers\IncreaseAttributeRequestMapper;
-use App\Modules\Character\Presentation\Http\RequestMappers\MoveCharacterRequestMapper;
+use App\Modules\Character\Presentation\Http\CommandMappers\IncreaseAttributeCommandMapper;
+use App\Modules\Character\Presentation\Http\CommandMappers\MoveCharacterCommandMapper;
 use App\Race;
-use App\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -52,11 +51,12 @@ class CharacterController extends Controller
 
     public function store(
         CreateCharacterRequest $request,
-        CreateCharacterRequestMapper $requestMapper
+        CreateCharacterCommandMapper $commandMapper
     ): Response {
-        $createRequest = $requestMapper->map($request);
 
-        $character = $this->characterService->create($createRequest);
+        $createCharacterCommand = $commandMapper->map($request);
+
+        $character = $this->characterService->create($createCharacterCommand);
 
         return redirect()->route('character.show', ['character' => $character->getModel()]);
     }
@@ -70,25 +70,25 @@ class CharacterController extends Controller
 
     public function update(
         UpdateCharacterAttributeRequest $request,
-        IncreaseAttributeRequestMapper $requestMapper,
+        IncreaseAttributeCommandMapper $commandMapper,
         Character $character
     ): Response {
 
-        $increaseAttributeRequest = $requestMapper->map($character->getId(), $request);
+        $increaseAttributeCommand = $commandMapper->map($character->getId(), $request);
 
-        $this->characterService->increaseAttribute($increaseAttributeRequest);
+        $this->characterService->increaseAttribute($increaseAttributeCommand);
 
-        return back()->with('status', ucfirst($increaseAttributeRequest->getAttribute()) . ' + 1');
+        return back()->with('status', ucfirst($increaseAttributeCommand->getAttribute()) . ' + 1');
     }
 
     public function getMove(
-        MoveCharacterRequestMapper $requestMapper,
+        MoveCharacterCommandMapper $commandMapper,
         Character $character,
         Location $location
     ): Response {
-        $moveCharacterRequest = $requestMapper->map($character->getId(), $location->getId());
+        $moveCharacterCommand = $commandMapper->map($character->getId(), $location->getId());
 
-        $this->characterService->move($moveCharacterRequest);
+        $this->characterService->move($moveCharacterCommand);
 
         return redirect()->route('location.show', compact('location'));
     }
@@ -96,15 +96,12 @@ class CharacterController extends Controller
     public function getAttack(
         Character $defender,
         Request $request,
-        AttackCharacterRequestMapper $requestMapper
+        AttackCharacterCommandMapper $commandMapper
     ): Response {
-        /** @var User $authenticatedUser */
-        $authenticatedUser = $request->user();
-        $character = $authenticatedUser->getCharacter();
 
-        $attackCharacterRequest = $requestMapper->map($character->getId(), $defender->getId());
+        $attackCharacterCommand = $commandMapper->map($request, $defender->getId());
 
-        $battle = $this->characterService->attack($attackCharacterRequest);
+        $battle = $this->characterService->attack($attackCharacterCommand);
 
         return redirect()->route('battle.show', ['battle' => $battle->getModel()]);
     }

@@ -11,7 +11,7 @@ class Race
      */
     private $id;
     /**
-     * @var int
+     * @var string
      */
     private $startingLocationId;
     /**
@@ -68,7 +68,7 @@ class Race
         return $this->{"{$gender}_image"};
     }
 
-    public function getStartingLocationId()
+    public function getStartingLocationId(): string
     {
         return $this->startingLocationId;
     }

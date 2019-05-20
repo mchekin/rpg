@@ -2,7 +2,7 @@
 
 namespace App\Modules\Image\Infrastructure\Repositories;
 
-use App\Modules\Image\Domain\Entities\ImageFile;
+use App\Modules\Image\Domain\ValueObjects\ImageFile;
 use App\Modules\Image\Domain\Entities\Image;
 use App\Image as ImageModel;
 use App\Modules\Image\Domain\Contracts\ImageRepositoryInterface;
