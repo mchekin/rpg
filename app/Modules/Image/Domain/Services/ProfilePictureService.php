@@ -36,7 +36,8 @@ class ProfilePictureService
     public function update(AddImageCommand $command)
     {
         $profilePicture = $this->imageFactory->create(
-            $command->getCharacterId()
+            $command->getCharacterId(),
+            $command->getUploadedFile()->getClientOriginalExtension()
         );
 
         $this->imageRepository->delete($command->getCharacterId());
