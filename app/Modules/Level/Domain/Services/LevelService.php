@@ -3,28 +3,49 @@
 
 namespace App\Modules\Level\Domain\Services;
 
-use App\Modules\Level\Domain\Contracts\LevelRepositoryInterface;
 use App\Modules\Level\Domain\Entities\Level;
 
 class LevelService
 {
-    /**
-     * @var LevelRepositoryInterface
-     */
-    private $levelRepository;
-
-    public function __construct(LevelRepositoryInterface $levelRepository)
-    {
-        $this->levelRepository = $levelRepository;
-    }
-
-    public function getOne(string $characterId): Level
-    {
-        return $this->levelRepository->getOne($characterId);
-    }
-
     public function getLevelByXp(int $xp): Level
     {
-        return $this->levelRepository->getLevelByXp($xp);
+        $levelId = 1;
+
+        while ($this->getLevelThreshold($levelId) < $xp) {
+            $levelId++;
+        }
+
+        return $this->getLevel($levelId - 1);
+    }
+
+    public function getLevel(int $levelId): Level
+    {
+        return new Level($levelId, $this->getLevelThreshold($levelId), $this->getLevelThreshold($levelId + 1));
+    }
+
+    public function getLevels(int $limit = 100): array
+    {
+        $levelId = 1;
+
+        $levels = [];
+        while ($levelId <= $limit) {
+
+            $levels[] = new Level(
+                $levelId,
+                $this->getLevelThreshold($levelId),
+                $this->getLevelThreshold($levelId + 1)
+            );
+
+            $levelId++;
+        }
+
+        return $levels;
+    }
+
+    private function getLevelThreshold(int $levelId)
+    {
+        $rawValue = 4 * ($levelId ** 3) / 5;
+
+        return floor($rawValue);
     }
 }
