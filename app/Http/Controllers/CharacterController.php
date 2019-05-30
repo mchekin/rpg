@@ -11,6 +11,7 @@ use App\Http\Requests\CreateCharacterRequest;
 use App\Http\Requests\UpdateCharacterAttributeRequest;
 use App\Modules\Character\Presentation\Http\CommandMappers\IncreaseAttributeCommandMapper;
 use App\Modules\Character\Presentation\Http\CommandMappers\MoveCharacterCommandMapper;
+use App\Modules\Level\Domain\Services\LevelService;
 use App\Race;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
@@ -61,11 +62,12 @@ class CharacterController extends Controller
         return redirect()->route('character.show', ['character' => $character->getModel()]);
     }
 
-    public function show(Character $character): View
+    public function show(Character $character, LevelService $levelService): View
     {
         $character = $this->characterService->getOne($character->getId());
+        $level = $levelService->getLevel($character->getLevelNumber());
 
-        return view('character.show', ['character' => $character->getModel()]);
+        return view('character.show', ['character' => $character->getModel(), 'level' => $level]);
     }
 
     public function update(

@@ -12,7 +12,6 @@
 */
 
 use App\Character;
-use App\Level;
 use App\Location;
 use App\Race;
 use App\User;
@@ -35,12 +34,12 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 
 $factory->define(Character::class, function (Faker\Generator $faker) use ($factory) {
 
-    $level = Level::query()->inRandomOrder()->first();
+    $levelId = rand(1, 5);
     $location = Location::query()->inRandomOrder()->first();
     $race = Race::query()->inRandomOrder()->first();
 
     $constitution = rand(1, 9);
-    $total_hit_points = $constitution * $level->id;
+    $total_hit_points = $constitution * $levelId;
     $hit_points = rand(1, $total_hit_points);
 
     $genders = ['male', 'female'];
@@ -64,7 +63,7 @@ $factory->define(Character::class, function (Faker\Generator $faker) use ($facto
         'intelligence'     => rand(1, 9),
         'charisma'         => rand(1, 9),
 
-        'level_id'         => $level,
+        'level_id'         => $levelId,
 
         'user_id' => function () {
             return rand(0, 3)

@@ -13,12 +13,17 @@ class Level
     /**
      * @var int
      */
-    private $nextLevelXpThreshold;
+    private $currentLevelThreshold;
+    /**
+     * @var int
+     */
+    private $nextLevelThreshold;
 
-    public function __construct(int $id, int $nextLevelXpThreshold)
+    public function __construct(int $id, int $currentLevelThreshHold, int $nextLevelXpThreshold)
     {
         $this->id = $id;
-        $this->nextLevelXpThreshold = $nextLevelXpThreshold;
+        $this->currentLevelThreshold = $currentLevelThreshHold;
+        $this->nextLevelThreshold = $nextLevelXpThreshold;
     }
 
     /**
@@ -32,8 +37,16 @@ class Level
     /**
      * @return int
      */
-    public function getNextLevelXpThreshold(): int
+    public function getCurrentXpThreshold(): int
     {
-        return $this->nextLevelXpThreshold;
+        return $this->currentLevelThreshold;
+    }
+
+    /**
+     * @return int
+     */
+    public function getNextXpThreshold(): int
+    {
+        return $this->nextLevelThreshold;
     }
 }

@@ -41,7 +41,6 @@ class CreateCharactersTable extends Migration
             $table->integer('battles_lost')->default(0);
 
             $table->unsignedInteger('level_id');
-            $table->foreign('level_id')->references('id')->on('levels')->onDelete('restrict');
 
             $table->uuid('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
