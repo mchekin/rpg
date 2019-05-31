@@ -26,27 +26,28 @@ class Level
         $this->nextLevelThreshold = $nextLevelXpThreshold;
     }
 
-    /**
-     * @return int
-     */
     public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * @return int
-     */
     public function getCurrentXpThreshold(): int
     {
         return $this->currentLevelThreshold;
     }
 
-    /**
-     * @return int
-     */
     public function getNextXpThreshold(): int
     {
         return $this->nextLevelThreshold;
+    }
+
+    public function getProgress(int $xp):float
+    {
+        $progressRange = $this->nextLevelThreshold - $this->currentLevelThreshold;
+
+        $progressMade = $xp - $this->currentLevelThreshold;
+        $progressMade = $progressMade < 0 ? 0 : $progressMade;
+
+        return ($progressMade / $progressRange) * 100;
     }
 }
