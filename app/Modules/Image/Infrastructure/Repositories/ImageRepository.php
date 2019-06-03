@@ -2,7 +2,7 @@
 
 namespace App\Modules\Image\Infrastructure\Repositories;
 
-use App\Modules\Image\Domain\Entities\ImageFile;
+use App\Modules\Image\Domain\ValueObjects\ImageFile;
 use App\Modules\Image\Domain\Entities\Image;
 use App\Image as ImageModel;
 use App\Modules\Image\Domain\Contracts\ImageRepositoryInterface;
@@ -31,23 +31,16 @@ class ImageRepository implements ImageRepositoryInterface
 
     public function add(Image $image, UploadedFile $uploadedFile)
     {
-        $folderPath = $this->getFolderPath($image->getCharacterId());
         $urlPath = $this->getUrlPath($image->getCharacterId());
 
-        $this->createFolderIfMissing($folderPath);
-
-        $imageFile = $this->imageManager->make($uploadedFile);
-
-        $this->writeToFileSystem($image->getFullSizeFile(), $folderPath, $imageFile);
-        $this->writeToFileSystem($image->getSmallSizeFile(), $folderPath, $imageFile);
-        $this->writeToFileSystem($image->getIconSizeFile(), $folderPath, $imageFile);
+        $this->writeFiles($image, $uploadedFile);
 
         return ImageModel::query()->create([
             'id' => $image->getId(),
             'character_id' => $image->getCharacterId(),
-            'file_path_full' =>  $urlPath . $image->getFullSizeFile()->getFileName(),
+            'file_path_full' => $urlPath . $image->getFullSizeFile()->getFileName(),
             'file_path_small' => $urlPath . $image->getSmallSizeFile()->getFileName(),
-            'file_path_icon' =>  $urlPath . $image->getIconSizeFile()->getFileName(),
+            'file_path_icon' => $urlPath . $image->getIconSizeFile()->getFileName(),
         ]);
     }
 
@@ -58,7 +51,28 @@ class ImageRepository implements ImageRepositoryInterface
         ImageModel::query()->where('character_id', '=', $characterId)->delete();
     }
 
-    private function writeToFileSystem(ImageFile $imageFile, string $folderPath, ImageManagerFile $imageManagerFile)
+    /**
+     * @param Image $image
+     * @param UploadedFile $uploadedFile
+     */
+    private function writeFiles(Image $image, UploadedFile $uploadedFile)
+    {
+        $folderPath = $this->getFolderPath($image->getCharacterId());
+
+        $this->createFolderIfMissing($folderPath);
+
+        $imageFile = $this->imageManager->make($uploadedFile);
+
+        $this->writeFile($image->getFullSizeFile(), $folderPath, $imageFile);
+        $this->writeFile($image->getSmallSizeFile(), $folderPath, $imageFile);
+        $this->writeFile($image->getIconSizeFile(), $folderPath, $imageFile);
+    }
+
+    private function writeFile(
+        ImageFile $imageFile,
+        string $folderPath,
+        ImageManagerFile $imageManagerFile
+    )
     {
         $filePath = $folderPath . $imageFile->getFileName();
 
@@ -74,7 +88,7 @@ class ImageRepository implements ImageRepositoryInterface
     private function createFolderIfMissing(string $fullFolderPath): bool
     {
         return $this->filesystem->exists($fullFolderPath)
-            or $this->filesystem->makeDirectory($fullFolderPath);
+            or $this->filesystem->makeDirectory($fullFolderPath, 0755, true);
     }
 
     private function getFolderPath(string $characterId): string
@@ -93,8 +107,8 @@ class ImageRepository implements ImageRepositoryInterface
 
     private function getCharacterImageFolder(string $characterId)
     {
-        return  'images' . DIRECTORY_SEPARATOR
-        . 'characters' . DIRECTORY_SEPARATOR
-        . $characterId . DIRECTORY_SEPARATOR;
+        return 'images' . DIRECTORY_SEPARATOR
+            . 'characters' . DIRECTORY_SEPARATOR
+            . $characterId . DIRECTORY_SEPARATOR;
     }
 }

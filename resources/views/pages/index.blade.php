@@ -16,8 +16,8 @@
             <p class="text-center title">{{ env('APP_NAME') }}</p>
 
             <div class="btn-group d-flex" role="group">
-                <a href="{{ URL::to('register') }}" class="btn btn-success w-100">Register</a>
-                <a href="{{ URL::to('login') }}" class="btn btn-primary w-100">Login</a>
+                <a href="{{ URL::route('register') }}" class="btn btn-success w-100">Register</a>
+                <a href="{{ URL::route('login') }}" class="btn btn-primary w-100">Login</a>
             </div>
 
         </div>

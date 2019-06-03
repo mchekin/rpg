@@ -13,27 +13,41 @@ class Level
     /**
      * @var int
      */
-    private $nextLevelXpThreshold;
+    private $currentLevelThreshold;
+    /**
+     * @var int
+     */
+    private $nextLevelThreshold;
 
-    public function __construct(int $id, int $nextLevelXpThreshold)
+    public function __construct(int $id, int $currentLevelThreshHold, int $nextLevelXpThreshold)
     {
         $this->id = $id;
-        $this->nextLevelXpThreshold = $nextLevelXpThreshold;
+        $this->currentLevelThreshold = $currentLevelThreshHold;
+        $this->nextLevelThreshold = $nextLevelXpThreshold;
     }
 
-    /**
-     * @return int
-     */
     public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * @return int
-     */
-    public function getNextLevelXpThreshold(): int
+    public function getCurrentXpThreshold(): int
     {
-        return $this->nextLevelXpThreshold;
+        return $this->currentLevelThreshold;
+    }
+
+    public function getNextXpThreshold(): int
+    {
+        return $this->nextLevelThreshold;
+    }
+
+    public function getProgress(int $xp):float
+    {
+        $progressRange = $this->nextLevelThreshold - $this->currentLevelThreshold;
+
+        $progressMade = $xp - $this->currentLevelThreshold;
+        $progressMade = $progressMade < 0 ? 0 : $progressMade;
+
+        return ($progressMade / $progressRange) * 100;
     }
 }

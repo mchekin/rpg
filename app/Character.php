@@ -13,7 +13,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string id
  * @property integer hit_points
  * @property integer xp
- * @property Level level
  * @property integer available_attribute_points
  * @property integer battles_won
  * @property integer battles_lost
@@ -29,22 +28,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int victor_xp_gained
  * @property Image profilePicture
  * @property string name
+ * @property int level_id
  */
 class Character extends Model
 {
     use UsesStringId;
 
     protected $guarded = [];
-
-    /**
-     * Get the user of the character
-     *
-     * @return BelongsTo
-     */
-    public function level()
-    {
-        return $this->belongsTo(Level::class);
-    }
 
     /**
      * Get the user of the character
@@ -211,12 +201,7 @@ class Character extends Model
 
     public function getLevelNumber():int
     {
-        return $this->level->getId();
-    }
-
-    public function getNextLevelXp():int
-    {
-        return $this->level->getNextLevelXpThreshold();
+        return $this->level_id;
     }
 
     public function getLocationName():string

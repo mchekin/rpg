@@ -6,6 +6,7 @@ namespace App\Modules\Character\Domain\Entities;
 use App\Modules\Character\Domain\ValueObjects\HitPoints;
 use App\Modules\Character\Domain\ValueObjects\Reputation;
 use App\Modules\Character\Domain\ValueObjects\Money;
+use App\Modules\Character\Domain\ValueObjects\Statistics;
 use App\Traits\ContainsModel;
 
 class Character

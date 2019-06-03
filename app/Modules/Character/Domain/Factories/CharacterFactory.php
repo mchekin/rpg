@@ -3,7 +3,7 @@
 
 namespace App\Modules\Character\Domain\Factories;
 
-use App\Modules\Character\Domain\Entities\Statistics;
+use App\Modules\Character\Domain\ValueObjects\Statistics;
 use App\Traits\GeneratesUuid;
 use App\Modules\Character\Domain\Contracts\RaceRepositoryInterface;
 use App\Modules\Character\Domain\Entities\Attributes;
@@ -12,8 +12,7 @@ use App\Modules\Character\Domain\Entities\Gender;
 use App\Modules\Character\Domain\ValueObjects\HitPoints;
 use App\Modules\Character\Domain\ValueObjects\Money;
 use App\Modules\Character\Domain\ValueObjects\Reputation;
-use App\Modules\Character\Domain\ValueObjects\Xp;
-use App\Modules\Character\Domain\Requests\CreateCharacterRequest;
+use App\Modules\Character\Domain\Commands\CreateCharacterCommand;
 
 
 class CharacterFactory
@@ -30,18 +29,18 @@ class CharacterFactory
         $this->raceRepository = $raceRepository;
     }
 
-    public function create(CreateCharacterRequest $request): Character
+    public function create(CreateCharacterCommand $command): Character
     {
-        $race = $this->raceRepository->getOne($request->getRaceId());
+        $race = $this->raceRepository->getOne($command->getRaceId());
 
         return new Character(
             $this->generateUuid(),
-            $request->getUserId(),
+            $command->getUserId(),
             $race->getId(),
             1,
             $race->getStartingLocationId(),
-            $request->getName(),
-            new Gender($request->getGender()),
+            $command->getName(),
+            new Gender($command->getGender()),
             0,
             new Money(0),
             new Reputation(0),

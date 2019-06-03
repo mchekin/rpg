@@ -16,8 +16,10 @@
             </h2>
 
             <?php
-            /** @var \App\Character $character */
-            $hpPercent = ($character->getHitPoints() / $character->getTotalHitPoints()) * 100
+                /** @var \App\Character $character */
+                /** @var \App\Modules\Level\Domain\Entities\Level $level */
+                $hpPercent = ($character->getHitPoints() / $character->getTotalHitPoints()) * 100;
+                $levelProgress = $level->getProgress($character->xp);
             ?>
 
             <div class="progress mx-5 my-3">
@@ -107,12 +109,21 @@
                 </tr>
                 <tr>
                     <th scope="row">Level</th>
-                    <td>{{ $character->getLevelNumber() }}</td>
+                    <td>{{ $level->getId() }}</td>
                 </tr>
                 <tr>
                     <th scope="row">XP</th>
                     <td>
-                        <progress value="{{ $character->xp }}" max="{{ $character->getNextLevelXp() }}"></progress>
+                        <div class="progress">
+                            <div class="progress-bar"
+                                 role="progressbar"
+                                 style="width: {{ $levelProgress }}%"
+                                 aria-valuenow="{{ $levelProgress }}"
+                                 aria-valuemin="0"
+                                 aria-valuemax="100">
+                                {{ $character->xp }} / {{ $level->getNextXpThreshold() }}
+                            </div>
+                        </div>
                     </td>
                 </tr>
             </table>
