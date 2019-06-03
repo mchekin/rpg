@@ -7,8 +7,8 @@ use Ramsey\Uuid\Uuid;
 
 trait GeneratesUuid
 {
-    protected function generateUuid()
+    protected function generateUuid(): string
     {
-        return Uuid::uuid4();
+        return (string) Uuid::uuid4();
     }
 }

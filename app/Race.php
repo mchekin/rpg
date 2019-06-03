@@ -21,7 +21,7 @@ class Race extends Model
     const ATTRIBUTE_STARTING_LOCATION_ID = 'starting_location_id';
     const ATTRIBUTE_NAME = 'name';
 
-    public function getImageByGender(string $gender):string
+    public function getImageByGender(string $gender): string
     {
         return $this->{"{$gender}_image"};
     }
