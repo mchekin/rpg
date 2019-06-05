@@ -9,6 +9,6 @@ trait GeneratesUuid
 {
     protected function generateUuid(): string
     {
-        return (string) Uuid::uuid4();
+        return Uuid::uuid4()->toString();
     }
 }
