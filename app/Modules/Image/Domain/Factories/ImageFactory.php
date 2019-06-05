@@ -20,7 +20,7 @@ class ImageFactory
     {
         $id = $this->generateUuid();
 
-        $fileName = $id->toString() . '.' . $extension;
+        $fileName = $id . '.' . $extension;
 
         return new Image(
             $id,
