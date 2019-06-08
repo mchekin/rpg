@@ -56,3 +56,8 @@ Route::resource("battle", "BattleController")->only(['show']);
 Route::resource("character.message", "MessageController")->only(['index', 'store']);
 Route::resource("character.profile-picture", "ProfilePictureController")->only(['store', 'destroy']);
 Route::resource("character.battle", "CharacterBattleController")->only(['index']);
+
+
+Route::group(['prefix' => 'admin'], function () {
+    Voyager::routes();
+});

@@ -5,7 +5,6 @@ namespace App;
 use App\Traits\UsesStringId;
 use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 
@@ -13,7 +12,7 @@ use Illuminate\Support\Facades\Cache;
  * @property Character character
  * @property integer id
  */
-class User extends Authenticatable
+class User extends \TCG\Voyager\Models\User
 {
     use Notifiable;
     use UsesStringId;
