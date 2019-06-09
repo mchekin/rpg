@@ -44,7 +44,7 @@ class CharacterReconstitutionFactory
                 'battlesLost' => $characterModel->getBattlesLost(),
                 'battlesWon' => $characterModel->getBattlesWon(),
             ]),
-            $characterModel->getId()
+            $characterModel->getProfilePictureId()
         );
 
         $character->setModel($characterModel);
