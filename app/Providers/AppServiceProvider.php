@@ -14,7 +14,9 @@ use App\Modules\Message\Domain\Contracts\MessageRepositoryInterface;
 use App\Modules\Message\Infrastructure\Repositories\MessageRepository;
 use App\Modules\User\Domain\Contracts\UserRepositoryInterface;
 use App\Modules\User\Infrastructure\Repositories\UserRepository;
+use App\User;
 use Illuminate\Support\ServiceProvider;
+use TCG\Voyager\Facades\Voyager;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -35,6 +37,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        Voyager::useModel('User', User::class);
+
         $this->registerRepositoryInterfaces();
     }
 
