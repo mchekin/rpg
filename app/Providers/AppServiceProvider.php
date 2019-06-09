@@ -12,8 +12,6 @@ use App\Modules\Image\Infrastructure\Repositories\ImageRepository;
 use App\Modules\Character\Infrastructure\Repositories\RaceRepository;
 use App\Modules\Message\Domain\Contracts\MessageRepositoryInterface;
 use App\Modules\Message\Infrastructure\Repositories\MessageRepository;
-use App\Modules\User\Domain\Contracts\UserRepositoryInterface;
-use App\Modules\User\Infrastructure\Repositories\UserRepository;
 use App\User;
 use Illuminate\Support\ServiceProvider;
 use TCG\Voyager\Facades\Voyager;
@@ -44,11 +42,6 @@ class AppServiceProvider extends ServiceProvider
 
     protected function registerRepositoryInterfaces(): self
     {
-        $this->app->bind(
-            UserRepositoryInterface::class,
-            UserRepository::class
-        );
-
         $this->app->bind(
             RaceRepositoryInterface::class,
             RaceRepository::class

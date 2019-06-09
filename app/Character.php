@@ -259,7 +259,7 @@ class Character extends Model
         return $this->total_hit_points;
     }
 
-    public function getUserId()
+    public function getUserId(): int
     {
         return $this->user ? $this->user->getId() : '';
     }

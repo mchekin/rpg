@@ -43,7 +43,8 @@ class CharacterReconstitutionFactory
             new Statistics([
                 'battlesLost' => $characterModel->getBattlesLost(),
                 'battlesWon' => $characterModel->getBattlesWon(),
-            ])
+            ]),
+            $characterModel->getId()
         );
 
         $character->setModel($characterModel);

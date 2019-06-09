@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Cache;
 class User extends \TCG\Voyager\Models\User
 {
     use Notifiable;
-    use UsesStringId;
 
     /**
      * The attributes that are mass assignable.
@@ -23,7 +22,7 @@ class User extends \TCG\Voyager\Models\User
      * @var array
      */
     protected $fillable = [
-        'id', 'name', 'email', 'password',
+        'name', 'email', 'password',
     ];
 
     /**
@@ -50,7 +49,7 @@ class User extends \TCG\Voyager\Models\User
         return $this->character()->getQuery()->exists();
     }
 
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
