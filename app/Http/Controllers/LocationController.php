@@ -14,14 +14,10 @@ class LocationController extends Controller
         $this->middleware('character.location', ['only' => ['show']]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param Location $location
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Location $location)
+    public function show(string $locationId)
     {
+        $location = Location::query()->findOrFail($locationId);
+
         return view('location.show', compact('location'));
     }
 }

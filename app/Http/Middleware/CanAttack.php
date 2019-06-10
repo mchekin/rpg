@@ -19,7 +19,7 @@ class CanAttack
     public function handle($request, Closure $next)
     {
         /** @var Character $targetCharacter */
-        $targetCharacter = $request->route('character');
+        $targetCharacter = Character::query()->findOrFail($request->route('character'));
 
         /** @var User $user */
         $user = $request->user();

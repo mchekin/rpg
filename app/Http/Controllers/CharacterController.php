@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Character;
-use App\Location;
 use App\Modules\Character\Domain\Services\CharacterService;
 use App\Modules\Character\Presentation\Http\CommandMappers\AttackCharacterCommandMapper;
 use App\Modules\Character\Presentation\Http\CommandMappers\CreateCharacterCommandMapper;
@@ -59,12 +57,12 @@ class CharacterController extends Controller
 
         $character = $this->characterService->create($createCharacterCommand);
 
-        return redirect()->route('character.show', ['character' => $character->getModel()]);
+        return redirect()->route('character.show', ['character' => $character->getId()]);
     }
 
-    public function show(Character $character, LevelService $levelService): View
+    public function show(string $characterId, LevelService $levelService): View
     {
-        $character = $this->characterService->getOne($character->getId());
+        $character = $this->characterService->getOne($characterId);
         $level = $levelService->getLevel($character->getLevelNumber());
 
         return view('character.show', ['character' => $character->getModel(), 'level' => $level]);
@@ -73,10 +71,10 @@ class CharacterController extends Controller
     public function update(
         UpdateCharacterAttributeRequest $request,
         IncreaseAttributeCommandMapper $commandMapper,
-        Character $character
+        string $characterId
     ): Response {
 
-        $increaseAttributeCommand = $commandMapper->map($character->getId(), $request);
+        $increaseAttributeCommand = $commandMapper->map($characterId, $request);
 
         $this->characterService->increaseAttribute($increaseAttributeCommand);
 
@@ -85,26 +83,26 @@ class CharacterController extends Controller
 
     public function getMove(
         MoveCharacterCommandMapper $commandMapper,
-        Character $character,
-        Location $location
+        string $characterId,
+        string $locationId
     ): Response {
-        $moveCharacterCommand = $commandMapper->map($character->getId(), $location->getId());
+        $moveCharacterCommand = $commandMapper->map($characterId, $locationId);
 
         $this->characterService->move($moveCharacterCommand);
 
-        return redirect()->route('location.show', compact('location'));
+        return redirect()->route('location.show', $locationId);
     }
 
     public function getAttack(
-        Character $defender,
+        string $defenderId,
         Request $request,
         AttackCharacterCommandMapper $commandMapper
     ): Response {
 
-        $attackCharacterCommand = $commandMapper->map($request, $defender->getId());
+        $attackCharacterCommand = $commandMapper->map($request, $defenderId);
 
         $battle = $this->characterService->attack($attackCharacterCommand);
 
-        return redirect()->route('battle.show', ['battle' => $battle->getModel()]);
+        return redirect()->route('battle.show', $battle->getId());
     }
 }

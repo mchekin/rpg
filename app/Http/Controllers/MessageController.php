@@ -32,31 +32,15 @@ class MessageController extends Controller
         return view('message.sent');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @param Character $character
-     *
-     * @return Response
-     */
-    public function index(Character $character)
+    public function index(string $characterId)
     {
+        $character = Character::query()->findOrFail($characterId);
 
         return view('message.index', compact('character'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param Character $character
-     * @param Request $request
-     * @param SendMessageCommandMapper $commandMapper
-     * @param MessageService $messageService
-     *
-     * @return Response
-     */
     public function store(
-        Character $character,
+        string $characterId,
         Request $request,
         SendMessageCommandMapper $commandMapper,
         MessageService $messageService
@@ -65,6 +49,6 @@ class MessageController extends Controller
 
         $messageService->send($sendMessageCommand);
 
-        return redirect()->route("character.message.index", compact('character'));
+        return redirect()->route("character.message.index", $characterId);
     }
 }

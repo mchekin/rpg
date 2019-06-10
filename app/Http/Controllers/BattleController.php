@@ -13,8 +13,10 @@ class BattleController extends Controller
         $this->middleware('has.character', ['only' => ['show']]);
     }
 
-    public function show(Battle $battle)
+    public function show(string $battleId)
     {
+        $battle = Battle::query()->findOrFail($battleId);
+
         return view('battle.show', compact('battle'));
     }
 }

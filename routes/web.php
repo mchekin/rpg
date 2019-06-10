@@ -18,12 +18,6 @@ use App\Message;
 */
 
 // Route models...
-Route::model("character", Character::class);
-Route::model("battle", Battle::class);
-Route::model("location", Location::class);
-Route::model("message", Message::class);
-Route::model("image", Image::class);
-
 Route::get('/character/{character}/location/{location}/move', 'CharacterController@getMove')
     ->name('character.move');
 

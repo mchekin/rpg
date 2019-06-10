@@ -17,7 +17,7 @@ class SendMessageCommandMapper
 
         return new SendMessageCommand(
             $currentCharacter->id,
-            (string)$request->route('character')->id,
+            (string)$request->route('character'),
             (string)$request->get('content')
         );
     }

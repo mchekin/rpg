@@ -59,7 +59,7 @@ class Character
      */
     private $id;
     /**
-     * @var int
+     * @var int|null
      */
     private $userId;
     /**
@@ -73,7 +73,6 @@ class Character
 
     public function __construct(
         string $id,
-        int $userId,
         int $raceId,
         int $levelId,
         string $locationId,
@@ -85,6 +84,7 @@ class Character
         Attributes $attributes,
         HitPoints $hitPoints,
         Statistics $statistics,
+        int $userId = null,
         string $profilePictureId = null
     )
     {
@@ -169,7 +169,7 @@ class Character
         return $this->name;
     }
 
-    public function getUserId(): int
+    public function getUserId()
     {
         return $this->userId;
     }

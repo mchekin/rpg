@@ -20,17 +20,17 @@ class CanMoveToLocation
     public function handle($request, Closure $next)
     {
         /** @var Character $character */
-        $character = $request->route('character');
+        $character = Character::query()->findOrFail($request->route('character'));
 
         /** @var Location $location */
-        $location = $request->route('location');
+        $location = Location::query()->findOrFail($request->route('location'));
 
         /** @var Location $characterLocation */
         $characterLocation = $character->location;
 
         // if this character does not belong to the logged in user
         if (Auth::user()->id !== $character->user->id || !$characterLocation->isAdjacentLocation($location)) {
-            return redirect()->route('location.show', compact('location'));
+            return redirect()->route('location.show', $location->getId());
         }
 
         return $next($request);
