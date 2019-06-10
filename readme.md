@@ -106,15 +106,15 @@
 
 To use the Admin:
 
-- Register a user in the application (Or skip this step if you have one already).
-- Give user admin role by running:
+- Register a user in the application (You can skip this step if you already have a user).
+- Give the user the admin role by running:
 
         php artisan voyager:admin <user email>
         
 - Navigate to [http://localhost:8000/admin](http://localhost:8000/admin).
 - Log in with the user credentials (If not logged in automatically).
 
-Further information about using Voyager can be found on it [official website](https://laravelvoyager.com/).
+Further information about using Voyager can be found on its [official website](https://laravelvoyager.com/).
 
 <a name="license"></a>
 ### License
