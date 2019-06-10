@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Character;
 use App\Http\Requests\UploadImageRequest;
 use App\Modules\Image\Domain\Services\ProfilePictureService;
 use App\Modules\Image\Presentation\Http\CommandMappers\AddImageCommandMapper;
@@ -15,12 +14,12 @@ class ProfilePictureController extends Controller
     }
 
     public function store(
-        Character $character,
+        string $characterId,
         UploadImageRequest $request,
         ProfilePictureService $profilePictureService,
         AddImageCommandMapper $commandMapper
     ) {
-        $addImageCommand = $commandMapper->map($character->getId(), $request->file('file'));
+        $addImageCommand = $commandMapper->map($characterId, $request->file('file'));
 
         $profilePictureService->update($addImageCommand);
 
@@ -28,10 +27,10 @@ class ProfilePictureController extends Controller
     }
 
     public function destroy(
-        Character $character,
+        string $characterId,
         ProfilePictureService $profilePictureService
     ) {
-        $profilePictureService->delete($character->getId());
+        $profilePictureService->delete($characterId);
 
         return back()->with('status', 'Profile picture has been deleted');
     }

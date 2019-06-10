@@ -4,7 +4,7 @@
     </div>
     <div class="col-md-10">
         <a class="d-block w-100 h-100"
-           href="{{ route('character.message.index', ['character' => $message->recipient]) }}">
+           href="{{ route('character.message.index', ['character' => $message->to_id]) }}">
             <p class="text-wrap">{!! $message->content !!}</p>
         </a>
     </div>

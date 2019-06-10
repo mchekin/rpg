@@ -85,7 +85,7 @@
             @endif
 
             <div class="text-center my-5">
-                <a class="btn btn-primary" href="{{ route('location.show', ['location' => $character->location]) }}">
+                <a class="btn btn-primary" href="{{ route('location.show', ['location' => $character->getLocationId()]) }}">
                     To {{ $character->getLocationName() }}
                     <span class="fas fa-walking"></span>
                 </a>

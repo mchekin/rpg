@@ -19,7 +19,6 @@ class CharacterReconstitutionFactory
     {
         $character = new Character(
             $characterModel->getId(),
-            $characterModel->getUserId(),
             $characterModel->getRaceId(),
             $characterModel->getLevelNumber(),
             $characterModel->getLocationId(),
@@ -43,7 +42,9 @@ class CharacterReconstitutionFactory
             new Statistics([
                 'battlesLost' => $characterModel->getBattlesLost(),
                 'battlesWon' => $characterModel->getBattlesWon(),
-            ])
+            ]),
+            $characterModel->getUserId(),
+            $characterModel->getProfilePictureId()
         );
 
         $character->setModel($characterModel);

@@ -21,7 +21,7 @@ class UserOwnsCharacter
         $user = $request->user();
 
         /** @var Character $character */
-        $character = $request->route('character');
+        $character = Character::query()->findOrFail($request->route('character'));
 
         if ($user && !$user->hasThisCharacter($character)) {
             return redirect()->back();

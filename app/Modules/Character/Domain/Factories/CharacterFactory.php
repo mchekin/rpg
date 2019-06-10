@@ -35,7 +35,6 @@ class CharacterFactory
 
         return new Character(
             $this->generateUuid(),
-            $command->getUserId(),
             $race->getId(),
             1,
             $race->getStartingLocationId(),
@@ -56,7 +55,8 @@ class CharacterFactory
             new Statistics([
                 'battlesLost' => 0,
                 'battlesWon' => 0,
-            ])
+            ]),
+            $command->getUserId()
         );
     }
 }

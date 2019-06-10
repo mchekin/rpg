@@ -1,7 +1,7 @@
 <div class="message-list-container message-list-darker row">
     <div class="col-md-10">
         <a class="d-block w-100 h-100"
-           href="{{ route('character.message.index', ['character' => $message->sender]) }}">
+           href="{{ route('character.message.index', $message->from_id) }}">
             <p class="text-wrap">{!! $message->content !!}</p>
         </a>
     </div>

@@ -5,7 +5,6 @@ namespace App;
 use App\Traits\UsesStringId;
 use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 
@@ -13,10 +12,9 @@ use Illuminate\Support\Facades\Cache;
  * @property Character character
  * @property integer id
  */
-class User extends Authenticatable
+class User extends \TCG\Voyager\Models\User
 {
     use Notifiable;
-    use UsesStringId;
 
     /**
      * The attributes that are mass assignable.
@@ -24,7 +22,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'id', 'name', 'email', 'password',
+        'name', 'email', 'password',
     ];
 
     /**
@@ -51,7 +49,7 @@ class User extends Authenticatable
         return $this->character()->getQuery()->exists();
     }
 
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }

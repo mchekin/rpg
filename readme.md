@@ -9,6 +9,7 @@
 1. [Requirements](#requirments)
 2. [Installation](#installation)
 3. [Running in local environment](#runningindevelopmentenvironment)
+4. [Using Admin Dashboard](#usingadmindashboard)
 4. [License](#license)
 
 <a name="requirements"></a>
@@ -98,6 +99,22 @@
   To remove the scheduled task you can use
   
         schtasks /delete /tn "RPG SCHEDULER" /f
+
+<a name="usingadmindashboard"></a>
+### Using Admin Dashboard
+[Voyager](https://laravelvoyager.com/) has been integrated into the project as an Admin Dashboard.
+
+To use the Admin:
+
+- Register a user in the application (You can skip this step if you already have a user).
+- Give the user the admin role by running:
+
+        php artisan voyager:admin <user email>
+        
+- Navigate to [http://localhost:8000/admin](http://localhost:8000/admin).
+- Log in with the user credentials (If not logged in automatically).
+
+Further information about using Voyager can be found on its [official website](https://laravelvoyager.com/).
 
 <a name="license"></a>
 ### License

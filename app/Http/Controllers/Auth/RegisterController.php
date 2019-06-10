@@ -80,11 +80,6 @@ class RegisterController extends Controller
     {
         $request = $this->mapper->map($data);
 
-        $user = $this->userService->create($request);
-
-        /** @var User $userModel */
-        $userModel = $user->getModel();
-
-        return $userModel;
+        return $this->userService->create($request);
     }
 }

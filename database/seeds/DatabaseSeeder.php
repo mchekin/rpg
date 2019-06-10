@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call(UserSeeder::class);
         $this->call(CharacterSeeder::class);
+        $this->call(VoyagerDatabaseSeeder::class);
 
         Model::reguard();
     }

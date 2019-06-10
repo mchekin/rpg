@@ -29,6 +29,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property Image profilePicture
  * @property string name
  * @property int level_id
+ * @property string profile_picture_id
  */
 class Character extends Model
 {
@@ -194,6 +195,11 @@ class Character extends Model
         return 'svg/avatar.svg';
     }
 
+    public function getProfilePictureId()
+    {
+        return $this->profile_picture_id;
+    }
+
     public function getRaceName(): string
     {
         return $this->race->getName();
@@ -261,7 +267,7 @@ class Character extends Model
 
     public function getUserId()
     {
-        return $this->user ? $this->user->getId() : '';
+        return $this->user ? $this->user->getId() : null;
     }
 
     public function getName(): string

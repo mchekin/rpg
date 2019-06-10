@@ -45,6 +45,15 @@
                         </span>
                     </a>
                 </li>
+                @if (Auth::user()->hasPermission('browse_admin'))
+                    <li class="nav-item button">
+                        <a href="{{ URL::route('voyager.dashboard') }}" class="nav-link">
+                        <span class="fas fa-tachometer-alt">
+                            Admin
+                        </span>
+                        </a>
+                    </li>
+                @endif
             @endif
         </ul>
         <ul class="nav navbar-nav ml-auto">

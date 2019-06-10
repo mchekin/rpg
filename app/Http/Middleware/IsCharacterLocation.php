@@ -18,10 +18,10 @@ class IsCharacterLocation
     {
         /** @var User $user */
         $user = $request->user();
-        $location = $user->character->location;
+        $locationId = $user->character->getLocationId();
 
-        if ($user && $user->hasCharacter() && $location->id !== $request->location->id) {
-            return redirect()->route('location.show', compact('location'));
+        if ($user && $user->hasCharacter() && $locationId !== $request->route('location')) {
+            return redirect()->route('location.show', $locationId);
         }
 
         return $next($request);
