@@ -1,5 +1,6 @@
 <?php
 
+use App\Modules\Battle\Domain\ValueObjects\BattleTurnResult;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -17,6 +18,8 @@ class CreateBattleTurnsTable extends Migration
             $table->uuid('id')->primary();
 
             $table->integer('damage')->default(0);
+
+            $table->enum('result_type', BattleTurnResult::TYPES);
 
             $table->uuid('executor_id');
             $table->foreign('executor_id')->references('id')->on('characters')->onDelete('restrict');

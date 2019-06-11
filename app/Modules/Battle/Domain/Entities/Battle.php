@@ -96,7 +96,7 @@ class Battle
 
     protected function calculateVictorXpGained(Character $loser, Character $victor): int
     {
-        return max($loser->getLevelNumber() - $victor->getLevelNumber(), 1) * 10;
+        return max($loser->getLevelNumber() - $victor->getLevelNumber(), 1) * 3;
     }
 
     public function getId(): string

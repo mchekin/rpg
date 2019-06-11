@@ -5,6 +5,7 @@ namespace App\Modules\Battle\Domain\Factories;
 
 
 use App\Modules\Battle\Domain\Entities\BattleTurn;
+use App\Modules\Battle\Domain\ValueObjects\BattleTurnResult;
 use App\Modules\Character\Domain\Entities\Character;
 use App\Traits\GeneratesUuid;
 
@@ -17,7 +18,8 @@ class BattleTurnFactory
         return new BattleTurn(
             $this->generateUuid(),
             $owner,
-            $target
+            $target,
+            BattleTurnResult::none()
         );
     }
 }

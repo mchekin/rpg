@@ -48,16 +48,30 @@
                         <h3>Round {{$index + 1}}</h3>
                         <ul class="list-group">
                             @foreach($round->turns as $index => $turn)
-                                @if($turn->damage)
-                                    <li class="list-group-item {{ $index % 2 ? 'text-danger' : 'text-success'}}">
-                                        {{ $turn->executor->name }} did {{ $turn->damage }} damage
-                                        to {{ $turn->target->name }}
-                                    </li>
-                                @else
-                                    <li class="list-group-item">
-                                        {{ $turn->executor->name }} was unable to hit {{ $turn->target->name }}
-                                    </li>
-                                @endif
+                                @switch($turn->result_type)
+                                    @case('miss')
+                                        <li class="list-group-item">
+                                            {{ $turn->executor->name }} was unable to hit {{ $turn->target->name }}
+                                        </li>
+                                        @break
+
+                                    @case('hit')
+                                        <li class="list-group-item {{ $index % 2 ? 'text-danger' : 'text-success'}}">
+                                            {{ $turn->executor->name }} did <b>{{ $turn->damage }}</b> damage
+                                            to {{ $turn->target->name }}
+                                        </li>
+                                        @break
+
+                                    @case('critical_hit')
+                                        <li class="list-group-item {{ $index % 2 ? 'text-danger' : 'text-success'}}">
+                                            {{ $turn->executor->name }} did <b>{{ $turn->damage }}</b> critical damage
+                                            to {{ $turn->target->name }} (Superior Intelligence)
+                                        </li>
+                                        @break
+
+                                    @default
+                                        Something went wrong ...
+                                @endswitch
                             @endforeach
                         </ul>
                     </li>
