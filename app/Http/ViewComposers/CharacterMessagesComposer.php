@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
-class MessagingComposer
+class CharacterMessagesComposer
 {
     /**
      * Bind data to the view.
@@ -41,6 +41,6 @@ class MessagingComposer
 
         $contentLimit = Message::CONTENT_LIMIT;
 
-        $view->with(compact('messages', 'currentCharacter', 'contentLimit'));
+        $view->with(compact('messages', 'currentCharacter', 'otherCharacter', 'contentLimit'));
     }
 }

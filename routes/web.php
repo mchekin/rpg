@@ -24,9 +24,6 @@ Route::get('/character/{character}/location/{location}/move', 'CharacterControll
 Route::get('/character/{character}/attack', 'CharacterController@getAttack')
     ->name('character.attack');
 
-Route::get('/message/inbox', 'MessageController@inbox')->name('message.inbox');
-Route::get('/message/sent', 'MessageController@sent')->name('message.sent');
-
 // Simple routes...
 Route::group(['middleware' => 'guest'], function () {
     Route::get('/', function () {
@@ -47,7 +44,8 @@ Auth::routes();
 Route::resource("character", "CharacterController");
 Route::resource("location", "LocationController")->only(['show']);
 Route::resource("battle", "BattleController")->only(['show']);
-Route::resource("character.message", "MessageController")->only(['index', 'store']);
+Route::resource("message", "MessageController")->only(['index']);
+Route::resource("character.message", "CharacterMessageController")->only(['index', 'store']);
 Route::resource("character.profile-picture", "ProfilePictureController")->only(['store', 'destroy']);
 Route::resource("character.battle", "CharacterBattleController")->only(['index']);
 

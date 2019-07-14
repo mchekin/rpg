@@ -22,7 +22,7 @@
                     </a>
                 </li>
                 <li class="nav-item button">
-                    <a href="{{ URL::route('message.inbox') }}" class="nav-link">
+                    <a href="{{ URL::route('message.index') }}" class="nav-link">
                         <span class="fa fa-envelope">
                             Messages
                             @if(Auth::user()->character->receivedMessages()->unread()->count() > 0)
