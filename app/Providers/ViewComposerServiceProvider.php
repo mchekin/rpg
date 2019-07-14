@@ -2,10 +2,9 @@
 
 namespace App\Providers;
 
-use App\Http\ViewComposers\CharacterBattle\AllCharacterBattlesComposer;
-use App\Http\ViewComposers\InboxComposer;
-use App\Http\ViewComposers\MessagingComposer;
-use App\Http\ViewComposers\SentComposer;
+use App\Http\ViewComposers\BattlesComposer;
+use App\Http\ViewComposers\CharacterMessagesComposer;
+use App\Http\ViewComposers\MessagesComposer;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -18,11 +17,11 @@ class ViewComposerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        View::composer('message.index', MessagingComposer::class);
-        View::composer('message.inbox', InboxComposer::class);
-        View::composer('message.sent', SentComposer::class);
+        View::composer('message.index', MessagesComposer::class);
 
-        View::composer('character.battle.index', AllCharacterBattlesComposer::class);
+        View::composer('character.message.index', CharacterMessagesComposer::class);
+
+        View::composer('character.battle.index', BattlesComposer::class);
     }
 
     /**

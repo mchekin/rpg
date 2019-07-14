@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\ViewComposers\CharacterBattle;
+namespace App\Http\ViewComposers;
 
 use App\Battle;
 use App\Character;
@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\View\View;
 
-class AllCharacterBattlesComposer
+class BattlesComposer
 {
     /**
      * Bind data to the view.
