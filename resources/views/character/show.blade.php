@@ -8,19 +8,21 @@
 @section("body")
     <div class="row">
 
+
+
+    <?php
+    /** @var \App\Character $character */
+    /** @var \App\Modules\Level\Domain\Entities\Level $level */
+    $hpPercent = ($character->getHitPoints() / $character->getTotalHitPoints()) * 100;
+    $levelProgress = $level->getProgress($character->xp);
+    ?>
+
         <!-- Left Side -->
         <div class="col-md-6">
 
             <h2 class="text-center">
                 {{ $character->getName() }}
             </h2>
-
-            <?php
-                /** @var \App\Character $character */
-                /** @var \App\Modules\Level\Domain\Entities\Level $level */
-                $hpPercent = ($character->getHitPoints() / $character->getTotalHitPoints()) * 100;
-                $levelProgress = $level->getProgress($character->xp);
-            ?>
 
             <div class="progress mx-5 my-3">
                 <div class="progress-bar bg-danger"
@@ -33,56 +35,19 @@
                 </div>
             </div>
 
-            <img class="w-50 mx-auto d-block" src="{{ asset($character->getProfilePictureFull()) }}">
+            @include('character.partials.character-display', compact('character'))
 
-            @if($character->isYou())
-                <div class="mx-5 my-3">
-                    <form role="form" method="POST"
-                          action="{{ URL::route('character.profile-picture.store', compact('character')) }}"
-                          enctype="multipart/form-data">
-                        {!! csrf_field() !!}
-                        <div class="input-group">
-                            <div class="custom-file">
-                                <input type="file" name="file" class="form-control" required>
-                            </div>
-                            <div class="mx-2 input-group-append">
-                                <button type="submit" class="btn btn-success">Upload <span class="fas fa-upload"></span>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+            <h3 class="mt-5 text-center"> Inventory </h3>
+            <div class="my-3 row table-dark">
+                <div class="col-md-3 equipment-item">
                 </div>
-
-                @if($character->hasProfilePicture())
-                    <div class="text-center">
-                        <?php $profilePicture = $character->getProfilePicture() ?>
-                        <form role="form" method="POST"
-                              action="{{ URL::route('character.profile-picture.destroy', compact('character', 'profilePicture')) }}">
-                            {{ method_field('DELETE') }}
-                            {!! csrf_field() !!}
-                            <div class="mx-2">
-                                <button type="submit" class="btn btn-danger btn-sm">Delete Profile Picture <span
-                                            class="fas fa-save"></span></button>
-                            </div>
-                        </form>
-                    </div>
-                @endif
-
-            @else
-                <div class="w-100 my-3 px-5 text-center" role="group" aria-label="Character Actions">
-                    @if(!$character->isNPC())
-                        <a href="{{ route('character.message.index', ['character' => $character]) }}"
-                           class="btn btn-sm btn-success">
-                            message <span class="fa fa-comment"></span>
-                        </a>
-                    @endif
-
-                    <a href="{{ route('character.attack', ['character' => $character]) }}"
-                       class="btn btn-sm btn-danger">
-                        attack <span class="fas fa-bolt"></span>
-                    </a>
+                <div class="col-md-3 equipment-item">
                 </div>
-            @endif
+                <div class="col-md-3 equipment-item">
+                </div>
+                <div class="col-md-3 equipment-item">
+                </div>
+            </div>
 
             <div class="text-center my-5">
                 <a class="btn btn-primary" href="{{ route('location.show', ['location' => $character->getLocationId()]) }}">

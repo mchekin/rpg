@@ -78,6 +78,20 @@ caption.caption-top {
     height: 50px;
 }
 
+.profile-picture-wrapper {
+    height: 350px;
+    max-width: 80% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+img.profile-picture {
+    display: block !important;
+    max-height: 100% !important;
+    max-width: 100% !important;
+    margin: auto !important;
+}
+
 img.profile-picture-msg {
     max-width: 90px;
     width: 100%;
@@ -205,4 +219,11 @@ img.profile-picture-nav {
 .messages .message .text_wrapper::before {
     border-width: 15px;
     margin-top: -2px;
+}
+
+/** Character Equipment **/
+.equipment-item
+{
+    height: 150px;
+    border: 1px solid gray;
 }
