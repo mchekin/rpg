@@ -7,6 +7,10 @@ use App\Modules\Battle\Infrastructure\Repositories\BattleRepository;
 use App\Modules\Character\Domain\Contracts\CharacterRepositoryInterface;
 use App\Modules\Character\Domain\Contracts\RaceRepositoryInterface;
 use App\Modules\Character\Infrastructure\Repositories\CharacterRepository;
+use App\Modules\Equipment\Domain\Contracts\ItemPrototypeRepositoryInterface;
+use App\Modules\Equipment\Domain\Contracts\ItemRepositoryInterface;
+use App\Modules\Equipment\Infrastructure\Repositories\ItemPrototypeRepository;
+use App\Modules\Equipment\Infrastructure\Repositories\ItemRepository;
 use App\Modules\Image\Domain\Contracts\ImageRepositoryInterface;
 use App\Modules\Image\Infrastructure\Repositories\ImageRepository;
 use App\Modules\Character\Infrastructure\Repositories\RaceRepository;
@@ -46,6 +50,16 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             CharacterRepositoryInterface::class,
             CharacterRepository::class
+        );
+
+        $this->app->bind(
+            ItemPrototypeRepositoryInterface::class,
+            ItemPrototypeRepository::class
+        );
+
+        $this->app->bind(
+            ItemRepositoryInterface::class,
+            ItemRepository::class
         );
 
         $this->app->bind(
