@@ -6,6 +6,7 @@ namespace App\Modules\Character\Infrastructure\ReconstitutionFactories;
 use App\Modules\Character\Domain\Entities\Attributes;
 use App\Modules\Character\Domain\Entities\Character;
 use App\Modules\Character\Domain\Entities\Gender;
+use App\Modules\Character\Domain\ValueObjects\Inventory;
 use App\Modules\Character\Domain\ValueObjects\Statistics;
 use App\Modules\Character\Domain\ValueObjects\Money;
 use App\Modules\Character\Domain\ValueObjects\HitPoints;
@@ -43,6 +44,7 @@ class CharacterReconstitutionFactory
                 'battlesLost' => $characterModel->getBattlesLost(),
                 'battlesWon' => $characterModel->getBattlesWon(),
             ]),
+            Inventory::empty(), // TODO: reconstitute Inventory from database
             $characterModel->getUserId(),
             $characterModel->getProfilePictureId()
         );

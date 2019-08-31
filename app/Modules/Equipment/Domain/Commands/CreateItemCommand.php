@@ -19,17 +19,11 @@ class CreateItemCommand
         $this->creatorCharacterId = $creatorCharacterId;
     }
 
-    /**
-     * @return string
-     */
     public function getPrototypeId(): string
     {
         return $this->prototypeId;
     }
 
-    /**
-     * @return string
-     */
     public function getCreatorCharacterId(): string
     {
         return $this->creatorCharacterId;

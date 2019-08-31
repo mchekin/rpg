@@ -3,6 +3,7 @@
 
 namespace App\Modules\Character\Domain\Factories;
 
+use App\Modules\Character\Domain\ValueObjects\Inventory;
 use App\Modules\Character\Domain\ValueObjects\Statistics;
 use App\Traits\GeneratesUuid;
 use App\Modules\Character\Domain\Contracts\RaceRepositoryInterface;
@@ -56,6 +57,7 @@ class CharacterFactory
                 'battlesLost' => 0,
                 'battlesWon' => 0,
             ]),
+            Inventory::empty(),
             $command->getUserId()
         );
     }

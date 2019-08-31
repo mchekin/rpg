@@ -14,6 +14,7 @@ class ItemFactory
     public function create(ItemPrototype $itemPrototype, string $creatorCharacterId): Item
     {
         return new Item(
+            $this->generateUuid(),
             $itemPrototype->getTitle(),
             $itemPrototype->getDescription(),
             $itemPrototype->getType(),

@@ -4,9 +4,11 @@
 namespace App\Modules\Character\Domain\Entities;
 
 use App\Modules\Character\Domain\ValueObjects\HitPoints;
+use App\Modules\Character\Domain\ValueObjects\Inventory;
 use App\Modules\Character\Domain\ValueObjects\Reputation;
 use App\Modules\Character\Domain\ValueObjects\Money;
 use App\Modules\Character\Domain\ValueObjects\Statistics;
+use App\Modules\Equipment\Domain\Entities\Item;
 use App\Traits\ContainsModel;
 
 class Character
@@ -59,13 +61,17 @@ class Character
      */
     private $id;
     /**
-     * @var int|null
-     */
-    private $userId;
-    /**
      * @var Statistics
      */
     private $statistics;
+    /**
+     * @var Inventory
+     */
+    private $inventory;
+    /**
+     * @var int|null
+     */
+    private $userId;
     /**
      * @var string
      */
@@ -84,6 +90,7 @@ class Character
         Attributes $attributes,
         HitPoints $hitPoints,
         Statistics $statistics,
+        Inventory $inventory,
         int $userId = null,
         string $profilePictureId = null
     )
@@ -99,8 +106,9 @@ class Character
         $this->reputation = $reputation;
         $this->attributes = $attributes;
         $this->hitPoints = $hitPoints;
-        $this->userId = $userId;
         $this->statistics = $statistics;
+        $this->inventory = $inventory;
+        $this->userId = $userId;
         $this->profilePictureId = $profilePictureId;
     }
 
@@ -209,6 +217,20 @@ class Character
                 $this->hitPoints = $this->hitPoints->withIncrementedConstitution();
             }
         }
+    }
+
+    public function addItemToInventory(int $slot, Item $item): self
+    {
+        $this->inventory = $this->inventory->withAddedItem($slot, $item);
+
+        return $this;
+    }
+
+    public function addItemToFreeInventorySlot(Item $item)
+    {
+        $this->inventory = $this->inventory->withAddedItemToFreeSlot($item);
+
+        return $this;
     }
 
     public function setLocationId(string $locationId): Character

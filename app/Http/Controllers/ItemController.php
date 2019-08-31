@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateItemRequest;
+use App\Modules\Character\Domain\Services\CharacterService;
 use App\Modules\Equipment\Domain\Services\ItemService;
 use App\Modules\Equipment\Presentation\Http\CommandMappers\CreateItemCommandMapper;
 use Illuminate\Http\Response;
@@ -13,13 +14,19 @@ class ItemController extends Controller
      * @var ItemService
      */
     private $itemService;
+    /**
+     * @var CharacterService
+     */
+    private $characterService;
 
-    public function __construct(ItemService $itemService)
+    public function __construct(ItemService $itemService, CharacterService $characterService)
     {
         $this->middleware('auth');
         $this->middleware('has.character');
+        $this->middleware('is.admin', ['only' => ['create', 'store']]);
 
         $this->itemService = $itemService;
+        $this->characterService = $characterService;
     }
 
     public function store(
@@ -27,10 +34,10 @@ class ItemController extends Controller
         CreateItemCommandMapper $commandMapper
     ): Response {
 
-        $createCommand = $commandMapper->map($request);
+        $createItemCommand = $commandMapper->map($request);
 
-        $item = $this->itemService->create($createCommand);
+        $this->characterService->createItem($createItemCommand);
 
-        return redirect()->route('character.show', ['character' => $createCommand->getCreatorCharacterId()]);
+        return redirect()->back();
     }
 }

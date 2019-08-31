@@ -11,6 +11,10 @@ class Item
     /**
      * @var string
      */
+    private $id;
+    /**
+     * @var string
+     */
     private $title;
     /**
      * @var string
@@ -29,15 +33,25 @@ class Item
      */
     private $creatorCharacterId;
 
-    public function __construct(string $title, string $description, ItemType $type, Collection $effects, string $creatorCharacterId)
-    {
+    public function __construct(
+        string $id,
+        string $title,
+        string $description,
+        ItemType $type,
+        Collection $effects,
+        string $creatorCharacterId
+    ) {
+        $this->id = $id;
         $this->title = $title;
         $this->description = $description;
         $this->type = $type;
         $this->effects = $effects;
         $this->creatorCharacterId = $creatorCharacterId;
+    }
 
-        // TODO: effects validation
+    public function getId(): string
+    {
+        return $this->id;
     }
 
     public function getTitle(): string
