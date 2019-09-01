@@ -1,6 +1,7 @@
 <?php
 
 use App\ItemPrototype;
+use App\Modules\Equipment\Domain\ValueObjects\ItemEffect;
 use App\Modules\Equipment\Domain\ValueObjects\ItemType;
 use App\Traits\GeneratesUuid;
 use Illuminate\Support\Facades\DB;
@@ -85,7 +86,7 @@ class CreateItemsTable extends Migration
                     'quantity' => 1,
                     'type' => ItemType::MAIN_HAND,
                 ],
-                "type" => ItemType::MAIN_HAND,
+                "type" => ItemEffect::DAMAGE,
                 "image_file_path" => 'images\equipment\weapons\1club.png',
             ],
         ];
