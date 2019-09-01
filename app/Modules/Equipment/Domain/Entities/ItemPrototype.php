@@ -11,11 +11,19 @@ class ItemPrototype
     /**
      * @var string
      */
-    private $title;
+    private $id;
+    /**
+     * @var string
+     */
+    private $name;
     /**
      * @var string
      */
     private $description;
+    /**
+     * @var string
+     */
+    private $imageFilePath;
     /**
      * @var ItemType
      */
@@ -25,24 +33,40 @@ class ItemPrototype
      */
     private $effects;
 
-    public function __construct(string $title, string $description, ItemType $type, Collection $effects)
-    {
-        $this->title = $title;
+    public function __construct(
+        string $id,
+        string $name,
+        string $description,
+        string $imageFilePath,
+        ItemType $type,
+        Collection $effects
+    ) {
+        $this->id = $id;
+        $this->name = $name;
         $this->description = $description;
+        $this->imageFilePath = $imageFilePath;
         $this->type = $type;
         $this->effects = $effects;
-
-        // TODO: effects validation
     }
 
-    public function getTitle(): string
+    public function getId(): string
     {
-        return $this->title;
+        return $this->id;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
     }
 
     public function getDescription(): string
     {
         return $this->description;
+    }
+
+    public function getImageFilePath(): string
+    {
+        return $this->imageFilePath;
     }
 
     public function getType(): ItemType

@@ -2,23 +2,28 @@
 
 namespace App\Modules\Equipment\Infrastructure\Repositories;
 
+use App\ItemPrototype as ItemPrototypeModel;
 use App\Modules\Equipment\Domain\Contracts\ItemPrototypeRepositoryInterface;
 use App\Modules\Equipment\Domain\Entities\ItemPrototype;
+use App\Modules\Equipment\Infrastructure\ReconstitutionFactories\ItemPrototypeReconstitutionFactory;
 
 class ItemPrototypeRepository implements ItemPrototypeRepositoryInterface
 {
-    public function add(ItemPrototype $item)
+    /**
+     * @var ItemPrototypeReconstitutionFactory
+     */
+    private $reconstitutionFactory;
+
+    public function __construct(ItemPrototypeReconstitutionFactory $reconstitutionFactory)
     {
-        // TODO: Implement add() method.
+        $this->reconstitutionFactory = $reconstitutionFactory;
     }
 
-    public function getOne(string $itemId): ItemPrototype
+    public function getOne(string $itemPrototypeId): ItemPrototype
     {
-        // TODO: Implement getOne() method.
-    }
+        /** @var ItemPrototypeModel $model */
+        $model = ItemPrototypeModel::query()->findOrFail($itemPrototypeId);
 
-    public function update(ItemPrototype $item)
-    {
-        // TODO: Implement update() method.
+        return $this->reconstitutionFactory->reconstitute($model);
     }
 }

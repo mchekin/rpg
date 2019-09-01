@@ -15,10 +15,13 @@ class ItemFactory
     {
         return new Item(
             $this->generateUuid(),
-            $itemPrototype->getTitle(),
+            $itemPrototype->getName(),
             $itemPrototype->getDescription(),
+            $itemPrototype->getImageFilePath(),
             $itemPrototype->getType(),
             $itemPrototype->getEffects(),
+            $itemPrototype->getId(),
+            $creatorCharacterId,
             $creatorCharacterId
         );
     }

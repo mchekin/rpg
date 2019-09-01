@@ -15,7 +15,7 @@ class Item
     /**
      * @var string
      */
-    private $title;
+    private $name;
     /**
      * @var string
      */
@@ -31,22 +31,41 @@ class Item
     /**
      * @var string
      */
+    private $prototypeId;
+    /**
+     * @var string
+     */
     private $creatorCharacterId;
+    /**
+     * @var string
+     */
+    private $ownerCharacterId;
+    /**
+     * @var string
+     */
+    private $imageFilePath;
 
     public function __construct(
         string $id,
-        string $title,
+        string $name,
         string $description,
+        string $imageFilePath,
         ItemType $type,
         Collection $effects,
-        string $creatorCharacterId
-    ) {
+        string $prototypeId,
+        string $creatorCharacterId,
+        string $ownerCharacterId
+    )
+    {
         $this->id = $id;
-        $this->title = $title;
+        $this->name = $name;
         $this->description = $description;
+        $this->imageFilePath = $imageFilePath;
         $this->type = $type;
         $this->effects = $effects;
+        $this->prototypeId = $prototypeId;
         $this->creatorCharacterId = $creatorCharacterId;
+        $this->ownerCharacterId = $ownerCharacterId;
     }
 
     public function getId(): string
@@ -54,14 +73,19 @@ class Item
         return $this->id;
     }
 
-    public function getTitle(): string
+    public function getName(): string
     {
-        return $this->title;
+        return $this->name;
     }
 
     public function getDescription(): string
     {
         return $this->description;
+    }
+
+    public function getImageFilePath(): string
+    {
+        return $this->imageFilePath;
     }
 
     public function getType(): ItemType
@@ -74,8 +98,18 @@ class Item
         return $this->effects;
     }
 
+    public function getPrototypeId(): string
+    {
+        return $this->prototypeId;
+    }
+
     public function getCreatorCharacterId(): string
     {
         return $this->creatorCharacterId;
+    }
+
+    public function getOwnerCharacterId(): string
+    {
+        return $this->ownerCharacterId;
     }
 }
