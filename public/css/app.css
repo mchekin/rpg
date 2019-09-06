@@ -227,3 +227,8 @@ img.profile-picture-nav {
     height: 150px;
     border: 1px solid gray;
 }
+.inventory-item
+{
+    height: 100px;
+    border: 1px solid gray;
+}

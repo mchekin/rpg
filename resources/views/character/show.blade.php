@@ -39,18 +39,26 @@
 
             <h3 class="mt-5 text-center"> Equipment </h3>
             <div class="my-3 row table-dark align-items-center">
-                <div class="col-md-3 equipment-item">
+                <div class="col-3 equipment-item">
                     Head gear
                 </div>
-                <div class="col-md-3 equipment-item">
+                <div class="col-3 equipment-item">
                     Armor
                 </div>
-                <div class="col-md-3 equipment-item">
+                <div class="col-3 equipment-item">
                     Main hand
                 </div>
-                <div class="col-md-3 equipment-item">
+                <div class="col-3 equipment-item">
                     Off hand
                 </div>
+            </div>
+
+            <h3 class="mt-5 text-center"> Inventory </h3>
+            <div class="my-3 row table-dark align-items-center">
+                @foreach(array_fill(0, App\Modules\Character\Domain\ValueObjects\Inventory::NUMBER_OF_SLOTS,0) as $item)
+                <div class="col-2 inventory-item">
+                </div>
+                @endforeach
             </div>
 
             <div class="text-center my-5">

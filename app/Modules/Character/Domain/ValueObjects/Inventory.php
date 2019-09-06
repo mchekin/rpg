@@ -11,7 +11,7 @@ use App\Modules\Equipment\Domain\Entities\Item;
 
 class Inventory
 {
-    const NUMBER_OF_SLOTS = 40;
+    const NUMBER_OF_SLOTS = 60;
 
     /**
      * @var array
@@ -72,7 +72,7 @@ class Inventory
         return new self($data);
     }
 
-    public function withRemovedItem(int $slot, Item $item): self
+    public function withRemovedItem(int $slot): self
     {
         if (!isset($this->data[$slot])) {
             throw new AddToFullSlotException('Cannot remove from empty slot');
