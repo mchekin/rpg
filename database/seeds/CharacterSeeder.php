@@ -77,13 +77,15 @@ class CharacterSeeder extends Seeder
                 "type" => $weaponPrototype->getType(),
                 "image_file_path" => $weaponPrototype->getImageFilePath(),
                 "prototype_id" => $weaponPrototype->getId(),
-                "creator_id" => $jam->getId(),
-                "owner_id" => $jam->getId(),
+                "creator_character_id" => $jam->getId(),
+                "owner_character_id" => $jam->getId(),
             ],
         ];
 
         foreach ($weapons as $weapon) {
             Item::query()->create($weapon);
         }
+
+        factory(Character::class, 50)->create();
     }
 }

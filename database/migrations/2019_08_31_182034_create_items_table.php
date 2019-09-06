@@ -50,11 +50,11 @@ class CreateItemsTable extends Migration
             $table->uuid('prototype_id');
             $table->foreign('prototype_id')->references('id')->on('item_prototypes')->onDelete('restrict');
 
-            $table->uuid('creator_id');
-            $table->foreign('creator_id')->references('id')->on('characters')->onDelete('restrict');
+            $table->uuid('creator_character_id');
+            $table->foreign('creator_character_id')->references('id')->on('characters')->onDelete('restrict');
 
-            $table->uuid('owner_id');
-            $table->foreign('owner_id')->references('id')->on('characters')->onDelete('restrict');
+            $table->uuid('owner_character_id');
+            $table->foreign('owner_character_id')->references('id')->on('characters')->onDelete('restrict');
 
             $table->timestamps();
         });
@@ -83,8 +83,10 @@ class CreateItemsTable extends Migration
                 "name" => "Wooden Club",
                 "description" => "Simplest weapon. Made from a crude peace of wood.",
                 "effects" => [
-                    'quantity' => 1,
-                    'type' => ItemEffect::DAMAGE,
+                    [
+                        'quantity' => 1,
+                        'type' => ItemEffect::DAMAGE,
+                    ]
                 ],
                 "type" => ItemType::MAIN_HAND,
                 "image_file_path" => 'images\equipment\weapons\1club.png',
