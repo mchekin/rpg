@@ -1,13 +1,29 @@
 <?php
 
 use App\Character;
+use App\Item;
+use App\ItemPrototype;
 use App\Location;
+use App\Modules\Equipment\Domain\Factories\ItemFactory;
+use App\Traits\GeneratesUuid;
 use App\User;
 use Illuminate\Database\Seeder;
-use Ramsey\Uuid\Uuid;
 
 class CharacterSeeder extends Seeder
 {
+    /**
+     * @var ItemFactory
+     */
+    private $itemFactory;
+
+    public function __construct(ItemFactory $itemFactory)
+    {
+
+        $this->itemFactory = $itemFactory;
+    }
+
+    use GeneratesUuid;
+
     /**
      * Run the database seeds.
      *
@@ -25,9 +41,10 @@ class CharacterSeeder extends Seeder
         /** @var Location $location */
         $location = Location::query()->firstOrFail();
 
-        Character::query()->create([
-            "id" => Uuid::uuid4(),
-            "name" => "Jack Daniels",
+        /** @var Character $jam */
+        $jam = Character::query()->create([
+            "id" => $this->generateUuid(),
+            "name" => "Someone",
             "gender" => 'male',
 
             "xp" => 0,
@@ -48,6 +65,25 @@ class CharacterSeeder extends Seeder
             "race_id" => 1,
         ]);
 
-        factory(Character::class, 50)->create();
+        /** @var ItemPrototype $weaponPrototype */
+        $weaponPrototype = ItemPrototype::query()->firstOrFail();
+
+        $weapons = [
+            [
+                "id" => $this->generateUuid(),
+                "name" => $weaponPrototype->getName(),
+                "description" => $weaponPrototype->getDescription(),
+                "effects" => $weaponPrototype->getEffects(),
+                "type" => $weaponPrototype->getType(),
+                "image_file_path" => $weaponPrototype->getImageFilePath(),
+                "prototype_id" => $weaponPrototype->getId(),
+                "creator_id" => $jam->getId(),
+                "owner_id" => $jam->getId(),
+            ],
+        ];
+
+        foreach ($weapons as $weapon) {
+            Item::query()->create($weapon);
+        }
     }
 }

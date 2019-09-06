@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Traits\UsesStringId;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -30,6 +31,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string name
  * @property int level_id
  * @property string profile_picture_id
+ * @property Collection items
  */
 class Character extends Model
 {
@@ -83,6 +85,14 @@ class Character extends Model
     public function images()
     {
         return $this->hasMany(Image::class);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function items()
+    {
+        return $this->hasMany(Item::class);
     }
 
     /**

@@ -3,6 +3,7 @@
 
 namespace App\Modules\Character\Infrastructure\ReconstitutionFactories;
 
+use App\Modules\Equipment\Infrastructure\ReconstitutionFactories\ItemReconstitutionFactory;
 use App\Modules\Character\Domain\Entities\Attributes;
 use App\Modules\Character\Domain\Entities\Character;
 use App\Modules\Character\Domain\Entities\Gender;
@@ -12,12 +13,27 @@ use App\Modules\Character\Domain\ValueObjects\Money;
 use App\Modules\Character\Domain\ValueObjects\HitPoints;
 use App\Modules\Character\Domain\ValueObjects\Reputation;
 use App\Character as CharacterModel;
+use App\Item as ItemModel;
 
 
 class CharacterReconstitutionFactory
 {
+    /**
+     * @var ItemReconstitutionFactory
+     */
+    private $itemReconstitutionFactory;
+
+    public function __construct(ItemReconstitutionFactory $itemReconstitutionFactory)
+    {
+        $this->itemReconstitutionFactory = $itemReconstitutionFactory;
+    }
+
     public function reconstitute(CharacterModel $characterModel): Character
     {
+        $items = $characterModel->items->map(function (ItemModel $itemModel) {
+                 return $this->itemReconstitutionFactory->reconstitute($itemModel);
+             })->all();
+
         $character = new Character(
             $characterModel->getId(),
             $characterModel->getRaceId(),
@@ -44,7 +60,7 @@ class CharacterReconstitutionFactory
                 'battlesLost' => $characterModel->getBattlesLost(),
                 'battlesWon' => $characterModel->getBattlesWon(),
             ]),
-            Inventory::empty(), // TODO: reconstitute Inventory from database
+            Inventory::withItems($items),
             $characterModel->getUserId(),
             $characterModel->getProfilePictureId()
         );

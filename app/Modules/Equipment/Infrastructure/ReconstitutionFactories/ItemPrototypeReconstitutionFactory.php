@@ -14,9 +14,10 @@ class ItemPrototypeReconstitutionFactory
 {
     public function reconstitute(ItemPrototypeModel $model): ItemPrototype
     {
-        $effects = Collection::make($model->getEffects())
-            ->each(function (array $effect) {
-                return ItemEffect::ofType($effect['quantity'], $effect['type']);
+        $effects = Collection::make($model->getEffects())->map(function (array $effect) {
+                return ItemEffect::ofType(
+                    $effect['quantity'],
+                    $effect['type']);
             });
 
         $itemPrototype = new ItemPrototype(

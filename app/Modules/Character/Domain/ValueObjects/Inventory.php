@@ -5,6 +5,8 @@ namespace App\Modules\Character\Domain\ValueObjects;
 use App\Modules\Character\Domain\ValueObjects\Inventory\AddToFullSlotException;
 use App\Modules\Character\Domain\ValueObjects\Inventory\AddToIlligalSlotException;
 use App\Modules\Character\Domain\ValueObjects\Inventory\InventoryIsFullException;
+use App\Modules\Character\Domain\ValueObjects\Inventory\NotAnItemException;
+use App\Modules\Character\Domain\ValueObjects\Inventory\NotEnoughSpaceException;
 use App\Modules\Equipment\Domain\Entities\Item;
 
 class Inventory
@@ -16,7 +18,7 @@ class Inventory
      */
     private $data;
 
-    public function __construct(array $data = [])
+    private function __construct(array $data = [])
     {
         $this->data = $data;
     }
@@ -24,6 +26,22 @@ class Inventory
     public static function empty(): self
     {
         return new self();
+    }
+
+    public static function withItems(array $items): self
+    {
+        $numberOfItems = count($items);
+        if ($numberOfItems >= self::NUMBER_OF_SLOTS) {
+            throw new NotEnoughSpaceException("Not enough space in the Inventory for $numberOfItems new items");
+        }
+
+        foreach ($items as $index => $item) {
+            if (!($item instanceof Item)) {
+                throw new NotAnItemException("Object number $index is not and Item");
+            }
+        }
+
+        return new self($items);
     }
 
     public function withAddedItem(int $slot, Item $item): self

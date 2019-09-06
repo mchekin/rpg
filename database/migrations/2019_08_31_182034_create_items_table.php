@@ -84,9 +84,9 @@ class CreateItemsTable extends Migration
                 "description" => "Simplest weapon. Made from a crude peace of wood.",
                 "effects" => [
                     'quantity' => 1,
-                    'type' => ItemType::MAIN_HAND,
+                    'type' => ItemEffect::DAMAGE,
                 ],
-                "type" => ItemEffect::DAMAGE,
+                "type" => ItemType::MAIN_HAND,
                 "image_file_path" => 'images\equipment\weapons\1club.png',
             ],
         ];

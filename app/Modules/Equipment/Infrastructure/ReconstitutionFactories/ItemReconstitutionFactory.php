@@ -14,8 +14,7 @@ class ItemReconstitutionFactory
 {
     public function reconstitute(ItemModel $model): Item
     {
-        $effects = Collection::make($model->getEffects())
-            ->each(function (array $effect) {
+        $effects = Collection::make($model->getEffects())->map(function (array $effect) {
                 return ItemEffect::ofType(
                     $effect['quantity'],
                     $effect['type']
