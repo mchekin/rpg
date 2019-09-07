@@ -12,4 +12,6 @@ interface ImageRepositoryInterface
     public function add(Image $image, UploadedFile $uploadedFile);
 
     public function delete(string $characterId);
+
+    public function getOne($id): Image;
 }

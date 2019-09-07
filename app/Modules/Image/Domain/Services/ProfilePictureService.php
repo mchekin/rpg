@@ -5,6 +5,7 @@ namespace App\Modules\Image\Domain\Services;
 
 use App\Modules\Character\Domain\Services\CharacterService;
 use App\Modules\Image\Domain\Contracts\ImageRepositoryInterface;
+use App\Modules\Image\Domain\Entities\Image;
 use App\Modules\Image\Domain\Factories\ImageFactory;
 use App\Modules\Image\Domain\Commands\AddImageCommand;
 
@@ -52,5 +53,10 @@ class ProfilePictureService
         $this->imageRepository->delete($characterId);
 
         $this->characterService->removeProfilePicture($characterId);
+    }
+
+    public function getOne(string $id): Image
+    {
+        return $this->imageRepository->getOne($id);
     }
 }
