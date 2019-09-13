@@ -3,6 +3,8 @@
 
 namespace App\Modules\Character\Domain\Entities;
 
+use App\Modules\Character\Domain\ValueObjects\Attributes;
+use App\Modules\Character\Domain\ValueObjects\Gender;
 use App\Modules\Character\Domain\ValueObjects\HitPoints;
 use App\Modules\Character\Domain\ValueObjects\Inventory;
 use App\Modules\Character\Domain\ValueObjects\Reputation;
