@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Modules\Character\Domain\Entities;
+namespace App\Modules\Character\Domain\ValueObjects;
 
 
 class Gender
