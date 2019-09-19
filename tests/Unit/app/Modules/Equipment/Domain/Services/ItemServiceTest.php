@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\App\Modules\Equipment\Domain\Services;
 
+use App\Modules\Character\Domain\Contracts\CharacterRepositoryInterface;
 use App\Modules\Character\Domain\Entities\Character;
 use App\Modules\Equipment\Domain\Commands\CreateItemCommand;
 use App\Modules\Equipment\Domain\Contracts\ItemPrototypeRepositoryInterface;
@@ -21,6 +22,9 @@ class ItemServiceTest extends TestCase
     /** @var ItemService */
     private $sut;
 
+    /** @var MockInterface| CharacterRepositoryInterface */
+    private $characterRepository;
+
     /** @var MockInterface| ItemRepositoryInterface */
     private $itemRepository;
 
@@ -34,11 +38,17 @@ class ItemServiceTest extends TestCase
     {
         parent::setUp();
 
+        $this->characterRepository = Mockery::mock(CharacterRepositoryInterface::class);
         $this->itemRepository = Mockery::mock(ItemRepositoryInterface::class);
         $this->itemPrototypeRepository = Mockery::mock(ItemPrototypeRepositoryInterface::class);
         $this->character = Mockery::mock(Character::class);
 
-        $this->sut = new ItemService($this->itemRepository, $this->itemPrototypeRepository, new ItemFactory());
+        $this->sut = new ItemService(
+            $this->characterRepository,
+            $this->itemRepository,
+            $this->itemPrototypeRepository,
+            new ItemFactory()
+        );
     }
 
     public function testCreate()
@@ -65,8 +75,12 @@ class ItemServiceTest extends TestCase
 
         $createCommand = new CreateItemCommand($prototypeId, $creatorCharacterId);
 
+        $this->characterRepository->shouldReceive('getOne')->once()->andReturn($this->character);
         $this->itemPrototypeRepository->shouldReceive('getOne')->once()->andReturn($itemPrototype);
+        $this->character->shouldReceive('getId')->once()->andReturn($creatorCharacterId);
+        $this->character->shouldReceive('addItemToInventory')->once();
         $this->itemRepository->shouldReceive('add')->once();
+        $this->characterRepository->shouldReceive('update')->once();
 
         // Act
         $item = $this->sut->create($createCommand);

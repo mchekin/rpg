@@ -14,19 +14,14 @@ class ItemController extends Controller
      * @var ItemService
      */
     private $itemService;
-    /**
-     * @var CharacterService
-     */
-    private $characterService;
 
-    public function __construct(ItemService $itemService, CharacterService $characterService)
+    public function __construct(ItemService $itemService)
     {
         $this->middleware('auth');
         $this->middleware('has.character');
         $this->middleware('is.admin', ['only' => ['create', 'store']]);
 
         $this->itemService = $itemService;
-        $this->characterService = $characterService;
     }
 
     public function store(
@@ -36,7 +31,7 @@ class ItemController extends Controller
 
         $createItemCommand = $commandMapper->map($request);
 
-        $this->characterService->createItem($createItemCommand);
+        $this->itemService->create($createItemCommand);
 
         return redirect()->back();
     }

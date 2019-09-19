@@ -79,6 +79,7 @@ class CharacterSeeder extends Seeder
                 "prototype_id" => $weaponPrototype->getId(),
                 "creator_character_id" => $jam->getId(),
                 "owner_character_id" => $jam->getId(),
+                "inventory_slot_number" => 0,
             ],
         ];
 

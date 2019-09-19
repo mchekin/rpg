@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string prototype_id
  * @property string creator_character_id
  * @property string owner_character_id
+ * @property int inventory_slot_number
  */
 class Item extends Model
 {
@@ -69,5 +70,10 @@ class Item extends Model
     public function getOwnerCharacterId(): string
     {
         return $this->owner_character_id;
+    }
+
+    public function getInventorySlotNumber()
+    {
+        return $this->inventory_slot_number;
     }
 }

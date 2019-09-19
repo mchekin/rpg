@@ -4,6 +4,7 @@ namespace App\Modules\Equipment\Domain\Factories;
 
 use App\Modules\Equipment\Domain\Entities\Item;
 use App\Modules\Equipment\Domain\Entities\ItemPrototype;
+use App\Modules\Equipment\Domain\ValueObjects\InventorySlot;
 use App\Traits\GeneratesUuid;
 
 
@@ -22,7 +23,8 @@ class ItemFactory
             $itemPrototype->getEffects(),
             $itemPrototype->getId(),
             $creatorCharacterId,
-            $creatorCharacterId
+            $creatorCharacterId,
+            InventorySlot::undefined()
         );
     }
 }

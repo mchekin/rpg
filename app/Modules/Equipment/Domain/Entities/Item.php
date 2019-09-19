@@ -3,6 +3,7 @@
 namespace App\Modules\Equipment\Domain\Entities;
 
 
+use App\Modules\Equipment\Domain\ValueObjects\InventorySlot;
 use App\Modules\Equipment\Domain\ValueObjects\ItemType;
 use Illuminate\Support\Collection;
 
@@ -44,6 +45,10 @@ class Item
      * @var string
      */
     private $imageFilePath;
+    /**
+     * @var InventorySlot
+     */
+    private $inventorySlot;
 
     public function __construct(
         string $id,
@@ -54,7 +59,8 @@ class Item
         Collection $effects,
         string $prototypeId,
         string $creatorCharacterId,
-        string $ownerCharacterId
+        string $ownerCharacterId,
+        InventorySlot $inventorySlot
     )
     {
         $this->id = $id;
@@ -66,6 +72,7 @@ class Item
         $this->prototypeId = $prototypeId;
         $this->creatorCharacterId = $creatorCharacterId;
         $this->ownerCharacterId = $ownerCharacterId;
+        $this->inventorySlot = $inventorySlot;
     }
 
     public function getId(): string
@@ -111,5 +118,15 @@ class Item
     public function getOwnerCharacterId(): string
     {
         return $this->ownerCharacterId;
+    }
+
+    public function getInventorySlot(): InventorySlot
+    {
+        return $this->inventorySlot;
+    }
+
+    public function setInventorySlot(InventorySlot $inventorySlot)
+    {
+        $this->inventorySlot = $inventorySlot;
     }
 }

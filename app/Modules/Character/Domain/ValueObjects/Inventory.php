@@ -8,6 +8,7 @@ use App\Modules\Character\Domain\ValueObjects\Inventory\InventoryIsFullException
 use App\Modules\Character\Domain\ValueObjects\Inventory\NotAnItemException;
 use App\Modules\Character\Domain\ValueObjects\Inventory\NotEnoughSpaceException;
 use App\Modules\Equipment\Domain\Entities\Item;
+use App\Modules\Equipment\Domain\ValueObjects\InventorySlot;
 
 class Inventory
 {
@@ -63,11 +64,13 @@ class Inventory
 
     public function withAddedItemToFreeSlot(Item $item)
     {
-        $slot = $this->findEmptySlot();
+        $slot = $this->findFreeSlot();
 
         $data = $this->data;
 
         $data[$slot] = $item;
+
+        $item->setInventorySlot(InventorySlot::defined($slot));
 
         return new self($data);
     }
@@ -85,7 +88,7 @@ class Inventory
         return new self($data);
     }
 
-    private function findEmptySlot(): int
+    public function findFreeSlot(): int
     {
         for ($slot = 0; $slot < self::NUMBER_OF_SLOTS; $slot++) {
             if (!isset($this->data[$slot])) {

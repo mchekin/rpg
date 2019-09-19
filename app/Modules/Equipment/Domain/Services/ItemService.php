@@ -2,11 +2,13 @@
 
 namespace App\Modules\Equipment\Domain\Services;
 
+use App\Modules\Character\Domain\Contracts\CharacterRepositoryInterface;
 use App\Modules\Equipment\Domain\Commands\CreateItemCommand;
 use App\Modules\Equipment\Domain\Contracts\ItemPrototypeRepositoryInterface;
 use App\Modules\Equipment\Domain\Contracts\ItemRepositoryInterface;
 use App\Modules\Equipment\Domain\Entities\Item;
 use App\Modules\Equipment\Domain\Factories\ItemFactory;
+use Illuminate\Support\Facades\DB;
 
 class ItemService
 {
@@ -22,25 +24,38 @@ class ItemService
      * @var ItemPrototypeRepositoryInterface
      */
     private $itemPrototypeRepository;
+    /**
+     * @var CharacterRepositoryInterface
+     */
+    private $characterRepository;
 
     public function __construct(
+        CharacterRepositoryInterface $characterRepository,
         ItemRepositoryInterface $itemRepository,
         ItemPrototypeRepositoryInterface $itemPrototypeRepository,
         ItemFactory $itemFactory
-    ) {
+    )
+    {
+        $this->characterRepository = $characterRepository;
         $this->itemRepository = $itemRepository;
         $this->itemPrototypeRepository = $itemPrototypeRepository;
         $this->itemFactory = $itemFactory;
     }
 
-    public function create(CreateItemCommand $createItemCommand): Item
+    public function create(CreateItemCommand $command): Item
     {
-        $itemPrototype = $this->itemPrototypeRepository->getOne($createItemCommand->getPrototypeId());
+        return DB::transaction(function () use ($command) {
+            $itemPrototype = $this->itemPrototypeRepository->getOne($command->getPrototypeId());
+            $character = $this->characterRepository->getOne($command->getCreatorCharacterId());
 
-        $item = $this->itemFactory->create($itemPrototype, $createItemCommand->getCreatorCharacterId());
+            $item = $this->itemFactory->create($itemPrototype, $character->getId());
 
-        $this->itemRepository->add($item);
+            $character->addItemToInventory($item);
 
-        return $item;
+            $this->itemRepository->add($item);
+            $this->characterRepository->update($character);
+
+            return $item;
+        });
     }
 }

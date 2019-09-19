@@ -79,14 +79,7 @@ class CharacterService
 
     public function createItem(CreateItemCommand $command)
     {
-        $item = $this->itemService->create($command);
-        $character = $this->characterRepository->getOne($command->getCreatorCharacterId());
-
-        $character->addItemToFreeInventorySlot($item);
-
-        $this->characterRepository->update($character);
-
-        return $character;
+        return $this->itemService->create($command);
     }
 
     public function addItemToInventory(AddItemToInventoryCommand $command): Character
@@ -94,7 +87,7 @@ class CharacterService
         $character = $this->characterRepository->getOne($command->getCharacterId());
         $item = $this->itemRepository->getOne($command->getItemId());
 
-        $character->addItemToInventory($command->getSlot(), $item);
+        $character->addItemToInventorySlot($command->getSlot(), $item);
 
         $this->characterRepository->update($character);
 

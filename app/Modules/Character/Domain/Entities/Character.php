@@ -221,25 +221,19 @@ class Character
         }
     }
 
-    public function addItemToInventory(int $slot, Item $item): self
+    public function addItemToInventorySlot(int $slot, Item $item)
     {
         $this->inventory = $this->inventory->withAddedItem($slot, $item);
-
-        return $this;
     }
 
-    public function addItemToFreeInventorySlot(Item $item)
+    public function addItemToInventory(Item $item)
     {
         $this->inventory = $this->inventory->withAddedItemToFreeSlot($item);
-
-        return $this;
     }
 
-    public function setLocationId(string $locationId): Character
+    public function setLocationId(string $locationId)
     {
         $this->locationId = $locationId;
-
-        return $this;
     }
 
     public function isAlive(): bool
@@ -302,5 +296,10 @@ class Character
     public function removeProfilePicture()
     {
         $this->profilePictureId = null;
+    }
+
+    public function getInventory(): Inventory
+    {
+        return $this->inventory;
     }
 }

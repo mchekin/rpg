@@ -65,6 +65,8 @@ class CharacterRepository implements CharacterRepositoryInterface
 
     public function update(Character $character)
     {
+        $inventory = $character->getInventory();
+
         CharacterModel::query()->where('id', $character->getId())->update([
             'name' => $character->getName(),
             'gender' => $character->getGender()->getValue(),
