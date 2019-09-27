@@ -12,7 +12,7 @@ use App\Modules\Equipment\Domain\ValueObjects\InventorySlot;
 
 class Inventory
 {
-    const NUMBER_OF_SLOTS = 60;
+    const NUMBER_OF_SLOTS = 36;
 
     /**
      * @var array

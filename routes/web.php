@@ -48,6 +48,7 @@ Route::resource("message", "MessageController")->only(['index']);
 Route::resource("character.message", "CharacterMessageController")->only(['index', 'store']);
 Route::resource("character.profile-picture", "ProfilePictureController")->only(['store', 'destroy']);
 Route::resource("character.battle", "CharacterBattleController")->only(['index']);
+Route::resource("character.inventory", "CharacterInventoryController")->only(['index']);
 
 
 Route::group(['prefix' => 'admin'], function () {

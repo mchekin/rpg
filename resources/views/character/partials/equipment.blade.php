@@ -1,5 +1,4 @@
-<h3 class="mt-5 text-center"> Equipment </h3>
-<div class="my-3 row table-dark align-items-center">
+<div class="mt-5 row table-dark align-items-center">
     <div class="col-3 equipment-item">
         Head gear
     </div>

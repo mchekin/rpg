@@ -3,10 +3,6 @@
     $hpPercent = ($character->getHitPoints() / $character->getTotalHitPoints()) * 100;
 ?>
 
-<h2 class="text-center">
-    {{ $character->getName() }}
-</h2>
-
 <div class="progress mx-5 my-3">
     <div class="progress-bar bg-danger"
          role="progressbar"
@@ -30,10 +26,11 @@
             {!! csrf_field() !!}
             <div class="input-group">
                 <div class="custom-file">
-                    <input type="file" name="file" class="form-control" required>
+                    <input type="file" name="file" class="form-control form-control-sm" required>
                 </div>
                 <div class="mx-2 input-group-append">
-                    <button type="submit" class="btn btn-success">Upload <span class="fas fa-upload"></span>
+                    <button type="submit" class="btn btn-success">
+                        Upload <span class="fas fa-upload"></span>
                     </button>
                 </div>
             </div>
@@ -51,33 +48,13 @@
                 {{ method_field('DELETE') }}
                 {!! csrf_field() !!}
                 <div class="mx-2">
-                    <button type="submit" class="btn btn-danger btn-sm">Delete Profile Picture <span
-                                class="fas fa-save"></span></button>
+                    <button type="submit" class="btn btn-sm btn-danger">
+                        Delete Profile Picture
+                        <span class="fas fa-save"></span>
+                    </button>
                 </div>
             </form>
         </div>
     @endif
-
-@else
-    <div class="w-100 my-3 px-5 text-center" role="group" aria-label="Character Actions">
-        @if(!$character->isNPC())
-            <a href="{{ route('character.message.index', ['character' => $character]) }}"
-               class="btn btn-sm btn-success">
-                message <span class="fa fa-comment"></span>
-            </a>
-        @endif
-
-        <a href="{{ route('character.attack', ['character' => $character]) }}"
-           class="btn btn-sm btn-danger">
-            attack <span class="fas fa-bolt"></span>
-        </a>
-    </div>
 @endif
-
-<div class="text-center my-5">
-    <a class="btn btn-primary" href="{{ route('location.show', ['location' => $character->getLocationId()]) }}">
-        To {{ $character->getLocationName() }}
-        <span class="fas fa-walking"></span>
-    </a>
-</div>
 
