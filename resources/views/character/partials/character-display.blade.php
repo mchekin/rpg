@@ -1,3 +1,23 @@
+<?php
+    /** @var \App\Character $character */
+    $hpPercent = ($character->getHitPoints() / $character->getTotalHitPoints()) * 100;
+?>
+
+<h2 class="text-center">
+    {{ $character->getName() }}
+</h2>
+
+<div class="progress mx-5 my-3">
+    <div class="progress-bar bg-danger"
+         role="progressbar"
+         style="width: {{ $hpPercent }}%"
+         aria-valuenow="{{ $hpPercent }}"
+         aria-valuemin="0"
+         aria-valuemax="100">
+        {{ $character->getHitPoints() }} / {{ $character->getTotalHitPoints() }}
+    </div>
+</div>
+
 <div class="profile-picture-wrapper row">
     <img class="profile-picture" src="{{ asset($character->getProfilePictureFull()) }}">
 </div>
@@ -5,7 +25,7 @@
 @if($character->isYou())
     <div class="mx-5 my-3">
         <form role="form" method="POST"
-              action="{{ URL::route('character.profile-picture.store', compact('character')) }}"
+              action="{{ route('character.profile-picture.store', compact('character')) }}"
               enctype="multipart/form-data">
             {!! csrf_field() !!}
             <div class="input-group">
@@ -22,9 +42,12 @@
 
     @if($character->hasProfilePicture())
         <div class="text-center">
-            <?php $profilePicture = $character->getProfilePicture() ?>
+            <?php
+            /** @var \App\Character $character */
+            $profilePicture = $character->getProfilePicture()
+            ?>
             <form role="form" method="POST"
-                  action="{{ URL::route('character.profile-picture.destroy', compact('character', 'profilePicture')) }}">
+                  action="{{ route('character.profile-picture.destroy', compact('character', 'profilePicture')) }}">
                 {{ method_field('DELETE') }}
                 {!! csrf_field() !!}
                 <div class="mx-2">
