@@ -49,6 +49,10 @@ class Item
      * @var InventorySlot
      */
     private $inventorySlot;
+    /**
+     * @var bool
+     */
+    private $equipped;
 
     public function __construct(
         string $id,
@@ -60,7 +64,8 @@ class Item
         string $prototypeId,
         string $creatorCharacterId,
         string $ownerCharacterId,
-        InventorySlot $inventorySlot
+        InventorySlot $inventorySlot,
+        bool $equipped = false
     )
     {
         $this->id = $id;
@@ -73,6 +78,7 @@ class Item
         $this->creatorCharacterId = $creatorCharacterId;
         $this->ownerCharacterId = $ownerCharacterId;
         $this->inventorySlot = $inventorySlot;
+        $this->equipped = $equipped;
     }
 
     public function getId(): string
@@ -128,5 +134,10 @@ class Item
     public function setInventorySlot(InventorySlot $inventorySlot)
     {
         $this->inventorySlot = $inventorySlot;
+    }
+
+    public function isEquipped(): bool
+    {
+        return $this->equipped;
     }
 }

@@ -32,7 +32,8 @@ class ItemReconstitutionFactory
             $model->getPrototypeId(),
             $model->getCreatorCharacterId(),
             $model->getOwnerCharacterId(),
-            InventorySlot::defined($model->getInventorySlotNumber())
+            InventorySlot::defined($model->getInventorySlotNumber()),
+            $model->isEquipped()
         );
 
         return $itemPrototype;

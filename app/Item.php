@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string creator_character_id
  * @property string owner_character_id
  * @property int inventory_slot_number
+ * @property bool equipped
  */
 class Item extends Model
 {
@@ -75,5 +76,10 @@ class Item extends Model
     public function getInventorySlotNumber()
     {
         return $this->inventory_slot_number;
+    }
+
+    public function isEquipped(): bool
+    {
+        return $this->equipped;
     }
 }
