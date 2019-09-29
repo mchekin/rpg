@@ -74,12 +74,13 @@ class CharacterSeeder extends Seeder
                 "name" => $weaponPrototype->getName(),
                 "description" => $weaponPrototype->getDescription(),
                 "effects" => $weaponPrototype->getEffects(),
+                'inventory_slot_number' => 1,
+                'equipped'=> true,
                 "type" => $weaponPrototype->getType(),
                 "image_file_path" => $weaponPrototype->getImageFilePath(),
                 "prototype_id" => $weaponPrototype->getId(),
                 "creator_character_id" => $jam->getId(),
                 "owner_character_id" => $jam->getId(),
-                "inventory_slot_number" => 0,
             ],
         ];
 

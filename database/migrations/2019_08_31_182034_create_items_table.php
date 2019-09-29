@@ -46,6 +46,7 @@ class CreateItemsTable extends Migration
             $table->string('image_file_path');
 
             $table->smallInteger('inventory_slot_number');
+            $table->boolean('equipped')->default(false);
 
             $table->enum('type', ItemType::TYPES)->default(ItemType::MISCELLANEOUS);
 
