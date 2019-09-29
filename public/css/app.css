@@ -235,14 +235,16 @@ img.profile-picture-nav {
 }
 
 .inventory-item {
-    height: 100px;
+    height: 110px;
     border: 1px solid gray;
     width: 20%;
 }
 
-.inventory-item img{
+.inventory-item img, .equipment-item img {
     display: block !important;
-    max-height: 100% !important;
+    max-height: 90% !important;
     max-width: 100% !important;
-    margin: auto !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-top: 5px !important;
 }
