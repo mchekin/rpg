@@ -4,6 +4,7 @@ namespace App\Modules\Equipment\Domain\Services;
 
 use App\Modules\Character\Domain\Contracts\CharacterRepositoryInterface;
 use App\Modules\Equipment\Domain\Commands\CreateItemCommand;
+use App\Modules\Equipment\Domain\Commands\EquipItemCommand;
 use App\Modules\Equipment\Domain\Contracts\ItemPrototypeRepositoryInterface;
 use App\Modules\Equipment\Domain\Contracts\ItemRepositoryInterface;
 use App\Modules\Equipment\Domain\Entities\Item;
@@ -57,5 +58,9 @@ class ItemService
 
             return $item;
         });
+    }
+
+    public function equip(EquipItemCommand $command)
+    {
     }
 }

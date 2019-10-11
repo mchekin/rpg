@@ -3,12 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateItemRequest;
-use App\Modules\Character\Domain\Services\CharacterService;
 use App\Modules\Equipment\Domain\Services\ItemService;
 use App\Modules\Equipment\Presentation\Http\CommandMappers\CreateItemCommandMapper;
 use Illuminate\Http\Response;
 
-class ItemController extends Controller
+class ItemCreateController extends Controller
 {
     /**
      * @var ItemService
@@ -19,7 +18,7 @@ class ItemController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('has.character');
-        $this->middleware('is.admin', ['only' => ['create', 'store']]);
+        $this->middleware('is.admin');
 
         $this->itemService = $itemService;
     }

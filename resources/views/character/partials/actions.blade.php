@@ -1,6 +1,6 @@
 <div class="text-center mt-3">
     @if($character->isYou())
-        <a class="btn btn-sm btn-primary" href="{{ route('character.inventory.index', compact('character')) }}">
+        <a class="btn btn-sm btn-primary" href="{{ route('inventory.index') }}">
             Manage Inventory
             <span class="fas fa-table"></span>
         </a>
