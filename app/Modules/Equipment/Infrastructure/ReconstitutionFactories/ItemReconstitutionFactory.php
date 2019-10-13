@@ -16,11 +16,11 @@ class ItemReconstitutionFactory
     public function reconstitute(ItemModel $model): Item
     {
         $effects = Collection::make($model->getEffects())->map(function (array $effect) {
-                return ItemEffect::ofType(
-                    $effect['quantity'],
-                    $effect['type']
-                );
-            });
+            return ItemEffect::ofType(
+                $effect['quantity'],
+                $effect['type']
+            );
+        });
 
         $itemPrototype = new Item(
             $model->getId(),

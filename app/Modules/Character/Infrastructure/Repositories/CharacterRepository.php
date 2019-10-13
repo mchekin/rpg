@@ -65,9 +65,10 @@ class CharacterRepository implements CharacterRepositoryInterface
 
     public function update(Character $character)
     {
-        $inventory = $character->getInventory();
+        /** @var CharacterModel $characterModel */
+        $characterModel = CharacterModel::query()->findOrFail($character->getId());
 
-        CharacterModel::query()->where('id', $character->getId())->update([
+        $characterModel->update([
             'name' => $character->getName(),
             'gender' => $character->getGender()->getValue(),
 
@@ -93,5 +94,7 @@ class CharacterRepository implements CharacterRepositoryInterface
 
             'profile_picture_id' => $character->getProfilePictureId(),
         ]);
+
+        $character->setModel($characterModel);
     }
 }

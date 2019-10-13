@@ -32,7 +32,7 @@ class CharacterReconstitutionFactory
     {
         $items = $characterModel->items->map(function (ItemModel $itemModel) {
                  return $this->itemReconstitutionFactory->reconstitute($itemModel);
-             })->all();
+             });
 
         $character = new Character(
             $characterModel->getId(),

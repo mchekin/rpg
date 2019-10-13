@@ -41,8 +41,8 @@ class CharacterSeeder extends Seeder
         /** @var Location $location */
         $location = Location::query()->firstOrFail();
 
-        /** @var Character $jam */
-        $jam = Character::query()->create([
+        /** @var Character $someone */
+        $someone = Character::query()->create([
             "id" => $this->generateUuid(),
             "name" => "Someone",
             "gender" => 'male',
@@ -65,28 +65,21 @@ class CharacterSeeder extends Seeder
             "race_id" => 1,
         ]);
 
-        /** @var ItemPrototype $weaponPrototype */
-        $weaponPrototype = ItemPrototype::query()->firstOrFail();
-
-        $weapons = [
-            [
+        ItemPrototype::query()->get()->each(function (ItemPrototype $weaponPrototype, int $slot) use ($someone) {
+            Item::query()->create([
                 "id" => $this->generateUuid(),
                 "name" => $weaponPrototype->getName(),
                 "description" => $weaponPrototype->getDescription(),
                 "effects" => $weaponPrototype->getEffects(),
-                'inventory_slot_number' => 1,
-                'equipped'=> true,
+                'inventory_slot_number' => $slot,
+                'equipped' => $slot ? false : true,
                 "type" => $weaponPrototype->getType(),
                 "image_file_path" => $weaponPrototype->getImageFilePath(),
                 "prototype_id" => $weaponPrototype->getId(),
-                "creator_character_id" => $jam->getId(),
-                "owner_character_id" => $jam->getId(),
-            ],
-        ];
-
-        foreach ($weapons as $weapon) {
-            Item::query()->create($weapon);
-        }
+                "creator_character_id" => $someone->getId(),
+                "owner_character_id" => $someone->getId(),
+            ]);
+        });
 
         factory(Character::class, 50)->create();
     }

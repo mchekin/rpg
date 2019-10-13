@@ -4,6 +4,6 @@ namespace App\Modules\Character\Domain\ValueObjects\Inventory;
 
 use InvalidArgumentException;
 
-class AddToIlligalSlotException extends InvalidArgumentException
+class InventorySlotOutOfRangeException extends InvalidArgumentException
 {
 }

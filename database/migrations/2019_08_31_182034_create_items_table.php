@@ -84,7 +84,7 @@ class CreateItemsTable extends Migration
             [
                 "id" => $this->generateUuid(),
                 "name" => "Wooden Club",
-                "description" => "Simplest weapon. Made from a crude peace of wood.",
+                "description" => "Simplest weapon. A crude wooden club made from a peace of wood.",
                 "effects" => [
                     [
                         'quantity' => 1,
@@ -93,6 +93,19 @@ class CreateItemsTable extends Migration
                 ],
                 "type" => ItemType::MAIN_HAND,
                 "image_file_path" => 'images\equipment\weapons\1club.png',
+            ],
+            [
+                "id" => $this->generateUuid(),
+                "name" => "Reinforced Club",
+                "description" => "A wooden club reinforced with metal.",
+                "effects" => [
+                    [
+                        'quantity' => 3,
+                        'type' => ItemEffect::DAMAGE,
+                    ]
+                ],
+                "type" => ItemType::MAIN_HAND,
+                "image_file_path" => 'images\equipment\weapons\2reinforced_club.png',
             ],
         ];
 

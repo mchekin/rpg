@@ -9,4 +9,6 @@ interface ItemRepositoryInterface
     public function add(Item $item);
 
     public function getOne(string $itemId): Item;
+
+    public function update(Item $item);
 }

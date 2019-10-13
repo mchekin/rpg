@@ -2,44 +2,38 @@
 
 namespace App\Modules\Character\Domain\ValueObjects;
 
-use App\Modules\Character\Domain\ValueObjects\Inventory\AddToFullSlotException;
-use App\Modules\Character\Domain\ValueObjects\Inventory\AddToIlligalSlotException;
+use App\Modules\Character\Domain\ValueObjects\Inventory\InventorySlotIsTakenException;
+use App\Modules\Character\Domain\ValueObjects\Inventory\InventorySlotOutOfRangeException;
 use App\Modules\Character\Domain\ValueObjects\Inventory\InventoryIsFullException;
-use App\Modules\Character\Domain\ValueObjects\Inventory\NotAnItemException;
 use App\Modules\Character\Domain\ValueObjects\Inventory\NotEnoughSpaceException;
 use App\Modules\Equipment\Domain\Entities\Item;
 use App\Modules\Equipment\Domain\ValueObjects\InventorySlot;
+use App\Modules\Equipment\Domain\ValueObjects\ItemType;
+use Illuminate\Support\Collection;
 
 class Inventory
 {
     const NUMBER_OF_SLOTS = 24;
 
     /**
-     * @var array
+     * @var Collection
      */
-    private $data;
+    private $items;
 
-    private function __construct(array $data = [])
+    private function __construct(Collection $items)
     {
-        $this->data = $data;
+        $this->items = $items;
     }
 
     public static function empty(): self
     {
-        return new self();
+        return new self(new Collection());
     }
 
-    public static function withItems(array $items): self
+    public static function withItems(Collection $items): self
     {
-        $numberOfItems = count($items);
-        if ($numberOfItems >= self::NUMBER_OF_SLOTS) {
-            throw new NotEnoughSpaceException("Not enough space in the Inventory for $numberOfItems new items");
-        }
-
-        foreach ($items as $index => $item) {
-            if (!($item instanceof Item)) {
-                throw new NotAnItemException("Object number $index is not and Item");
-            }
+        if ($items->count() >= self::NUMBER_OF_SLOTS) {
+            throw new NotEnoughSpaceException("Not enough space in the Inventory for {$items->count()} new items");
         }
 
         return new self($items);
@@ -47,55 +41,50 @@ class Inventory
 
     public function withAddedItem(int $slot, Item $item): self
     {
-        if (isset($this->data[$slot])) {
-            throw new AddToFullSlotException('Cannot add to full slot');
-        }
-
         if ($slot >= self::NUMBER_OF_SLOTS) {
-            throw new AddToIlligalSlotException('This slot is not in the Inventory');
+            throw new InventorySlotOutOfRangeException("Inventory slot $slot is out of range.");
         }
 
-        $data = $this->data;
+        if ($this->items->has($slot)) {
+            throw new InventorySlotIsTakenException("Inventory slot $slot is already take");
+        }
 
-        $data[$slot] = $item;
+        $item->setInventorySlot(InventorySlot::defined($slot));
 
-        return new self($data);
+        return new self($this->items->put($slot, $item));
     }
 
     public function withAddedItemToFreeSlot(Item $item)
     {
         $slot = $this->findFreeSlot();
 
-        $data = $this->data;
-
-        $data[$slot] = $item;
-
         $item->setInventorySlot(InventorySlot::defined($slot));
 
-        return new self($data);
-    }
-
-    public function withRemovedItem(int $slot): self
-    {
-        if (!isset($this->data[$slot])) {
-            throw new AddToFullSlotException('Cannot remove from empty slot');
-        }
-
-        $data = $this->data;
-
-        unset($data[$slot]);
-
-        return new self($data);
+        return new self($this->items->put($slot, $item));
     }
 
     public function findFreeSlot(): int
     {
         for ($slot = 0; $slot < self::NUMBER_OF_SLOTS; $slot++) {
-            if (!isset($this->data[$slot])) {
+            if (!$this->items->has($slot)) {
                 return $slot;
             }
         }
 
         throw new InventoryIsFullException('Cannot add to full inventory');
+    }
+
+    public function findEquippedItemOfType(ItemType $type)
+    {
+        return $this->items->first(function (Item $item) use ($type){
+            return $item->getType()->equals($type) && $item->isEquipped();
+        });
+    }
+
+    public function hasItem(Item $itemToFind)
+    {
+        return $this->items->contains(function (Item $item) use ($itemToFind) {
+            return $item->getId() === $itemToFind->getId();
+        });
     }
 }

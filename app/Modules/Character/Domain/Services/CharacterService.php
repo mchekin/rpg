@@ -14,7 +14,9 @@ use App\Modules\Character\Domain\Commands\CreateCharacterCommand;
 use App\Modules\Character\Domain\Commands\IncreaseAttributeCommand;
 use App\Modules\Character\Domain\Commands\MoveCharacterCommand;
 use App\Modules\Equipment\Domain\Commands\CreateItemCommand;
+use App\Modules\Equipment\Domain\Commands\EquipItemCommand;
 use App\Modules\Equipment\Domain\Contracts\ItemRepositoryInterface;
+use App\Modules\Equipment\Domain\Entities\Item;
 use App\Modules\Equipment\Domain\Services\ItemService;
 use App\Modules\Image\Domain\Entities\Image;
 use App\Modules\Level\Domain\Services\LevelService;
@@ -80,6 +82,29 @@ class CharacterService
     public function createItem(CreateItemCommand $command)
     {
         return $this->itemService->create($command);
+    }
+
+    public function equipItem(EquipItemCommand $command)
+    {
+        $item = $this->itemRepository->getOne($command->getItemId());
+        $character = $this->characterRepository->getOne($command->getOwnerCharacterId());
+
+        if ($character->getInventory()->hasItem($item))
+        {
+            $equippedItem = $character->getInventory()->findEquippedItemOfType($item->getType());
+
+            if (!is_null($equippedItem))
+            {
+                /** @var Item $equippedItem */
+                $equippedItem->unEquip();
+                $this->itemRepository->update($equippedItem);
+            }
+
+            $item->equip();
+
+            $this->itemRepository->update($item);
+            $this->characterRepository->update($character);
+        }
     }
 
     public function addItemToInventory(AddItemToInventoryCommand $command): Character

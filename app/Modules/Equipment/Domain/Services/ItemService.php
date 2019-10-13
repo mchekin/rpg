@@ -59,8 +59,4 @@ class ItemService
             return $item;
         });
     }
-
-    public function equip(EquipItemCommand $command)
-    {
-    }
 }

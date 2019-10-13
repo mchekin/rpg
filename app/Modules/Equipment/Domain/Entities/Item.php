@@ -140,4 +140,14 @@ class Item
     {
         return $this->equipped;
     }
+
+    public function equip()
+    {
+        $this->equipped = true;
+    }
+
+    public function unEquip()
+    {
+        $this->equipped = false;
+    }
 }

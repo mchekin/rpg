@@ -22,19 +22,22 @@ class ItemRepository implements ItemRepositoryInterface
 
     public function add(Item $item)
     {
-        $effects = $item->getEffects()->each(function (ItemEffect $effect) {
+        $effects = $item->getEffects()->map(function (ItemEffect $effect) {
             return [
                 'quantity' => $effect->getQuantity(),
                 'type' => $effect->getType(),
             ];
-        });
+        })->toJson();
 
         ItemModel::query()->create([
             'id' => $item->getId(),
 
             'prototype_id' => $item->getPrototypeId(),
-            'creator_id' => $item->getCreatorCharacterId(),
-            'owner_id' => $item->getOwnerCharacterId(),
+            'creator_character_id' => $item->getCreatorCharacterId(),
+            'owner_character_id' => $item->getOwnerCharacterId(),
+
+            'inventory_slot_number' => $item->getInventorySlot()->getSlot(),
+            'equipped' => $item->isEquipped(),
 
             'name' => $item->getName(),
             'description' => $item->getDescription(),
@@ -43,7 +46,7 @@ class ItemRepository implements ItemRepositoryInterface
 
             'image_file_path' => $item->getImageFilePath(),
 
-            'type' => $item->getType()->getType(),
+            'type' => $item->getType()->toString(),
         ]);
     }
 
@@ -53,5 +56,33 @@ class ItemRepository implements ItemRepositoryInterface
         $model = ItemModel::query()->findOrFail($itemId);
 
         return $this->reconstitutionFactory->reconstitute($model);
+    }
+
+    public function update(Item $item)
+    {
+        $effects = $item->getEffects()->map(function (ItemEffect $effect) {
+            return [
+                'quantity' => $effect->getQuantity(),
+                'type' => $effect->getType(),
+            ];
+        })->toJson();
+
+        ItemModel::query()->where('id', $item->getId())->update([
+            'prototype_id' => $item->getPrototypeId(),
+            'creator_character_id' => $item->getCreatorCharacterId(),
+            'owner_character_id' => $item->getOwnerCharacterId(),
+
+            'inventory_slot_number' => $item->getInventorySlot()->getSlot(),
+            'equipped' => $item->isEquipped(),
+
+            'name' => $item->getName(),
+            'description' => $item->getDescription(),
+
+            'effects' => $effects,
+
+            'image_file_path' => $item->getImageFilePath(),
+
+            'type' => $item->getType()->toString(),
+        ]);
     }
 }

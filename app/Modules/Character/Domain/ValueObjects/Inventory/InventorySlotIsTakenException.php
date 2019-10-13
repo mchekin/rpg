@@ -4,6 +4,6 @@ namespace App\Modules\Character\Domain\ValueObjects\Inventory;
 
 use InvalidArgumentException;
 
-class AddToFullSlotException extends InvalidArgumentException
+class InventorySlotIsTakenException extends InvalidArgumentException
 {
 }

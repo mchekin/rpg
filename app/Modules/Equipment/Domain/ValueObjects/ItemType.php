@@ -59,9 +59,14 @@ class ItemType
         return new self(self::OFF_HAND);
     }
 
-    public function getType(): string
+    public function toString(): string
     {
         return $this->type;
+    }
+
+    public function equals(ItemType $type)
+    {
+        return $this->type === $type->toString();
     }
 
 }

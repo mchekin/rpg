@@ -318,6 +318,8 @@ class Character extends Model
 
     public function getMainHandItem()
     {
-        return $this->items->where('type', ItemType::MAIN_HAND)->first();
+        return $this->items
+            ->where('type', ItemType::MAIN_HAND)
+            ->where('equipped', true)->first();
     }
 }
