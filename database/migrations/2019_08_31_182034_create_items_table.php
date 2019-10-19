@@ -120,6 +120,32 @@ class CreateItemsTable extends Migration
                 "type" => ItemType::OFF_HAND,
                 "image_file_path" => 'images\equipment\off_hand\buckler.png',
             ],
+            [
+                "id" => $this->generateUuid(),
+                "name" => "Linen Shirt",
+                "description" => "A simple shirt made of linen.",
+                "effects" => [
+                    [
+                        'quantity' => 1,
+                        'type' => ItemEffect::ARMOR,
+                    ]
+                ],
+                "type" => ItemType::BODY_ARMOR,
+                "image_file_path" => 'images\equipment\body_armor\linen_shirt.png',
+            ],
+            [
+                "id" => $this->generateUuid(),
+                "name" => "Closed Steel Helmet",
+                "description" => "Closed helmet made of steel plates",
+                "effects" => [
+                    [
+                        'quantity' => 10,
+                        'type' => ItemEffect::ARMOR,
+                    ]
+                ],
+                "type" => ItemType::HEAD_GEAR,
+                "image_file_path" => 'images\equipment\head_gear\closed_steel_helmet.png',
+            ],
         ];
 
         foreach ($prototypes as $prototype) {
