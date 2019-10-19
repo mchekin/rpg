@@ -11,7 +11,7 @@
         <!-- Left Side -->
         <div class="col-md-6">
 
-            @include('character.partials.equipment', compact('character'))
+            @include('character.partials.equipment-mutable', compact('character'))
 
             @include('character.partials.inventory', compact('character'))
 

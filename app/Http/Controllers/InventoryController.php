@@ -60,6 +60,26 @@ class InventoryController extends Controller
             ]);
         }
 
-        return redirect()->back()->with('status', 'New item equipped');
+        return redirect()->back()->with('status', 'Item equipped');
+    }
+
+    public function unEquipItem(Request $request, EquipItemCommandMapper $commandMapper): RedirectResponse
+    {
+        $equipItemCommand = $commandMapper->map($request);
+
+        try {
+
+            DB::transaction(function () use ($equipItemCommand) {
+                $this->characterService->unEquipItem($equipItemCommand);
+            });
+
+        } catch (Exception $exception) {
+
+            return redirect()->back()->withErrors([
+                'message' => 'Error un-equipping item'
+            ]);
+        }
+
+        return redirect()->back()->with('status', 'Item un-equipped');
     }
 }

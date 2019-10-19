@@ -56,7 +56,8 @@ class CharacterService
         BattleService $battleService,
         LevelService $levelService,
         ItemService $itemService
-    ) {
+    )
+    {
         $this->characterFactory = $characterFactory;
         $this->characterRepository = $characterRepository;
         $this->itemRepository = $itemRepository;
@@ -89,12 +90,10 @@ class CharacterService
         $item = $this->itemRepository->getOne($command->getItemId());
         $character = $this->characterRepository->getOne($command->getOwnerCharacterId());
 
-        if ($character->getInventory()->hasItem($item))
-        {
+        if ($character->getInventory()->hasItem($item) && !$item->isEquipped()) {
             $equippedItem = $character->getInventory()->findEquippedItemOfType($item->getType());
 
-            if (!is_null($equippedItem))
-            {
+            if (!is_null($equippedItem)) {
                 /** @var Item $equippedItem */
                 $equippedItem->unEquip();
                 $this->itemRepository->update($equippedItem);
@@ -104,6 +103,18 @@ class CharacterService
 
             $this->itemRepository->update($item);
             $this->characterRepository->update($character);
+        }
+    }
+
+    public function unEquipItem(EquipItemCommand $command)
+    {
+        $item = $this->itemRepository->getOne($command->getItemId());
+        $character = $this->characterRepository->getOne($command->getOwnerCharacterId());
+
+        if ($character->getInventory()->hasItem($item) && $item->isEquipped()) {
+            /** @var Item $item */
+            $item->unEquip();
+            $this->itemRepository->update($item);
         }
     }
 
