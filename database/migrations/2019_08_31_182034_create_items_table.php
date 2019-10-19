@@ -62,7 +62,7 @@ class CreateItemsTable extends Migration
             $table->timestamps();
         });
 
-        $this->createWeapons();
+        $this->createPrototypes();
     }
 
     /**
@@ -76,11 +76,11 @@ class CreateItemsTable extends Migration
         Schema::dropIfExists('item_prototypes');
     }
 
-    private function createWeapons(): self
+    private function createPrototypes(): self
     {
         DB::table('item_prototypes')->delete();
 
-        $weapons = [
+        $prototypes = [
             [
                 "id" => $this->generateUuid(),
                 "name" => "Wooden Club",
@@ -92,7 +92,7 @@ class CreateItemsTable extends Migration
                     ]
                 ],
                 "type" => ItemType::MAIN_HAND,
-                "image_file_path" => 'images\equipment\weapons\1club.png',
+                "image_file_path" => 'images\equipment\main_hand\1club.png',
             ],
             [
                 "id" => $this->generateUuid(),
@@ -105,12 +105,25 @@ class CreateItemsTable extends Migration
                     ]
                 ],
                 "type" => ItemType::MAIN_HAND,
-                "image_file_path" => 'images\equipment\weapons\2reinforced_club.png',
+                "image_file_path" => 'images\equipment\main_hand\2reinforced_club.png',
+            ],
+            [
+                "id" => $this->generateUuid(),
+                "name" => "Wooden Buckler",
+                "description" => "A small wooden shield.",
+                "effects" => [
+                    [
+                        'quantity' => 2,
+                        'type' => ItemEffect::ARMOR,
+                    ]
+                ],
+                "type" => ItemType::OFF_HAND,
+                "image_file_path" => 'images\equipment\off_hand\buckler.png',
             ],
         ];
 
-        foreach ($weapons as $weapon) {
-            ItemPrototype::query()->create($weapon);
+        foreach ($prototypes as $prototype) {
+            ItemPrototype::query()->create($prototype);
         }
 
         return $this;

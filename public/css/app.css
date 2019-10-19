@@ -240,10 +240,15 @@ img.profile-picture-nav {
     width: 20%;
 }
 
+.inventory-item.equipped {
+    background-color: #f7ffd6;
+}
+
 .inventory-item img, .equipment-item img {
     display: block !important;
     max-height: 90% !important;
     max-width: 100% !important;
+    width: 90% !important;
     margin-left: auto !important;
     margin-right: auto !important;
     margin-top: 5px !important;

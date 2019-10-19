@@ -62,7 +62,7 @@ class ItemServiceTest extends TestCase
             ItemEffect::damage(5)
         ]);
         $creatorCharacterId = '65976e46-d2eb-4373-ba69-b7c9ea81b56f';
-        $imageFilePath = 'images\equipment\weapons\1club.png';
+        $imageFilePath = 'images\equipment\main_hand\1club.png';
 
         $itemPrototype = new ItemPrototype(
             $prototypeId,

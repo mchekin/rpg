@@ -8,7 +8,7 @@
     @foreach(range(0, App\Modules\Character\Domain\ValueObjects\Inventory::NUMBER_OF_SLOTS) as $slotNumber)
         @php
             $item = $items->where('inventory_slot_number', $slotNumber)->first();
-            $isHighlighted = isset($item) && $item->isEquipped() ? "border-success" : "";
+            $isHighlighted = isset($item) && $item->isEquipped() ? "equipped" : "";
         @endphp
 
         <div class="inventory-item {{ $isHighlighted }}">
