@@ -316,10 +316,31 @@ class Character extends Model
         return $this->battles_won;
     }
 
+    public function getHeadGearItem()
+    {
+        return $this->items
+            ->where('type', ItemType::HEAD_GEAR)
+            ->where('equipped', true)->first();
+    }
+
+    public function getBodyArmorItem()
+    {
+        return $this->items
+            ->where('type', ItemType::BODY_ARMOR)
+            ->where('equipped', true)->first();
+    }
+
     public function getMainHandItem()
     {
         return $this->items
             ->where('type', ItemType::MAIN_HAND)
+            ->where('equipped', true)->first();
+    }
+
+    public function getOffHandItem()
+    {
+        return $this->items
+            ->where('type', ItemType::OFF_HAND)
             ->where('equipped', true)->first();
     }
 }
