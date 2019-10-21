@@ -253,3 +253,14 @@ img.profile-picture-nav {
     margin-right: auto !important;
     margin-top: 5px !important;
 }
+
+.btn-link-thin
+{
+    margin:0 !important;
+    padding:0 !important;
+    height:100% !important;
+    width:100% !important;
+    font-weight: 400;
+    color: #007bff;
+    background-color: transparent;
+}

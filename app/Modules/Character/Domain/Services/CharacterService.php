@@ -80,11 +80,6 @@ class CharacterService
         return $this->characterRepository->getOne($characterId);
     }
 
-    public function createItem(CreateItemCommand $command)
-    {
-        return $this->itemService->create($command);
-    }
-
     public function equipItem(EquipItemCommand $command)
     {
         $item = $this->itemRepository->getOne($command->getItemId());
