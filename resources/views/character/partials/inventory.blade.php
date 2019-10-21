@@ -13,12 +13,23 @@
 
         <div class="inventory-item {{ $isHighlighted }}">
             @if($item)
-                <form class="w-100 h-100" role="form" method="POST" action="{{ route('inventory.item.equip', compact('item')) }}">
-                    {!! csrf_field() !!}
-                    <button type="submit" class="btn btn-link-thin">
-                        <img src="{{ asset($item->image_file_path) }}">
-                    </button>
-                </form>
+                @if($item->isEquipped())
+                    <form class="w-100 h-100" role="form" method="POST"
+                          action="{{ route('inventory.item.un-equip', compact('item')) }}">
+                        {!! csrf_field() !!}
+                        <button type="submit" class="btn btn-link-thin">
+                            <img src="{{ asset($item->image_file_path) }}">
+                        </button>
+                    </form>
+                @else
+                    <form class="w-100 h-100" role="form" method="POST"
+                          action="{{ route('inventory.item.equip', compact('item')) }}">
+                        {!! csrf_field() !!}
+                        <button type="submit" class="btn btn-link-thin">
+                            <img src="{{ asset($item->image_file_path) }}">
+                        </button>
+                    </form>
+                @endif
             @endif
         </div>
 
