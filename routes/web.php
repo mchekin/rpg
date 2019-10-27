@@ -18,11 +18,10 @@ use App\Message;
 */
 
 // Route models...
-Route::get('/character/{character}/location/{location}/move', 'CharacterController@getMove')
-    ->name('character.move');
-
-Route::get('/character/{character}/attack', 'CharacterController@getAttack')
-    ->name('character.attack');
+Route::post('/character/{character}/location/{location}/move', 'CharacterController@move')->name('character.move');
+Route::post('/character/{character}/attack', 'CharacterController@attack')->name('character.attack');
+Route::post('/inventory/item/{item}/equip', 'InventoryController@equipItem')->name('inventory.item.equip');
+Route::post('/inventory/item/{item}/un-equip', 'InventoryController@unEquipItem')->name('inventory.item.un-equip');
 
 // Simple routes...
 Route::group(['middleware' => 'guest'], function () {
@@ -41,7 +40,8 @@ Route::group(['middleware' => ['auth', 'has.character']], function () {
 Auth::routes();
 
 // Route resources...
-Route::resource("character", "CharacterController");
+Route::resource("inventory", "InventoryController")->only('index');
+Route::resource("character", "CharacterController")->only('create', 'store', 'show', 'update');
 Route::resource("location", "LocationController")->only(['show']);
 Route::resource("battle", "BattleController")->only(['show']);
 Route::resource("message", "MessageController")->only(['index']);

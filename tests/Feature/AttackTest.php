@@ -35,7 +35,7 @@ class AttackTest extends TestCase
         ]);
 
         // When we hit home folder
-        $response = $this->get("/character/{$basicOpponentCharacter->id}/attack");
+        $response = $this->post("/character/{$basicOpponentCharacter->id}/attack");
 
         $battle = Battle::query()->firstOrFail();
         // We are redirected to the Battle page
@@ -68,7 +68,7 @@ class AttackTest extends TestCase
         ]);
 
         // When we hit home folder
-        $response = $this->get("/character/{$strongOpponentCharacter->id}/attack");
+        $response = $this->post("/character/{$strongOpponentCharacter->id}/attack");
 
         $battle = Battle::query()->firstOrFail();
         // We are redirected to the Battle page

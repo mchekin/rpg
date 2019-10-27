@@ -2,7 +2,9 @@
 
 namespace App;
 
+use App\Modules\Equipment\Domain\ValueObjects\ItemType;
 use App\Traits\UsesStringId;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -30,6 +32,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string name
  * @property int level_id
  * @property string profile_picture_id
+ * @property Collection items
  */
 class Character extends Model
 {
@@ -83,6 +86,14 @@ class Character extends Model
     public function images()
     {
         return $this->hasMany(Image::class);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function items()
+    {
+        return $this->hasMany(Item::class, 'owner_character_id');
     }
 
     /**
@@ -303,5 +314,33 @@ class Character extends Model
     public function getBattlesWon(): int
     {
         return $this->battles_won;
+    }
+
+    public function getHeadGearItem()
+    {
+        return $this->items
+            ->where('type', ItemType::HEAD_GEAR)
+            ->where('equipped', true)->first();
+    }
+
+    public function getBodyArmorItem()
+    {
+        return $this->items
+            ->where('type', ItemType::BODY_ARMOR)
+            ->where('equipped', true)->first();
+    }
+
+    public function getMainHandItem()
+    {
+        return $this->items
+            ->where('type', ItemType::MAIN_HAND)
+            ->where('equipped', true)->first();
+    }
+
+    public function getOffHandItem()
+    {
+        return $this->items
+            ->where('type', ItemType::OFF_HAND)
+            ->where('equipped', true)->first();
     }
 }

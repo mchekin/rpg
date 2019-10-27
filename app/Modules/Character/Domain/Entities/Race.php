@@ -4,6 +4,8 @@
 namespace App\Modules\Character\Domain\Entities;
 
 
+use App\Modules\Character\Domain\ValueObjects\Attributes;
+
 class Race
 {
     /**

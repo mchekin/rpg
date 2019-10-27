@@ -58,14 +58,17 @@ class CharacterRepository implements CharacterRepositoryInterface
     public function getOne(string $characterId): Character
     {
         /** @var CharacterModel $characterModel */
-        $characterModel = CharacterModel::query()->findOrFail($characterId);
+        $characterModel = CharacterModel::query()->with('items')->findOrFail($characterId);
 
         return $this->characterReconstitutionFactory->reconstitute($characterModel);
     }
 
     public function update(Character $character)
     {
-        CharacterModel::query()->where('id', $character->getId())->update([
+        /** @var CharacterModel $characterModel */
+        $characterModel = CharacterModel::query()->findOrFail($character->getId());
+
+        $characterModel->update([
             'name' => $character->getName(),
             'gender' => $character->getGender()->getValue(),
 
@@ -91,5 +94,7 @@ class CharacterRepository implements CharacterRepositoryInterface
 
             'profile_picture_id' => $character->getProfilePictureId(),
         ]);
+
+        $character->setModel($characterModel);
     }
 }

@@ -3,10 +3,14 @@
 
 namespace App\Modules\Character\Domain\Entities;
 
+use App\Modules\Character\Domain\ValueObjects\Attributes;
+use App\Modules\Character\Domain\ValueObjects\Gender;
 use App\Modules\Character\Domain\ValueObjects\HitPoints;
+use App\Modules\Character\Domain\ValueObjects\Inventory;
 use App\Modules\Character\Domain\ValueObjects\Reputation;
 use App\Modules\Character\Domain\ValueObjects\Money;
 use App\Modules\Character\Domain\ValueObjects\Statistics;
+use App\Modules\Equipment\Domain\Entities\Item;
 use App\Traits\ContainsModel;
 
 class Character
@@ -59,13 +63,17 @@ class Character
      */
     private $id;
     /**
-     * @var int|null
-     */
-    private $userId;
-    /**
      * @var Statistics
      */
     private $statistics;
+    /**
+     * @var Inventory
+     */
+    private $inventory;
+    /**
+     * @var int|null
+     */
+    private $userId;
     /**
      * @var string
      */
@@ -84,6 +92,7 @@ class Character
         Attributes $attributes,
         HitPoints $hitPoints,
         Statistics $statistics,
+        Inventory $inventory,
         int $userId = null,
         string $profilePictureId = null
     )
@@ -99,8 +108,9 @@ class Character
         $this->reputation = $reputation;
         $this->attributes = $attributes;
         $this->hitPoints = $hitPoints;
-        $this->userId = $userId;
         $this->statistics = $statistics;
+        $this->inventory = $inventory;
+        $this->userId = $userId;
         $this->profilePictureId = $profilePictureId;
     }
 
@@ -211,11 +221,19 @@ class Character
         }
     }
 
-    public function setLocationId(string $locationId): Character
+    public function addItemToInventorySlot(int $slot, Item $item)
+    {
+        $this->inventory = $this->inventory->withAddedItem($slot, $item);
+    }
+
+    public function addItemToInventory(Item $item)
+    {
+        $this->inventory = $this->inventory->withAddedItemToFreeSlot($item);
+    }
+
+    public function setLocationId(string $locationId)
     {
         $this->locationId = $locationId;
-
-        return $this;
     }
 
     public function isAlive(): bool
@@ -278,5 +296,10 @@ class Character
     public function removeProfilePicture()
     {
         $this->profilePictureId = null;
+    }
+
+    public function getInventory(): Inventory
+    {
+        return $this->inventory;
     }
 }

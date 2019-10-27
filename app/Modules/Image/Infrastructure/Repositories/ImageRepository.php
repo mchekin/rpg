@@ -51,10 +51,20 @@ class ImageRepository implements ImageRepositoryInterface
         ImageModel::query()->where('character_id', '=', $characterId)->delete();
     }
 
-    /**
-     * @param Image $image
-     * @param UploadedFile $uploadedFile
-     */
+    public function getOne($id): Image
+    {
+        /** @var ImageModel $imageModel */
+        $imageModel = ImageModel::query()->findOrFail($id);
+
+        return new Image(
+            $imageModel->getId(),
+            $imageModel->getCharacterId(),
+            ImageFile::full($imageModel->getFilePathFull()),
+            ImageFile::small($imageModel->getFilePathSmall()),
+            ImageFile::icon($imageModel->getFilePathIcon())
+        );
+    }
+
     private function writeFiles(Image $image, UploadedFile $uploadedFile)
     {
         $folderPath = $this->getFolderPath($image->getCharacterId());
