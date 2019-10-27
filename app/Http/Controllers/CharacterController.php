@@ -34,8 +34,8 @@ class CharacterController extends Controller
         $this->middleware('has.character', ['except' => ['create', 'store', 'update']]);
         $this->middleware('owns.character', ['only' => ['update']]);
         $this->middleware('no.character', ['only' => ['create', 'store']]);
-        $this->middleware('can.move.to.location', ['only' => ['getMove']]);
-        $this->middleware('can.attack', ['only' => ['getAttack']]);
+        $this->middleware('can.move.to.location', ['only' => ['move']]);
+        $this->middleware('can.attack', ['only' => ['attack']]);
 
         $this->characterService = $characterService;
     }
@@ -81,7 +81,7 @@ class CharacterController extends Controller
         return back()->with('status', ucfirst($increaseAttributeCommand->getAttribute()) . ' + 1');
     }
 
-    public function getMove(
+    public function move(
         MoveCharacterCommandMapper $commandMapper,
         string $characterId,
         string $locationId
@@ -93,7 +93,7 @@ class CharacterController extends Controller
         return redirect()->route('location.show', $locationId);
     }
 
-    public function getAttack(
+    public function attack(
         string $defenderId,
         Request $request,
         AttackCharacterCommandMapper $commandMapper
