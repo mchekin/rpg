@@ -263,3 +263,10 @@ img.profile-picture-nav {
     color: #007bff;
     background-color: transparent;
 }
+
+.btn-xxs {
+    padding: .25rem .4rem;
+    font-size: .700rem;
+    line-height: .3;
+    border-radius: .2rem;
+}
