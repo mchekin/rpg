@@ -18,7 +18,7 @@ use App\Message;
 */
 
 // Route models...
-Route::get('/character/{character}/location/{location}/move', 'CharacterController@getMove')->name('character.move');
+Route::post('/character/{character}/location/{location}/move', 'CharacterController@getMove')->name('character.move');
 Route::get('/character/{character}/attack', 'CharacterController@getAttack')->name('character.attack');
 Route::post('/inventory/item/{item}/equip', 'InventoryController@equipItem')->name('inventory.item.equip');
 Route::post('/inventory/item/{item}/un-equip', 'InventoryController@unEquipItem')->name('inventory.item.un-equip');
