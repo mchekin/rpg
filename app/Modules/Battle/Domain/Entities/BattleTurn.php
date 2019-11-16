@@ -47,18 +47,19 @@ class BattleTurn
             $this->result = BattleTurnResult::miss();
         }
 
-        $damageDone = self::throwOneDice() + $this->owner->getStrength();
-
-        $this->result = BattleTurnResult::hit($damageDone);
+        $damage = $this->calculateDamage();
 
         if ($this->isCriticalHit())
         {
-            $damageDone *= 3;
+            $damage *= 3;
 
-            $this->result = BattleTurnResult::criticalHit($damageDone);
+            $this->result = BattleTurnResult::criticalHit($damage);
+        }
+        else {
+            $this->result = BattleTurnResult::hit($damage);
         }
 
-        $this->target->applyDamage($damageDone);
+        $this->target->applyDamage($damage);
     }
 
     public function isOwnerAlive(): bool
@@ -73,18 +74,18 @@ class BattleTurn
 
     private function isTargetHit(): bool
     {
-        $attackFactor = self::throwTwoDices() + $this->owner->getAgility();
-        $defenceFactor = self::throwTwoDices() + $this->target->getAgility();
+        $precision = $this->owner->generatePrecisionFactor();
+        $evasion = $this->target->generateEvasionFactor();
 
-        return $attackFactor > $defenceFactor;
+        return $precision > $evasion;
     }
 
     private function isCriticalHit(): bool
     {
-        $attackFactor = self::throwOneDice() + $this->owner->getIntelligence();
-        $defenceFactor = self::throwTwoDices() + $this->target->getIntelligence();
+        $trickery = $this->owner->generateTrickeryFactor() ;
+        $awareness = $this->target->generateAwarenessFactor();
 
-        return $attackFactor > $defenceFactor;
+        return $trickery > $awareness;
     }
 
     public function getId(): string
@@ -110,5 +111,14 @@ class BattleTurn
     public function getResultType(): string
     {
         return $this->result->getType();
+    }
+
+    private function calculateDamage(): int
+    {
+        $forceFactor = $this->owner->generateForceFactor();
+        $armorRating = $this->target->getArmorRating();
+
+        $damageDone = $forceFactor - $armorRating;
+        return $damageDone;
     }
 }

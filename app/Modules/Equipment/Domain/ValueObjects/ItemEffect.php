@@ -10,11 +10,19 @@ class ItemEffect
     const NONE = 'none';
     const DAMAGE = 'damage';
     const ARMOR = 'armor';
+    const PRECISION = 'precision';
+    const EVASION = 'evasion';
+    const TRICKERY = 'evasion';
+    const AWARENESS = 'awareness';
 
     const TYPES = [
         self::NONE,
         self::DAMAGE,
         self::ARMOR,
+        self::PRECISION,
+        self::EVASION,
+        self::TRICKERY,
+        self::AWARENESS,
     ];
 
     /**
