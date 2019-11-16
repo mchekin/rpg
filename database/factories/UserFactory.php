@@ -13,6 +13,8 @@
 
 use App\Character;
 use App\Location;
+use App\Modules\Character\Domain\ValueObjects\HitPoints;
+use App\Modules\Character\Infrastructure\Repositories\RaceRepository;
 use App\Race;
 use App\User;
 use Illuminate\Database\Eloquent\Factory;
@@ -24,54 +26,54 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     static $password;
 
     return [
-        'name'           => $faker->name,
-        'email'          => $faker->unique()->safeEmail,
-        'password'       => $password ?: $password = bcrypt('secret'),
+        'name' => $faker->name,
+        'email' => $faker->unique()->safeEmail,
+        'password' => $password ?: $password = bcrypt('secret'),
         'remember_token' => str_random(10),
     ];
 });
 
 $factory->define(Character::class, function (Faker\Generator $faker) use ($factory) {
 
-    $levelId = rand(1, 5);
+    /** @var Race $raceModel */
+    $raceModel = Race::query()->inRandomOrder()->first();
     $location = Location::query()->inRandomOrder()->first();
-    $race = Race::query()->inRandomOrder()->first();
 
-    $constitution = rand(1, 9);
-    $total_hit_points = $constitution * $levelId;
-    $hit_points = rand(1, $total_hit_points);
+    $race = (new RaceRepository())->getOne($raceModel->getId());
+    $hitPoints = HitPoints::byRace($race);
 
     $genders = ['male', 'female'];
 
     return [
-        'id'               => Uuid::uuid4(),
+        'id' => Uuid::uuid4(),
 
-        'name'   => $faker->name,
+        'race_id' => $race->getId(),
+
+        'level_id' => 1,
+
+        'location_id' => $location,
+
+        'name' => $faker->name,
         'gender' => $genders[array_rand($genders)],
 
-        'xp'               => 0,
-        'reputation'       => rand(-1000, 1000),
-        'hit_points'       => $hit_points,
-        'total_hit_points' => $total_hit_points,
-        'money'            => rand(0, 5000),
+        'xp' => 0,
+        'money' => rand(0, 5000),
+        'reputation' => 0,
 
         // attributes
-        'strength'         => rand(1, 9),
-        'agility'          => rand(1, 9),
-        'constitution'     => $constitution,
-        'intelligence'     => rand(1, 9),
-        'charisma'         => rand(1, 9),
+        'strength' => $race->getStrength(),
+        'agility' => $race->getAgility(),
+        'constitution' => $race->getConstitution(),
+        'intelligence' => $race->getIntelligence(),
+        'charisma' => $race->getCharisma(),
 
-        'level_id'         => $levelId,
+        'hit_points' => $hitPoints->getCurrentHitPoints(),
+        'total_hit_points' => $hitPoints->getMaximumHitPoints(),
 
         'user_id' => function () {
             return rand(0, 3)
                 ? factory(User::class)->create()->id
                 : null;
         },
-
-        'location_id' => $location,
-
-        'race_id' => $race,
     ];
 });
