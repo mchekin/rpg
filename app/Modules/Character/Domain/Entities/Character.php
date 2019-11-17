@@ -173,7 +173,7 @@ class Character
 
     public function generateAwareness(): int
     {
-        return self::throwTwoDices() + $this->getBaseAwareness();
+        return self::throwTreeDices() + $this->getBaseAwareness();
     }
 
     public function getBaseAwareness(): int

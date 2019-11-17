@@ -73,6 +73,13 @@
                                         <li class="list-group-item {{ $index % 2 ? 'text-danger' : 'text-success'}}">
                                             {{ $turn->executor->name }} did <b>{{ $turn->damageDone }}</b> critical damage
                                             to {{ $turn->target->name }}.
+                                            @if($turn->damageAbsorbed)
+                                                <br>
+                                                <span class="text-warning">
+                                                    <b>{{ $turn->damageAbsorbed }}</b> was damage absorbed by
+                                                    {{ $turn->target->name }}'s armor.
+                                                </span>
+                                            @endif
                                         </li>
                                         @break
 

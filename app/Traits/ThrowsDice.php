@@ -10,6 +10,11 @@ trait ThrowsDice
         return self::throwOneDice() + self::throwOneDice();
     }
 
+    protected static function throwTreeDices(): int
+    {
+        return self::throwTwoDices() + self::throwOneDice();
+    }
+
     protected static function throwOneDice(): int
     {
         return rand(1, 6);
