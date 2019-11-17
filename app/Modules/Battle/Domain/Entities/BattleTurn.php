@@ -32,7 +32,7 @@ class BattleTurn
      */
     private $result;
 
-    public function __construct(string  $id, Character $owner, Character $target, BattleTurnResult $result)
+    public function __construct(string $id, Character $owner, Character $target, BattleTurnResult $result)
     {
         $this->id = $id;
         $this->owner = $owner;
@@ -42,22 +42,23 @@ class BattleTurn
 
     public function execute()
     {
-        if (!$this->isTargetHit())
-        {
+        if (!$this->isTargetHit()) {
             $this->result = BattleTurnResult::miss();
         }
 
-        $damage = $this->calculateDamage();
+        $forceFactor = $this->owner->generateDamage();
+        $armorRating = $this->target->getArmorRating();
 
-        if ($this->isCriticalHit())
-        {
-            $damage *= 3;
+        $isCriticalHit = $this->isCriticalHit();
 
-            $this->result = BattleTurnResult::criticalHit($damage);
-        }
-        else {
-            $this->result = BattleTurnResult::hit($damage);
-        }
+        $forceFactor = $isCriticalHit ? $forceFactor * 3 : $forceFactor;
+
+        $damage = max($forceFactor - $armorRating, 0);
+        $damageAbsorbed = $forceFactor - $damage;
+
+        $this->result = $isCriticalHit
+            ? BattleTurnResult::criticalHit($damage, $damageAbsorbed)
+            : BattleTurnResult::hit($damage, $damageAbsorbed);
 
         $this->target->applyDamage($damage);
     }
@@ -74,7 +75,7 @@ class BattleTurn
 
     private function isTargetHit(): bool
     {
-        $precision = $this->owner->generatePrecisionFactor();
+        $precision = $this->owner->generatePrecision();
         $evasion = $this->target->generateEvasionFactor();
 
         return $precision > $evasion;
@@ -82,8 +83,8 @@ class BattleTurn
 
     private function isCriticalHit(): bool
     {
-        $trickery = $this->owner->generateTrickeryFactor() ;
-        $awareness = $this->target->generateAwarenessFactor();
+        $trickery = $this->owner->generateTrickery();
+        $awareness = $this->target->generateAwareness();
 
         return $trickery > $awareness;
     }
@@ -108,17 +109,13 @@ class BattleTurn
         return $this->result->getDamageDone();
     }
 
+    public function getDamageAbsorbed(): int
+    {
+        return $this->result->getDamageAbsorbed();
+    }
+
     public function getResultType(): string
     {
         return $this->result->getType();
-    }
-
-    private function calculateDamage(): int
-    {
-        $forceFactor = $this->owner->generateForceFactor();
-        $armorRating = $this->target->getArmorRating();
-
-        $damageDone = $forceFactor - $armorRating;
-        return $damageDone;
     }
 }

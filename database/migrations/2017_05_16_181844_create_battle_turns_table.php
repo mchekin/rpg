@@ -17,7 +17,9 @@ class CreateBattleTurnsTable extends Migration
         Schema::create('battle_turns', function (Blueprint $table) {
             $table->uuid('id')->primary();
 
-            $table->integer('damage')->default(0);
+            $table->integer('damageDone')->default(0);
+
+            $table->integer('damageAbsorbed')->default(0);
 
             $table->enum('result_type', BattleTurnResult::TYPES);
 

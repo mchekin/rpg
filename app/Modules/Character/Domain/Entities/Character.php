@@ -127,7 +127,7 @@ class Character
         return $this->id;
     }
 
-    public function generateForceFactor(): int
+    public function generateDamage(): int
     {
         return self::throwOneDice() + $this->getBaseDamage();
     }
@@ -138,7 +138,7 @@ class Character
             + $this->inventory->getEquippedItemsEffect(ItemEffect::DAMAGE);
     }
 
-    public function generatePrecisionFactor(): int
+    public function generatePrecision(): int
     {
         return self::throwTwoDices() + $this->getBasePrecision();
     }
@@ -160,9 +160,9 @@ class Character
             + $this->inventory->getEquippedItemsEffect(ItemEffect::EVASION);
     }
 
-    public function generateTrickeryFactor(): int
+    public function generateTrickery(): int
     {
-        return self::throwTwoDices() + $this->getBaseTrickery();
+        return self::throwOneDice() + $this->getBaseTrickery();
     }
 
     public function getBaseTrickery(): int
@@ -171,14 +171,14 @@ class Character
             + $this->inventory->getEquippedItemsEffect(ItemEffect::TRICKERY);
     }
 
-    public function generateAwarenessFactor(): int
+    public function generateAwareness(): int
     {
         return self::throwTwoDices() + $this->getBaseAwareness();
     }
 
     public function getBaseAwareness(): int
     {
-        return $this->getIntelligence()
+        return $this->getIntelligence() * 2
             + $this->inventory->getEquippedItemsEffect(ItemEffect::AWARENESS);
     }
 

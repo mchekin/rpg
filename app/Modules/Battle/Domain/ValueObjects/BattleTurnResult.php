@@ -19,38 +19,50 @@ class BattleTurnResult
     ];
 
     /**
-     * @var int
-     */
-    private $damageDone;
-    /**
      * @var string
      */
     private $type;
 
-    public function __construct(int $damageDone, string $type)
+    /**
+     * @var int
+     */
+    private $damageDone;
+
+    /**
+     * @var int
+     */
+    private $damageAbsorbed;
+
+    public function __construct(string $type, int $damageDone, int $damageAbsorbed)
     {
-        $this->damageDone = $damageDone;
         $this->type = $type;
+        $this->damageDone = $damageDone;
+        $this->damageAbsorbed = $damageAbsorbed;
     }
 
     public static function none()
     {
-        return new self(0, self::NONE);
+        return new self(self::NONE, 0, 0);
     }
 
     public static function miss()
     {
-        return new self(0, self::MISS);
+        return new self(self::MISS, 0, 0);
     }
 
-    public static function hit(int $damageDone)
+    public static function hit(int $damageDone, int $damageAbsorbed)
     {
-        return new self($damageDone, self::HIT);
+        return new self(self::HIT, $damageDone, $damageAbsorbed);
     }
 
-    public static function criticalHit(int $damageDone)
+    public static function criticalHit(int $damageDone, int $damageAbsorbed)
     {
-        return new self($damageDone, self::CRITICAL_HIT);
+        return new self(self::CRITICAL_HIT, $damageDone, $damageAbsorbed);
+    }
+
+    public function getType(): string
+    {
+        return $this->type;
     }
 
     public function getDamageDone(): int
@@ -58,8 +70,8 @@ class BattleTurnResult
         return $this->damageDone;
     }
 
-    public function getType(): string
+    public function getDamageAbsorbed(): int
     {
-        return $this->type;
+        return $this->damageAbsorbed;
     }
 }
