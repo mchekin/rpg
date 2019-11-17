@@ -4,6 +4,7 @@ namespace App\Modules\Equipment\Domain\Entities;
 
 
 use App\Modules\Equipment\Domain\ValueObjects\InventorySlot;
+use App\Modules\Equipment\Domain\ValueObjects\ItemEffect;
 use App\Modules\Equipment\Domain\ValueObjects\ItemType;
 use Illuminate\Support\Collection;
 
@@ -149,5 +150,20 @@ class Item
     public function unEquip()
     {
         $this->equipped = false;
+    }
+
+    public function getItemEffect(string $itemEffectType): int
+    {
+        return (int)$this->getEffectsOfType($itemEffectType)
+            ->reduce(function ($carry, ItemEffect $itemEffect) use ($itemEffectType) {
+                return $carry + $itemEffect->getQuantity();
+            });
+    }
+
+    private function getEffectsOfType(string $itemEffectType): Collection
+    {
+        return $this->effects->filter(function (ItemEffect $effect) use ($itemEffectType) {
+            return $effect->getType() === $itemEffectType;
+        });
     }
 }

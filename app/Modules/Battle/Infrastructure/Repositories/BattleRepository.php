@@ -37,7 +37,8 @@ class BattleRepository implements BattleRepositoryInterface
             foreach ($round->getTurns()->all() as $turn) {
                 $roundModel->turns()->create([
                     'id' => $turn->getId(),
-                    'damage' => $turn->getDamageDone(),
+                    'damageDone' => $turn->getDamageDone(),
+                    'damageAbsorbed' => $turn->getDamageAbsorbed(),
                     'result_type' => $turn->getResultType(),
                     'executor_id' => $turn->getOwner()->getId(),
                     'target_id' => $turn->getTarget()->getId(),

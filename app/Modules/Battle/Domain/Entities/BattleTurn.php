@@ -32,7 +32,7 @@ class BattleTurn
      */
     private $result;
 
-    public function __construct(string  $id, Character $owner, Character $target, BattleTurnResult $result)
+    public function __construct(string $id, Character $owner, Character $target, BattleTurnResult $result)
     {
         $this->id = $id;
         $this->owner = $owner;
@@ -42,23 +42,25 @@ class BattleTurn
 
     public function execute()
     {
-        if (!$this->isTargetHit())
-        {
+        if (!$this->isTargetHit()) {
             $this->result = BattleTurnResult::miss();
         }
 
-        $damageDone = self::throwOneDice() + $this->owner->getStrength();
+        $forceFactor = $this->owner->generateDamage();
+        $armorRating = $this->target->getArmorRating();
 
-        $this->result = BattleTurnResult::hit($damageDone);
+        $isCriticalHit = $this->isCriticalHit();
 
-        if ($this->isCriticalHit())
-        {
-            $damageDone *= 3;
+        $forceFactor = $isCriticalHit ? $forceFactor * 3 : $forceFactor;
 
-            $this->result = BattleTurnResult::criticalHit($damageDone);
-        }
+        $damage = max($forceFactor - $armorRating, 0);
+        $damageAbsorbed = $forceFactor - $damage;
 
-        $this->target->applyDamage($damageDone);
+        $this->result = $isCriticalHit
+            ? BattleTurnResult::criticalHit($damage, $damageAbsorbed)
+            : BattleTurnResult::hit($damage, $damageAbsorbed);
+
+        $this->target->applyDamage($damage);
     }
 
     public function isOwnerAlive(): bool
@@ -73,18 +75,18 @@ class BattleTurn
 
     private function isTargetHit(): bool
     {
-        $attackFactor = self::throwTwoDices() + $this->owner->getAgility();
-        $defenceFactor = self::throwTwoDices() + $this->target->getAgility();
+        $precision = $this->owner->generatePrecision();
+        $evasion = $this->target->generateEvasionFactor();
 
-        return $attackFactor > $defenceFactor;
+        return $precision > $evasion;
     }
 
     private function isCriticalHit(): bool
     {
-        $attackFactor = self::throwOneDice() + $this->owner->getIntelligence();
-        $defenceFactor = self::throwTwoDices() + $this->target->getIntelligence();
+        $trickery = $this->owner->generateTrickery();
+        $awareness = $this->target->generateAwareness();
 
-        return $attackFactor > $defenceFactor;
+        return $trickery > $awareness;
     }
 
     public function getId(): string
@@ -105,6 +107,11 @@ class BattleTurn
     public function getDamageDone(): int
     {
         return $this->result->getDamageDone();
+    }
+
+    public function getDamageAbsorbed(): int
+    {
+        return $this->result->getDamageAbsorbed();
     }
 
     public function getResultType(): string

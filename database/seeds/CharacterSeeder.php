@@ -82,5 +82,6 @@ class CharacterSeeder extends Seeder
         });
 
         factory(Character::class, 50)->create();
+        factory(Item::class, 50)->create();
     }
 }

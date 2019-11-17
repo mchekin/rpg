@@ -51,21 +51,35 @@
                                 @switch($turn->result_type)
                                     @case('miss')
                                         <li class="list-group-item">
-                                            {{ $turn->executor->name }} was unable to hit {{ $turn->target->name }}
+                                            {{ $turn->executor->name }} was unable to hit {{ $turn->target->name }}.
                                         </li>
                                         @break
 
                                     @case('hit')
                                         <li class="list-group-item {{ $index % 2 ? 'text-danger' : 'text-success'}}">
-                                            {{ $turn->executor->name }} did <b>{{ $turn->damage }}</b> damage
-                                            to {{ $turn->target->name }}
+                                            {{ $turn->executor->name }} did <b>{{ $turn->damageDone }}</b> damage
+                                            to {{ $turn->target->name }}.
+                                            @if($turn->damageAbsorbed)
+                                                <br>
+                                                <span class="text-warning">
+                                                    <b>{{ $turn->damageAbsorbed }}</b> was damage absorbed by
+                                                    {{ $turn->target->name }}'s armor.
+                                                </span>
+                                            @endif
                                         </li>
                                         @break
 
                                     @case('critical_hit')
                                         <li class="list-group-item {{ $index % 2 ? 'text-danger' : 'text-success'}}">
-                                            {{ $turn->executor->name }} did <b>{{ $turn->damage }}</b> critical damage
-                                            to {{ $turn->target->name }} (Superior Intelligence)
+                                            {{ $turn->executor->name }} did <b>{{ $turn->damageDone }}</b> critical damage
+                                            to {{ $turn->target->name }}.
+                                            @if($turn->damageAbsorbed)
+                                                <br>
+                                                <span class="text-warning">
+                                                    <b>{{ $turn->damageAbsorbed }}</b> was damage absorbed by
+                                                    {{ $turn->target->name }}'s armor.
+                                                </span>
+                                            @endif
                                         </li>
                                         @break
 

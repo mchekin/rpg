@@ -76,7 +76,7 @@ class Inventory
 
     public function findEquippedItemOfType(ItemType $type)
     {
-        return $this->items->first(function (Item $item) use ($type){
+        return $this->items->first(function (Item $item) use ($type) {
             return $item->getType()->equals($type) && $item->isEquipped();
         });
     }
@@ -85,6 +85,23 @@ class Inventory
     {
         return $this->items->contains(function (Item $item) use ($itemToFind) {
             return $item->getId() === $itemToFind->getId();
+        });
+    }
+
+    public function getEquippedItemsEffect(string $itemEffectType): int
+    {
+        return (int)$this->getEquippedItems()->reduce(function ($carry, Item $item) use ($itemEffectType) {
+
+            $itemEffect = $item->getItemEffect($itemEffectType);
+
+            return $carry + $itemEffect;
+        });
+    }
+
+    private function getEquippedItems(): Collection
+    {
+        return $this->items->filter(function (Item $item) {
+            return $item->isEquipped();
         });
     }
 }

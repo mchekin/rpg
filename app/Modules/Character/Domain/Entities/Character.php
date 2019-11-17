@@ -11,12 +11,15 @@ use App\Modules\Character\Domain\ValueObjects\Reputation;
 use App\Modules\Character\Domain\ValueObjects\Money;
 use App\Modules\Character\Domain\ValueObjects\Statistics;
 use App\Modules\Equipment\Domain\Entities\Item;
+use App\Modules\Equipment\Domain\ValueObjects\ItemEffect;
 use App\Traits\ContainsModel;
+use App\Traits\ThrowsDice;
 
 class Character
 {
     // Todo: temporary hack of having reference to the Eloquent model
     use ContainsModel;
+    use ThrowsDice;
 
     /**
      * @var string
@@ -122,6 +125,66 @@ class Character
     public function getId()
     {
         return $this->id;
+    }
+
+    public function generateDamage(): int
+    {
+        return self::throwOneDice() + $this->getBaseDamage();
+    }
+
+    public function getBaseDamage(): int
+    {
+        return $this->getStrength()
+            + $this->inventory->getEquippedItemsEffect(ItemEffect::DAMAGE);
+    }
+
+    public function generatePrecision(): int
+    {
+        return self::throwTwoDices() + $this->getBasePrecision();
+    }
+
+    public function getBasePrecision(): int
+    {
+        return $this->getAgility()
+            + $this->inventory->getEquippedItemsEffect(ItemEffect::PRECISION);
+    }
+
+    public function generateEvasionFactor(): int
+    {
+        return self::throwTwoDices() + $this->getBaseEvasion();
+    }
+
+    public function getBaseEvasion(): int
+    {
+        return $this->getAgility()
+            + $this->inventory->getEquippedItemsEffect(ItemEffect::EVASION);
+    }
+
+    public function generateTrickery(): int
+    {
+        return self::throwOneDice() + $this->getBaseTrickery();
+    }
+
+    public function getBaseTrickery(): int
+    {
+        return $this->getIntelligence()
+            + $this->inventory->getEquippedItemsEffect(ItemEffect::TRICKERY);
+    }
+
+    public function generateAwareness(): int
+    {
+        return self::throwTreeDices() + $this->getBaseAwareness();
+    }
+
+    public function getBaseAwareness(): int
+    {
+        return $this->getIntelligence() * 2
+            + $this->inventory->getEquippedItemsEffect(ItemEffect::AWARENESS);
+    }
+
+    public function getArmorRating()
+    {
+        return $this->inventory->getEquippedItemsEffect(ItemEffect::ARMOR);
     }
 
     public function getStrength(): int
