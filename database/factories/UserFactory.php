@@ -12,6 +12,7 @@
 */
 
 use App\Character;
+use App\ItemPrototype;
 use App\Location;
 use App\Modules\Character\Domain\ValueObjects\HitPoints;
 use App\Modules\Character\Infrastructure\Repositories\RaceRepository;
@@ -75,5 +76,31 @@ $factory->define(Character::class, function (Faker\Generator $faker) use ($facto
                 ? factory(User::class)->create()->id
                 : null;
         },
+    ];
+});
+
+$factory->define(App\Item::class, function () {
+    static $charactersIds = [];
+
+    /** @var ItemPrototype $itemPrototype */
+    $itemPrototype = ItemPrototype::query()->inRandomOrder()->first();
+
+    /** @var Character $character */
+    $character = Character::query()->whereNotIn('id', $charactersIds)->first();
+
+    $charactersIds[] = $character->getId();
+
+    return [
+        'id' => Uuid::uuid4(),
+        "name" => $itemPrototype->getName(),
+        "description" => $itemPrototype->getDescription(),
+        "effects" => $itemPrototype->getEffects(),
+        'inventory_slot_number' => 0,
+        'equipped' => true,
+        "type" => $itemPrototype->getType(),
+        "image_file_path" => $itemPrototype->getImageFilePath(),
+        "prototype_id" => $itemPrototype->getId(),
+        "creator_character_id" => $character->getId(),
+        "owner_character_id" => $character->getId(),
     ];
 });
