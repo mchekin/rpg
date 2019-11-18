@@ -15,7 +15,7 @@
 <a name="requirements"></a>
 ### Requirements (for local development)
 
-- PHP 7.0.0 or Higher
+- PHP 7.2.0 or Higher
 - [Git](https://git-scm.com/)
 - [Composer](https://getcomposer.org/)
 - [SQLite](https://www.sqlite.org/)
