@@ -31,7 +31,7 @@
 
                     {!! csrf_field() !!}
                     @foreach($location->characters as $character)
-                        @include('location.partials.list-character', compact('$character'))
+                        @include('location.partials.list-character', compact('character'))
                     @endforeach
                 </ul>
             </form>
