@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Character;
 use App\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -11,7 +12,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class CharacterCreationTest extends TestCase
 {
-    use DatabaseMigrations;
+    use RefreshDatabase;
 
     /**
      * @test
