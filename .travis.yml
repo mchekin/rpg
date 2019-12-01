@@ -16,6 +16,7 @@ before_script:
   - php artisan key:generate
   - touch database/database.sqlite
   - php artisan serve &
+  - php artisan dusk:chrome-driver 73
 
 script:
   - vendor/bin/phpunit
