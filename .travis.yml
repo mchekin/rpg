@@ -8,7 +8,7 @@ php:
 install:
   - cp .env.example .env
   - travis_retry composer install --no-interaction
-  - php artisan dusk:chrome-driver 73
+  - php artisan dusk:chrome-driver 71
 
 before_script:
   - export DISPLAY=:99.0
