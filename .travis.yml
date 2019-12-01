@@ -6,6 +6,7 @@ php:
   - 7.2
 
 install:
+  - php artisan dusk:chrome-driver 73
   - cp .env.example .env
   - travis_retry composer install --no-interaction
 
@@ -16,7 +17,6 @@ before_script:
   - php artisan key:generate
   - touch database/database.sqlite
   - php artisan serve &
-  - php artisan dusk:chrome-driver 70
 
 script:
   - vendor/bin/phpunit
