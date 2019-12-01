@@ -16,6 +16,7 @@ return [
     'defaults' => [
         'guard' => 'web',
         'passwords' => 'users',
+        'hash' => false,
     ],
 
     /*
