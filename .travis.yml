@@ -17,7 +17,7 @@ before_script:
   - php artisan key:generate
   - touch database/database.sqlite
   - php artisan serve &
-  - chmod -R 0755 vendor/laravel/dusk/bin/.
+  - chmod -R 0755 vendor/laravel/dusk/bin/
 
 script:
   - vendor/bin/phpunit
