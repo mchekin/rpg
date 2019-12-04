@@ -19,6 +19,7 @@ use App\Modules\Character\Infrastructure\Repositories\RaceRepository;
 use App\Race;
 use App\User;
 use Illuminate\Database\Eloquent\Factory;
+use Illuminate\Support\Str;
 use Ramsey\Uuid\Uuid;
 
 /** @var Factory $factory */
@@ -30,7 +31,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
         'password' => $password ?: $password = bcrypt('secret'),
-        'remember_token' => str_random(10),
+        'remember_token' => Str::random(10),
     ];
 });
 
