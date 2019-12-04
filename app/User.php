@@ -2,7 +2,6 @@
 
 namespace App;
 
-use App\Traits\UsesStringId;
 use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;

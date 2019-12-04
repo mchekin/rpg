@@ -8,6 +8,7 @@ php:
 install:
   - cp .env.example .env
   - travis_retry composer install --no-interaction
+  - php artisan dusk:chrome-driver 71
 
 before_script:
   - export DISPLAY=:99.0
@@ -16,7 +17,8 @@ before_script:
   - php artisan key:generate
   - touch database/database.sqlite
   - php artisan serve &
+  - chmod -R 0755 vendor/laravel/dusk/bin/
 
 script:
   - vendor/bin/phpunit
-  - php artisan dusk
+#  - php artisan dusk

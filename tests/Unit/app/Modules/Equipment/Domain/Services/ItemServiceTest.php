@@ -34,7 +34,7 @@ class ItemServiceTest extends TestCase
     /** @var MockInterface| Character */
     private $character;
 
-    protected function setUp()
+    protected function setUp():void
     {
         parent::setUp();
 

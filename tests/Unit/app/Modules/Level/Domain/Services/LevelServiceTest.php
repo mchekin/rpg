@@ -12,7 +12,7 @@ class LevelServiceTest extends TestCase
     /** @var LevelService */
     private $levelService;
 
-    protected function setUp()
+    protected function setUp():void
     {
         parent::setUp();
 

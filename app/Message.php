@@ -5,6 +5,7 @@ namespace App;
 use App\Traits\UsesStringId;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Str;
 
 /**
  * @property string state
@@ -74,7 +75,7 @@ class Message extends Model
     {
         $value = str_replace("\r\n", "\n", $value);
 
-        $limitedString = str_limit($value, self::CONTENT_LIMIT, '');
+        $limitedString = Str::limit($value, self::CONTENT_LIMIT, '');
 
         $this->attributes['content'] = nl2br(e($limitedString));
     }

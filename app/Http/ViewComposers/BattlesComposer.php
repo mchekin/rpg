@@ -6,6 +6,7 @@ use App\Battle;
 use App\Character;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Arr;
 use Illuminate\View\View;
 
 class BattlesComposer
@@ -21,7 +22,7 @@ class BattlesComposer
         $data = $view->getData();
 
         /** @var Character $character */
-        $character = array_get($data, 'character');
+        $character = Arr::get($data, 'character');
 
         /** @var Collection $battles */
         $battles = Battle::query()->where(function (Builder $query) use ($character) {

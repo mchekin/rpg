@@ -5,6 +5,7 @@ namespace App\Http\ViewComposers;
 use App\Character;
 use App\Message;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
@@ -23,7 +24,7 @@ class CharacterMessagesComposer
         /** @var Character $currentCharacter */
         /** @var Character $otherCharacter */
         $currentCharacter = Auth::user()->character;
-        $otherCharacter = array_get($data, 'character');
+        $otherCharacter = Arr::get($data, 'character');
 
         $messages = Message::query()->where(function (Builder $query) use ($currentCharacter, $otherCharacter) {
             $query->where([
