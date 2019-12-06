@@ -27,7 +27,7 @@ class LevelServiceTest extends TestCase
             $middlePoint = floor(($level->getCurrentXpThreshold() + $level->getNextXpThreshold()) / 2);
 
             return [
-                'xp' => $middlePoint,
+                'xp' => (int)$middlePoint,
                 'levelId' => $level->getId(),
             ];
 
