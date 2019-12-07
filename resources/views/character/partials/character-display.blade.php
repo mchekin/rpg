@@ -1,7 +1,7 @@
-<?php
+@php
     /** @var \App\Character $character */
     $hpPercent = ($character->getHitPoints() / $character->getTotalHitPoints()) * 100;
-?>
+@endphp
 
 <div class="progress mx-5 my-3">
     <div class="progress-bar bg-danger"
@@ -39,12 +39,12 @@
 
     @if($character->hasProfilePicture())
         <div class="text-center">
-            <?php
-            /** @var \App\Character $character */
-            $profilePicture = $character->getProfilePicture()
-            ?>
+            @php
+                /** @var \App\Character $character */
+                $profile_picture = $character->getProfilePicture();
+            @endphp
             <form role="form" method="POST"
-                  action="{{ route('character.profile-picture.destroy', compact('character', 'profilePicture')) }}">
+                  action="{{ route('character.profile-picture.destroy', compact('character', 'profile_picture')) }}">
                 {{ method_field('DELETE') }}
                 {!! csrf_field() !!}
                 <div class="mx-2">
