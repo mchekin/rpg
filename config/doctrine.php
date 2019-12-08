@@ -27,7 +27,12 @@ return [
             'connection'    => env('DB_CONNECTION', 'mysql'),
             'namespaces'    => [],
             'paths'         => [
-                base_path('app/Entities')
+                base_path('app/Modules/Battle/Domain/Entities'),
+                base_path('app/Modules/Character/Domain/Entities'),
+                base_path('app/Modules/Equipment/Domain/Entities'),
+                base_path('app/Modules/Image/Domain/Entities'),
+                base_path('app/Modules/Level/Domain/Entities'),
+                base_path('app/Modules/Message/Domain/Entities'),
             ],
             'repository'    => Doctrine\ORM\EntityRepository::class,
             'proxies'       => [
