@@ -19,7 +19,7 @@ class ExampleTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/')
-                    ->assertSee(env('APP_NAME'));
+                    ->assertSee(config('app.name'));
         });
     }
 }

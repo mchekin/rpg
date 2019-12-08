@@ -1,7 +1,7 @@
 @extends("base")
 
 @section("head")
-    <title>{{ env('APP_NAME') }}</title>
+    <title>{{ config('app.name') }}</title>
 
     @parent
 
@@ -13,7 +13,7 @@
 
             <img class="img-fluid mt-2" src="{{ asset('images/village.png') }}">
 
-            <p class="text-center title">{{ env('APP_NAME') }}</p>
+            <p class="text-center title">{{ config('app.name') }}</p>
 
             <div class="btn-group d-flex" role="group">
                 <a href="{{ URL::route('register') }}" class="btn btn-success w-100">Register</a>
