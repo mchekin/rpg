@@ -1,7 +1,7 @@
 <nav class="navbar navbar-light bg-light navbar-expand-md">
     <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#myNavbar">&#x2630;
     </button>
-    <a class="navbar-brand" href="{{ URL::route('home') }}">{{ env('APP_NAME') }}</a>
+    <a class="navbar-brand" href="{{ URL::route('home') }}">{{ config('app.name') }}</a>
 
 
     <div class="collapse navbar-collapse" id="myNavbar">
