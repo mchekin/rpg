@@ -26,7 +26,7 @@ class BattleRepository implements BattleRepositoryInterface
         ]);
 
         /** @var BattleRound $round */
-        foreach ($battle->getRounds()->all() as $round) {
+        foreach ($battle->getRounds()->getIterator() as $round) {
 
             /** @var BattleRoundModel $roundModel */
             $roundModel = $battleModel->rounds()->create([
@@ -34,7 +34,7 @@ class BattleRepository implements BattleRepositoryInterface
             ]);
 
             /** @var BattleTurn $turn */
-            foreach ($round->getTurns()->all() as $turn) {
+            foreach ($round->getTurns()->getIterator() as $turn) {
                 $roundModel->turns()->create([
                     'id' => $turn->getId(),
                     'damageDone' => $turn->getDamageDone(),

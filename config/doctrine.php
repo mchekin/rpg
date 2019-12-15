@@ -25,14 +25,16 @@ return [
             'dev'           => env('APP_DEBUG', false),
             'meta'          => env('DOCTRINE_METADATA', 'annotations'),
             'connection'    => env('DB_CONNECTION', 'mysql'),
-            'namespaces'    => [],
+            'namespaces'    => [
+                base_path('app/Modules/Battle/Domain/Entities')    => 'App\Modules\Battle\Domain\Entities',
+                base_path('app/Modules/Character/Domain/Entities') => 'App\Modules\Character\Domain\Entities',
+                base_path('app/Modules/Equipment/Domain/Entities') => 'App\Modules\Equipment\Domain\Entities',
+                base_path('app/Modules/Image/Domain/Entities')     => 'App\Modules\Image\Domain\Entities',
+                base_path('app/Modules/Level/Domain/Entities')     => 'App\Modules\Level\Domain\Entities',
+                base_path('app/Modules/Message/Domain/Entities')   => 'App\Modules\Message\Domain\Entities',
+            ],
             'paths'         => [
-                base_path('app/Modules/Battle/Domain/Entities'),
-                base_path('app/Modules/Character/Domain/Entities'),
-                base_path('app/Modules/Equipment/Domain/Entities'),
-                base_path('app/Modules/Image/Domain/Entities'),
-                base_path('app/Modules/Level/Domain/Entities'),
-                base_path('app/Modules/Message/Domain/Entities'),
+                database_path('mappings'),
             ],
             'repository'    => Doctrine\ORM\EntityRepository::class,
             'proxies'       => [

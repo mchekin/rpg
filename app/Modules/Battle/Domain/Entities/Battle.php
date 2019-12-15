@@ -6,6 +6,7 @@ use App\Modules\Battle\Domain\Factories\BattleRoundFactory;
 use App\Modules\Battle\Domain\Entities\Collections\BattleRounds;
 use App\Modules\Character\Domain\Entities\Character;
 use App\Traits\ContainsModel;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class Battle
 {
@@ -38,7 +39,7 @@ class Battle
     private $roundFactory;
 
     /**
-     * @var BattleRounds
+     * @var ArrayCollection
      */
     private $rounds;
 
@@ -68,7 +69,7 @@ class Battle
         $this->attacker = $attacker;
         $this->defender = $defender;
         $this->roundFactory = $roundFactory;
-        $this->rounds = $rounds;
+        $this->rounds = new ArrayCollection($rounds->all());
         $this->victorXpGained = $victorXpGained;
         $this->victor = $victor;
     }
@@ -84,7 +85,7 @@ class Battle
 
             $round->execute();
 
-            $this->rounds->push($round);
+            $this->rounds->add($round);
 
         } while ($round->notLastRound());
 
@@ -119,7 +120,7 @@ class Battle
         return $this->victorXpGained;
     }
 
-    public function getRounds(): BattleRounds
+    public function getRounds(): ArrayCollection
     {
         return $this->rounds;
     }

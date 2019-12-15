@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                          https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="Battle" table="battles">
+        <id name="id" column="id" type="uuid">
+            <generator strategy="CUSTOM"/>
+            <custom-id-generator class="Ramsey\Uuid\Doctrine\UuidGenerator"/>
+        </id>
+
+        <field name="victorXpGained" column="victor_xp_gained" type="integer" />
+
+        <many-to-one target-entity="Location" field="location" />
+
+        <many-to-one target-entity="Character" field="attacker" />
+
+        <many-to-one target-entity="Character" field="defender" />
+
+        <many-to-one target-entity="Character" field="victor" />
+
+        <one-to-many field="rounds" target-entity="BattleRound" mapped-by="battle" />
+
+    </entity>
+</doctrine-mapping>

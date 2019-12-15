@@ -6,6 +6,7 @@ namespace App\Modules\Battle\Domain\Entities;
 use App\Modules\Battle\Domain\Factories\BattleTurnFactory;
 use App\Modules\Battle\Domain\Entities\Collections\BattleTurns;
 use App\Modules\Character\Domain\Entities\Character;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class BattleRound
 {
@@ -35,7 +36,7 @@ class BattleRound
     private $defender;
 
     /**
-     * @var BattleTurns
+     * @var ArrayCollection
      */
     private $turns;
 
@@ -52,7 +53,7 @@ class BattleRound
         $this->attacker = $attacker;
         $this->defender = $defender;
         $this->turnFactory = $turnFactory;
-        $this->turns = $turns;
+        $this->turns = new ArrayCollection($turns->all());
     }
 
     public function getId(): string
@@ -65,7 +66,7 @@ class BattleRound
         return $this->battleId;
     }
 
-    public function getTurns(): BattleTurns
+    public function getTurns(): ArrayCollection
     {
         return $this->turns;
     }
@@ -76,7 +77,7 @@ class BattleRound
 
         $turn->execute();
 
-        $this->turns->push($turn);
+        $this->turns->add($turn);
 
         if (!$turn->isTargetAlive()) {
             return $turn;
@@ -86,7 +87,7 @@ class BattleRound
 
         $turn->execute();
 
-        $this->turns->push($turn);
+        $this->turns->add($turn);
 
         return $turn;
     }
