@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                          https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="Character" table="characters">
+        <id name="id" column="id" type="uuid">
+            <generator strategy="CUSTOM"/>
+            <custom-id-generator class="Ramsey\Uuid\Doctrine\UuidGenerator"/>
+        </id>
+
+        <field name="userId" column="user_id" type="integer" />
+
+        <field name="levelId" column="level_id" type="uuid" />
+
+        <field name="raceId" column="race_id" type="uuid" />
+
+        <field name="locationId" column="location_id" type="uuid" />
+
+        <field name="xp" column="xp" type="integer" />
+
+        <embedded name="gender" class="Gender" />
+
+        <embedded name="money" class="Money" />
+
+        <embedded name="reputation" class="Reputation" />
+
+        <embedded name="attributes" class="Attributes" />
+
+        <embedded name="hitPoints" class="HitPoints" />
+
+        <embedded name="statistics" class="Statistics" />
+
+        <embedded name="inventory" class="Inventory" />
+
+    </entity>
+</doctrine-mapping>

@@ -4,21 +4,23 @@
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                           https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <entity name="BattleTurn" table="battle_turn">
+    <entity name="ItemPrototype" table="item_prototypes">
         <id name="id" column="id" type="uuid">
             <generator strategy="CUSTOM"/>
             <custom-id-generator class="Ramsey\Uuid\Doctrine\UuidGenerator"/>
         </id>
 
-        <many-to-one target-entity="BattleRound" field="battle_round" />
+        <field name="name" column="name"/>
 
-        <many-to-one target-entity="Character" field="owner"  />
+        <field name="description" column="description"/>
 
-        <many-to-one target-entity="Character" field="target" />
+        <field name="imageFilePath" column="image_file_path"/>
 
-        <embedded name="result" class="BattleTurnResult"/>
+        <field name="type" column="type"/>
 
-        <one-to-many field="turns" target-entity="BattleTurn" mapped-by="battle_round" />
+        <embedded name="type" class="ItemType" />
+
+        <field name="effects" column="effects" type="json" />
 
     </entity>
 </doctrine-mapping>
