@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Modules\Character\Domain\Entities;
 
 use App\Modules\Character\Domain\ValueObjects\Attributes;
@@ -14,6 +13,7 @@ use App\Modules\Equipment\Domain\Entities\Item;
 use App\Modules\Equipment\Domain\ValueObjects\ItemEffect;
 use App\Traits\ContainsModel;
 use App\Traits\ThrowsDice;
+use Carbon\Carbon;
 
 class Character
 {
@@ -81,6 +81,14 @@ class Character
      * @var string
      */
     private $profilePictureId;
+    /**
+     * @var Carbon
+     */
+    private $createdAt;
+    /**
+     * @var Carbon
+     */
+    private $updatedAt;
 
     public function __construct(
         string $id,
@@ -115,6 +123,8 @@ class Character
         $this->inventory = $inventory;
         $this->userId = $userId;
         $this->profilePictureId = $profilePictureId;
+        $this->createdAt = Carbon::now();
+        $this->updatedAt = Carbon::now();
     }
 
     public function getLevelNumber(): int
@@ -214,7 +224,7 @@ class Character
 
     public function getUnassignedAttributePoints(): int
     {
-        return $this->attributes->getUnassignedAttributePoints();
+        return $this->attributes->getUnassigned();
     }
 
     public function getLocationId(): string
@@ -224,12 +234,12 @@ class Character
 
     public function getHitPoints(): int
     {
-        return $this->hitPoints->getCurrentHitPoints();
+        return $this->hitPoints->getHitPoints();
     }
 
     public function getTotalHitPoints(): int
     {
-        return $this->hitPoints->getMaximumHitPoints();
+        return $this->hitPoints->getTotalHitPoints();
     }
 
     public function equals(Character $other): bool
@@ -274,13 +284,10 @@ class Character
 
     public function applyAttributeIncrease(string $attribute)
     {
-        if ($this->attributes->hasAvailablePoints()) {
+        $this->attributes = $this->attributes->assignAvailablePoint($attribute);
 
-            $this->attributes = $this->attributes->assignAvailablePoint($attribute);
-
-            if ($attribute === 'constitution') {
-                $this->hitPoints = $this->hitPoints->withIncrementedConstitution();
-            }
+        if ($attribute === 'constitution') {
+            $this->hitPoints = $this->hitPoints->withIncrementedConstitution();
         }
     }
 
@@ -301,7 +308,7 @@ class Character
 
     public function isAlive(): bool
     {
-        return $this->hitPoints->getCurrentHitPoints() > 0;
+        return $this->hitPoints->getHitPoints() > 0;
     }
 
     public function incrementWonBattles()
@@ -321,12 +328,12 @@ class Character
 
     public function getBattlesWon(): int
     {
-        return (int) $this->statistics->get('battlesWon');
+        return $this->statistics->getBattlesWon();
     }
 
     public function getBattlesLost(): int
     {
-        return (int) $this->statistics->get('battlesLost');
+        return $this->statistics->getBattlesWon();
     }
 
     public function applyDamage($damageDone)

@@ -14,12 +14,12 @@ class HitPoints
     /**
      * @var int
      */
-    private $currentHitPoints;
+    private $hitPoints;
 
     /**
      * @var int
      */
-    private $maximumHitPoints;
+    private $totalHitPoints;
 
     public static function byRace(Race $race): HitPoints
     {
@@ -31,16 +31,16 @@ class HitPoints
     public function withIncrementedConstitution(): HitPoints
     {
         return new HitPoints(
-            $this->currentHitPoints,
-            $this->maximumHitPoints + self::constitutionToHitPoints(1)
+            $this->hitPoints,
+            $this->totalHitPoints + self::constitutionToHitPoints(1)
         );
     }
 
     public function withUpdatedCurrentValue(int $points): HitPoints
     {
         return new HitPoints(
-            $this->currentHitPoints + $points,
-            $this->maximumHitPoints
+            $this->hitPoints + $points,
+            $this->totalHitPoints
         );
     }
 
@@ -49,19 +49,19 @@ class HitPoints
         return $constitutionPoints * 10 + self::throwTwoDices();
     }
 
-    public function __construct(int $currentHitPoints, int $maximumHitPoints)
+    public function __construct(int $hitPoints, int $totalHitPoints)
     {
-        $this->currentHitPoints = $currentHitPoints;
-        $this->maximumHitPoints = $maximumHitPoints;
+        $this->hitPoints = $hitPoints;
+        $this->totalHitPoints = $totalHitPoints;
     }
 
-    public function getCurrentHitPoints(): int
+    public function getHitPoints(): int
     {
-        return $this->currentHitPoints;
+        return $this->hitPoints;
     }
 
-    public function getMaximumHitPoints(): int
+    public function getTotalHitPoints(): int
     {
-        return $this->maximumHitPoints;
+        return $this->totalHitPoints;
     }
 }

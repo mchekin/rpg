@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                          https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="App\Modules\Character\Domain\Entities\Location" table="locations">
+
+        <id name="id" column="id" type="uuid">
+            <generator strategy="CUSTOM"/>
+            <custom-id-generator class="Ramsey\Uuid\Doctrine\UuidGenerator"/>
+        </id>
+
+        <unique-constraints>
+            <unique-constraint name="locations_name_unique" columns="name"/>
+        </unique-constraints>
+
+        <one-to-many field="adjacentLocations" target-entity="AdjacentLocation" mapped-by="location" />
+        <one-to-many field="characters" target-entity="Character" mapped-by="location" />
+
+        <field name="name" column="name"/>
+        <field name="description" column="description"/>
+        <field name="image" column="image"/>
+        <field name="imageSm" column="image_sm"/>
+
+        <field name="createdAt" type="datetime" column="created_at" nullable="true"/>
+        <field name="updatedAt" type="datetime" column="updated_at" nullable="true"/>
+
+    </entity>
+
+</doctrine-mapping>

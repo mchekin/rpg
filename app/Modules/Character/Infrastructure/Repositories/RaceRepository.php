@@ -21,13 +21,14 @@ class RaceRepository implements RaceRepositoryInterface
             $race->getDescription(),
             $race->getMaleImage(),
             $race->getFemaleImage(),
-            new Attributes([
-                'strength' => $race->getStrength(),
-                'agility' => $race->getAgility(),
-                'constitution' => $race->getConstitution(),
-                'intelligence' => $race->getIntelligence(),
-                'charisma' => $race->getCharisma(),
-            ])
+            new Attributes(
+                $race->getStrength(),
+                $race->getAgility(),
+                $race->getConstitution(),
+                $race->getIntelligence(),
+                $race->getCharisma(),
+                0
+            )
         );
     }
 }

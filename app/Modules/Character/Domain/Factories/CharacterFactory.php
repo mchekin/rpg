@@ -44,19 +44,19 @@ class CharacterFactory
             0,
             new Money(0),
             new Reputation(0),
-            new Attributes([
-                'strength' => $race->getStrength(),
-                'agility' => $race->getAgility(),
-                'constitution' => $race->getConstitution(),
-                'intelligence' => $race->getIntelligence(),
-                'charisma' => $race->getCharisma(),
-                'unassigned' => 0,
-            ]),
+            new Attributes(
+                $race->getStrength(),
+                $race->getAgility(),
+                $race->getConstitution(),
+                $race->getIntelligence(),
+                $race->getCharisma(),
+                0
+            ),
             HitPoints::byRace($race),
-            new Statistics([
-                'battlesLost' => 0,
-                'battlesWon' => 0,
-            ]),
+            new Statistics(
+                0,
+                0
+            ),
             Inventory::empty(),
             $command->getUserId()
         );

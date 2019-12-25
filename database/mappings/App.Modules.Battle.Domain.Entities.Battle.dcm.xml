@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="App\Modules\Battle\Domain\Entities\Battle" table="battles">
+
+        <id name="id" column="id" type="uuid">
+            <generator strategy="CUSTOM"/>
+            <custom-id-generator class="Ramsey\Uuid\Doctrine\UuidGenerator"/>
+        </id>
+
+        <many-to-one target-entity="App\Modules\Character\Domain\Entities\Character" field="attacker" />
+
+        <many-to-one target-entity="App\Modules\Character\Domain\Entities\Character" field="defender" />
+
+        <many-to-one target-entity="App\Modules\Character\Domain\Entities\Character" field="victor" />
+
+        <one-to-many field="rounds" target-entity="BattleRound" mapped-by="battle" />
+
+        <field name="seenByDefender" type="boolean" column="seen_by_defender">
+            <options>
+                <option name="default">0</option>
+            </options>
+        </field>
+
+        <field name="locationId" column="location_id"/>
+
+        <field name="victorXpGained" type="integer" column="victor_xp_gained">
+            <options>
+                <option name="unsigned"/>
+                <option name="default">0</option>
+            </options>
+        </field>
+
+        <field name="createdAt" type="datetime" column="created_at" nullable="true"/>
+        <field name="updatedAt" type="datetime" column="updated_at" nullable="true"/>
+
+    </entity>
+
+</doctrine-mapping>

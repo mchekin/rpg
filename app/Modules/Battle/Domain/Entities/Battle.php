@@ -6,6 +6,7 @@ use App\Modules\Battle\Domain\Factories\BattleRoundFactory;
 use App\Modules\Battle\Domain\Entities\Collections\BattleRounds;
 use App\Modules\Character\Domain\Entities\Character;
 use App\Traits\ContainsModel;
+use Carbon\Carbon;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class Battle
@@ -52,6 +53,18 @@ class Battle
      * @var Character|null
      */
     private $victor;
+    /**
+     * @var bool
+     */
+    private $seenByDefender;
+    /**
+     * @var Carbon
+     */
+    private $createdAt;
+    /**
+     * @var Carbon
+     */
+    private $updatedAt;
 
     public function __construct(
         string $id,
@@ -72,6 +85,9 @@ class Battle
         $this->rounds = new ArrayCollection($rounds->all());
         $this->victorXpGained = $victorXpGained;
         $this->victor = $victor;
+        $this->seenByDefender = false;
+        $this->createdAt = Carbon::now();
+        $this->updatedAt = Carbon::now();
     }
 
     public function execute()

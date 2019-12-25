@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="App\Modules\Character\Domain\Entities\Character" table="characters">
+        <unique-constraints>
+            <unique-constraint name="characters_name_unique" columns="name"/>
+        </unique-constraints>
+
+        <id name="id" column="id" type="uuid">
+            <generator strategy="CUSTOM"/>
+            <custom-id-generator class="Ramsey\Uuid\Doctrine\UuidGenerator"/>
+        </id>
+
+        <field name="name" column="name"/>
+
+        <field name="locationId" column="location_id" type="uuid" />
+
+        <field name="levelId" type="integer" column="level_id">
+            <options>
+                <option name="unsigned"/>
+            </options>
+        </field>
+
+        <field name="userId" type="integer" column="user_id" nullable="true">
+            <options>
+                <option name="unsigned"/>
+            </options>
+        </field>
+
+        <field name="raceId" type="integer" column="race_id">
+            <options>
+                <option name="unsigned"/>
+            </options>
+        </field>
+
+        <embedded name="gender" class="App\Modules\Character\Domain\ValueObjects\Gender" />
+
+        <embedded name="money" class="App\Modules\Character\Domain\ValueObjects\Money" />
+
+        <embedded name="reputation" class="App\Modules\Character\Domain\ValueObjects\Reputation" />
+
+        <embedded name="attributes" class="App\Modules\Character\Domain\ValueObjects\Attributes" />
+
+        <embedded name="hitPoints" class="App\Modules\Character\Domain\ValueObjects\HitPoints" />
+
+        <embedded name="statistics" class="App\Modules\Character\Domain\ValueObjects\Statistics" />
+
+        <embedded name="inventory" class="App\Modules\Character\Domain\ValueObjects\Inventory" />
+
+        <field name="xp" type="integer" column="xp">
+            <options>
+                <option name="unsigned"/>
+                <option name="default">0</option>
+            </options>
+        </field>
+
+        <field name="profilePictureId" column="profile_picture_id" nullable="true"/>
+
+        <field name="createdAt" type="datetime" column="created_at" nullable="true"/>
+        <field name="updatedAt" type="datetime" column="updated_at" nullable="true"/>
+
+    </entity>
+
+</doctrine-mapping>

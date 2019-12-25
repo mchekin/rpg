@@ -1,33 +1,41 @@
 <?php
 
-
 namespace App\Modules\Character\Domain\ValueObjects;
 
-
-use Illuminate\Support\Collection;
-
-class Statistics extends Collection
+class Statistics
 {
-    public function __construct($items = [])
+    /**
+     * @var int
+     */
+    private $battlesWon;
+    /**
+     * @var int
+     */
+    private $battlesLost;
+
+    public function __construct(int $battlesWon, int $battlesLost)
     {
-        parent::__construct($items);
+        $this->battlesWon = $battlesWon;
+        $this->battlesLost = $battlesLost;
     }
 
     public function withIncreaseWonBattles(): Statistics
     {
-        $data = $this->all();
-
-        $data['battlesWon']++;
-
-        return Statistics::make($data);
+        return new self($this->battlesWon + 1, $this->battlesLost);
     }
 
     public function withIncreaseLostBattles(): Statistics
     {
-        $data = $this->all();
+        return new self($this->battlesWon, $this->battlesLost + 1);
+    }
 
-        $data['battlesLost']++;
+    public function getBattlesWon(): int
+    {
+        return $this->battlesWon;
+    }
 
-        return Statistics::make($data);
+    public function getBattlesLost(): int
+    {
+        return $this->battlesLost;
     }
 }

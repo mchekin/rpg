@@ -4,9 +4,10 @@
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                           https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <embeddable name="Gender">
+    <embeddable name="HitPoints">
 
-        <field name="value" column="gender" type="string" />
+        <field name="hitPoints" column="hit_points" type="integer"/>
+        <field name="totalHitPoints" column="total_hit_points" type="integer"/>
 
     </embeddable>
 

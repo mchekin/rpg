@@ -14,6 +14,7 @@ use App\Modules\Character\Domain\ValueObjects\HitPoints;
 use App\Modules\Character\Domain\ValueObjects\Reputation;
 use App\Character as CharacterModel;
 use App\Item as ItemModel;
+use Doctrine\Common\Collections\ArrayCollection;
 
 
 class CharacterReconstitutionFactory
@@ -31,8 +32,8 @@ class CharacterReconstitutionFactory
     public function reconstitute(CharacterModel $characterModel): Character
     {
         $items = $characterModel->items->map(function (ItemModel $itemModel) {
-                 return $this->itemReconstitutionFactory->reconstitute($itemModel);
-             });
+            return $this->itemReconstitutionFactory->reconstitute($itemModel);
+        });
 
         $character = new Character(
             $characterModel->getId(),
@@ -44,23 +45,23 @@ class CharacterReconstitutionFactory
             $characterModel->getXp(),
             new Money(0),
             new Reputation(0),
-            new Attributes([
-                'strength' => $characterModel->getStrength(),
-                'agility' => $characterModel->getAgility(),
-                'constitution' => $characterModel->getConstitution(),
-                'intelligence' => $characterModel->getIntelligence(),
-                'charisma' => $characterModel->getCharisma(),
-                'unassigned' => $characterModel->getAvailableAttributePoints(),
-            ]),
+            new Attributes(
+                $characterModel->getStrength(),
+                $characterModel->getAgility(),
+                $characterModel->getConstitution(),
+                $characterModel->getIntelligence(),
+                $characterModel->getCharisma(),
+                $characterModel->getAvailableAttributePoints()
+            ),
             new HitPoints(
                 $characterModel->getHitPoints(),
                 $characterModel->getTotalHitPoints()
             ),
-            new Statistics([
-                'battlesLost' => $characterModel->getBattlesLost(),
-                'battlesWon' => $characterModel->getBattlesWon(),
-            ]),
-            Inventory::withItems($items),
+            new Statistics(
+                $characterModel->getBattlesLost(),
+                $characterModel->getBattlesWon()
+            ),
+            Inventory::withItems(new ArrayCollection($items->all())),
             $characterModel->getUserId(),
             $characterModel->getProfilePictureId()
         );

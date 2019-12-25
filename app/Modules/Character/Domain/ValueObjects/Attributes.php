@@ -3,72 +3,156 @@
 
 namespace App\Modules\Character\Domain\ValueObjects;
 
-
-use Illuminate\Support\Collection;
+use DomainException;
+use InvalidArgumentException;
 
 class Attributes
 {
     /**
-     * @var Collection
+     * @var int
      */
-    private $collection;
+    private $strength;
+    /**
+     * @var int
+     */
+    private $constitution;
+    /**
+     * @var int
+     */
+    private $agility;
+    /**
+     * @var int
+     */
+    private $intelligence;
+    /**
+     * @var int
+     */
+    private $charisma;
+    /**
+     * @var int
+     */
+    private $unassigned;
 
-    public function __construct($items = [])
+    public function __construct(
+        int $strength,
+        int $constitution,
+        int $agility,
+        int $intelligence,
+        int $charisma,
+        int $unassigned
+    )
     {
-        $this->collection = new Collection($items);
+        $this->strength = $strength;
+        $this->constitution = $constitution;
+        $this->agility = $agility;
+        $this->intelligence = $intelligence;
+        $this->charisma = $charisma;
+        $this->unassigned = $unassigned;
     }
 
     public function addAvailablePoints(int $points): Attributes
     {
-        $rawData = $this->collection->all();
-
-        $rawData['unassigned'] += $points;
-
-        return new static($rawData);
+        return new static(
+            $this->strength,
+            $this->constitution,
+            $this->agility,
+            $this->intelligence,
+            $this->charisma,
+            $this->unassigned + $points
+        );
     }
 
     public function assignAvailablePoint(string $attribute): Attributes
     {
-        $rawData = $this->collection->all();
+        if (!$this->hasAvailablePoints())
+        {
+            throw new DomainException('No available points to assign.');
+        }
 
-        $rawData['unassigned']--;
-        $rawData[$attribute]++;
-
-        return new static($rawData);
+        switch ($attribute)
+        {
+            case 'strength':
+                return new static(
+                    $this->strength + 1,
+                    $this->constitution,
+                    $this->agility,
+                    $this->intelligence,
+                    $this->charisma,
+                    $this->unassigned - 1
+                );
+            case 'constitution':
+                return new static(
+                    $this->strength,
+                    $this->constitution + 1,
+                    $this->agility,
+                    $this->intelligence,
+                    $this->charisma,
+                    $this->unassigned - 1
+                );
+            case 'agility':
+                return new static(
+                    $this->strength,
+                    $this->constitution,
+                    $this->agility + 1,
+                    $this->intelligence,
+                    $this->charisma,
+                    $this->unassigned - 1
+                );
+            case 'intelligence':
+                return new static(
+                    $this->strength + 1,
+                    $this->constitution,
+                    $this->agility,
+                    $this->intelligence,
+                    $this->charisma,
+                    $this->unassigned - 1
+                );
+            case 'charisma':
+                return new static(
+                    $this->strength + 1,
+                    $this->constitution,
+                    $this->agility,
+                    $this->intelligence,
+                    $this->charisma,
+                    $this->unassigned - 1
+                );
+            default:
+                throw new InvalidArgumentException('Unknown attribute.');
+        }
     }
 
     public function hasAvailablePoints(): bool
     {
-        return (bool)$this->collection->get('unassigned');
+        return $this->unassigned > 0;
     }
 
     public function getStrength(): int
     {
-        return $this->collection->get('strength');
+        return $this->strength;
     }
 
     public function getAgility(): int
     {
-        return $this->collection->get('agility');
+        return $this->agility;
     }
 
     public function getConstitution(): int
     {
-        return $this->collection->get('constitution');
+        return $this->constitution;
     }
 
     public function getIntelligence(): int
     {
-        return $this->collection->get('intelligence');
+        return $this->intelligence;
     }
 
     public function getCharisma(): int
     {
-        return $this->collection->get('charisma');
+        return $this->charisma;
     }
 
-    public function getUnassignedAttributePoints(): int
+    public function getUnassigned(): int
     {
-        return $this->collection->get('unassigned');
+        return $this->unassigned;
     }
 }

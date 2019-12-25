@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                            https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="App\Modules\Character\Domain\Entities\AdjacentLocation" table="adjacent_location">
+
+        <indexes>
+            <index name="adjacent_location_adjacent_location_id_index" columns="adjacent_location_id"/>
+            <index name="adjacent_location_location_id_index" columns="location_id"/>
+        </indexes>
+
+        <id name="locationId" type="string" column="location_id"/>
+        <id name="adjacentLocationId" type="string" column="adjacent_location_id"/>
+
+        <field name="direction" column="direction"/>
+
+        <field name="createdAt" type="datetime" column="created_at" nullable="true"/>
+        <field name="updatedAt" type="datetime" column="updated_at" nullable="true"/>
+
+    </entity>
+
+</doctrine-mapping>

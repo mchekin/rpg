@@ -69,8 +69,8 @@ $factory->define(Character::class, function (Faker\Generator $faker) use ($facto
         'intelligence' => $race->getIntelligence(),
         'charisma' => $race->getCharisma(),
 
-        'hit_points' => $hitPoints->getCurrentHitPoints(),
-        'total_hit_points' => $hitPoints->getMaximumHitPoints(),
+        'hit_points' => $hitPoints->getHitPoints(),
+        'total_hit_points' => $hitPoints->getTotalHitPoints(),
 
         'user_id' => function () {
             return rand(0, 3)
