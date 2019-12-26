@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="App\Modules\Equipment\Domain\Entities\ItemPrototype" table="items">
+
+        <id name="id" column="id" type="uuid">
+            <generator strategy="CUSTOM"/>
+            <custom-id-generator class="Ramsey\Uuid\Doctrine\UuidGenerator"/>
+        </id>
+
+        <one-to-many field="turns" target-entity="BattleTurn" mapped-by="battle_round"/>
+
+        <field name="name" column="name"/>
+
+        <field name="description" column="description"/>
+
+        <field name="effects" column="effects" type="json" />
+
+        <field name="imageFilePath" column="image_file_path"/>
+
+        <embedded name="type" class="App\Modules\Equipment\Domain\ValueObjects\ItemType"/>
+
+        <field name="creatorCharacterId" column="creator_character_id"/>
+
+        <field name="ownerCharacterId" column="owner_character_id"/>
+
+        <field name="createdAt" type="datetime" column="created_at" nullable="true"/>
+        <field name="updatedAt" type="datetime" column="updated_at" nullable="true"/>
+
+    </entity>
+</doctrine-mapping>

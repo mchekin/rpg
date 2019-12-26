@@ -4,9 +4,9 @@
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                           https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <embeddable name="App\Modules\Character\Domain\ValueObjects\Inventory">
+    <embeddable name="App\Modules\Equipment\Domain\ValueObjects\ItemType">
 
-        <one-to-many field="items" target-entity="App\Modules\Equipment\Domain\Entities\Item" mapped-by="inventory" />
+        <field name="type" column="type"/>
 
     </embeddable>
 
