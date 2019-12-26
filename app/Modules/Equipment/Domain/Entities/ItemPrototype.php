@@ -4,6 +4,7 @@ namespace App\Modules\Equipment\Domain\Entities;
 
 
 use App\Modules\Equipment\Domain\ValueObjects\ItemType;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 
 class ItemPrototype
@@ -32,6 +33,14 @@ class ItemPrototype
      * @var Collection
      */
     private $effects;
+    /**
+     * @var Carbon
+     */
+    private $createdAt;
+    /**
+     * @var Carbon
+     */
+    private $updatedAt;
 
     public function __construct(
         string $id,
@@ -47,6 +56,8 @@ class ItemPrototype
         $this->imageFilePath = $imageFilePath;
         $this->type = $type;
         $this->effects = $effects;
+        $this->createdAt = Carbon::now();
+        $this->updatedAt = Carbon::now();
     }
 
     public function getId(): string

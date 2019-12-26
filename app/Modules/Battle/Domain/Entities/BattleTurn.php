@@ -6,6 +6,7 @@ namespace App\Modules\Battle\Domain\Entities;
 use App\Modules\Battle\Domain\ValueObjects\BattleTurnResult;
 use App\Modules\Character\Domain\Entities\Character;
 use App\Traits\ThrowsDice;
+use Carbon\Carbon;
 
 
 class BattleTurn
@@ -20,7 +21,7 @@ class BattleTurn
     /**
      * @var Character
      */
-    private $owner;
+    private $executor;
 
     /**
      * @var Character
@@ -31,13 +32,33 @@ class BattleTurn
      * @var BattleTurnResult
      */
     private $result;
+    /**
+     * @var Carbon
+     */
+    private $createdAt;
+    /**
+     * @var Carbon
+     */
+    private $updatedAt;
+    /**
+     * @var string
+     */
+    private $battleRoundId;
 
-    public function __construct(string $id, Character $owner, Character $target, BattleTurnResult $result)
-    {
+    public function __construct(
+        string $id,
+        string $battleRoundId,
+        Character $executor,
+        Character $target,
+        BattleTurnResult $result
+    ) {
         $this->id = $id;
-        $this->owner = $owner;
+        $this->battleRoundId = $battleRoundId;
+        $this->executor = $executor;
         $this->target = $target;
         $this->result = $result;
+        $this->createdAt = Carbon::now();
+        $this->updatedAt = Carbon::now();
     }
 
     public function execute()
@@ -46,7 +67,7 @@ class BattleTurn
             $this->result = BattleTurnResult::miss();
         }
 
-        $forceFactor = $this->owner->generateDamage();
+        $forceFactor = $this->executor->generateDamage();
         $armorRating = $this->target->getArmorRating();
 
         $isCriticalHit = $this->isCriticalHit();
@@ -65,7 +86,7 @@ class BattleTurn
 
     public function isOwnerAlive(): bool
     {
-        return $this->owner->isAlive();
+        return $this->executor->isAlive();
     }
 
     public function isTargetAlive(): bool
@@ -75,7 +96,7 @@ class BattleTurn
 
     private function isTargetHit(): bool
     {
-        $precision = $this->owner->generatePrecision();
+        $precision = $this->executor->generatePrecision();
         $evasion = $this->target->generateEvasionFactor();
 
         return $precision > $evasion;
@@ -83,7 +104,7 @@ class BattleTurn
 
     private function isCriticalHit(): bool
     {
-        $trickery = $this->owner->generateTrickery();
+        $trickery = $this->executor->generateTrickery();
         $awareness = $this->target->generateAwareness();
 
         return $trickery > $awareness;
@@ -94,9 +115,9 @@ class BattleTurn
         return $this->id;
     }
 
-    public function getOwner(): Character
+    public function getExecutor(): Character
     {
-        return $this->owner;
+        return $this->executor;
     }
 
     public function getTarget(): Character

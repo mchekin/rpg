@@ -3,26 +3,23 @@
                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <entity name="App\Modules\Equipment\Domain\Entities\ItemPrototype" table="items">
+    <entity name="App\Modules\Battle\Domain\Entities\BattleTurn" table="battle_turns">
 
         <id name="id" column="id" type="uuid">
             <generator strategy="CUSTOM"/>
             <custom-id-generator class="Ramsey\Uuid\Doctrine\UuidGenerator"/>
         </id>
 
-        <field name="name" column="name"/>
+        <field name="battleRoundId" column="battle_round_id"/>
 
-        <field name="description" column="description"/>
+        <many-to-one target-entity="App\Modules\Character\Domain\Entities\Character" field="executor"  />
 
-        <field name="effects" column="effects" type="json" />
+        <many-to-one target-entity="App\Modules\Character\Domain\Entities\Character" field="target" />
 
-        <field name="imageFilePath" column="image_file_path"/>
-
-        <embedded name="type" class="App\Modules\Equipment\Domain\ValueObjects\ItemType"/>
+        <embedded name="result" class="App\Modules\Battle\Domain\ValueObjects\BattleTurnResult"/>
 
         <field name="createdAt" type="datetime" column="created_at" nullable="true"/>
         <field name="updatedAt" type="datetime" column="updated_at" nullable="true"/>
 
     </entity>
-
 </doctrine-mapping>

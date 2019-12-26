@@ -6,6 +6,7 @@ namespace App\Modules\Equipment\Domain\Entities;
 use App\Modules\Equipment\Domain\ValueObjects\InventorySlot;
 use App\Modules\Equipment\Domain\ValueObjects\ItemEffect;
 use App\Modules\Equipment\Domain\ValueObjects\ItemType;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 
 class Item
@@ -54,6 +55,14 @@ class Item
      * @var bool
      */
     private $equipped;
+    /**
+     * @var Carbon
+     */
+    private $createdAt;
+    /**
+     * @var Carbon
+     */
+    private $updatedAt;
 
     public function __construct(
         string $id,
@@ -80,6 +89,8 @@ class Item
         $this->ownerCharacterId = $ownerCharacterId;
         $this->inventorySlot = $inventorySlot;
         $this->equipped = $equipped;
+        $this->createdAt = Carbon::now();
+        $this->updatedAt = Carbon::now();
     }
 
     public function getId(): string

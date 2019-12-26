@@ -10,8 +10,6 @@
             <custom-id-generator class="Ramsey\Uuid\Doctrine\UuidGenerator"/>
         </id>
 
-        <one-to-many field="turns" target-entity="BattleTurn" mapped-by="battle_round"/>
-
         <field name="name" column="name"/>
 
         <field name="description" column="description"/>
@@ -20,11 +18,7 @@
 
         <field name="imageFilePath" column="image_file_path"/>
 
-        <field name="inventorySlotNumber" type="integer" column="inventory_slot_number">
-            <options>
-                <option name="unsigned"/>
-            </options>
-        </field>
+        <embedded name="inventorySlot" class="App\Modules\Equipment\Domain\ValueObjects\InventorySlot"/>
 
         <field name="equipped" type="boolean" column="equipped">
             <options>

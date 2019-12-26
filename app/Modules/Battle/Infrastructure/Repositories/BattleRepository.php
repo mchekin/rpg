@@ -40,7 +40,7 @@ class BattleRepository implements BattleRepositoryInterface
                     'damageDone' => $turn->getDamageDone(),
                     'damageAbsorbed' => $turn->getDamageAbsorbed(),
                     'result_type' => $turn->getResultType(),
-                    'executor_id' => $turn->getOwner()->getId(),
+                    'executor_id' => $turn->getExecutor()->getId(),
                     'target_id' => $turn->getTarget()->getId(),
                 ]);
             }
