@@ -6,6 +6,7 @@ namespace App\Modules\Battle\Domain\Entities;
 use App\Modules\Battle\Domain\Factories\BattleTurnFactory;
 use App\Modules\Battle\Domain\Entities\Collections\BattleTurns;
 use App\Modules\Character\Domain\Entities\Character;
+use Carbon\Carbon;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class BattleRound
@@ -40,6 +41,16 @@ class BattleRound
      */
     private $turns;
 
+    /**
+     * @var Carbon
+     */
+    private $createdAt;
+
+    /**
+     * @var Carbon
+     */
+    private $updatedAt;
+
     public function __construct(
         string $id,
         string $battleId,
@@ -54,6 +65,8 @@ class BattleRound
         $this->defender = $defender;
         $this->turnFactory = $turnFactory;
         $this->turns = new ArrayCollection($turns->all());
+        $this->createdAt = Carbon::now();
+        $this->updatedAt = Carbon::now();
     }
 
     public function getId(): string

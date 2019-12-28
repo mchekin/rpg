@@ -19,6 +19,11 @@ class BattleTurn
     private $id;
 
     /**
+     * @var string
+     */
+    private $battleRoundId;
+
+    /**
      * @var Character
      */
     private $executor;
@@ -32,18 +37,16 @@ class BattleTurn
      * @var BattleTurnResult
      */
     private $result;
+
     /**
      * @var Carbon
      */
     private $createdAt;
+
     /**
      * @var Carbon
      */
     private $updatedAt;
-    /**
-     * @var string
-     */
-    private $battleRoundId;
 
     public function __construct(
         string $id,
