@@ -2,10 +2,11 @@
 
 namespace App\Modules\Battle\Domain\Entities;
 
-use App\Modules\Battle\Domain\Factories\BattleRoundFactory;
+use App\Modules\Battle\Domain\Entities\Collections\BattleTurns;
 use App\Modules\Battle\Domain\Entities\Collections\BattleRounds;
 use App\Modules\Character\Domain\Entities\Character;
 use App\Traits\ContainsModel;
+use App\Traits\GeneratesUuid;
 use Carbon\Carbon;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -13,6 +14,7 @@ class Battle
 {
     // Todo: temporary hack of having reference to the Eloquent model
     use ContainsModel;
+    use GeneratesUuid;
 
     /**
      * @var string
@@ -33,11 +35,6 @@ class Battle
      * @var Character
      */
     private $defender;
-
-    /**
-     * @var BattleRoundFactory
-     */
-    private $roundFactory;
 
     /**
      * @var ArrayCollection
@@ -71,7 +68,6 @@ class Battle
         string $locationId,
         Character $attacker,
         Character $defender,
-        BattleRoundFactory $roundFactory,
         BattleRounds $rounds,
         int $victorXpGained,
         Character $victor = null
@@ -81,7 +77,6 @@ class Battle
         $this->locationId = $locationId;
         $this->attacker = $attacker;
         $this->defender = $defender;
-        $this->roundFactory = $roundFactory;
         $this->rounds = new ArrayCollection($rounds->all());
         $this->victorXpGained = $victorXpGained;
         $this->victor = $victor;
@@ -93,7 +88,7 @@ class Battle
     public function execute()
     {
         do {
-            $round = $this->roundFactory->create(
+            $round = $this->createRound(
                 $this->getId(),
                 $this->getAttacker(),
                 $this->getDefender()
@@ -154,5 +149,16 @@ class Battle
     public function getLocationId(): string
     {
         return $this->locationId;
+    }
+
+    public function createRound(string $battleId, Character $attacker, Character $defender): BattleRound
+    {
+        return new BattleRound(
+            $this->generateUuid(),
+            $battleId,
+            $attacker,
+            $defender,
+            new BattleTurns()
+        );
     }
 }
