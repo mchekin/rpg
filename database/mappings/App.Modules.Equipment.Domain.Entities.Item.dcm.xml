@@ -28,11 +28,11 @@
 
         <embedded name="type" class="App\Modules\Equipment\Domain\ValueObjects\ItemType"/>
 
-        <field name="prototypeId" column="prototype_id"/>
+        <field name="prototypeId" column="prototype_id" type="uuid"/>
 
-        <field name="creatorCharacterId" column="creator_character_id"/>
+        <field name="creatorCharacterId" column="creator_character_id" type="uuid"/>
 
-        <field name="ownerCharacterId" column="owner_character_id"/>
+        <field name="ownerCharacterId" column="owner_character_id" type="uuid"/>
 
         <field name="createdAt" type="datetime" column="created_at" nullable="true"/>
         <field name="updatedAt" type="datetime" column="updated_at" nullable="true"/>

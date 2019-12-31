@@ -11,8 +11,8 @@
             <index name="adjacent_location_location_id_index" columns="location_id"/>
         </indexes>
 
-        <id name="locationId" type="string" column="location_id"/>
-        <id name="adjacentLocationId" type="string" column="adjacent_location_id"/>
+        <id name="locationId" type="uuid" column="location_id"/>
+        <id name="adjacentLocationId" type="uuid" column="adjacent_location_id"/>
 
         <field name="direction" column="direction"/>
 

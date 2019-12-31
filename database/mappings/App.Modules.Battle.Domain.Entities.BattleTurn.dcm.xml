@@ -10,7 +10,7 @@
             <custom-id-generator class="Ramsey\Uuid\Doctrine\UuidGenerator"/>
         </id>
 
-        <field name="battleRoundId" column="battle_round_id"/>
+        <field name="battleRoundId" column="battle_round_id" type="uuid"/>
 
         <many-to-one target-entity="App\Modules\Character\Domain\Entities\Character" field="executor"  />
 

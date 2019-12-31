@@ -24,7 +24,7 @@
             </options>
         </field>
 
-        <field name="locationId" column="location_id"/>
+        <field name="locationId" column="location_id" type="uuid"/>
 
         <field name="victorXpGained" type="integer" column="victor_xp_gained">
             <options>

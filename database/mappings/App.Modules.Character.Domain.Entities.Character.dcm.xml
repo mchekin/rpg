@@ -56,7 +56,7 @@
             </options>
         </field>
 
-        <field name="profilePictureId" column="profile_picture_id" nullable="true"/>
+        <field name="profilePictureId" column="profile_picture_id" nullable="true" type="uuid"/>
 
         <field name="createdAt" type="datetime" column="created_at" nullable="true"/>
         <field name="updatedAt" type="datetime" column="updated_at" nullable="true"/>
