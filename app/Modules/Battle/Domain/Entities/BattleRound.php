@@ -3,14 +3,17 @@
 
 namespace App\Modules\Battle\Domain\Entities;
 
-use App\Modules\Battle\Domain\Factories\BattleTurnFactory;
 use App\Modules\Battle\Domain\Entities\Collections\BattleTurns;
+use App\Modules\Battle\Domain\ValueObjects\BattleTurnResult;
 use App\Modules\Character\Domain\Entities\Character;
+use App\Traits\GeneratesUuid;
 use Carbon\Carbon;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class BattleRound
 {
+    use GeneratesUuid;
+
     /**
      * @var string
      */
@@ -20,11 +23,6 @@ class BattleRound
      * @var string
      */
     private $battleId;
-
-    /**
-     * @var BattleTurnFactory
-     */
-    private $turnFactory;
 
     /**
      * @var Character
@@ -56,14 +54,12 @@ class BattleRound
         string $battleId,
         Character $attacker,
         Character $defender,
-        BattleTurnFactory $turnFactory,
         BattleTurns $turns
     ) {
         $this->id = $id;
         $this->battleId = $battleId;
         $this->attacker = $attacker;
         $this->defender = $defender;
-        $this->turnFactory = $turnFactory;
         $this->turns = new ArrayCollection($turns->all());
         $this->createdAt = Carbon::now();
         $this->updatedAt = Carbon::now();
@@ -86,7 +82,7 @@ class BattleRound
 
     public function execute()
     {
-        $turn = $this->turnFactory->create($this->attacker, $this->defender);
+        $turn = $this->createTurn($this->attacker, $this->defender);
 
         $turn->execute();
 
@@ -96,7 +92,7 @@ class BattleRound
             return $turn;
         }
 
-        $turn = $this->turnFactory->create($this->defender, $this->attacker);
+        $turn = $this->createTurn($this->defender, $this->attacker);
 
         $turn->execute();
 
@@ -111,5 +107,16 @@ class BattleRound
         $lastTurn = $this->turns->last();
 
         return $lastTurn->isTargetAlive();
+    }
+
+    private function createTurn(Character $owner, Character $target): BattleTurn
+    {
+        return new BattleTurn(
+            $this->generateUuid(),
+            $this->id,
+            $owner,
+            $target,
+            BattleTurnResult::none()
+        );
     }
 }
