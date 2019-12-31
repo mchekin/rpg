@@ -13,16 +13,6 @@ class BattleRoundFactory
 {
     use GeneratesUuid;
 
-    /**
-     * @var BattleTurnFactory
-     */
-    private $turnFactory;
-
-    public function __construct(BattleTurnFactory $turnFactory)
-    {
-        $this->turnFactory = $turnFactory;
-    }
-
     public function create(string $battleId, Character $attacker, Character $defender): BattleRound
     {
         return new BattleRound(
@@ -30,7 +20,6 @@ class BattleRoundFactory
             $battleId,
             $attacker,
             $defender,
-            $this->turnFactory,
             new BattleTurns()
         );
     }
