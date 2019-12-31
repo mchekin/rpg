@@ -2,12 +2,16 @@
 
 namespace App\Modules\Battle\Domain\Entities;
 
-use App\Modules\Battle\Domain\Factories\BattleRoundFactory;
+use App\Modules\Battle\Domain\Entities\Collections\BattleTurns;
 use App\Modules\Battle\Domain\Entities\Collections\BattleRounds;
 use App\Modules\Character\Domain\Entities\Character;
+use App\Traits\GeneratesUuid;
+use Carbon\Carbon;
 
 class Battle
 {
+    use GeneratesUuid;
+
     /**
      * @var string
      */
@@ -29,11 +33,6 @@ class Battle
     private $defender;
 
     /**
-     * @var BattleRoundFactory
-     */
-    private $roundFactory;
-
-    /**
      * @var BattleRounds
      */
     private $rounds;
@@ -53,7 +52,6 @@ class Battle
         string $locationId,
         Character $attacker,
         Character $defender,
-        BattleRoundFactory $roundFactory,
         BattleRounds $rounds,
         int $victorXpGained,
         Character $victor = null
@@ -63,7 +61,7 @@ class Battle
         $this->locationId = $locationId;
         $this->attacker = $attacker;
         $this->defender = $defender;
-        $this->roundFactory = $roundFactory;
+        $this->rounds = new ArrayCollection($rounds->all());
         $this->rounds = $rounds;
         $this->victorXpGained = $victorXpGained;
         $this->victor = $victor;
@@ -72,7 +70,7 @@ class Battle
     public function execute(): void
     {
         do {
-            $round = $this->roundFactory->create(
+            $round = $this->createRound(
                 $this->getId(),
                 $this->getAttacker(),
                 $this->getDefender()
@@ -133,5 +131,16 @@ class Battle
     public function getLocationId(): string
     {
         return $this->locationId;
+    }
+
+    public function createRound(string $battleId, Character $attacker, Character $defender): BattleRound
+    {
+        return new BattleRound(
+            $this->generateUuid(),
+            $battleId,
+            $attacker,
+            $defender,
+            new BattleTurns()
+        );
     }
 }
