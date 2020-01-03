@@ -57,7 +57,6 @@ class CharacterFactory
                 0,
                 0
             ),
-            Inventory::empty(),
             $command->getUserId()
         );
     }

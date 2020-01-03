@@ -30,8 +30,6 @@ class ItemReconstitutionFactory
             ItemType::ofType($model->getType()),
             $effects,
             $model->getPrototypeId(),
-            $model->getCreatorCharacterId(),
-            $model->getOwnerCharacterId(),
             InventorySlot::defined($model->getInventorySlotNumber()),
             $model->isEquipped()
         );

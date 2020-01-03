@@ -11,7 +11,7 @@
         <field name="constitution" column="constitution" type="integer"/>
         <field name="intelligence" column="intelligence" type="integer"/>
         <field name="charisma" column="charisma" type="integer"/>
-        <field name="unassigned" column="unassigned" type="integer"/>
+        <field name="unassigned" column="available_attribute_points" type="integer"/>
 
     </embeddable>
 

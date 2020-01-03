@@ -18,7 +18,7 @@
 
         <field name="imageFilePath" column="image_file_path"/>
 
-        <embedded name="inventorySlot" class="App\Modules\Equipment\Domain\ValueObjects\InventorySlot"/>
+        <embedded name="inventorySlot" class="App\Modules\Equipment\Domain\ValueObjects\InventorySlot" use-column-prefix="false"/>
 
         <field name="equipped" type="boolean" column="equipped">
             <options>
@@ -26,13 +26,17 @@
             </options>
         </field>
 
-        <embedded name="type" class="App\Modules\Equipment\Domain\ValueObjects\ItemType"/>
+        <embedded name="type" class="App\Modules\Equipment\Domain\ValueObjects\ItemType" use-column-prefix="false"/>
 
         <field name="prototypeId" column="prototype_id" type="uuid"/>
 
-        <field name="creatorCharacterId" column="creator_character_id" type="uuid"/>
+        <many-to-one target-entity="App\Modules\Character\Domain\Entities\Character" field="creatorCharacter">
+            <join-column name="creator_character_id"/>
+        </many-to-one>
 
-        <field name="ownerCharacterId" column="owner_character_id" type="uuid"/>
+        <many-to-one target-entity="App\Modules\Character\Domain\Entities\Character" field="ownerCharacter">
+            <join-column name="owner_character_id"/>
+        </many-to-one>
 
         <field name="createdAt" type="datetime" column="created_at" nullable="true"/>
         <field name="updatedAt" type="datetime" column="updated_at" nullable="true"/>

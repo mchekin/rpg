@@ -3,6 +3,7 @@
 namespace App\Modules\Equipment\Domain\Entities;
 
 
+use App\Modules\Character\Domain\Entities\Character;
 use App\Modules\Equipment\Domain\ValueObjects\InventorySlot;
 use App\Modules\Equipment\Domain\ValueObjects\ItemEffect;
 use App\Modules\Equipment\Domain\ValueObjects\ItemType;
@@ -36,13 +37,13 @@ class Item
      */
     private $prototypeId;
     /**
-     * @var string
+     * @var Character
      */
-    private $creatorCharacterId;
+    private $creatorCharacter;
     /**
-     * @var string
+     * @var Character
      */
-    private $ownerCharacterId;
+    private $ownerCharacter;
     /**
      * @var string
      */
@@ -64,6 +65,8 @@ class Item
      */
     private $updatedAt;
 
+
+
     public function __construct(
         string $id,
         string $name,
@@ -72,8 +75,6 @@ class Item
         ItemType $type,
         Collection $effects,
         string $prototypeId,
-        string $creatorCharacterId,
-        string $ownerCharacterId,
         InventorySlot $inventorySlot,
         bool $equipped = false
     )
@@ -85,8 +86,6 @@ class Item
         $this->type = $type;
         $this->effects = $effects;
         $this->prototypeId = $prototypeId;
-        $this->creatorCharacterId = $creatorCharacterId;
-        $this->ownerCharacterId = $ownerCharacterId;
         $this->inventorySlot = $inventorySlot;
         $this->equipped = $equipped;
         $this->createdAt = Carbon::now();

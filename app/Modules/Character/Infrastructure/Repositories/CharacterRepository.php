@@ -6,6 +6,7 @@ use App\Modules\Character\Domain\Contracts\CharacterRepositoryInterface;
 use App\Modules\Character\Domain\Entities\Character;
 use App\Character as CharacterModel;
 use App\Modules\Character\Infrastructure\ReconstitutionFactories\CharacterReconstitutionFactory;
+use Doctrine\ORM\EntityManager;
 
 class CharacterRepository implements CharacterRepositoryInterface
 {
@@ -13,10 +14,17 @@ class CharacterRepository implements CharacterRepositoryInterface
      * @var CharacterReconstitutionFactory
      */
     private $characterReconstitutionFactory;
+    /**
+     * @var EntityManager
+     */
+    private $entityManager;
 
-    public function __construct(CharacterReconstitutionFactory $characterReconstitutionFactory)
-    {
+    public function __construct(
+        CharacterReconstitutionFactory $characterReconstitutionFactory,
+        EntityManager $entityManager
+    ) {
         $this->characterReconstitutionFactory = $characterReconstitutionFactory;
+        $this->entityManager = $entityManager;
     }
 
     public function add(Character $character)
@@ -55,12 +63,26 @@ class CharacterRepository implements CharacterRepositoryInterface
         $character->setModel($characterModel);
     }
 
+    /**
+     * @param string $characterId
+     * @return Character
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Doctrine\ORM\TransactionRequiredException
+     */
     public function getOne(string $characterId): Character
     {
-        /** @var CharacterModel $characterModel */
-        $characterModel = CharacterModel::query()->with('items')->findOrFail($characterId);
+        ///** @var CharacterModel $characterModel */
+        //$characterModel = CharacterModel::query()->with('items')->findOrFail($characterId);
+        //
+        //return $this->characterReconstitutionFactory->reconstitute($characterModel);
 
-        return $this->characterReconstitutionFactory->reconstitute($characterModel);
+        /** @var Character $character */
+        $character = $this->entityManager->find(Character::class, $characterId);
+
+        $inventory = $character->getInventory();
+
+        dd($character);
     }
 
     public function update(Character $character)

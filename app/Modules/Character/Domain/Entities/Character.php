@@ -14,6 +14,8 @@ use App\Modules\Equipment\Domain\ValueObjects\ItemEffect;
 use App\Traits\ContainsModel;
 use App\Traits\ThrowsDice;
 use Carbon\Carbon;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 class Character
 {
@@ -70,10 +72,6 @@ class Character
      */
     private $statistics;
     /**
-     * @var Inventory
-     */
-    private $inventory;
-    /**
      * @var int|null
      */
     private $userId;
@@ -89,6 +87,10 @@ class Character
      * @var Carbon
      */
     private $updatedAt;
+    /**
+     * @var Collection
+     */
+    private $items;
 
     public function __construct(
         string $id,
@@ -103,7 +105,6 @@ class Character
         Attributes $attributes,
         HitPoints $hitPoints,
         Statistics $statistics,
-        Inventory $inventory,
         int $userId = null,
         string $profilePictureId = null
     )
@@ -120,9 +121,9 @@ class Character
         $this->attributes = $attributes;
         $this->hitPoints = $hitPoints;
         $this->statistics = $statistics;
-        $this->inventory = $inventory;
         $this->userId = $userId;
         $this->profilePictureId = $profilePictureId;
+        $this->items = new ArrayCollection();
         $this->createdAt = Carbon::now();
         $this->updatedAt = Carbon::now();
     }
@@ -145,7 +146,7 @@ class Character
     public function getBaseDamage(): int
     {
         return $this->getStrength()
-            + $this->inventory->getEquippedItemsEffect(ItemEffect::DAMAGE);
+            + $this->getInventory()->getEquippedItemsEffect(ItemEffect::DAMAGE);
     }
 
     public function generatePrecision(): int
@@ -156,7 +157,7 @@ class Character
     public function getBasePrecision(): int
     {
         return $this->getAgility()
-            + $this->inventory->getEquippedItemsEffect(ItemEffect::PRECISION);
+            + $this->getInventory()->getEquippedItemsEffect(ItemEffect::PRECISION);
     }
 
     public function generateEvasionFactor(): int
@@ -167,7 +168,7 @@ class Character
     public function getBaseEvasion(): int
     {
         return $this->getAgility()
-            + $this->inventory->getEquippedItemsEffect(ItemEffect::EVASION);
+            + $this->getInventory()->getEquippedItemsEffect(ItemEffect::EVASION);
     }
 
     public function generateTrickery(): int
@@ -178,7 +179,7 @@ class Character
     public function getBaseTrickery(): int
     {
         return $this->getIntelligence()
-            + $this->inventory->getEquippedItemsEffect(ItemEffect::TRICKERY);
+            + $this->getInventory()->getEquippedItemsEffect(ItemEffect::TRICKERY);
     }
 
     public function generateAwareness(): int
@@ -189,12 +190,12 @@ class Character
     public function getBaseAwareness(): int
     {
         return $this->getIntelligence() * 2
-            + $this->inventory->getEquippedItemsEffect(ItemEffect::AWARENESS);
+            + $this->getInventory()->getEquippedItemsEffect(ItemEffect::AWARENESS);
     }
 
     public function getArmorRating()
     {
-        return $this->inventory->getEquippedItemsEffect(ItemEffect::ARMOR);
+        return $this->getInventory()->getEquippedItemsEffect(ItemEffect::ARMOR);
     }
 
     public function getStrength(): int
@@ -293,12 +294,12 @@ class Character
 
     public function addItemToInventorySlot(int $slot, Item $item)
     {
-        $this->inventory = $this->inventory->withAddedItem($slot, $item);
+        $this->items = $this->getInventory()->withAddedItem($slot, $item)->getItems();
     }
 
     public function addItemToInventory(Item $item)
     {
-        $this->inventory = $this->inventory->withAddedItemToFreeSlot($item);
+        $this->items = $this->getInventory()->withAddedItemToFreeSlot($item)->getItems();
     }
 
     public function setLocationId(string $locationId)
@@ -370,6 +371,6 @@ class Character
 
     public function getInventory(): Inventory
     {
-        return $this->inventory;
+        return Inventory::withItems($this->items);
     }
 }

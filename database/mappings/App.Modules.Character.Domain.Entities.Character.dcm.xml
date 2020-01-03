@@ -35,19 +35,19 @@
             </options>
         </field>
 
-        <embedded name="gender" class="App\Modules\Character\Domain\ValueObjects\Gender" />
+        <embedded name="gender" class="App\Modules\Character\Domain\ValueObjects\Gender" use-column-prefix="false"/>
 
-        <embedded name="money" class="App\Modules\Character\Domain\ValueObjects\Money" />
+        <embedded name="money" class="App\Modules\Character\Domain\ValueObjects\Money" use-column-prefix="false"/>
 
-        <embedded name="reputation" class="App\Modules\Character\Domain\ValueObjects\Reputation" />
+        <embedded name="reputation" class="App\Modules\Character\Domain\ValueObjects\Reputation" use-column-prefix="false"/>
 
-        <embedded name="attributes" class="App\Modules\Character\Domain\ValueObjects\Attributes" />
+        <embedded name="attributes" class="App\Modules\Character\Domain\ValueObjects\Attributes" use-column-prefix="false"/>
 
-        <embedded name="hitPoints" class="App\Modules\Character\Domain\ValueObjects\HitPoints" />
+        <embedded name="hitPoints" class="App\Modules\Character\Domain\ValueObjects\HitPoints" use-column-prefix="false"/>
 
-        <embedded name="statistics" class="App\Modules\Character\Domain\ValueObjects\Statistics" />
+        <embedded name="statistics" class="App\Modules\Character\Domain\ValueObjects\Statistics" use-column-prefix="false"/>
 
-        <embedded name="inventory" class="App\Modules\Character\Domain\ValueObjects\Inventory" />
+        <one-to-many field="items" target-entity="App\Modules\Equipment\Domain\Entities\Item" mapped-by="ownerCharacter"/>
 
         <field name="xp" type="integer" column="xp">
             <options>

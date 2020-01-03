@@ -9,28 +9,23 @@ use App\Modules\Character\Domain\ValueObjects\Inventory\NotEnoughSpaceException;
 use App\Modules\Equipment\Domain\Entities\Item;
 use App\Modules\Equipment\Domain\ValueObjects\InventorySlot;
 use App\Modules\Equipment\Domain\ValueObjects\ItemType;
-use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 class Inventory
 {
     const NUMBER_OF_SLOTS = 24;
 
     /**
-     * @var ArrayCollection
+     * @var Collection
      */
     private $items;
 
-    private function __construct(ArrayCollection $items)
+    private function __construct(Collection $items)
     {
-        $this->items = new ArrayCollection($items->toArray());
+        $this->items = $items;
     }
 
-    public static function empty(): self
-    {
-        return new self(new ArrayCollection());
-    }
-
-    public static function withItems(ArrayCollection $items): self
+    public static function withItems(Collection $items): self
     {
         if ($items->count() >= self::NUMBER_OF_SLOTS) {
             throw new NotEnoughSpaceException("Not enough space in the Inventory for {$items->count()} new items");
@@ -94,7 +89,7 @@ class Inventory
         });
     }
 
-    private function getEquippedItems(): ArrayCollection
+    private function getEquippedItems(): Collection
     {
         return $this->items->filter(function (Item $item) {
             return $item->isEquipped();
@@ -114,5 +109,10 @@ class Inventory
         $items->set($slot, $item);
 
         return new self($this->items);
+    }
+
+    public function getItems(): Collection
+    {
+        return $this->items;
     }
 }

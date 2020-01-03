@@ -22,8 +22,6 @@ class ItemFactory
             $itemPrototype->getType(),
             $itemPrototype->getEffects(),
             $itemPrototype->getId(),
-            $creatorCharacterId,
-            $creatorCharacterId,
             InventorySlot::undefined()
         );
     }

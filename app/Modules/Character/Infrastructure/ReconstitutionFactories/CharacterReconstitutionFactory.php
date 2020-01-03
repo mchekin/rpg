@@ -31,10 +31,6 @@ class CharacterReconstitutionFactory
 
     public function reconstitute(CharacterModel $characterModel): Character
     {
-        $items = $characterModel->items->map(function (ItemModel $itemModel) {
-            return $this->itemReconstitutionFactory->reconstitute($itemModel);
-        });
-
         $character = new Character(
             $characterModel->getId(),
             $characterModel->getRaceId(),
@@ -61,7 +57,6 @@ class CharacterReconstitutionFactory
                 $characterModel->getBattlesLost(),
                 $characterModel->getBattlesWon()
             ),
-            Inventory::withItems(new ArrayCollection($items->all())),
             $characterModel->getUserId(),
             $characterModel->getProfilePictureId()
         );
