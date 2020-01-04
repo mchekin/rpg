@@ -6,9 +6,7 @@ use App\Modules\Equipment\Domain\Entities\Item;
 
 interface ItemRepositoryInterface
 {
-    public function add(Item $item);
+    public function add(Item $item): void;
 
     public function getOne(string $itemId): Item;
-
-    public function update(Item $item);
 }

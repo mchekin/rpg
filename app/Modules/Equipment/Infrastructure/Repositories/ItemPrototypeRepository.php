@@ -2,28 +2,34 @@
 
 namespace App\Modules\Equipment\Infrastructure\Repositories;
 
-use App\ItemPrototype as ItemPrototypeModel;
 use App\Modules\Equipment\Domain\Contracts\ItemPrototypeRepositoryInterface;
 use App\Modules\Equipment\Domain\Entities\ItemPrototype;
-use App\Modules\Equipment\Infrastructure\ReconstitutionFactories\ItemPrototypeReconstitutionFactory;
+use Doctrine\ORM\EntityManager;
 
 class ItemPrototypeRepository implements ItemPrototypeRepositoryInterface
 {
     /**
-     * @var ItemPrototypeReconstitutionFactory
+     * @var EntityManager
      */
-    private $reconstitutionFactory;
+    private $entityManager;
 
-    public function __construct(ItemPrototypeReconstitutionFactory $reconstitutionFactory)
+    public function __construct(EntityManager $entityManager)
     {
-        $this->reconstitutionFactory = $reconstitutionFactory;
+        $this->entityManager = $entityManager;
     }
 
+    /**
+     * @param string $itemPrototypeId
+     * @return ItemPrototype
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Doctrine\ORM\TransactionRequiredException
+     */
     public function getOne(string $itemPrototypeId): ItemPrototype
     {
-        /** @var ItemPrototypeModel $model */
-        $model = ItemPrototypeModel::query()->findOrFail($itemPrototypeId);
+        /** @var ItemPrototype $prototype */
+        $prototype = $this->entityManager->find(ItemPrototype::class, $itemPrototypeId);
 
-        return $this->reconstitutionFactory->reconstitute($model);
+        return $prototype;
     }
 }

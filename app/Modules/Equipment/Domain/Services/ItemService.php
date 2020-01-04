@@ -4,11 +4,9 @@ namespace App\Modules\Equipment\Domain\Services;
 
 use App\Modules\Character\Domain\Contracts\CharacterRepositoryInterface;
 use App\Modules\Equipment\Domain\Commands\CreateItemCommand;
-use App\Modules\Equipment\Domain\Commands\EquipItemCommand;
 use App\Modules\Equipment\Domain\Contracts\ItemPrototypeRepositoryInterface;
 use App\Modules\Equipment\Domain\Contracts\ItemRepositoryInterface;
 use App\Modules\Equipment\Domain\Entities\Item;
-use App\Modules\Equipment\Domain\Factories\ItemFactory;
 use Illuminate\Support\Facades\DB;
 
 class ItemService
@@ -17,10 +15,6 @@ class ItemService
      * @var ItemRepositoryInterface
      */
     private $itemRepository;
-    /**
-     * @var ItemFactory
-     */
-    private $itemFactory;
     /**
      * @var ItemPrototypeRepositoryInterface
      */
@@ -33,14 +27,12 @@ class ItemService
     public function __construct(
         CharacterRepositoryInterface $characterRepository,
         ItemRepositoryInterface $itemRepository,
-        ItemPrototypeRepositoryInterface $itemPrototypeRepository,
-        ItemFactory $itemFactory
+        ItemPrototypeRepositoryInterface $itemPrototypeRepository
     )
     {
         $this->characterRepository = $characterRepository;
         $this->itemRepository = $itemRepository;
         $this->itemPrototypeRepository = $itemPrototypeRepository;
-        $this->itemFactory = $itemFactory;
     }
 
     public function create(CreateItemCommand $command): Item
@@ -49,12 +41,11 @@ class ItemService
             $itemPrototype = $this->itemPrototypeRepository->getOne($command->getPrototypeId());
             $character = $this->characterRepository->getOne($command->getCreatorCharacterId());
 
-            $item = $this->itemFactory->create($itemPrototype, $character->getId());
+            $item = $itemPrototype->createItem($character);
 
             $character->addItemToInventory($item);
 
             $this->itemRepository->add($item);
-            $this->characterRepository->update($character);
 
             return $item;
         });

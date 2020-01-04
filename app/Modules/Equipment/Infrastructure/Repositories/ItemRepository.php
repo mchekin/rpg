@@ -2,11 +2,10 @@
 
 namespace App\Modules\Equipment\Infrastructure\Repositories;
 
-use App\Item as ItemModel;
 use App\Modules\Equipment\Domain\Contracts\ItemRepositoryInterface;
 use App\Modules\Equipment\Domain\Entities\Item;
-use App\Modules\Equipment\Domain\ValueObjects\ItemEffect;
 use App\Modules\Equipment\Infrastructure\ReconstitutionFactories\ItemReconstitutionFactory;
+use Doctrine\ORM\EntityManager;
 
 class ItemRepository implements ItemRepositoryInterface
 {
@@ -14,75 +13,43 @@ class ItemRepository implements ItemRepositoryInterface
      * @var ItemReconstitutionFactory
      */
     private $reconstitutionFactory;
+    /**
+     * @var EntityManager
+     */
+    private $entityManager;
 
-    public function __construct(ItemReconstitutionFactory $reconstitutionFactory)
-    {
+    public function __construct(
+        ItemReconstitutionFactory $reconstitutionFactory,
+        EntityManager $entityManager
+    ) {
         $this->reconstitutionFactory = $reconstitutionFactory;
+        $this->entityManager = $entityManager;
     }
 
-    public function add(Item $item)
+    /**
+     * @param Item $item
+     *
+     * @throws \Doctrine\ORM\ORMException
+     */
+    public function add(Item $item): void
     {
-        $effects = $item->getEffects()->map(function (ItemEffect $effect) {
-            return [
-                'quantity' => $effect->getQuantity(),
-                'type' => $effect->getType(),
-            ];
-        })->toJson();
-
-        ItemModel::query()->create([
-            'id' => $item->getId(),
-
-            'prototype_id' => $item->getPrototypeId(),
-            'creator_character_id' => $item->getCreatorCharacterId(),
-            'owner_character_id' => $item->getOwnerCharacterId(),
-
-            'inventory_slot_number' => $item->getInventorySlot()->getSlot(),
-            'equipped' => $item->isEquipped(),
-
-            'name' => $item->getName(),
-            'description' => $item->getDescription(),
-
-            'effects' => $effects,
-
-            'image_file_path' => $item->getImageFilePath(),
-
-            'type' => $item->getType()->toString(),
-        ]);
+        $this->entityManager->persist($item);
     }
 
+    /**
+     * @param string $itemId
+     *
+     * @return Item
+     *
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Doctrine\ORM\TransactionRequiredException
+     */
     public function getOne(string $itemId): Item
     {
-        /** @var ItemModel $model */
-        $model = ItemModel::query()->findOrFail($itemId);
+        /** @var Item $item */
+        $item = $this->entityManager->find(Item::class, $itemId);
 
-        return $this->reconstitutionFactory->reconstitute($model);
-    }
-
-    public function update(Item $item)
-    {
-        $effects = $item->getEffects()->map(function (ItemEffect $effect) {
-            return [
-                'quantity' => $effect->getQuantity(),
-                'type' => $effect->getType(),
-            ];
-        })->toJson();
-
-        ItemModel::query()->where('id', $item->getId())->update([
-            'prototype_id' => $item->getPrototypeId(),
-            'creator_character_id' => $item->getCreatorCharacterId(),
-            'owner_character_id' => $item->getOwnerCharacterId(),
-
-            'inventory_slot_number' => $item->getInventorySlot()->getSlot(),
-            'equipped' => $item->isEquipped(),
-
-            'name' => $item->getName(),
-            'description' => $item->getDescription(),
-
-            'effects' => $effects,
-
-            'image_file_path' => $item->getImageFilePath(),
-
-            'type' => $item->getType()->toString(),
-        ]);
+        return $item;
     }
 }

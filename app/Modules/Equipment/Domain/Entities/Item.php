@@ -33,9 +33,9 @@ class Item
      */
     private $effects;
     /**
-     * @var string
+     * @var ItemPrototype
      */
-    private $prototypeId;
+    private $prototype;
     /**
      * @var Character
      */
@@ -65,8 +65,6 @@ class Item
      */
     private $updatedAt;
 
-
-
     public function __construct(
         string $id,
         string $name,
@@ -74,9 +72,9 @@ class Item
         string $imageFilePath,
         ItemType $type,
         Collection $effects,
-        string $prototypeId,
-        InventorySlot $inventorySlot,
-        bool $equipped = false
+        Character $creator,
+        ItemPrototype $prototype,
+        InventorySlot $inventorySlot
     )
     {
         $this->id = $id;
@@ -85,9 +83,12 @@ class Item
         $this->imageFilePath = $imageFilePath;
         $this->type = $type;
         $this->effects = $effects;
-        $this->prototypeId = $prototypeId;
+        $this->creatorCharacter = $creator;
+        $this->ownerCharacter = $creator;
+        $this->prototype = $prototype;
         $this->inventorySlot = $inventorySlot;
-        $this->equipped = $equipped;
+
+        $this->equipped = false;
         $this->createdAt = Carbon::now();
         $this->updatedAt = Carbon::now();
     }
@@ -120,21 +121,6 @@ class Item
     public function getEffects(): Collection
     {
         return $this->effects;
-    }
-
-    public function getPrototypeId(): string
-    {
-        return $this->prototypeId;
-    }
-
-    public function getCreatorCharacterId(): string
-    {
-        return $this->creatorCharacterId;
-    }
-
-    public function getOwnerCharacterId(): string
-    {
-        return $this->ownerCharacterId;
     }
 
     public function getInventorySlot(): InventorySlot
@@ -175,5 +161,20 @@ class Item
         return $this->effects->filter(function (ItemEffect $effect) use ($itemEffectType) {
             return $effect->getType() === $itemEffectType;
         });
+    }
+
+    public function getPrototype(): ItemPrototype
+    {
+        return $this->prototype;
+    }
+
+    public function getCreatorCharacter(): Character
+    {
+        return $this->creatorCharacter;
+    }
+
+    public function getOwnerCharacter(): Character
+    {
+        return $this->ownerCharacter;
     }
 }

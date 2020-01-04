@@ -3,12 +3,19 @@
 namespace App\Modules\Equipment\Domain\Entities;
 
 
+use App\Modules\Character\Domain\Entities\Character;
+use App\Modules\Equipment\Domain\ValueObjects\InventorySlot;
 use App\Modules\Equipment\Domain\ValueObjects\ItemType;
+use App\Traits\GeneratesUuid;
 use Carbon\Carbon;
-use Illuminate\Support\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Illuminate\Support\Collection as IlluminateCollection;
 
 class ItemPrototype
 {
+    use GeneratesUuid;
+
     /**
      * @var string
      */
@@ -30,9 +37,13 @@ class ItemPrototype
      */
     private $type;
     /**
-     * @var Collection
+     * @var IlluminateCollection
      */
     private $effects;
+    /**
+     * @var Collection
+     */
+    private $items;
     /**
      * @var Carbon
      */
@@ -48,7 +59,7 @@ class ItemPrototype
         string $description,
         string $imageFilePath,
         ItemType $type,
-        Collection $effects
+        IlluminateCollection $effects
     ) {
         $this->id = $id;
         $this->name = $name;
@@ -56,6 +67,7 @@ class ItemPrototype
         $this->imageFilePath = $imageFilePath;
         $this->type = $type;
         $this->effects = $effects;
+        $this->items = new ArrayCollection();
         $this->createdAt = Carbon::now();
         $this->updatedAt = Carbon::now();
     }
@@ -85,8 +97,23 @@ class ItemPrototype
         return $this->type;
     }
 
-    public function getEffects(): Collection
+    public function getEffects(): IlluminateCollection
     {
         return $this->effects;
+    }
+
+    public function createItem(Character $creator): Item
+    {
+        return new Item(
+            $this->generateUuid(),
+            $this->getName(),
+            $this->getDescription(),
+            $this->getImageFilePath(),
+            $this->getType(),
+            $this->getEffects(),
+            $creator,
+            $this,
+            InventorySlot::defined($creator->getInventory()->findFreeSlot())
+        );
     }
 }

@@ -13,7 +13,6 @@ use App\Modules\Character\Domain\Commands\AttackCharacterCommand;
 use App\Modules\Character\Domain\Commands\CreateCharacterCommand;
 use App\Modules\Character\Domain\Commands\IncreaseAttributeCommand;
 use App\Modules\Character\Domain\Commands\MoveCharacterCommand;
-use App\Modules\Equipment\Domain\Commands\CreateItemCommand;
 use App\Modules\Equipment\Domain\Commands\EquipItemCommand;
 use App\Modules\Equipment\Domain\Contracts\ItemRepositoryInterface;
 use App\Modules\Equipment\Domain\Entities\Item;
@@ -91,13 +90,9 @@ class CharacterService
             if (!is_null($equippedItem)) {
                 /** @var Item $equippedItem */
                 $equippedItem->unEquip();
-                $this->itemRepository->update($equippedItem);
             }
 
             $item->equip();
-
-            $this->itemRepository->update($item);
-            $this->characterRepository->update($character);
         }
     }
 
@@ -109,7 +104,6 @@ class CharacterService
         if ($character->getInventory()->hasItem($item) && $item->isEquipped()) {
             /** @var Item $item */
             $item->unEquip();
-            $this->itemRepository->update($item);
         }
     }
 
@@ -120,8 +114,6 @@ class CharacterService
 
         $character->addItemToInventorySlot($command->getSlot(), $item);
 
-        $this->characterRepository->update($character);
-
         return $character;
     }
 
@@ -130,8 +122,6 @@ class CharacterService
         $character = $this->characterRepository->getOne($command->getCharacterId());
 
         $character->applyAttributeIncrease($command->getAttribute());
-
-        $this->characterRepository->update($character);
     }
 
     public function move(MoveCharacterCommand $command)
@@ -139,8 +129,6 @@ class CharacterService
         $character = $this->characterRepository->getOne($command->getCharacterId());
 
         $character->setLocationId($command->getLocationId());
-
-        $this->characterRepository->update($character);
     }
 
     public function attack(AttackCharacterCommand $command): Battle
@@ -164,9 +152,6 @@ class CharacterService
 
             $victor->updateLevel($newLevel->getId());
 
-            $this->characterRepository->update($victor);
-            $this->characterRepository->update($loser);
-
             return $battle;
         });
     }
@@ -176,8 +161,6 @@ class CharacterService
         $character = $this->characterRepository->getOne($picture->getCharacterId());
 
         $character->setProfilePictureId($picture->getId());
-
-        $this->characterRepository->update($character);
     }
 
     public function removeProfilePicture(string $characterId)
@@ -185,7 +168,5 @@ class CharacterService
         $character = $this->characterRepository->getOne($characterId);
 
         $character->removeProfilePicture();
-
-        $this->characterRepository->update($character);
     }
 }

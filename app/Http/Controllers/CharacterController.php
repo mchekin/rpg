@@ -65,7 +65,7 @@ class CharacterController extends Controller
         $character = $this->characterService->getOne($characterId);
         $level = $levelService->getLevel($character->getLevelNumber());
 
-        return view('character.show', ['character' => $character->getModel(), 'level' => $level]);
+        return view('character.show', ['character' => $character, 'level' => $level]);
     }
 
     public function update(

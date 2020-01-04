@@ -8,7 +8,6 @@ use App\Modules\Equipment\Domain\Commands\CreateItemCommand;
 use App\Modules\Equipment\Domain\Contracts\ItemPrototypeRepositoryInterface;
 use App\Modules\Equipment\Domain\Contracts\ItemRepositoryInterface;
 use App\Modules\Equipment\Domain\Entities\ItemPrototype;
-use App\Modules\Equipment\Domain\Factories\ItemFactory;
 use App\Modules\Equipment\Domain\Services\ItemService;
 use App\Modules\Equipment\Domain\ValueObjects\ItemEffect;
 use App\Modules\Equipment\Domain\ValueObjects\ItemType;
@@ -46,8 +45,7 @@ class ItemServiceTest extends TestCase
         $this->sut = new ItemService(
             $this->characterRepository,
             $this->itemRepository,
-            $this->itemPrototypeRepository,
-            new ItemFactory()
+            $this->itemPrototypeRepository
         );
     }
 
@@ -91,8 +89,8 @@ class ItemServiceTest extends TestCase
         $this->assertEquals($imageFilePath, $item->getImageFilePath());
         $this->assertEquals($type, $item->getType());
         $this->assertEquals($effects, $item->getEffects());
-        $this->assertEquals($prototypeId, $item->getPrototypeId());
-        $this->assertEquals($creatorCharacterId, $item->getCreatorCharacterId());
-        $this->assertEquals($creatorCharacterId, $item->getOwnerCharacterId());
+        $this->assertEquals($prototypeId, $item->getPrototype()->getId());
+        $this->assertEquals($creatorCharacterId, $item->getCreatorCharacter()->getId());
+        $this->assertEquals($creatorCharacterId, $item->getOwnerCharacter()->getid());
     }
 }
