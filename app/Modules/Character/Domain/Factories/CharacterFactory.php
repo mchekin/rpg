@@ -3,6 +3,7 @@
 
 namespace App\Modules\Character\Domain\Factories;
 
+use App\Modules\Auth\Domain\Contracts\UserRepositoryInterface;
 use App\Modules\Character\Domain\ValueObjects\Inventory;
 use App\Modules\Character\Domain\ValueObjects\Statistics;
 use App\Traits\GeneratesUuid;
@@ -24,21 +25,27 @@ class CharacterFactory
      * @var RaceRepositoryInterface
      */
     private $raceRepository;
+    /**
+     * @var UserRepositoryInterface
+     */
+    private $userRepository;
 
-    public function __construct(RaceRepositoryInterface $raceRepository)
+    public function __construct(RaceRepositoryInterface $raceRepository, UserRepositoryInterface $userRepository)
     {
         $this->raceRepository = $raceRepository;
+        $this->userRepository = $userRepository;
     }
 
     public function create(CreateCharacterCommand $command): Character
     {
         $race = $this->raceRepository->getOne($command->getRaceId());
+        $user = $this->userRepository->getOne($command->getUserId());
 
         return new Character(
             $this->generateUuid(),
-            $race->getId(),
+            $race,
             1,
-            $race->getStartingLocationId(),
+            $race->getStartingLocation(),
             $command->getName(),
             new Gender($command->getGender()),
             0,
@@ -57,7 +64,7 @@ class CharacterFactory
                 0,
                 0
             ),
-            $command->getUserId()
+            $user
         );
     }
 }

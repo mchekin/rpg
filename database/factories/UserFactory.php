@@ -41,7 +41,7 @@ $factory->define(Character::class, function (Faker\Generator $faker) use ($facto
     $raceModel = Race::query()->inRandomOrder()->first();
     $location = Location::query()->inRandomOrder()->first();
 
-    $race = (new RaceRepository())->getOne($raceModel->getId());
+    $race = app(RaceRepository::class)->getOne($raceModel->getId());
     $hitPoints = HitPoints::byRace($race);
 
     $genders = ['male', 'female'];

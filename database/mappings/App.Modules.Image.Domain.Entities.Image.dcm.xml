@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="App\Modules\Image\Domain\Entities\Image" table="images">
+
+        <id name="id" column="id" type="uuid">
+            <generator strategy="CUSTOM"/>
+            <custom-id-generator class="Ramsey\Uuid\Doctrine\UuidGenerator"/>
+        </id>
+
+        <many-to-one target-entity="App\Modules\Character\Domain\Entities\Character" field="character">
+            <join-column name="character_id"/>
+        </many-to-one>
+
+        <field name="filePathFull" column="file_path_full"/>
+
+        <field name="filePathSmall" column="file_path_small"/>
+
+        <field name="filePathIcon" column="file_path_icon"/>
+
+        <field name="createdAt" type="datetime" column="created_at" nullable="true"/>
+        <field name="updatedAt" type="datetime" column="updated_at" nullable="true"/>
+
+    </entity>
+
+</doctrine-mapping>

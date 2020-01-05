@@ -2,12 +2,12 @@
 
 namespace App\Modules\Character\Infrastructure\Repositories;
 
-use App\Modules\Character\Domain\Contracts\RaceRepositoryInterface;
-use App\Modules\Character\Domain\Entities\Race;
+use App\Modules\Character\Domain\Contracts\LocationRepositoryInterface;
+use App\Modules\Character\Domain\Entities\Location;
 use Doctrine\ORM\EntityManager;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-class RaceRepository implements RaceRepositoryInterface
+class LocationRepository implements LocationRepositoryInterface
 {
     /**
      * @var EntityManager
@@ -20,24 +20,24 @@ class RaceRepository implements RaceRepositoryInterface
     }
 
     /**
-     * @param int $id
+     * @param string $id
      *
-     * @return Race
+     * @return Location
      *
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      * @throws \Doctrine\ORM\TransactionRequiredException
      */
-    public function getOne(int $id): Race
+    public function getOne(string $id): Location
     {
-        /** @var Race $race */
-        $race = $this->entityManager->find(Race::class, $id);
+        /** @var Location $location */
+        $location = $this->entityManager->find(Location::class, $id);
 
-        if (is_null($race))
+        if (is_null($location))
         {
             throw new ModelNotFoundException();
         }
 
-        return $race;
+        return $location;
     }
 }

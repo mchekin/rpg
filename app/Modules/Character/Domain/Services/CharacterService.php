@@ -7,6 +7,8 @@ namespace App\Modules\Character\Domain\Services;
 use App\Modules\Battle\Domain\Entities\Battle;
 use App\Modules\Character\Domain\Commands\AddItemToInventoryCommand;
 use App\Modules\Character\Domain\Contracts\CharacterRepositoryInterface;
+use App\Modules\Character\Domain\Contracts\LocationRepositoryInterface;
+use App\Modules\Character\Domain\Entities\Location;
 use App\Modules\Character\Domain\Factories\CharacterFactory;
 use App\Modules\Character\Domain\Entities\Character;
 use App\Modules\Character\Domain\Commands\AttackCharacterCommand;
@@ -32,6 +34,10 @@ class CharacterService
      */
     private $characterRepository;
     /**
+     * @var LocationRepositoryInterface
+     */
+    private $locationRepository;
+    /**
      * @var ItemRepositoryInterface
      */
     private $itemRepository;
@@ -51,6 +57,7 @@ class CharacterService
     public function __construct(
         CharacterFactory $characterFactory,
         CharacterRepositoryInterface $characterRepository,
+        LocationRepositoryInterface $locationRepository,
         ItemRepositoryInterface $itemRepository,
         BattleService $battleService,
         LevelService $levelService,
@@ -59,6 +66,7 @@ class CharacterService
     {
         $this->characterFactory = $characterFactory;
         $this->characterRepository = $characterRepository;
+        $this->locationRepository = $locationRepository;
         $this->itemRepository = $itemRepository;
         $this->battleService = $battleService;
         $this->levelService = $levelService;
@@ -126,9 +134,13 @@ class CharacterService
 
     public function move(MoveCharacterCommand $command)
     {
+        /** @var Character $character */
         $character = $this->characterRepository->getOne($command->getCharacterId());
 
-        $character->setLocationId($command->getLocationId());
+        /** @var Location $location */
+        $location = $this->locationRepository->getOne($command->getLocationId());
+
+        $character->setLocation($location);
     }
 
     public function attack(AttackCharacterCommand $command): Battle
@@ -158,9 +170,9 @@ class CharacterService
 
     public function updateProfilePicture(Image $picture)
     {
-        $character = $this->characterRepository->getOne($picture->getCharacterId());
+        $character = $picture->getCharacter();
 
-        $character->setProfilePictureId($picture->getId());
+        $character->setProfilePicture($picture);
     }
 
     public function removeProfilePicture(string $characterId)

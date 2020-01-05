@@ -15,25 +15,23 @@
 
         <field name="name" column="name"/>
 
-        <field name="locationId" column="location_id" type="uuid" />
-
         <field name="levelId" type="integer" column="level_id">
             <options>
                 <option name="unsigned"/>
             </options>
         </field>
 
-        <field name="userId" type="integer" column="user_id" nullable="true">
-            <options>
-                <option name="unsigned"/>
-            </options>
-        </field>
+        <many-to-one target-entity="App\Modules\Character\Domain\Entities\Race" field="race" >
+            <join-column name="race_id"/>
+        </many-to-one>
 
-        <field name="raceId" type="integer" column="race_id">
-            <options>
-                <option name="unsigned"/>
-            </options>
-        </field>
+        <many-to-one target-entity="App\Modules\Character\Domain\Entities\Race" field="location" >
+            <join-column name="location_id"/>
+        </many-to-one>
+
+        <one-to-one target-entity="App\Modules\Auth\Domain\Entities\User" field="user" inversed-by="character">
+            <join-column name="user_id"/>
+        </one-to-one>
 
         <embedded name="gender" class="App\Modules\Character\Domain\ValueObjects\Gender" use-column-prefix="false"/>
 
@@ -49,14 +47,16 @@
 
         <one-to-many field="items" target-entity="App\Modules\Equipment\Domain\Entities\Item" mapped-by="ownerCharacter"/>
 
+        <one-to-one target-entity="App\Modules\Image\Domain\Entities\Image" field="profilePicture">
+            <join-column name="profile_picture_id"/>
+        </one-to-one>
+
         <field name="xp" type="integer" column="xp">
             <options>
                 <option name="unsigned"/>
                 <option name="default">0</option>
             </options>
         </field>
-
-        <field name="profilePictureId" column="profile_picture_id" nullable="true" type="uuid"/>
 
         <field name="createdAt" type="datetime" column="created_at" nullable="true"/>
         <field name="updatedAt" type="datetime" column="updated_at" nullable="true"/>

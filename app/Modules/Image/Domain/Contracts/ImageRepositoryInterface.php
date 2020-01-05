@@ -9,9 +9,9 @@ use Illuminate\Http\UploadedFile;
 
 interface ImageRepositoryInterface
 {
-    public function add(Image $image, UploadedFile $uploadedFile);
+    public function add(Image $image, UploadedFile $uploadedFile):void;
 
-    public function delete(string $characterId);
+    public function delete(string $characterId):void;
 
     public function getOne($id): Image;
 }

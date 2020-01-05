@@ -5,6 +5,8 @@ namespace App\Modules\Character\Domain\Entities;
 
 
 use App\Modules\Character\Domain\ValueObjects\Attributes;
+use App\Modules\Character\Domain\ValueObjects\Gender;
+use Carbon\Carbon;
 
 class Race
 {
@@ -13,9 +15,9 @@ class Race
      */
     private $id;
     /**
-     * @var string
+     * @var Location
      */
-    private $startingLocationId;
+    private $startingLocation;
     /**
      * @var string
      */
@@ -36,10 +38,18 @@ class Race
      * @var Attributes
      */
     private $attributes;
+    /**
+     * @var Carbon
+     */
+    private $createdAt;
+    /**
+     * @var Carbon
+     */
+    private $updatedAt;
 
     public function __construct(
         int $id,
-        string $startingLocationId,
+        Location $startingLocation,
         string $name,
         string $description,
         string $maleImage,
@@ -47,12 +57,14 @@ class Race
         Attributes $attributes
     ) {
         $this->id = $id;
-        $this->startingLocationId = $startingLocationId;
+        $this->startingLocation = $startingLocation;
         $this->name = $name;
         $this->description = $description;
         $this->maleImage = $maleImage;
         $this->femaleImage = $femaleImage;
         $this->attributes = $attributes;
+        $this->createdAt = Carbon::now();
+        $this->updatedAt = Carbon::now();
     }
 
     public function getId(): int
@@ -65,14 +77,14 @@ class Race
         return $this->name;
     }
 
-    public function getImageByGender(string $gender):string
+    public function getImageByGender(Gender $gender):string
     {
-        return $this->{"{$gender}_image"};
+        return $this->{"{$gender->getValue()}Image"};
     }
-    
-    public function getStartingLocationId(): string
+
+    public function getStartingLocation(): Location
     {
-        return $this->startingLocationId;
+        return $this->startingLocation;
     }
 
     public function getStrength(): int
@@ -100,25 +112,16 @@ class Race
         return $this->attributes->getCharisma();
     }
 
-    /**
-     * @return string
-     */
     public function getDescription(): string
     {
         return $this->description;
     }
 
-    /**
-     * @return string
-     */
     public function getMaleImage(): string
     {
         return $this->maleImage;
     }
 
-    /**
-     * @return string
-     */
     public function getFemaleImage(): string
     {
         return $this->femaleImage;

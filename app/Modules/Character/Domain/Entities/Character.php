@@ -2,6 +2,7 @@
 
 namespace App\Modules\Character\Domain\Entities;
 
+use App\Modules\Auth\Domain\Entities\User;
 use App\Modules\Character\Domain\ValueObjects\Attributes;
 use App\Modules\Character\Domain\ValueObjects\Gender;
 use App\Modules\Character\Domain\ValueObjects\HitPoints;
@@ -11,7 +12,8 @@ use App\Modules\Character\Domain\ValueObjects\Money;
 use App\Modules\Character\Domain\ValueObjects\Statistics;
 use App\Modules\Equipment\Domain\Entities\Item;
 use App\Modules\Equipment\Domain\ValueObjects\ItemEffect;
-use App\Traits\ContainsModel;
+use App\Modules\Equipment\Domain\ValueObjects\ItemType;
+use App\Modules\Image\Domain\Entities\Image;
 use App\Traits\ThrowsDice;
 use Carbon\Carbon;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -19,8 +21,6 @@ use Doctrine\Common\Collections\Collection;
 
 class Character
 {
-    // Todo: temporary hack of having reference to the Eloquent model
-    use ContainsModel;
     use ThrowsDice;
 
     /**
@@ -36,13 +36,13 @@ class Character
      */
     private $levelId;
     /**
-     * @var int
+     * @var Race
      */
-    private $raceId;
+    private $race;
     /**
-     * @var string
+     * @var Location
      */
-    private $locationId;
+    private $location;
     /**
      * @var int
      */
@@ -72,13 +72,17 @@ class Character
      */
     private $statistics;
     /**
-     * @var int|null
+     * @var User|null
      */
-    private $userId;
+    private $user;
     /**
-     * @var string
+     * @var Image|null
      */
-    private $profilePictureId;
+    private $profilePicture;
+    /**
+     * @var Collection
+     */
+    private $items;
     /**
      * @var Carbon
      */
@@ -87,16 +91,12 @@ class Character
      * @var Carbon
      */
     private $updatedAt;
-    /**
-     * @var Collection
-     */
-    private $items;
 
     public function __construct(
         string $id,
-        int $raceId,
+        Race $race,
         int $levelId,
-        string $locationId,
+        Location $location,
         string $name,
         Gender $gender,
         int $xp,
@@ -105,24 +105,22 @@ class Character
         Attributes $attributes,
         HitPoints $hitPoints,
         Statistics $statistics,
-        int $userId = null,
-        string $profilePictureId = null
+        ?User $user
     )
     {
         $this->id = $id;
         $this->name = $name;
         $this->gender = $gender;
         $this->levelId = $levelId;
-        $this->raceId = $raceId;
-        $this->locationId = $locationId;
+        $this->race = $race;
+        $this->location = $location;
         $this->xp = $xp;
         $this->money = $money;
         $this->reputation = $reputation;
         $this->attributes = $attributes;
         $this->hitPoints = $hitPoints;
         $this->statistics = $statistics;
-        $this->userId = $userId;
-        $this->profilePictureId = $profilePictureId;
+        $this->user = $user;
         $this->items = new ArrayCollection();
         $this->createdAt = Carbon::now();
         $this->updatedAt = Carbon::now();
@@ -228,9 +226,9 @@ class Character
         return $this->attributes->getUnassigned();
     }
 
-    public function getLocationId(): string
+    public function getLocation(): Location
     {
-        return $this->locationId;
+        return $this->location;
     }
 
     public function getHitPoints(): int
@@ -253,9 +251,9 @@ class Character
         return $this->name;
     }
 
-    public function getUserId()
+    public function getUser(): ?User
     {
-        return $this->userId;
+        return $this->user;
     }
 
     public function getGender(): Gender
@@ -268,9 +266,9 @@ class Character
         return $this->xp;
     }
 
-    public function getRaceId(): int
+    public function getRace(): Race
     {
-        return $this->raceId;
+        return $this->race;
     }
 
     public function getMoney(): Money
@@ -302,9 +300,9 @@ class Character
         $this->items = $this->getInventory()->withAddedItemToFreeSlot($item)->getItems();
     }
 
-    public function setLocationId(string $locationId)
+    public function setLocation(Location $location)
     {
-        $this->locationId = $locationId;
+        $this->location = $location;
     }
 
     public function isAlive(): bool
@@ -334,7 +332,7 @@ class Character
 
     public function getBattlesLost(): int
     {
-        return $this->statistics->getBattlesWon();
+        return $this->statistics->getBattlesLost();
     }
 
     public function applyDamage($damageDone)
@@ -351,26 +349,73 @@ class Character
         $this->attributes = $this->attributes->addAvailablePoints($points);
     }
 
-    public function setProfilePictureId(string $profilePictureId)
+    public function hasProfilePicture(): bool
     {
-        $this->profilePictureId = $profilePictureId;
+        return isset($this->profilePicture);
     }
 
-    /**
-     * @return string|null
-     */
-    public function getProfilePictureId()
+    public function setProfilePicture(Image $profilePicture)
     {
-        return $this->profilePictureId;
+        $this->profilePicture = $profilePicture;
+    }
+
+    public function getProfilePicture(): ?Image
+    {
+        return $this->profilePicture;
     }
 
     public function removeProfilePicture()
     {
-        $this->profilePictureId = null;
+        $this->profilePicture = null;
     }
 
     public function getInventory(): Inventory
     {
         return Inventory::withItems($this->items);
+    }
+
+    public function getProfilePictureFull(): string
+    {
+        if ($this->getProfilePicture())
+        {
+            return $this->getProfilePicture()->getFullSizeFile()->getFileName();
+        }
+
+        return $this->race->getImageByGender($this->gender);
+    }
+
+    public function isYou(int $userId): bool
+    {
+        return $this->isPlayerCharacter() && $this->user->getId() === $userId;
+    }
+
+    public function isPlayerCharacter(): bool
+    {
+        return !is_null($this->user);
+    }
+
+    public function isNPC(): bool
+    {
+        return !$this->isPlayerCharacter();
+    }
+
+    public function getHeadGearItem()
+    {
+        return Inventory::withItems($this->items)->findEquippedItemOfType(ItemType::headGear());
+    }
+
+    public function getBodyArmorItem()
+    {
+        return Inventory::withItems($this->items)->findEquippedItemOfType(ItemType::bodyArmor());
+    }
+
+    public function getMainHandItem()
+    {
+        return Inventory::withItems($this->items)->findEquippedItemOfType(ItemType::mainHand());
+    }
+
+    public function getOffHandItem()
+    {
+        return Inventory::withItems($this->items)->findEquippedItemOfType(ItemType::offHand());
     }
 }

@@ -1,3 +1,3 @@
 @if($item && $item->isEquipped())
-    <img src="{{ asset($item->image_file_path) }}">
+    <img src="{{ asset($item->getImageFilePath()) }}">
 @endif

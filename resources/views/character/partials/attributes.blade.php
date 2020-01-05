@@ -1,7 +1,7 @@
 <?php
-/** @var \App\Character $character */
+/** @var \App\Modules\Character\Domain\Entities\Character $character */
 
-$hasFreePoints = ($character->isYou() && $character->available_attribute_points);
+$hasFreePoints = ($character->isYou(Auth::id()) && $character->getUnassignedAttributePoints());
 ?>
 
 @if($hasFreePoints)
@@ -17,35 +17,35 @@ $hasFreePoints = ($character->isYou() && $character->available_attribute_points)
             <caption class="caption-top">Attributes</caption>
             <tr>
                 <th scope="row">Strength</th>
-                <td>{{ $character->strength }}</td>
+                <td>{{ $character->getStrength() }}</td>
                 @component('components.increment_attribute_button', compact('hasFreePoints'))
                     {{ 'strength' }}
                 @endcomponent
             </tr>
             <tr>
                 <th scope="row">Agility</th>
-                <td>{{ $character->agility }}</td>
+                <td>{{ $character->getAgility() }}</td>
                 @component('components.increment_attribute_button', compact('hasFreePoints'))
                     {{ 'agility' }}
                 @endcomponent
             </tr>
             <tr>
                 <th scope="row">Constitution</th>
-                <td>{{ $character->constitution }}</td>
+                <td>{{ $character->getConstitution() }}</td>
                 @component('components.increment_attribute_button', compact('hasFreePoints'))
                     {{ 'constitution' }}
                 @endcomponent
             </tr>
             <tr>
                 <th scope="row">Intelligence</th>
-                <td>{{ $character->intelligence }}</td>
+                <td>{{ $character->getIntelligence() }}</td>
                 @component('components.increment_attribute_button', compact('hasFreePoints'))
                     {{ 'intelligence' }}
                 @endcomponent
             </tr>
             <tr>
                 <th scope="row">Charisma</th>
-                <td>{{ $character->charisma }}</td>
+                <td>{{ $character->getCharisma() }}</td>
                 @component('components.increment_attribute_button', compact('hasFreePoints'))
                     {{ 'charisma' }}
                 @endcomponent
@@ -55,7 +55,7 @@ $hasFreePoints = ($character->isYou() && $character->available_attribute_points)
                 <tfoot>
                 <tr>
                     <th scope="row">Available points</th>
-                    <td class="circle">{{ $character->available_attribute_points }}</td>
+                    <td class="circle">{{ $character->getUnassignedAttributePoints() }}</td>
                 </tr>
                 </tfoot>
             @endif

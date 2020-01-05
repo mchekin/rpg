@@ -65,7 +65,7 @@ class Inventory
         throw new InventoryIsFullException('Cannot add to full inventory');
     }
 
-    public function findEquippedItemOfType(ItemType $type): Item
+    public function findEquippedItemOfType(ItemType $type)
     {
         return $this->items->filter(function (Item $item) use ($type) {
             return $item->getType()->equals($type) && $item->isEquipped();
@@ -89,6 +89,11 @@ class Inventory
         });
     }
 
+    public function getItemForSlot(int $slot): ?Item
+    {
+        return $this->items->get($slot);
+    }
+
     private function getEquippedItems(): Collection
     {
         return $this->items->filter(function (Item $item) {
@@ -96,11 +101,6 @@ class Inventory
         });
     }
 
-    /**
-     * @param int $slot
-     * @param Item $item
-     * @return Inventory
-     */
     private function addItem(int $slot, Item $item): Inventory
     {
         $item->setInventorySlot(InventorySlot::defined($slot));

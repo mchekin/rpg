@@ -1,26 +1,32 @@
+<?php
+/** @var \App\Modules\Character\Domain\Entities\Character $character */
+
+$hasFreePoints = ($character->isYou(Auth::id()) && $character->getUnassignedAttributePoints());
+?>
+
 <table class="table">
     <caption class="caption-top">Statistics</caption>
     <tr>
         <th scope="row">Reputation</th>
-        <td>{{ $character->reputation }}</td>
+        <td>{{ $character->getReputation()->getValue() }}</td>
     </tr>
     <tr>
         <th scope="row">Money</th>
-        <td>{{ $character->money }}</td>
+        <td>{{ $character->getMoney()->getValue() }}</td>
     </tr>
     <tr>
         <th scope="row">
-            <a href="{{ route('character.battle.index', compact('character')) }}">
+            <a href="{{ route('character.battle.index', ['character' => $character->getId()]) }}">
                 Battles Won
             </a>
         </th>
-        <td>{{ $character->battles_won }}</td>
+        <td>{{ $character->getBattlesWon() }}</td>
     </tr>
     <tr>
         <th scope="row">
-            <a href="{{ route('character.battle.index', compact('character')) }}">
+            <a href="{{ route('character.battle.index', ['character' => $character->getId()]) }}">
                 Battles Lost
             </a></th>
-        <td>{{ $character->battles_lost }}</td>
+        <td>{{ $character->getBattlesLost() }}</td>
     </tr>
 </table>

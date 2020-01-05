@@ -1,7 +1,7 @@
 <form role="form" method="POST" class="w-100">
     {!! csrf_field() !!}
     <div class="text-center mt-3">
-        @if($character->isYou())
+        @if($character->isYou(Auth::id()))
             <a class="btn btn-sm btn-primary" href="{{ route('inventory.index') }}">
                 Manage Inventory
                 <span class="fas fa-table"></span>

@@ -40,7 +40,7 @@ class InventoryController extends Controller
         $character = $characterService->getOne($characterId);
         $level = $levelService->getLevel($character->getLevelNumber());
 
-        return view('character.inventory.index', ['character' => $character->getModel(), 'level' => $level]);
+        return view('character.inventory.index', ['character' => $character, 'level' => $level]);
     }
 
     public function equipItem(Request $request, EquipItemCommandMapper $commandMapper): RedirectResponse

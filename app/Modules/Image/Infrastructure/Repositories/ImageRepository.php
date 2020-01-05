@@ -6,6 +6,7 @@ use App\Modules\Image\Domain\ValueObjects\ImageFile;
 use App\Modules\Image\Domain\Entities\Image;
 use App\Image as ImageModel;
 use App\Modules\Image\Domain\Contracts\ImageRepositoryInterface;
+use Doctrine\ORM\EntityManager;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\UploadedFile;
 use Intervention\Image\Constraint;
@@ -22,52 +23,57 @@ class ImageRepository implements ImageRepositoryInterface
      * @var ImageManager
      */
     private $imageManager;
+    /**
+     * @var EntityManager
+     */
+    private $entityManager;
 
-    public function __construct(Filesystem $filesystem, ImageManager $imageManager)
+    public function __construct(Filesystem $filesystem, ImageManager $imageManager, EntityManager $entityManager)
     {
         $this->filesystem = $filesystem;
         $this->imageManager = $imageManager;
+        $this->entityManager = $entityManager;
     }
 
-    public function add(Image $image, UploadedFile $uploadedFile)
+    /**
+     * @param Image $image
+     * @param UploadedFile $uploadedFile
+     * @throws \Doctrine\ORM\ORMException
+     */
+    public function add(Image $image, UploadedFile $uploadedFile): void
     {
-        $urlPath = $this->getUrlPath($image->getCharacterId());
+        $urlPath = $this->getUrlPath($image->getCharacter()->getId());
 
         $this->writeFiles($image, $uploadedFile);
 
-        return ImageModel::query()->create([
-            'id' => $image->getId(),
-            'character_id' => $image->getCharacterId(),
-            'file_path_full' => $urlPath . $image->getFullSizeFile()->getFileName(),
-            'file_path_small' => $urlPath . $image->getSmallSizeFile()->getFileName(),
-            'file_path_icon' => $urlPath . $image->getIconSizeFile()->getFileName(),
-        ]);
+        $this->entityManager->persist($image);
     }
 
-    public function delete(string $characterId)
+    public function delete(string $characterId): void
     {
         $this->filesystem->deleteDirectory($this->getFolderPath($characterId));
 
         ImageModel::query()->where('character_id', '=', $characterId)->delete();
     }
 
+    /**
+     * @param $id
+     * @return Image
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Doctrine\ORM\TransactionRequiredException
+     */
     public function getOne($id): Image
     {
-        /** @var ImageModel $imageModel */
-        $imageModel = ImageModel::query()->findOrFail($id);
+        /** @var Image $image */
+        $image = $this->entityManager->find(Image::class, $id);
 
-        return new Image(
-            $imageModel->getId(),
-            $imageModel->getCharacterId(),
-            ImageFile::full($imageModel->getFilePathFull()),
-            ImageFile::small($imageModel->getFilePathSmall()),
-            ImageFile::icon($imageModel->getFilePathIcon())
-        );
+        return $image;
     }
 
     private function writeFiles(Image $image, UploadedFile $uploadedFile)
     {
-        $folderPath = $this->getFolderPath($image->getCharacterId());
+        $folderPath = $this->getFolderPath($image->getCharacter()->getId());
 
         $this->createFolderIfMissing($folderPath);
 

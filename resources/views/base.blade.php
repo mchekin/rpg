@@ -17,6 +17,9 @@
     @show
 </head>
 <body>
+@php
+/** @var \App\Modules\Character\Domain\Entities\Character $character */
+@endphp
 
 <div class="container">
     @include('partials.navbar')

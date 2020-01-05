@@ -1,5 +1,5 @@
 @php
-    /** @var \App\Character $character */
+    /** @var \App\Modules\Character\Domain\Entities\Character $character */
     $character = Auth::user()->character;
 @endphp
 

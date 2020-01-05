@@ -5,6 +5,8 @@ namespace App\Modules\Character\Infrastructure\Repositories;
 use App\Modules\Character\Domain\Contracts\CharacterRepositoryInterface;
 use App\Modules\Character\Domain\Entities\Character;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityNotFoundException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class CharacterRepository implements CharacterRepositoryInterface
 {
@@ -40,6 +42,11 @@ class CharacterRepository implements CharacterRepositoryInterface
     {
         /** @var Character $character */
         $character = $this->entityManager->find(Character::class, $characterId);
+
+        if (is_null($character))
+        {
+            throw new ModelNotFoundException();
+        }
 
         return $character;
     }

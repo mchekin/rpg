@@ -4,25 +4,17 @@ namespace App\Modules\Equipment\Infrastructure\Repositories;
 
 use App\Modules\Equipment\Domain\Contracts\ItemRepositoryInterface;
 use App\Modules\Equipment\Domain\Entities\Item;
-use App\Modules\Equipment\Infrastructure\ReconstitutionFactories\ItemReconstitutionFactory;
 use Doctrine\ORM\EntityManager;
 
 class ItemRepository implements ItemRepositoryInterface
 {
     /**
-     * @var ItemReconstitutionFactory
-     */
-    private $reconstitutionFactory;
-    /**
      * @var EntityManager
      */
     private $entityManager;
 
-    public function __construct(
-        ItemReconstitutionFactory $reconstitutionFactory,
-        EntityManager $entityManager
-    ) {
-        $this->reconstitutionFactory = $reconstitutionFactory;
+    public function __construct(EntityManager $entityManager)
+    {
         $this->entityManager = $entityManager;
     }
 

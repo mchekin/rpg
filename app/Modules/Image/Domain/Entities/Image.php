@@ -2,7 +2,9 @@
 
 namespace App\Modules\Image\Domain\Entities;
 
+use App\Modules\Character\Domain\Entities\Character;
 use App\Modules\Image\Domain\ValueObjects\ImageFile;
+use Carbon\Carbon;
 
 class Image
 {
@@ -11,34 +13,44 @@ class Image
      */
     private $id;
     /**
+     * @var Character
+     */
+    private $character;
+    /**
      * @var string
      */
-    private $characterId;
+    private $filePathFull;
     /**
-     * @var ImageFile
+     * @var string
      */
-    private $fullSizeFile;
+    private $filePathSmall;
     /**
-     * @var ImageFile
+     * @var string
      */
-    private $smallSizeFile;
+    private $filePathIcon;
     /**
-     * @var ImageFile
+     * @var Carbon
      */
-    private $iconSizeFile;
+    private $createdAt;
+    /**
+     * @var Carbon
+     */
+    private $updatedAt;
 
     public function __construct(
         string $id,
-        string $characterId,
-        ImageFile $fullSizeFile,
-        ImageFile $smallSizeFile,
-        ImageFile $iconSizeFile
+        Character $character,
+        string $filePathFull,
+        string $filePathSmall,
+        string $filePathIcon
     ) {
         $this->id = $id;
-        $this->characterId = $characterId;
-        $this->fullSizeFile = $fullSizeFile;
-        $this->smallSizeFile = $smallSizeFile;
-        $this->iconSizeFile = $iconSizeFile;
+        $this->character = $character;
+        $this->filePathFull = $filePathFull;
+        $this->filePathSmall = $filePathSmall;
+        $this->filePathIcon = $filePathIcon;
+        $this->createdAt = Carbon::now();
+        $this->updatedAt = Carbon::now();
     }
 
     public function getId(): string
@@ -46,23 +58,23 @@ class Image
         return $this->id;
     }
 
-    public function getCharacterId(): string
+    public function getCharacter(): Character
     {
-        return $this->characterId;
+        return $this->character;
     }
 
     public function getFullSizeFile(): ImageFile
     {
-        return $this->fullSizeFile;
+        return ImageFile::full($this->filePathFull);
     }
 
     public function getSmallSizeFile(): ImageFile
     {
-        return $this->smallSizeFile;
+        return ImageFile::small($this->filePathSmall);
     }
 
     public function getIconSizeFile(): ImageFile
     {
-        return $this->iconSizeFile;
+        return ImageFile::icon($this->filePathIcon);
     }
 }

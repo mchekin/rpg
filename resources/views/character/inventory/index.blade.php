@@ -16,7 +16,7 @@
             @include('character.partials.inventory', compact('character'))
 
             <div class="text-center my-3">
-                <a class="btn btn-sm btn-primary" href="{{  route('character.show',  compact('character')) }}">
+                <a class="btn btn-sm btn-primary" href="{{ route('character.show', ['character' => $character->getId()]) }}">
                     Back to Profile
                     <span class="fa fa-arrow-left"></span>
                 </a>

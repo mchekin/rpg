@@ -1,5 +1,5 @@
 @php
-    /** @var \App\Character $character */
+    /** @var \App\Modules\Character\Domain\Entities\Character $character */
     $hpPercent = ($character->getHitPoints() / $character->getTotalHitPoints()) * 100;
 @endphp
 
@@ -18,10 +18,10 @@
     <img class="profile-picture" src="{{ asset($character->getProfilePictureFull()) }}">
 </div>
 
-@if($character->isYou())
+@if($character->isYou(Auth::id()))
     <div class="mx-5 my-3">
         <form role="form" method="POST"
-              action="{{ route('character.profile-picture.store', compact('character')) }}"
+              action="{{ route('character.profile-picture.store', ['character' => $character->getId()]) }}"
               enctype="multipart/form-data">
             {!! csrf_field() !!}
             <div class="input-group">
@@ -40,7 +40,7 @@
     @if($character->hasProfilePicture())
         <div class="text-center">
             @php
-                /** @var \App\Character $character */
+                /** @var \App\Modules\Character\Domain\Entities\Character $character */
                 $profile_picture = $character->getProfilePicture();
             @endphp
             <form role="form" method="POST"

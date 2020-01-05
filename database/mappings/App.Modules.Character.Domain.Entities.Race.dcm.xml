@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="App\Modules\Character\Domain\Entities\Race" table="races">
+        <id name="id" type="integer" column="id">
+            <generator strategy="IDENTITY"/>
+        </id>
+
+        <field name="name" column="name"/>
+
+        <field name="description" column="description"/>
+
+        <field name="maleImage" column="male_image"/>
+
+        <field name="femaleImage" column="female_image"/>
+
+        <embedded name="attributes" class="App\Modules\Character\Domain\ValueObjects\Attributes" use-column-prefix="false"/>
+
+        <many-to-one target-entity="App\Modules\Character\Domain\Entities\Location" field="startingLocation" >
+            <join-column name="starting_location_id"/>
+        </many-to-one>
+
+        <field name="createdAt" type="datetime" column="created_at" nullable="true"/>
+        <field name="updatedAt" type="datetime" column="updated_at" nullable="true"/>
+    </entity>
+
+</doctrine-mapping>

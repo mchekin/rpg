@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="App\Modules\Auth\Domain\Entities\User" table="users">
+
+        <unique-constraints>
+            <unique-constraint name="users_email_unique" columns="email"/>
+        </unique-constraints>
+
+        <id name="id" type="integer" column="id">
+            <generator strategy="IDENTITY"/>
+        </id>
+
+        <one-to-one field="character" target-entity="App\Modules\Character\Domain\Entities\Character" mapped-by="user" />
+
+        <field name="name" column="name" length="255"/>
+
+        <field name="email" column="email" length="255"/>
+
+        <field name="password" column="password" length="255"/>
+
+        <field name="rememberToken" column="remember_token" length="255" nullable="true"/>
+
+        <field name="createdAt" type="datetime" column="created_at" nullable="true"/>
+        <field name="updatedAt" type="datetime" column="updated_at" nullable="true"/>
+
+    </entity>
+
+</doctrine-mapping>

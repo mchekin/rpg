@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Modules\Character\Infrastructure\Repositories;
+namespace App\Modules\Auth\Infrastructure\Repositories;
 
-use App\Modules\Character\Domain\Contracts\RaceRepositoryInterface;
-use App\Modules\Character\Domain\Entities\Race;
+use App\Modules\Auth\Domain\Contracts\UserRepositoryInterface;
+use App\Modules\Auth\Domain\Entities\User;
 use Doctrine\ORM\EntityManager;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-class RaceRepository implements RaceRepositoryInterface
+class UserRepository implements UserRepositoryInterface
 {
     /**
      * @var EntityManager
@@ -22,22 +22,22 @@ class RaceRepository implements RaceRepositoryInterface
     /**
      * @param int $id
      *
-     * @return Race
+     * @return User
      *
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      * @throws \Doctrine\ORM\TransactionRequiredException
      */
-    public function getOne(int $id): Race
+    public function getOne(int $id): User
     {
-        /** @var Race $race */
-        $race = $this->entityManager->find(Race::class, $id);
+        /** @var User $user */
+        $user = $this->entityManager->find(User::class, $id);
 
-        if (is_null($race))
+        if (is_null($user))
         {
             throw new ModelNotFoundException();
         }
 
-        return $race;
+        return $user;
     }
 }

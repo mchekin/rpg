@@ -31,6 +31,8 @@ class CreateRacesTable extends Migration
             $table->integer('intelligence');
             $table->integer('charisma');
 
+            $table->unsignedInteger('available_attribute_points')->default(0);
+
             // locations
             $table->uuid('starting_location_id');
             $table->foreign('starting_location_id')
