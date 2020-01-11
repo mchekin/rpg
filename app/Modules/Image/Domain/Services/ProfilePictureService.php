@@ -36,16 +36,18 @@ class ProfilePictureService
 
     public function update(AddImageCommand $command)
     {
+        $character = $this->characterService->getOne($command->getCharacterId());
+
         $profilePicture = $this->imageFactory->create(
-            $command->getCharacterId(),
+            $character,
+            $this->imageRepository->getFolderUrl($command->getCharacterId()),
             $command->getUploadedFile()->getClientOriginalExtension()
         );
 
         $this->imageRepository->delete($command->getCharacterId());
-
         $this->imageRepository->add($profilePicture, $command->getUploadedFile());
 
-        $this->characterService->updateProfilePicture($profilePicture);
+        $character->setProfilePicture($profilePicture);
     }
 
     public function delete(string $characterId)

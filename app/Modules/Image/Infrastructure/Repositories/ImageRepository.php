@@ -42,8 +42,6 @@ class ImageRepository implements ImageRepositoryInterface
      */
     public function add(Image $image, UploadedFile $uploadedFile): void
     {
-        $urlPath = $this->getUrlPath($image->getCharacter()->getId());
-
         $this->writeFiles($image, $uploadedFile);
 
         $this->entityManager->persist($image);
@@ -71,6 +69,11 @@ class ImageRepository implements ImageRepositoryInterface
         return $image;
     }
 
+    public function getFolderUrl(string $characterId): string
+    {
+        return 'storage' . DIRECTORY_SEPARATOR . $this->getCharacterImageFolder($characterId);
+    }
+
     private function writeFiles(Image $image, UploadedFile $uploadedFile)
     {
         $folderPath = $this->getFolderPath($image->getCharacter()->getId());
@@ -79,26 +82,21 @@ class ImageRepository implements ImageRepositoryInterface
 
         $imageFile = $this->imageManager->make($uploadedFile);
 
-        $this->writeFile($image->getFullSizeFile(), $folderPath, $imageFile);
-        $this->writeFile($image->getSmallSizeFile(), $folderPath, $imageFile);
-        $this->writeFile($image->getIconSizeFile(), $folderPath, $imageFile);
+        $this->writeFile($image->getFullSizeFile(), $imageFile);
+        $this->writeFile($image->getSmallSizeFile(), $imageFile);
+        $this->writeFile($image->getIconSizeFile(), $imageFile);
     }
 
     private function writeFile(
         ImageFile $imageFile,
-        string $folderPath,
         ImageManagerFile $imageManagerFile
-    )
+    ): void
     {
-        $filePath = $folderPath . $imageFile->getFileName();
-
         $imageManagerFile
             ->resize($imageFile->getWidth(), null, function (Constraint $constraint) {
                 $constraint->aspectRatio();
             })
-            ->save($filePath);
-
-        return $filePath;
+            ->save($imageFile->getFileName());
     }
 
     private function createFolderIfMissing(string $fullFolderPath): bool
@@ -114,11 +112,6 @@ class ImageRepository implements ImageRepositoryInterface
             . 'public' . DIRECTORY_SEPARATOR
             . $this->getCharacterImageFolder($characterId)
         );
-    }
-
-    private function getUrlPath(string $characterId): string
-    {
-        return 'storage' . DIRECTORY_SEPARATOR . $this->getCharacterImageFolder($characterId);
     }
 
     private function getCharacterImageFolder(string $characterId)

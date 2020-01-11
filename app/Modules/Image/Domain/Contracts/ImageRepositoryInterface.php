@@ -14,4 +14,6 @@ interface ImageRepositoryInterface
     public function delete(string $characterId):void;
 
     public function getOne($id): Image;
+
+    public function getFolderUrl(string $characterId): string;
 }

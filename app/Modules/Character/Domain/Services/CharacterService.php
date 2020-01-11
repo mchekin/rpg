@@ -168,13 +168,6 @@ class CharacterService
         });
     }
 
-    public function updateProfilePicture(Image $picture)
-    {
-        $character = $picture->getCharacter();
-
-        $character->setProfilePicture($picture);
-    }
-
     public function removeProfilePicture(string $characterId)
     {
         $character = $this->characterRepository->getOne($characterId);

@@ -39,12 +39,11 @@
 
     @if($character->hasProfilePicture())
         <div class="text-center">
-            @php
-                /** @var \App\Modules\Character\Domain\Entities\Character $character */
-                $profile_picture = $character->getProfilePicture();
-            @endphp
             <form role="form" method="POST"
-                  action="{{ route('character.profile-picture.destroy', compact('character', 'profile_picture')) }}">
+                  action="{{ route('character.profile-picture.destroy', [
+                    'character' => $character->getId(),
+                    'profile_picture' => $character->getProfilePicture()->getId(),
+                  ]) }}">
                 {{ method_field('DELETE') }}
                 {!! csrf_field() !!}
                 <div class="mx-2">
