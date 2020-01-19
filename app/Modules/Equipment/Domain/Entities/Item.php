@@ -8,7 +8,6 @@ use App\Modules\Equipment\Domain\ValueObjects\InventorySlot;
 use App\Modules\Equipment\Domain\ValueObjects\ItemEffect;
 use App\Modules\Equipment\Domain\ValueObjects\ItemType;
 use Carbon\Carbon;
-use Illuminate\Support\Collection;
 
 class Item
 {
@@ -29,7 +28,7 @@ class Item
      */
     private $type;
     /**
-     * @var Collection
+     * @var array
      */
     private $effects;
     /**
@@ -71,7 +70,7 @@ class Item
         string $description,
         string $imageFilePath,
         ItemType $type,
-        Collection $effects,
+        array $effects,
         Character $creator,
         ItemPrototype $prototype,
         InventorySlot $inventorySlot
@@ -82,7 +81,7 @@ class Item
         $this->description = $description;
         $this->imageFilePath = $imageFilePath;
         $this->type = $type;
-        $this->effects = $effects;
+        $this->setEffects($effects);
         $this->creatorCharacter = $creator;
         $this->ownerCharacter = $creator;
         $this->prototype = $prototype;
@@ -118,11 +117,6 @@ class Item
         return $this->type;
     }
 
-    public function getEffects(): Collection
-    {
-        return $this->effects;
-    }
-
     public function getInventorySlot(): InventorySlot
     {
         return $this->inventorySlot;
@@ -150,15 +144,17 @@ class Item
 
     public function getItemEffect(string $itemEffectType): int
     {
-        return (int)$this->getEffectsOfType($itemEffectType)
-            ->reduce(function ($carry, ItemEffect $itemEffect) use ($itemEffectType) {
+        return (int)array_reduce(
+            $this->getEffectsOfType($itemEffectType),
+            function ($carry, ItemEffect $itemEffect) use ($itemEffectType) {
                 return $carry + $itemEffect->getQuantity();
-            });
+            }
+        );
     }
 
-    private function getEffectsOfType(string $itemEffectType): Collection
+    private function getEffectsOfType(string $itemEffectType): array
     {
-        return $this->effects->filter(function (ItemEffect $effect) use ($itemEffectType) {
+        return array_filter($this->getEffects(), function (ItemEffect $effect) use ($itemEffectType) {
             return $effect->getType() === $itemEffectType;
         });
     }
@@ -176,5 +172,26 @@ class Item
     public function getOwnerCharacter(): Character
     {
         return $this->ownerCharacter;
+    }
+
+    public function setEffects(array $effects): void
+    {
+        $this->effects = array_map(function (ItemEffect $effect) {
+
+            return get_object_vars($effect);
+
+        }, $effects);
+    }
+
+    public function getEffects(): array
+    {
+        return array_map(function (array $effect) {
+
+            return ItemEffect::ofType(
+                $effect['quantity'],
+                $effect['type']
+            );
+
+        }, $this->effects);
     }
 }

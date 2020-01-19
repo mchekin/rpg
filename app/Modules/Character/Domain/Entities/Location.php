@@ -62,4 +62,49 @@ class Location
         $this->createdAt = Carbon::now();
         $this->updatedAt = Carbon::now();
     }
+
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    public function getImage(): string
+    {
+        return $this->image;
+    }
+
+    public function getImageSm(): string
+    {
+        return $this->imageSm;
+    }
+
+    public function getAdjacentLocations(): ArrayCollection
+    {
+        return $this->adjacentLocations;
+    }
+
+    public function getCharacters(): ArrayCollection
+    {
+        return $this->characters;
+    }
+
+    public function getCreatedAt(): Carbon
+    {
+        return $this->createdAt;
+    }
+
+    public function getUpdatedAt(): Carbon
+    {
+        return $this->updatedAt;
+    }
 }

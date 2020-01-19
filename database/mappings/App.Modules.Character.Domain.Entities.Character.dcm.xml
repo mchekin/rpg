@@ -25,7 +25,7 @@
             <join-column name="race_id"/>
         </many-to-one>
 
-        <many-to-one target-entity="App\Modules\Character\Domain\Entities\Race" field="location" >
+        <many-to-one target-entity="App\Modules\Character\Domain\Entities\Location" field="location" >
             <join-column name="location_id"/>
         </many-to-one>
 

@@ -2,7 +2,6 @@
 
 namespace App\Modules\Equipment\Domain\ValueObjects;
 
-
 use InvalidArgumentException;
 
 class ItemEffect

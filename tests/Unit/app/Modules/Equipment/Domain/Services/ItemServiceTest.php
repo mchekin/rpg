@@ -11,7 +11,6 @@ use App\Modules\Equipment\Domain\Entities\ItemPrototype;
 use App\Modules\Equipment\Domain\Services\ItemService;
 use App\Modules\Equipment\Domain\ValueObjects\ItemEffect;
 use App\Modules\Equipment\Domain\ValueObjects\ItemType;
-use Illuminate\Support\Collection;
 use Mockery;
 use Mockery\MockInterface;
 use Tests\TestCase;
@@ -56,9 +55,9 @@ class ItemServiceTest extends TestCase
         $name = 'Wooden club';
         $description = 'Club made from wood';
         $type = ItemType::mainHand();
-        $effects = Collection::make([
+        $effects = [
             ItemEffect::damage(5)
-        ]);
+        ];
         $creatorCharacterId = '65976e46-d2eb-4373-ba69-b7c9ea81b56f';
         $imageFilePath = 'images\equipment\main_hand\1club.png';
 

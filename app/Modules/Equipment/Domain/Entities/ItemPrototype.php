@@ -10,7 +10,6 @@ use App\Traits\GeneratesUuid;
 use Carbon\Carbon;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Illuminate\Support\Collection as IlluminateCollection;
 
 class ItemPrototype
 {
@@ -37,7 +36,7 @@ class ItemPrototype
      */
     private $type;
     /**
-     * @var IlluminateCollection
+     * @var array
      */
     private $effects;
     /**
@@ -59,7 +58,7 @@ class ItemPrototype
         string $description,
         string $imageFilePath,
         ItemType $type,
-        IlluminateCollection $effects
+        array $effects
     ) {
         $this->id = $id;
         $this->name = $name;
@@ -97,7 +96,7 @@ class ItemPrototype
         return $this->type;
     }
 
-    public function getEffects(): IlluminateCollection
+    public function getEffects(): array
     {
         return $this->effects;
     }

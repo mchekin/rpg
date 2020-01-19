@@ -17,7 +17,7 @@ class BattleFactory
     {
         return new Battle(
             $this->generateUuid(),
-            $defender->getLocation(),
+            $defender->getLocation()->getId(),
             $attacker,
             $defender,
             new BattleRounds(),
