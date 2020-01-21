@@ -1,6 +1,5 @@
 @php
     /** @var \App\Modules\Character\Domain\Entities\Character $character */
-    /** @var \App\Item $item */
 @endphp
 
 <form role="form" method="POST" class="w-100">

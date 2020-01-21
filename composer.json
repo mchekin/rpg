@@ -36,7 +36,9 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": []
+            "dont-discover": [
+                "tcg/voyager"
+            ]
         }
     },
     "autoload": {

@@ -9,13 +9,13 @@
         @else
             <div class="w-100 my-3 px-5 text-center" role="group" aria-label="Character Actions">
                 @if(!$character->isNPC())
-                    <a href="{{ route('character.message.index', ['character' => $character]) }}"
+                    <a href="{{ route('character.message.index', ['character' => $character->getId()]) }}"
                        class="btn btn-sm btn-success">
                         message <span class="fa fa-comment"></span>
                     </a>
                 @endif
 
-                <button formaction="{{ route('character.attack', ['character' => $character]) }}"
+                <button formaction="{{ route('character.attack', ['character' => $character->getId()]) }}"
                         class="btn btn-sm btn-danger">
                     attack <span class="fas fa-bolt"></span>
                 </button>

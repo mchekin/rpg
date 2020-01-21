@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Modules\Character\Domain\Entities\Character;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateCharacterRequest extends FormRequest
@@ -24,7 +25,7 @@ class CreateCharacterRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:characters,name|min:2',
+            'name' => 'required|unique:' . Character::class . ',name|min:2',
             'gender' => 'required|in:male,female',
             'race_id' => 'required|integer',
         ];

@@ -1,6 +1,5 @@
 @php
     /** @var \App\Modules\Character\Domain\Entities\Character $character */
-    /** @var \App\Item $item */
 @endphp
 
 <div class="mt-5 row table-dark align-items-center">
