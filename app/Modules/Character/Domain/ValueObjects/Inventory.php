@@ -22,15 +22,15 @@ class Inventory
 
     private function __construct(Collection $items)
     {
+        if ($items->count() >= self::NUMBER_OF_SLOTS) {
+            throw new NotEnoughSpaceException("Not enough space in the Inventory for {$items->count()} new items");
+        }
+
         $this->items = $items;
     }
 
     public static function withItems(Collection $items): self
     {
-        if ($items->count() >= self::NUMBER_OF_SLOTS) {
-            throw new NotEnoughSpaceException("Not enough space in the Inventory for {$items->count()} new items");
-        }
-
         return new self($items);
     }
 
@@ -74,9 +74,9 @@ class Inventory
 
     public function hasItem(Item $itemToFind): bool
     {
-        return $this->items->contains(function (Item $item) use ($itemToFind) {
-            return $item->getId() === $itemToFind->getId();
-        });
+        $contains = $this->items->contains($itemToFind);
+
+        return $contains;
     }
 
     public function getEquippedItemsEffect(string $itemEffectType): int

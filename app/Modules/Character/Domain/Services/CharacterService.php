@@ -19,7 +19,6 @@ use App\Modules\Equipment\Domain\Commands\EquipItemCommand;
 use App\Modules\Equipment\Domain\Contracts\ItemRepositoryInterface;
 use App\Modules\Equipment\Domain\Entities\Item;
 use App\Modules\Equipment\Domain\Services\ItemService;
-use App\Modules\Image\Domain\Entities\Image;
 use App\Modules\Level\Domain\Services\LevelService;
 use Illuminate\Support\Facades\DB;
 
@@ -93,9 +92,10 @@ class CharacterService
         $character = $this->characterRepository->getOne($command->getOwnerCharacterId());
 
         if ($character->getInventory()->hasItem($item) && !$item->isEquipped()) {
+
             $equippedItem = $character->getInventory()->findEquippedItemOfType($item->getType());
 
-            if (!is_null($equippedItem)) {
+            if ($equippedItem) {
                 /** @var Item $equippedItem */
                 $equippedItem->unEquip();
             }
