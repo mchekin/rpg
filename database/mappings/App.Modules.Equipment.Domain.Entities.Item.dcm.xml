@@ -18,7 +18,8 @@
 
         <field name="imageFilePath" column="image_file_path"/>
 
-        <embedded name="inventorySlot" class="App\Modules\Equipment\Domain\ValueObjects\InventorySlot"
+        <embedded name="inventorySlot"
+                  class="App\Modules\Equipment\Domain\ValueObjects\InventorySlot"
                   use-column-prefix="false"/>
 
         <field name="equipped" type="boolean" column="equipped">

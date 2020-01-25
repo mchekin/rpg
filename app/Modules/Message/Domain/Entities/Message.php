@@ -4,13 +4,11 @@
 namespace App\Modules\Message\Domain\Entities;
 
 
-use App\Traits\ContainsModel;
+use App\Modules\Character\Domain\Entities\Character;
+use Carbon\Carbon;
 
 class Message
 {
-    // Todo: temporary hack of having reference to the Eloquent model
-    use ContainsModel;
-
     const UNREAD = 'unread';
     const READ = 'read';
 
@@ -19,13 +17,13 @@ class Message
      */
     private $id;
     /**
-     * @var string
+     * @var Character
      */
-    private $senderId;
+    private $sender;
     /**
-     * @var string
+     * @var Character
      */
-    private $recipientId;
+    private $recipient;
     /**
      * @var string
      */
@@ -34,19 +32,36 @@ class Message
      * @var string
      */
     private $state;
+    /**
+     * @var Carbon
+     */
+    private $createdAt;
+    /**
+     * @var Carbon
+     */
+    private $updatedAt;
+    /**
+     * @var Carbon
+     */
+    private $deletedAt;
 
     public function __construct(
         string $id,
-        string $senderId,
-        string $recipientId,
+        Character $sender,
+        Character $recipient,
         string $content,
         string $state = self::UNREAD
-    ) {
+    )
+    {
         $this->id = $id;
-        $this->senderId = $senderId;
-        $this->recipientId = $recipientId;
+        $this->sender = $sender;
+        $this->recipient = $recipient;
         $this->content = $content;
         $this->state = $state;
+
+        $this->createdAt = Carbon::now();
+        $this->updatedAt = Carbon::now();
+        $this->deletedAt = Carbon::now();
     }
 
     public function getId(): string
@@ -54,14 +69,14 @@ class Message
         return $this->id;
     }
 
-    public function getSenderId(): string
+    public function getSender(): Character
     {
-        return $this->senderId;
+        return $this->sender;
     }
 
-    public function getRecipientId(): string
+    public function getRecipient(): Character
     {
-        return $this->recipientId;
+        return $this->recipient;
     }
 
     public function getContent(): string
