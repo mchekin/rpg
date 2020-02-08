@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Character;
 use App\Modules\Character\Domain\Services\CharacterService;
 use App\Modules\Character\Presentation\Http\CommandMappers\AttackCharacterCommandMapper;
 use App\Modules\Character\Presentation\Http\CommandMappers\CreateCharacterCommandMapper;
@@ -9,7 +10,6 @@ use App\Http\Requests\CreateCharacterRequest;
 use App\Http\Requests\UpdateCharacterAttributeRequest;
 use App\Modules\Character\Presentation\Http\CommandMappers\IncreaseAttributeCommandMapper;
 use App\Modules\Character\Presentation\Http\CommandMappers\MoveCharacterCommandMapper;
-use App\Modules\Level\Domain\Services\LevelService;
 use App\Race;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
@@ -60,12 +60,11 @@ class CharacterController extends Controller
         return redirect()->route('character.show', ['character' => $character->getId()]);
     }
 
-    public function show(string $characterId, LevelService $levelService): View
+    public function show(string $characterId): View
     {
-        $character = $this->characterService->getOne($characterId);
-        $level = $levelService->getLevel($character->getLevelNumber());
+        $character = Character::query()->findOrFail($characterId);
 
-        return view('character.show', ['character' => $character->getModel(), 'level' => $level]);
+        return view('character.show', compact('character'));
     }
 
     public function update(

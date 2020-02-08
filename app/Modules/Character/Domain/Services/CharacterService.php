@@ -13,7 +13,6 @@ use App\Modules\Character\Domain\Commands\AttackCharacterCommand;
 use App\Modules\Character\Domain\Commands\CreateCharacterCommand;
 use App\Modules\Character\Domain\Commands\IncreaseAttributeCommand;
 use App\Modules\Character\Domain\Commands\MoveCharacterCommand;
-use App\Modules\Equipment\Domain\Commands\CreateItemCommand;
 use App\Modules\Equipment\Domain\Commands\EquipItemCommand;
 use App\Modules\Equipment\Domain\Contracts\ItemRepositoryInterface;
 use App\Modules\Equipment\Domain\Entities\Item;
