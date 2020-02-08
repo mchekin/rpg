@@ -65,8 +65,6 @@ class CharacterReconstitutionFactory
             $characterModel->getProfilePictureId()
         );
 
-        $character->setModel($characterModel);
-
         return $character;
     }
 }

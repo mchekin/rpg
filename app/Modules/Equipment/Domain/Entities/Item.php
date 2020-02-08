@@ -132,7 +132,7 @@ class Item
         return $this->inventorySlot;
     }
 
-    public function setInventorySlot(InventorySlot $inventorySlot)
+    public function setInventorySlot(InventorySlot $inventorySlot): void
     {
         $this->inventorySlot = $inventorySlot;
     }
@@ -142,12 +142,12 @@ class Item
         return $this->equipped;
     }
 
-    public function equip()
+    public function equip(): void
     {
         $this->equipped = true;
     }
 
-    public function unEquip()
+    public function unEquip(): void
     {
         $this->equipped = false;
     }
@@ -155,14 +155,14 @@ class Item
     public function getItemEffect(string $itemEffectType): int
     {
         return (int)$this->getEffectsOfType($itemEffectType)
-            ->reduce(function ($carry, ItemEffect $itemEffect) use ($itemEffectType) {
+            ->reduce(static function ($carry, ItemEffect $itemEffect) {
                 return $carry + $itemEffect->getQuantity();
             });
     }
 
     private function getEffectsOfType(string $itemEffectType): Collection
     {
-        return $this->effects->filter(function (ItemEffect $effect) use ($itemEffectType) {
+        return $this->effects->filter(static function (ItemEffect $effect) use ($itemEffectType) {
             return $effect->getType() === $itemEffectType;
         });
     }

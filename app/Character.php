@@ -40,98 +40,57 @@ class Character extends Model
 
     protected $guarded = [];
 
-    /**
-     * Get the user of the character
-     *
-     * @return BelongsTo
-     */
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * Get the user of the character
-     *
-     * @return BelongsTo
-     */
-    public function race()
+    public function race(): BelongsTo
     {
         return $this->belongsTo(Race::class);
     }
 
-    /**
-     * Get the current location of the character
-     *
-     * @return BelongsTo
-     */
-    public function location()
+    public function location(): BelongsTo
     {
         return $this->belongsTo(Location::class);
     }
 
-    /**
-     * Get the user of the character
-     *
-     * @return BelongsTo
-     */
-    public function profilePicture()
+    public function profilePicture(): BelongsTo
     {
         return $this->belongsTo(Image::class, 'profile_picture_id');
     }
 
-    /**
-     * @return HasMany
-     */
-    public function images()
+    public function images(): HasMany
     {
         return $this->hasMany(Image::class);
     }
 
-    /**
-     * @return HasMany
-     */
-    public function items()
+    public function items(): HasMany
     {
         return $this->hasMany(Item::class, 'owner_character_id');
     }
 
-    /**
-     * @return HasMany
-     */
-    public function receivedMessages()
+    public function receivedMessages(): HasMany
     {
         return $this->hasMany(Message::class, 'to_id');
     }
 
-    /**
-     * @return HasMany
-     */
-    public function sentMessages()
+    public function sentMessages(): HasMany
     {
         return $this->hasMany(Message::class, 'from_id');
     }
 
-    /**
-     * @return HasMany
-     */
-    public function attacks()
+    public function attacks(): HasMany
     {
         return $this->hasMany(Battle::class, 'attacker_id');
     }
 
-    /**
-     * @return HasMany
-     */
-    public function defends()
+    public function defends(): HasMany
     {
         return $this->hasMany(Battle::class, 'defender_id');
     }
 
-    /**
-     * @return HasMany
-     */
-    public function battles()
+    public function battles(): HasMany
     {
         return $this->hasMany(Battle::class, 'defender_id');
     }
@@ -153,12 +112,12 @@ class Character extends Model
 
     public function isPlayerCharacter(): bool
     {
-        return !is_null($this->user);
+        return $this->user !== null;
     }
 
     public function isNPC(): bool
     {
-        return is_null($this->user);
+        return $this->user === null;
     }
 
     public function hasProfilePicture(): bool
@@ -175,7 +134,7 @@ class Character extends Model
         return $this->user->isOnline();
     }
 
-    public function getProfilePicture()
+    public function getProfilePicture(): Image
     {
         return $this->profilePicture;
     }
@@ -206,7 +165,7 @@ class Character extends Model
         return 'svg/avatar.svg';
     }
 
-    public function getProfilePictureId()
+    public function getProfilePictureId(): ?string
     {
         return $this->profile_picture_id;
     }
@@ -226,7 +185,7 @@ class Character extends Model
         return $this->location->getName();
     }
 
-    public function getId()
+    public function getId(): string
     {
         return $this->id;
     }

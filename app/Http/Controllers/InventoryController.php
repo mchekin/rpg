@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Character;
 use App\Modules\Character\Domain\Services\CharacterService;
 use App\Modules\Equipment\Domain\Services\ItemService;
 use App\Modules\Equipment\Presentation\Http\CommandMappers\EquipItemCommandMapper;
@@ -10,15 +11,10 @@ use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use App\User as UserModel;
 use Illuminate\Support\Facades\DB;
 
 class InventoryController extends Controller
 {
-    /**
-     * @var ItemService
-     */
-    private $itemService;
     /**
      * @var CharacterService
      */
@@ -28,19 +24,17 @@ class InventoryController extends Controller
     {
         $this->middleware('auth');
 
-        $this->itemService = $itemService;
         $this->characterService = $characterService;
     }
 
-    public function index(Request $request, CharacterService $characterService, LevelService $levelService): View
+    public function index(Request $request, LevelService $levelService): View
     {
-        /** @var UserModel $userModel */
-        $characterId = $request->user()->character->getId();
+        /** @var Character $character */
+        $character = $request->user()->character;
 
-        $character = $characterService->getOne($characterId);
         $level = $levelService->getLevel($character->getLevelNumber());
 
-        return view('character.inventory.index', ['character' => $character->getModel(), 'level' => $level]);
+        return view('character.inventory.index', ['character' => $character, 'level' => $level]);
     }
 
     public function equipItem(Request $request, EquipItemCommandMapper $commandMapper): RedirectResponse
