@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Response;
+use Illuminate\View\View;
 
 class MessageController extends Controller
 {
@@ -11,10 +11,7 @@ class MessageController extends Controller
         $this->middleware(['auth', 'has.character']);
     }
 
-    /**
-     * @return Response
-     */
-    public function index()
+    public function index(): View
     {
         return view('message.index');
     }

@@ -13,7 +13,7 @@ use App\Modules\Battle\Domain\Entities\BattleTurn;
 
 class BattleRepository implements BattleRepositoryInterface
 {
-    public function add(Battle $battle)
+    public function add(Battle $battle): void
     {
         /** @var BattleModel $battleModel */
         $battleModel = BattleModel::query()->create([
@@ -45,7 +45,5 @@ class BattleRepository implements BattleRepositoryInterface
                 ]);
             }
         }
-
-        $battle->setModel($battleModel);
     }
 }

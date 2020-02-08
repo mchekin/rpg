@@ -6,5 +6,5 @@ use App\Modules\Battle\Domain\Entities\Battle;
 
 interface BattleRepositoryInterface
 {
-    public function add(Battle $battle);
+    public function add(Battle $battle):void;
 }

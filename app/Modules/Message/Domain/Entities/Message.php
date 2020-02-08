@@ -3,14 +3,8 @@
 
 namespace App\Modules\Message\Domain\Entities;
 
-
-use App\Traits\ContainsModel;
-
 class Message
 {
-    // Todo: temporary hack of having reference to the Eloquent model
-    use ContainsModel;
-
     const UNREAD = 'unread';
     const READ = 'read';
 

@@ -32,6 +32,6 @@ class CharacterMessageController extends Controller
 
         $messageService->send($sendMessageCommand);
 
-        return redirect()->route("character.message.index", $characterId);
+        return redirect()->route('character.message.index', $characterId);
     }
 }

@@ -25,7 +25,7 @@ class MessageService
         $this->messageRepository = $messageRepository;
     }
 
-    public function send(SendMessageCommand $command)
+    public function send(SendMessageCommand $command): void
     {
         $message = $this->factory->create($command);
 

@@ -5,13 +5,9 @@ namespace App\Modules\Battle\Domain\Entities;
 use App\Modules\Battle\Domain\Factories\BattleRoundFactory;
 use App\Modules\Battle\Domain\Entities\Collections\BattleRounds;
 use App\Modules\Character\Domain\Entities\Character;
-use App\Traits\ContainsModel;
 
 class Battle
 {
-    // Todo: temporary hack of having reference to the Eloquent model
-    use ContainsModel;
-
     /**
      * @var string
      */
@@ -73,7 +69,7 @@ class Battle
         $this->victor = $victor;
     }
 
-    public function execute()
+    public function execute(): void
     {
         do {
             $round = $this->roundFactory->create(

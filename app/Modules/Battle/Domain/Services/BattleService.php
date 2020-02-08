@@ -17,10 +17,6 @@ class BattleService
      */
     private $battleFactory;
     /**
-     * @var CharacterRepositoryInterface
-     */
-    private $characterRepository;
-    /**
      * @var BattleRepositoryInterface
      */
     private $battleRepository;
@@ -31,7 +27,6 @@ class BattleService
         BattleRepositoryInterface $battleRepository
     ) {
         $this->battleFactory = $battleFactory;
-        $this->characterRepository = $characterRepository;
         $this->battleRepository = $battleRepository;
     }
 

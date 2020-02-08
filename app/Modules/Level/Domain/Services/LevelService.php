@@ -42,7 +42,7 @@ class LevelService
         return $levels;
     }
 
-    private function getLevelThreshold(int $levelId)
+    private function getLevelThreshold(int $levelId): float
     {
         $rawValue = 4 * ($levelId ** 3) / 5;
 
