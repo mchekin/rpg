@@ -48,6 +48,7 @@ class BattleRound
         $this->battleId = $battleId;
         $this->attacker = $attacker;
         $this->defender = $defender;
+        $this->turns = $turns;
     }
 
     public function getId(): string
@@ -80,7 +81,7 @@ class BattleRound
             $turn->execute();
 
             $this->turns->push($turn);
-        };
+        }
     }
 
     public function notLastRound(): bool
@@ -95,7 +96,6 @@ class BattleRound
     {
         return new BattleTurn(
             $this->generateUuid(),
-            $this->id,
             $owner,
             $target,
             BattleTurnResult::none()

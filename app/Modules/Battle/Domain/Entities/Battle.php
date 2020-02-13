@@ -6,8 +6,6 @@ use App\Modules\Battle\Domain\Entities\Collections\BattleTurns;
 use App\Modules\Battle\Domain\Entities\Collections\BattleRounds;
 use App\Modules\Character\Domain\Entities\Character;
 use App\Traits\GeneratesUuid;
-use Carbon\Carbon;
-
 class Battle
 {
     use GeneratesUuid;
@@ -61,7 +59,6 @@ class Battle
         $this->locationId = $locationId;
         $this->attacker = $attacker;
         $this->defender = $defender;
-        $this->rounds = new ArrayCollection($rounds->all());
         $this->rounds = $rounds;
         $this->victorXpGained = $victorXpGained;
         $this->victor = $victor;
@@ -88,7 +85,7 @@ class Battle
         $this->victorXpGained = $this->calculateVictorXpGained($loser, $this->victor);
     }
 
-    protected function calculateVictorXpGained(Character $loser, Character $victor): int
+    private function calculateVictorXpGained(Character $loser, Character $victor): int
     {
         return max($loser->getLevelNumber() - $victor->getLevelNumber(), 1) * 3;
     }
@@ -133,7 +130,7 @@ class Battle
         return $this->locationId;
     }
 
-    public function createRound(string $battleId, Character $attacker, Character $defender): BattleRound
+    private function createRound(string $battleId, Character $attacker, Character $defender): BattleRound
     {
         return new BattleRound(
             $this->generateUuid(),
