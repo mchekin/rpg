@@ -19,7 +19,7 @@ class MessageRepository implements MessageRepositoryInterface
         $this->characterReconstitutionFactory = $characterReconstitutionFactory;
     }
 
-    public function add(Message $message)
+    public function add(Message $message): void
     {
         /** @var MessageModel $messageModel */
         $messageModel = MessageModel::query()->create([
@@ -29,8 +29,6 @@ class MessageRepository implements MessageRepositoryInterface
             'content' => $message->getContent(),
             'state' => $message->getState()
         ]);
-
-        $message->setModel($messageModel);
     }
 
     public function getOne(string $messageId): Message

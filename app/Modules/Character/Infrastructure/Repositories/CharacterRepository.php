@@ -19,10 +19,10 @@ class CharacterRepository implements CharacterRepositoryInterface
         $this->characterReconstitutionFactory = $characterReconstitutionFactory;
     }
 
-    public function add(Character $character)
+    public function add(Character $character): void
     {
         /** @var CharacterModel $characterModel */
-        $characterModel = CharacterModel::query()->create([
+        CharacterModel::query()->create([
             'id' => $character->getId(),
             'user_id' => $character->getUserId(),
 
@@ -51,8 +51,6 @@ class CharacterRepository implements CharacterRepositoryInterface
 
             'profile_picture_id' => $character->getProfilePictureId(),
         ]);
-
-        $character->setModel($characterModel);
     }
 
     public function getOne(string $characterId): Character
@@ -63,7 +61,7 @@ class CharacterRepository implements CharacterRepositoryInterface
         return $this->characterReconstitutionFactory->reconstitute($characterModel);
     }
 
-    public function update(Character $character)
+    public function update(Character $character): void
     {
         /** @var CharacterModel $characterModel */
         $characterModel = CharacterModel::query()->findOrFail($character->getId());
@@ -94,7 +92,5 @@ class CharacterRepository implements CharacterRepositoryInterface
 
             'profile_picture_id' => $character->getProfilePictureId(),
         ]);
-
-        $character->setModel($characterModel);
     }
 }

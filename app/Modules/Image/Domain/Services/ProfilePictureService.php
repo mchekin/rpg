@@ -34,7 +34,7 @@ class ProfilePictureService
         $this->characterService = $characterService;
     }
 
-    public function update(AddImageCommand $command)
+    public function update(AddImageCommand $command): void
     {
         $profilePicture = $this->imageFactory->create(
             $command->getCharacterId(),
@@ -48,7 +48,7 @@ class ProfilePictureService
         $this->characterService->updateProfilePicture($profilePicture);
     }
 
-    public function delete(string $characterId)
+    public function delete(string $characterId): void
     {
         $this->imageRepository->delete($characterId);
 

@@ -19,8 +19,6 @@ class MessageReconstitutionFactory
             $characterModel->state
         );
 
-        $character->setModel($characterModel);
-
         return $character;
     }
 }

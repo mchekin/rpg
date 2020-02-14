@@ -12,13 +12,10 @@ use App\Modules\Character\Domain\ValueObjects\Money;
 use App\Modules\Character\Domain\ValueObjects\Statistics;
 use App\Modules\Equipment\Domain\Entities\Item;
 use App\Modules\Equipment\Domain\ValueObjects\ItemEffect;
-use App\Traits\ContainsModel;
 use App\Traits\ThrowsDice;
 
 class Character
 {
-    // Todo: temporary hack of having reference to the Eloquent model
-    use ContainsModel;
     use ThrowsDice;
 
     /**
@@ -122,7 +119,7 @@ class Character
         return $this->levelId;
     }
 
-    public function getId()
+    public function getId(): string
     {
         return $this->id;
     }
@@ -182,7 +179,7 @@ class Character
             + $this->inventory->getEquippedItemsEffect(ItemEffect::AWARENESS);
     }
 
-    public function getArmorRating()
+    public function getArmorRating(): int
     {
         return $this->inventory->getEquippedItemsEffect(ItemEffect::ARMOR);
     }
@@ -242,7 +239,7 @@ class Character
         return $this->name;
     }
 
-    public function getUserId()
+    public function getUserId(): ?int
     {
         return $this->userId;
     }
@@ -272,7 +269,7 @@ class Character
         return $this->reputation;
     }
 
-    public function applyAttributeIncrease(string $attribute)
+    public function applyAttributeIncrease(string $attribute): void
     {
         if ($this->attributes->hasAvailablePoints()) {
 
@@ -284,17 +281,17 @@ class Character
         }
     }
 
-    public function addItemToInventorySlot(int $slot, Item $item)
+    public function addItemToInventorySlot(int $slot, Item $item): void
     {
         $this->inventory = $this->inventory->withAddedItem($slot, $item);
     }
 
-    public function addItemToInventory(Item $item)
+    public function addItemToInventory(Item $item): void
     {
         $this->inventory = $this->inventory->withAddedItemToFreeSlot($item);
     }
 
-    public function setLocationId(string $locationId)
+    public function setLocationId(string $locationId): void
     {
         $this->locationId = $locationId;
     }
@@ -304,19 +301,19 @@ class Character
         return $this->hitPoints->getCurrentHitPoints() > 0;
     }
 
-    public function incrementWonBattles()
+    public function incrementWonBattles(): void
     {
         $this->statistics = $this->statistics->withIncreaseWonBattles();
     }
 
-    public function incrementLostBattles()
+    public function incrementLostBattles(): void
     {
         $this->statistics = $this->statistics->withIncreaseLostBattles();
     }
 
-    public function addXp(int $xp)
+    public function addXp(int $xp): void
     {
-        $this->xp = $this->xp + $xp;
+        $this->xp += $xp;
     }
 
     public function getBattlesWon(): int
@@ -329,12 +326,12 @@ class Character
         return (int) $this->statistics->get('battlesLost');
     }
 
-    public function applyDamage($damageDone)
+    public function applyDamage($damageDone): void
     {
         $this->hitPoints = $this->hitPoints->withUpdatedCurrentValue(-$damageDone);
     }
 
-    public function updateLevel(int $levelId)
+    public function updateLevel(int $levelId): void
     {
         $points = $levelId - $this->levelId;
 
@@ -343,7 +340,7 @@ class Character
         $this->attributes = $this->attributes->addAvailablePoints($points);
     }
 
-    public function setProfilePictureId(string $profilePictureId)
+    public function setProfilePictureId(string $profilePictureId): void
     {
         $this->profilePictureId = $profilePictureId;
     }
@@ -351,12 +348,12 @@ class Character
     /**
      * @return string|null
      */
-    public function getProfilePictureId()
+    public function getProfilePictureId(): ?string
     {
         return $this->profilePictureId;
     }
 
-    public function removeProfilePicture()
+    public function removeProfilePicture(): void
     {
         $this->profilePictureId = null;
     }

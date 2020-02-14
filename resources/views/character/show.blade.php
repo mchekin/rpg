@@ -29,7 +29,7 @@
         <!-- Right Side -->
         <div class="col-md-6">
 
-            @include('character.partials.general', compact('character', 'level'))
+            @include('character.partials.general', compact('character'))
 
             @include('character.partials.attributes', compact('character'))
 

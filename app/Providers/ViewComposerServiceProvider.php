@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Http\ViewComposers\BattlesComposer;
+use App\Http\ViewComposers\CharacterGeneralInfoComposer;
 use App\Http\ViewComposers\CharacterMessagesComposer;
 use App\Http\ViewComposers\MessagesComposer;
 use Illuminate\Support\Facades\View;
@@ -20,6 +21,8 @@ class ViewComposerServiceProvider extends ServiceProvider
         View::composer('message.index', MessagesComposer::class);
 
         View::composer('character.message.index', CharacterMessagesComposer::class);
+
+        View::composer('character.partials.general', CharacterGeneralInfoComposer::class);
 
         View::composer('character.battle.index', BattlesComposer::class);
     }

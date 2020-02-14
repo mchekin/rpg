@@ -13,11 +13,9 @@ use App\Modules\Character\Domain\Commands\AttackCharacterCommand;
 use App\Modules\Character\Domain\Commands\CreateCharacterCommand;
 use App\Modules\Character\Domain\Commands\IncreaseAttributeCommand;
 use App\Modules\Character\Domain\Commands\MoveCharacterCommand;
-use App\Modules\Equipment\Domain\Commands\CreateItemCommand;
 use App\Modules\Equipment\Domain\Commands\EquipItemCommand;
 use App\Modules\Equipment\Domain\Contracts\ItemRepositoryInterface;
 use App\Modules\Equipment\Domain\Entities\Item;
-use App\Modules\Equipment\Domain\Services\ItemService;
 use App\Modules\Image\Domain\Entities\Image;
 use App\Modules\Level\Domain\Services\LevelService;
 use Illuminate\Support\Facades\DB;
@@ -44,18 +42,13 @@ class CharacterService
      * @var LevelService
      */
     private $levelService;
-    /**
-     * @var ItemService
-     */
-    private $itemService;
 
     public function __construct(
         CharacterFactory $characterFactory,
         CharacterRepositoryInterface $characterRepository,
         ItemRepositoryInterface $itemRepository,
         BattleService $battleService,
-        LevelService $levelService,
-        ItemService $itemService
+        LevelService $levelService
     )
     {
         $this->characterFactory = $characterFactory;
@@ -63,7 +56,6 @@ class CharacterService
         $this->itemRepository = $itemRepository;
         $this->battleService = $battleService;
         $this->levelService = $levelService;
-        $this->itemService = $itemService;
     }
 
     public function create(CreateCharacterCommand $command): Character
@@ -80,15 +72,15 @@ class CharacterService
         return $this->characterRepository->getOne($characterId);
     }
 
-    public function equipItem(EquipItemCommand $command)
+    public function equipItem(EquipItemCommand $command): void
     {
         $item = $this->itemRepository->getOne($command->getItemId());
         $character = $this->characterRepository->getOne($command->getOwnerCharacterId());
 
-        if ($character->getInventory()->hasItem($item) && !$item->isEquipped()) {
+        if (!$item->isEquipped() && $character->getInventory()->hasItem($item)) {
             $equippedItem = $character->getInventory()->findEquippedItemOfType($item->getType());
 
-            if (!is_null($equippedItem)) {
+            if ($equippedItem !== null) {
                 /** @var Item $equippedItem */
                 $equippedItem->unEquip();
                 $this->itemRepository->update($equippedItem);
@@ -101,12 +93,12 @@ class CharacterService
         }
     }
 
-    public function unEquipItem(EquipItemCommand $command)
+    public function unEquipItem(EquipItemCommand $command): void
     {
         $item = $this->itemRepository->getOne($command->getItemId());
         $character = $this->characterRepository->getOne($command->getOwnerCharacterId());
 
-        if ($character->getInventory()->hasItem($item) && $item->isEquipped()) {
+        if ($item->isEquipped() && $character->getInventory()->hasItem($item)) {
             /** @var Item $item */
             $item->unEquip();
             $this->itemRepository->update($item);
@@ -125,7 +117,7 @@ class CharacterService
         return $character;
     }
 
-    public function increaseAttribute(IncreaseAttributeCommand $command)
+    public function increaseAttribute(IncreaseAttributeCommand $command): void
     {
         $character = $this->characterRepository->getOne($command->getCharacterId());
 
@@ -134,7 +126,7 @@ class CharacterService
         $this->characterRepository->update($character);
     }
 
-    public function move(MoveCharacterCommand $command)
+    public function move(MoveCharacterCommand $command): void
     {
         $character = $this->characterRepository->getOne($command->getCharacterId());
 
@@ -171,7 +163,7 @@ class CharacterService
         });
     }
 
-    public function updateProfilePicture(Image $picture)
+    public function updateProfilePicture(Image $picture): void
     {
         $character = $this->characterRepository->getOne($picture->getCharacterId());
 
@@ -180,7 +172,7 @@ class CharacterService
         $this->characterRepository->update($character);
     }
 
-    public function removeProfilePicture(string $characterId)
+    public function removeProfilePicture(string $characterId): void
     {
         $character = $this->characterRepository->getOne($characterId);
 

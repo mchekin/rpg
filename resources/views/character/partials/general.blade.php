@@ -1,8 +1,3 @@
-<?php
-    /** @var \App\Character $character */
-    /** @var \App\Modules\Level\Domain\Entities\Level $level */
-    $levelProgress = $level->getProgress($character->xp);
-?>
 <table class="table">
     <caption class="caption-top">General</caption>
     <tr>
@@ -23,8 +18,8 @@
             <div class="progress">
                 <div class="progress-bar"
                      role="progressbar"
-                     style="width: {{ $levelProgress }}%"
-                     aria-valuenow="{{ $levelProgress }}"
+                     style="width: {{ $level->getProgress($character->xp) }}%"
+                     aria-valuenow="{{ $level->getProgress($character->xp) }}"
                      aria-valuemin="0"
                      aria-valuemax="100">
                     {{ $character->xp }} / {{ $level->getNextXpThreshold() }}

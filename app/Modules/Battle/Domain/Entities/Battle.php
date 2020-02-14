@@ -2,15 +2,13 @@
 
 namespace App\Modules\Battle\Domain\Entities;
 
-use App\Modules\Battle\Domain\Factories\BattleRoundFactory;
+use App\Modules\Battle\Domain\Entities\Collections\BattleTurns;
 use App\Modules\Battle\Domain\Entities\Collections\BattleRounds;
 use App\Modules\Character\Domain\Entities\Character;
-use App\Traits\ContainsModel;
-
+use App\Traits\GeneratesUuid;
 class Battle
 {
-    // Todo: temporary hack of having reference to the Eloquent model
-    use ContainsModel;
+    use GeneratesUuid;
 
     /**
      * @var string
@@ -33,11 +31,6 @@ class Battle
     private $defender;
 
     /**
-     * @var BattleRoundFactory
-     */
-    private $roundFactory;
-
-    /**
      * @var BattleRounds
      */
     private $rounds;
@@ -57,7 +50,6 @@ class Battle
         string $locationId,
         Character $attacker,
         Character $defender,
-        BattleRoundFactory $roundFactory,
         BattleRounds $rounds,
         int $victorXpGained,
         Character $victor = null
@@ -67,16 +59,15 @@ class Battle
         $this->locationId = $locationId;
         $this->attacker = $attacker;
         $this->defender = $defender;
-        $this->roundFactory = $roundFactory;
         $this->rounds = $rounds;
         $this->victorXpGained = $victorXpGained;
         $this->victor = $victor;
     }
 
-    public function execute()
+    public function execute(): void
     {
         do {
-            $round = $this->roundFactory->create(
+            $round = $this->createRound(
                 $this->getId(),
                 $this->getAttacker(),
                 $this->getDefender()
@@ -94,7 +85,7 @@ class Battle
         $this->victorXpGained = $this->calculateVictorXpGained($loser, $this->victor);
     }
 
-    protected function calculateVictorXpGained(Character $loser, Character $victor): int
+    private function calculateVictorXpGained(Character $loser, Character $victor): int
     {
         return max($loser->getLevelNumber() - $victor->getLevelNumber(), 1) * 3;
     }
@@ -137,5 +128,16 @@ class Battle
     public function getLocationId(): string
     {
         return $this->locationId;
+    }
+
+    private function createRound(string $battleId, Character $attacker, Character $defender): BattleRound
+    {
+        return new BattleRound(
+            $this->generateUuid(),
+            $battleId,
+            $attacker,
+            $defender,
+            new BattleTurns()
+        );
     }
 }

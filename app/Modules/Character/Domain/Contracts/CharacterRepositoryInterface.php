@@ -6,9 +6,9 @@ use App\Modules\Character\Domain\Entities\Character;
 
 interface CharacterRepositoryInterface
 {
-    public function add(Character $character);
+    public function add(Character $character): void;
 
     public function getOne(string $characterId): Character;
 
-    public function update(Character $character);
+    public function update(Character $character): void;
 }
