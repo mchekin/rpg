@@ -12,7 +12,7 @@
 }(this, function () {
     "use strict";
 
-    var VCountdown = function (options) {
+    let VCountdown = function (options) {
         if (!this || !(this instanceof VCountdown)) {
             return new VCountdown(options);
         }
@@ -32,21 +32,25 @@
     };
 
     VCountdown.prototype = {
+
         hasClass: function (el, name) {
             return new RegExp('(\\s|^)' + name + '(\\s|$)').test(el.className);
         },
+
         addClass: function (el, name) {
             if (!this.hasClass(el, name)) {
                 el.className += (el.className ? ' ' : '') + name;
             }
         },
+
         removeClass: function (el, name) {
             if (this.hasClass(el, name)) {
                 el.className = el.className.replace(new RegExp('(\\s|^)' + name + '(\\s|$)'), ' ').replace(/^\s+|\s+$/g, '');
             }
         },
+
         createEls: function (name, props) {
-            var el = document.createElement(name), p;
+            let el = document.createElement(name), p;
             for (p in props) {
                 if (props.hasOwnProperty(p)) {
                     el[p] = props[p];
@@ -54,11 +58,13 @@
             }
             return el;
         },
+
         insertAfter: function (referenceNode, newNode) {
             referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
         },
+
         update: function () {
-            var target = this.target,
+            let target = this.target,
                 currentCount = target.value.length,
                 remaining    = this.maxChars - currentCount;
 
@@ -73,14 +79,16 @@
         setMaxChars: function () {
             this.target.setAttribute('maxlength', this.maxChars);
         },
-        charsLen: function () {
-            var span = this.createEls('span', {className: 'chars-length'});
-            span.innerHTML = this.maxChars;
 
-            this.insertAfter(this.target, span);
+        charsLen: function () {
+            let element = this.createEls('div', {className: 'chars-length'});
+            element.innerHTML = this.maxChars;
+
+            this.insertAfter(this.target, element);
 
             this.update();
         },
+
         countdown: function () {
             this.setMaxChars();
             this.charsLen();
