@@ -2,7 +2,7 @@
 
 namespace App\Modules\Character\Infrastructure\Repositories;
 
-use App\Modules\Character\Domain\Contracts\RaceRepositoryInterface;
+use App\Modules\Character\Application\Contracts\RaceRepositoryInterface;
 use App\Modules\Character\Domain\ValueObjects\Attributes;
 use App\Modules\Character\Domain\Entities\Race;
 use App\Race as RaceModel;

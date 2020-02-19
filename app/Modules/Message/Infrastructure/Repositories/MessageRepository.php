@@ -5,7 +5,7 @@ namespace App\Modules\Message\Infrastructure\Repositories;
 use App\Modules\Message\Domain\Entities\Message;
 use App\Message as MessageModel;
 use App\Modules\Message\Infrastructure\ReconstitutionFactories\MessageReconstitutionFactory;
-use App\Modules\Message\Domain\Contracts\MessageRepositoryInterface;
+use App\Modules\Message\Application\Contracts\MessageRepositoryInterface;
 
 class MessageRepository implements MessageRepositoryInterface
 {

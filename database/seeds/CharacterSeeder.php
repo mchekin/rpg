@@ -4,24 +4,12 @@ use App\Character;
 use App\Item;
 use App\ItemPrototype;
 use App\Location;
-use App\Modules\Equipment\Domain\Factories\ItemFactory;
 use App\Traits\GeneratesUuid;
 use App\User;
 use Illuminate\Database\Seeder;
 
 class CharacterSeeder extends Seeder
 {
-    /**
-     * @var ItemFactory
-     */
-    private $itemFactory;
-
-    public function __construct(ItemFactory $itemFactory)
-    {
-
-        $this->itemFactory = $itemFactory;
-    }
-
     use GeneratesUuid;
 
     /**

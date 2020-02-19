@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Character;
-use App\Modules\Character\Domain\Services\CharacterService;
-use App\Modules\Character\Presentation\Http\CommandMappers\AttackCharacterCommandMapper;
-use App\Modules\Character\Presentation\Http\CommandMappers\CreateCharacterCommandMapper;
+use App\Modules\Character\Application\Services\CharacterService;
+use App\Modules\Character\UI\Http\CommandMappers\AttackCharacterCommandMapper;
+use App\Modules\Character\UI\Http\CommandMappers\CreateCharacterCommandMapper;
 use App\Http\Requests\CreateCharacterRequest;
 use App\Http\Requests\UpdateCharacterAttributeRequest;
-use App\Modules\Character\Presentation\Http\CommandMappers\IncreaseAttributeCommandMapper;
-use App\Modules\Character\Presentation\Http\CommandMappers\MoveCharacterCommandMapper;
+use App\Modules\Character\UI\Http\CommandMappers\IncreaseAttributeCommandMapper;
+use App\Modules\Character\UI\Http\CommandMappers\MoveCharacterCommandMapper;
 use App\Race;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;

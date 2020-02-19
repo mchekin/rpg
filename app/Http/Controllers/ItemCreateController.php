@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateItemRequest;
-use App\Modules\Equipment\Domain\Services\ItemService;
-use App\Modules\Equipment\Presentation\Http\CommandMappers\CreateItemCommandMapper;
+use App\Modules\Equipment\Application\Services\ItemService;
+use App\Modules\Equipment\UI\Http\CommandMappers\CreateItemCommandMapper;
 use Illuminate\Http\Response;
 
 class ItemCreateController extends Controller

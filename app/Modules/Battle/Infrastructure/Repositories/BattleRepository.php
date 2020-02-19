@@ -4,7 +4,7 @@
 namespace App\Modules\Battle\Infrastructure\Repositories;
 
 
-use App\Modules\Battle\Domain\Contracts\BattleRepositoryInterface;
+use App\Modules\Battle\Application\Contracts\BattleRepositoryInterface;
 use App\Modules\Battle\Domain\Entities\Battle;
 use App\Battle as BattleModel;
 use App\BattleRound as BattleRoundModel;

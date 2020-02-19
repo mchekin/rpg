@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Character;
-use App\Modules\Message\Domain\Services\MessageService;
-use App\Modules\Message\Presentation\Http\CommandMappers\SendMessageCommandMapper;
+use App\Modules\Message\Application\Services\MessageService;
+use App\Modules\Message\UI\Http\CommandMappers\SendMessageCommandMapper;
 use Illuminate\Http\Request;
 
 class CharacterMessageController extends Controller

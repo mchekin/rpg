@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Character;
-use App\Modules\Character\Domain\Services\CharacterService;
-use App\Modules\Equipment\Domain\Services\ItemService;
-use App\Modules\Equipment\Presentation\Http\CommandMappers\EquipItemCommandMapper;
-use App\Modules\Level\Domain\Services\LevelService;
+use App\Modules\Character\Application\Services\CharacterService;
+use App\Modules\Equipment\Application\Services\ItemService;
+use App\Modules\Equipment\UI\Http\CommandMappers\EquipItemCommandMapper;
+use App\Modules\Level\Application\Services\LevelService;
 use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;

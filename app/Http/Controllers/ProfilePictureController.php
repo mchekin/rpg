@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UploadImageRequest;
-use App\Modules\Image\Domain\Services\ProfilePictureService;
-use App\Modules\Image\Presentation\Http\CommandMappers\AddImageCommandMapper;
+use App\Modules\Image\Application\Services\ProfilePictureService;
+use App\Modules\Image\UI\Http\CommandMappers\AddImageCommandMapper;
 
 class ProfilePictureController extends Controller
 {
