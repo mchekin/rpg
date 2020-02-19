@@ -2,7 +2,7 @@
 
 namespace App\Modules\Character\Infrastructure\Repositories;
 
-use App\Modules\Character\Domain\Contracts\CharacterRepositoryInterface;
+use App\Modules\Character\Application\Contracts\CharacterRepositoryInterface;
 use App\Modules\Character\Domain\Entities\Character;
 use App\Character as CharacterModel;
 use App\Modules\Character\Infrastructure\ReconstitutionFactories\CharacterReconstitutionFactory;

@@ -3,7 +3,7 @@
 namespace App\Http\ViewComposers;
 
 use App\Character;
-use App\Modules\Level\Domain\Services\LevelService;
+use App\Modules\Level\Application\Services\LevelService;
 use Illuminate\Support\Arr;
 use Illuminate\View\View;
 

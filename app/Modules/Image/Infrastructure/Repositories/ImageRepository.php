@@ -5,7 +5,7 @@ namespace App\Modules\Image\Infrastructure\Repositories;
 use App\Modules\Image\Domain\ValueObjects\ImageFile;
 use App\Modules\Image\Domain\Entities\Image;
 use App\Image as ImageModel;
-use App\Modules\Image\Domain\Contracts\ImageRepositoryInterface;
+use App\Modules\Image\Application\Contracts\ImageRepositoryInterface;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\UploadedFile;
 use Intervention\Image\Constraint;
@@ -29,13 +29,13 @@ class ImageRepository implements ImageRepositoryInterface
         $this->imageManager = $imageManager;
     }
 
-    public function add(Image $image, UploadedFile $uploadedFile)
+    public function add(Image $image, UploadedFile $uploadedFile): void
     {
         $urlPath = $this->getUrlPath($image->getCharacterId());
 
         $this->writeFiles($image, $uploadedFile);
 
-        return ImageModel::query()->create([
+        ImageModel::query()->create([
             'id' => $image->getId(),
             'character_id' => $image->getCharacterId(),
             'file_path_full' => $urlPath . $image->getFullSizeFile()->getFileName(),
@@ -44,7 +44,7 @@ class ImageRepository implements ImageRepositoryInterface
         ]);
     }
 
-    public function delete(string $characterId)
+    public function delete(string $characterId): void
     {
         $this->filesystem->deleteDirectory($this->getFolderPath($characterId));
 
@@ -65,7 +65,7 @@ class ImageRepository implements ImageRepositoryInterface
         );
     }
 
-    private function writeFiles(Image $image, UploadedFile $uploadedFile)
+    private function writeFiles(Image $image, UploadedFile $uploadedFile): void
     {
         $folderPath = $this->getFolderPath($image->getCharacterId());
 
@@ -82,12 +82,12 @@ class ImageRepository implements ImageRepositoryInterface
         ImageFile $imageFile,
         string $folderPath,
         ImageManagerFile $imageManagerFile
-    )
+    ): string
     {
         $filePath = $folderPath . $imageFile->getFileName();
 
         $imageManagerFile
-            ->resize($imageFile->getWidth(), null, function (Constraint $constraint) {
+            ->resize($imageFile->getWidth(), null, static function (Constraint $constraint) {
                 $constraint->aspectRatio();
             })
             ->save($filePath);
@@ -115,7 +115,7 @@ class ImageRepository implements ImageRepositoryInterface
         return 'storage' . DIRECTORY_SEPARATOR . $this->getCharacterImageFolder($characterId);
     }
 
-    private function getCharacterImageFolder(string $characterId)
+    private function getCharacterImageFolder(string $characterId): string
     {
         return 'images' . DIRECTORY_SEPARATOR
             . 'characters' . DIRECTORY_SEPARATOR

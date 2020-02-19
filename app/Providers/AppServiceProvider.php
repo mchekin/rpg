@@ -2,19 +2,19 @@
 
 namespace App\Providers;
 
-use App\Modules\Battle\Domain\Contracts\BattleRepositoryInterface;
+use App\Modules\Battle\Application\Contracts\BattleRepositoryInterface;
 use App\Modules\Battle\Infrastructure\Repositories\BattleRepository;
-use App\Modules\Character\Domain\Contracts\CharacterRepositoryInterface;
-use App\Modules\Character\Domain\Contracts\RaceRepositoryInterface;
+use App\Modules\Character\Application\Contracts\CharacterRepositoryInterface;
+use App\Modules\Character\Application\Contracts\RaceRepositoryInterface;
 use App\Modules\Character\Infrastructure\Repositories\CharacterRepository;
-use App\Modules\Equipment\Domain\Contracts\ItemPrototypeRepositoryInterface;
-use App\Modules\Equipment\Domain\Contracts\ItemRepositoryInterface;
+use App\Modules\Equipment\Application\Contracts\ItemPrototypeRepositoryInterface;
+use App\Modules\Equipment\Application\Contracts\ItemRepositoryInterface;
 use App\Modules\Equipment\Infrastructure\Repositories\ItemPrototypeRepository;
 use App\Modules\Equipment\Infrastructure\Repositories\ItemRepository;
-use App\Modules\Image\Domain\Contracts\ImageRepositoryInterface;
+use App\Modules\Image\Application\Contracts\ImageRepositoryInterface;
 use App\Modules\Image\Infrastructure\Repositories\ImageRepository;
 use App\Modules\Character\Infrastructure\Repositories\RaceRepository;
-use App\Modules\Message\Domain\Contracts\MessageRepositoryInterface;
+use App\Modules\Message\Application\Contracts\MessageRepositoryInterface;
 use App\Modules\Message\Infrastructure\Repositories\MessageRepository;
 use Illuminate\Support\ServiceProvider;
 

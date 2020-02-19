@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Modules\User\Domain\Services\UserService;
-use App\Modules\User\Presentation\Http\CommandMappers\CreateUserCommandMapper;
+use App\Modules\User\Application\Services\UserService;
+use App\Modules\User\UI\Http\CommandMappers\CreateUserCommandMapper;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Support\Facades\Validator;
