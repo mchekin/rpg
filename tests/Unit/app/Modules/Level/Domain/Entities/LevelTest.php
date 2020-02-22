@@ -3,7 +3,7 @@
 
 namespace Tests\Unit\App\Modules\Level\Domain\Entities;
 
-use App\Modules\Level\Domain\Entities\Level;
+use App\Modules\Level\Domain\Level;
 use Tests\TestCase;
 
 class LevelTest extends TestCase

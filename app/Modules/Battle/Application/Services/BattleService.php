@@ -5,9 +5,9 @@ namespace App\Modules\Battle\Application\Services;
 
 
 use App\Modules\Battle\Application\Contracts\BattleRepositoryInterface;
-use App\Modules\Battle\Domain\Entities\Battle;
-use App\Modules\Battle\Domain\Entities\Collections\BattleRounds;
-use App\Modules\Character\Domain\Entities\Character;
+use App\Modules\Battle\Domain\Battle;
+use App\Modules\Battle\Domain\BattleRounds;
+use App\Modules\Character\Domain\Character;
 use App\Traits\GeneratesUuid;
 
 class BattleService

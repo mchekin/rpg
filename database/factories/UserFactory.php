@@ -14,7 +14,7 @@
 use App\Character;
 use App\ItemPrototype;
 use App\Location;
-use App\Modules\Character\Domain\ValueObjects\HitPoints;
+use App\Modules\Character\Domain\HitPoints;
 use App\Modules\Character\Infrastructure\Repositories\RaceRepository;
 use App\Race;
 use App\User;
@@ -24,7 +24,7 @@ use Ramsey\Uuid\Uuid;
 
 /** @var Factory $factory */
 
-$factory->define(App\User::class, function (Faker\Generator $faker) {
+$factory->define(App\User::class, static function (Faker\Generator $faker) {
     static $password;
 
     return [
@@ -35,7 +35,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(Character::class, function (Faker\Generator $faker) use ($factory) {
+$factory->define(Character::class, static function (Faker\Generator $faker) use ($factory) {
 
     /** @var Race $raceModel */
     $raceModel = Race::query()->inRandomOrder()->first();
@@ -59,7 +59,7 @@ $factory->define(Character::class, function (Faker\Generator $faker) use ($facto
         'gender' => $genders[array_rand($genders)],
 
         'xp' => 0,
-        'money' => rand(0, 5000),
+        'money' => random_int(0, 5000),
         'reputation' => 0,
 
         // attributes
@@ -72,15 +72,15 @@ $factory->define(Character::class, function (Faker\Generator $faker) use ($facto
         'hit_points' => $hitPoints->getCurrentHitPoints(),
         'total_hit_points' => $hitPoints->getMaximumHitPoints(),
 
-        'user_id' => function () {
-            return rand(0, 3)
+        'user_id' => static function () {
+            return random_int(0, 3)
                 ? factory(User::class)->create()->id
                 : null;
         },
     ];
 });
 
-$factory->define(App\Item::class, function () {
+$factory->define(App\Item::class, static function () {
     static $charactersIds = [];
 
     /** @var ItemPrototype $itemPrototype */
@@ -93,15 +93,15 @@ $factory->define(App\Item::class, function () {
 
     return [
         'id' => Uuid::uuid4(),
-        "name" => $itemPrototype->getName(),
-        "description" => $itemPrototype->getDescription(),
-        "effects" => $itemPrototype->getEffects(),
+        'name' => $itemPrototype->getName(),
+        'description' => $itemPrototype->getDescription(),
+        'effects' => $itemPrototype->getEffects(),
         'inventory_slot_number' => 0,
         'equipped' => true,
-        "type" => $itemPrototype->getType(),
-        "image_file_path" => $itemPrototype->getImageFilePath(),
-        "prototype_id" => $itemPrototype->getId(),
-        "creator_character_id" => $character->getId(),
-        "owner_character_id" => $character->getId(),
+        'type' => $itemPrototype->getType(),
+        'image_file_path' => $itemPrototype->getImageFilePath(),
+        'prototype_id' => $itemPrototype->getId(),
+        'creator_character_id' => $character->getId(),
+        'owner_character_id' => $character->getId(),
     ];
 });

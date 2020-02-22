@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Modules\Equipment\Domain\ValueObjects\ItemType;
+use App\Modules\Equipment\Domain\ItemType;
 use App\Traits\UsesStringId;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;

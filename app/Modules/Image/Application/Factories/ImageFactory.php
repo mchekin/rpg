@@ -4,8 +4,8 @@
 namespace App\Modules\Image\Application\Factories;
 
 
-use App\Modules\Image\Domain\ValueObjects\ImageFile;
-use App\Modules\Image\Domain\Entities\Image;
+use App\Modules\Image\Domain\ImageFile;
+use App\Modules\Image\Domain\Image;
 use App\Traits\GeneratesUuid;
 
 class ImageFactory

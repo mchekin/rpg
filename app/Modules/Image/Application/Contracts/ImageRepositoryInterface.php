@@ -4,7 +4,7 @@
 namespace App\Modules\Image\Application\Contracts;
 
 
-use App\Modules\Image\Domain\Entities\Image;
+use App\Modules\Image\Domain\Image;
 use Illuminate\Http\UploadedFile;
 
 interface ImageRepositoryInterface

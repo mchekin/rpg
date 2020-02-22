@@ -5,7 +5,7 @@ namespace App\Modules\Image\Application\Services;
 
 use App\Modules\Character\Application\Services\CharacterService;
 use App\Modules\Image\Application\Contracts\ImageRepositoryInterface;
-use App\Modules\Image\Domain\Entities\Image;
+use App\Modules\Image\Domain\Image;
 use App\Modules\Image\Application\Factories\ImageFactory;
 use App\Modules\Image\Application\Commands\AddImageCommand;
 

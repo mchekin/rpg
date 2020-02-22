@@ -4,7 +4,7 @@ namespace App\Modules\Equipment\Infrastructure\Repositories;
 
 use App\ItemPrototype as ItemPrototypeModel;
 use App\Modules\Equipment\Application\Contracts\ItemPrototypeRepositoryInterface;
-use App\Modules\Equipment\Domain\Entities\ItemPrototype;
+use App\Modules\Equipment\Domain\ItemPrototype;
 use App\Modules\Equipment\Infrastructure\ReconstitutionFactories\ItemPrototypeReconstitutionFactory;
 
 class ItemPrototypeRepository implements ItemPrototypeRepositoryInterface
