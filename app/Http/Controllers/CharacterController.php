@@ -100,8 +100,8 @@ class CharacterController extends Controller
 
         $attackCharacterCommand = $commandMapper->map($request, $defenderId);
 
-        $battle = $this->characterService->attack($attackCharacterCommand);
+        $battleId = $this->characterService->attack($attackCharacterCommand);
 
-        return redirect()->route('battle.show', $battle->getId());
+        return redirect()->route('battle.show', $battleId->toString());
     }
 }

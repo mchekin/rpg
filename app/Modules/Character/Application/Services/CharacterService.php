@@ -4,8 +4,10 @@
 namespace App\Modules\Character\Application\Services;
 
 
-use App\Modules\Battle\Application\Services\BattleService;
+use App\Modules\Battle\Application\Contracts\BattleRepositoryInterface;
 use App\Modules\Battle\Domain\Battle;
+use App\Modules\Battle\Domain\BattleId;
+use App\Modules\Battle\Domain\BattleRounds;
 use App\Modules\Character\Application\Contracts\RaceRepositoryInterface;
 use App\Modules\Equipment\Application\Commands\AddItemToInventoryCommand;
 use App\Modules\Character\Application\Contracts\CharacterRepositoryInterface;
@@ -20,13 +22,10 @@ use App\Modules\Equipment\Application\Contracts\ItemRepositoryInterface;
 use App\Modules\Equipment\Domain\Item;
 use App\Modules\Image\Domain\Image;
 use App\Modules\Level\Application\Services\LevelService;
-use App\Traits\GeneratesUuid;
 use Illuminate\Support\Facades\DB;
 
 class CharacterService
 {
-    use GeneratesUuid;
-
     /**
      * @var CharacterFactory
      */
@@ -44,9 +43,9 @@ class CharacterService
      */
     private $raceRepository;
     /**
-     * @var BattleService
+     * @var BattleRepositoryInterface
      */
-    private $battleService;
+    private $battleRepository;
     /**
      * @var LevelService
      */
@@ -57,7 +56,7 @@ class CharacterService
         CharacterRepositoryInterface $characterRepository,
         ItemRepositoryInterface $itemRepository,
         RaceRepositoryInterface $raceRepository,
-        BattleService $battleService,
+        BattleRepositoryInterface $battleRepository,
         LevelService $levelService
     )
     {
@@ -65,7 +64,7 @@ class CharacterService
         $this->characterRepository = $characterRepository;
         $this->itemRepository = $itemRepository;
         $this->raceRepository = $raceRepository;
-        $this->battleService = $battleService;
+        $this->battleRepository = $battleRepository;
         $this->levelService = $levelService;
     }
 
@@ -148,14 +147,25 @@ class CharacterService
         $this->characterRepository->update($character);
     }
 
-    public function attack(AttackCharacterCommand $command): Battle
+    public function attack(AttackCharacterCommand $command): BattleId
     {
         return DB::transaction(function () use ($command) {
 
             $attacker = $this->characterRepository->getOne($command->getAttackerId());
             $defender = $this->characterRepository->getOne($command->getDefenderId());
 
-            $battle = $this->battleService->create($attacker, $defender);
+            $battleId = $this->battleRepository->nextIdentity();
+
+            $battle = new Battle(
+                $battleId,
+                $defender->getLocationId(),
+                $attacker,
+                $defender,
+                new BattleRounds(),
+                0
+            );
+
+            $battle->execute();
 
             $victor = $battle->getVictor();
             $loser = $battle->getLoser();
@@ -171,8 +181,9 @@ class CharacterService
 
             $this->characterRepository->update($victor);
             $this->characterRepository->update($loser);
+            $this->battleRepository->add($battle);
 
-            return $battle;
+            return $battleId;
         });
     }
 

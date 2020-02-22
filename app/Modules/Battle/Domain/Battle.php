@@ -10,7 +10,7 @@ class Battle
     use GeneratesUuid;
 
     /**
-     * @var string
+     * @var BattleId
      */
     private $id;
 
@@ -45,7 +45,7 @@ class Battle
     private $victor;
 
     public function __construct(
-        string $id,
+        BattleId $id,
         string $locationId,
         Character $attacker,
         Character $defender,
@@ -67,7 +67,6 @@ class Battle
     {
         do {
             $round = $this->createRound(
-                $this->getId(),
                 $this->getAttacker(),
                 $this->getDefender()
             );
@@ -89,7 +88,7 @@ class Battle
         return max($loser->getLevelNumber() - $victor->getLevelNumber(), 1) * 3;
     }
 
-    public function getId(): string
+    public function getId(): BattleId
     {
         return $this->id;
     }
@@ -129,11 +128,10 @@ class Battle
         return $this->locationId;
     }
 
-    private function createRound(string $battleId, Character $attacker, Character $defender): BattleRound
+    private function createRound(Character $attacker, Character $defender): BattleRound
     {
         return new BattleRound(
             $this->generateUuid(),
-            $battleId,
             $attacker,
             $defender,
             new BattleTurns()

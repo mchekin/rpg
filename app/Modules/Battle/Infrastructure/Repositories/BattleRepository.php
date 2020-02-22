@@ -8,16 +8,29 @@ use App\Modules\Battle\Application\Contracts\BattleRepositoryInterface;
 use App\Modules\Battle\Domain\Battle;
 use App\Battle as BattleModel;
 use App\BattleRound as BattleRoundModel;
+use App\Modules\Battle\Domain\BattleId;
 use App\Modules\Battle\Domain\BattleRound;
 use App\Modules\Battle\Domain\BattleTurn;
+use Exception;
+use Ramsey\Uuid\Uuid;
 
 class BattleRepository implements BattleRepositoryInterface
 {
+    /**
+     * @return BattleId
+     *
+     * @throws Exception
+     */
+    public function nextIdentity(): BattleId
+    {
+        return BattleId::fromString(Uuid::uuid4()->toString());
+    }
+
     public function add(Battle $battle): void
     {
         /** @var BattleModel $battleModel */
         $battleModel = BattleModel::query()->create([
-            'id' => $battle->getId(),
+            'id' => $battle->getId()->toString(),
             'location_id' => $battle->getLocationId(),
             'attacker_id' => $battle->getAttacker()->getId(),
             'defender_id' => $battle->getDefender()->getId(),

@@ -16,11 +16,6 @@ class BattleRound
     private $id;
 
     /**
-     * @var string
-     */
-    private $battleId;
-
-    /**
      * @var Character
      */
     private $attacker;
@@ -37,13 +32,11 @@ class BattleRound
 
     public function __construct(
         string $id,
-        string $battleId,
         Character $attacker,
         Character $defender,
         BattleTurns $turns
     ) {
         $this->id = $id;
-        $this->battleId = $battleId;
         $this->attacker = $attacker;
         $this->defender = $defender;
         $this->turns = $turns;
@@ -52,11 +45,6 @@ class BattleRound
     public function getId(): string
     {
         return $this->id;
-    }
-
-    public function getBattleId(): string
-    {
-        return $this->battleId;
     }
 
     public function getTurns(): BattleTurns
