@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use App\Battle;
 use App\Character;
 use App\User;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -16,7 +15,7 @@ class AttackTest extends TestCase
     /**
      * @test
      */
-    public function strong_own_character_wins_while_attacking_basic_opponent()
+    public function strong_own_character_wins_while_attacking_basic_opponent(): void
     {
         // Given we have a signed in user that already has a strongCharacter
         $user = factory(User::class)->create();
@@ -39,6 +38,7 @@ class AttackTest extends TestCase
         $response = $this->post("/character/{$basicOpponentCharacter->id}/attack");
 
         $battle = Battle::query()->firstOrFail();
+
         // We are redirected to the Battle page
         $response->assertRedirect(route('battle.show', $battle->id));
         $this->assertEquals($strongOwnCharacter->id, $battle->attacker_id);
@@ -49,7 +49,7 @@ class AttackTest extends TestCase
     /**
      * @test
      */
-    public function basic_own_character_looses_while_attacking_strong_opponent()
+    public function basic_own_character_looses_while_attacking_strong_opponent(): void
     {
         // Given we have a signed in user that already has a strongCharacter
         $user = factory(User::class)->create();
@@ -72,6 +72,7 @@ class AttackTest extends TestCase
         $response = $this->post("/character/{$strongOpponentCharacter->id}/attack");
 
         $battle = Battle::query()->firstOrFail();
+
         // We are redirected to the Battle page
         $response->assertRedirect(route('battle.show', $battle->id));
         $this->assertEquals($basicOwnCharacter->id, $battle->attacker_id);

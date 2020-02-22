@@ -32,4 +32,14 @@ class Statistics
 
         return new self($data);
     }
+
+    public function getBattlesWon(): int
+    {
+        return (int)$this->statistics->get('battlesWon');
+    }
+
+    public function getBattlesLost(): int
+    {
+        return (int)$this->statistics->get('battlesLost');
+    }
 }

@@ -311,12 +311,12 @@ class Character
 
     public function getBattlesWon(): int
     {
-        return (int) $this->statistics->get('battlesWon');
+        return $this->statistics->getBattlesWon();
     }
 
     public function getBattlesLost(): int
     {
-        return (int) $this->statistics->get('battlesLost');
+        return $this->statistics->getBattlesLost();
     }
 
     public function applyDamage($damageDone): void
