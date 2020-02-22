@@ -2,6 +2,7 @@
 
 namespace App\Modules\Image\Infrastructure\Repositories;
 
+use App\Modules\Character\Domain\CharacterId;
 use App\Modules\Image\Domain\ImageFile;
 use App\Modules\Image\Domain\Image;
 use App\Image as ImageModel;
@@ -37,18 +38,18 @@ class ImageRepository implements ImageRepositoryInterface
 
         ImageModel::query()->create([
             'id' => $image->getId(),
-            'character_id' => $image->getCharacterId(),
+            'character_id' => $image->getCharacterId()->toString(),
             'file_path_full' => $urlPath . $image->getFullSizeFile()->getFileName(),
             'file_path_small' => $urlPath . $image->getSmallSizeFile()->getFileName(),
             'file_path_icon' => $urlPath . $image->getIconSizeFile()->getFileName(),
         ]);
     }
 
-    public function delete(string $characterId): void
+    public function delete(CharacterId $characterId): void
     {
         $this->filesystem->deleteDirectory($this->getFolderPath($characterId));
 
-        ImageModel::query()->where('character_id', '=', $characterId)->delete();
+        ImageModel::query()->where('character_id', '=', $characterId->toString())->delete();
     }
 
     public function getOne($id): Image
@@ -58,7 +59,7 @@ class ImageRepository implements ImageRepositoryInterface
 
         return new Image(
             $imageModel->getId(),
-            $imageModel->getCharacterId(),
+            CharacterId::fromString($imageModel->getCharacterId()),
             ImageFile::full($imageModel->getFilePathFull()),
             ImageFile::small($imageModel->getFilePathSmall()),
             ImageFile::icon($imageModel->getFilePathIcon())
@@ -101,7 +102,7 @@ class ImageRepository implements ImageRepositoryInterface
             or $this->filesystem->makeDirectory($fullFolderPath, 0755, true);
     }
 
-    private function getFolderPath(string $characterId): string
+    private function getFolderPath(CharacterId $characterId): string
     {
         return storage_path(
             'app' . DIRECTORY_SEPARATOR
@@ -110,15 +111,15 @@ class ImageRepository implements ImageRepositoryInterface
         );
     }
 
-    private function getUrlPath(string $characterId): string
+    private function getUrlPath(CharacterId $characterId): string
     {
         return 'storage' . DIRECTORY_SEPARATOR . $this->getCharacterImageFolder($characterId);
     }
 
-    private function getCharacterImageFolder(string $characterId): string
+    private function getCharacterImageFolder(CharacterId $characterId): string
     {
         return 'images' . DIRECTORY_SEPARATOR
             . 'characters' . DIRECTORY_SEPARATOR
-            . $characterId . DIRECTORY_SEPARATOR;
+            . $characterId->toString() . DIRECTORY_SEPARATOR;
     }
 }

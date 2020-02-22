@@ -52,7 +52,7 @@ class Character
      */
     private $hitPoints;
     /**
-     * @var string
+     * @var CharacterId
      */
     private $id;
     /**
@@ -73,7 +73,7 @@ class Character
     private $profilePictureId;
 
     public function __construct(
-        string $id,
+        CharacterId $id,
         int $raceId,
         int $levelId,
         string $locationId,
@@ -112,7 +112,7 @@ class Character
         return $this->levelId;
     }
 
-    public function getId(): string
+    public function getId(): CharacterId
     {
         return $this->id;
     }
@@ -224,7 +224,7 @@ class Character
 
     public function equals(Character $other): bool
     {
-        return $this->getName() === $other->getName();
+        return $this->getId()->equals($other->getId());
     }
 
     public function getName(): string

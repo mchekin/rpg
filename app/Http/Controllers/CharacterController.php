@@ -57,7 +57,7 @@ class CharacterController extends Controller
 
         $character = $this->characterService->create($createCharacterCommand);
 
-        return redirect()->route('character.show', ['character' => $character->getId()]);
+        return redirect()->route('character.show', ['character' => $character->getId()->toString()]);
     }
 
     public function show(string $characterId): View

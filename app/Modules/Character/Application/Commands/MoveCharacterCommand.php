@@ -4,10 +4,12 @@
 namespace App\Modules\Character\Application\Commands;
 
 
+use App\Modules\Character\Domain\CharacterId;
+
 class MoveCharacterCommand
 {
     /**
-     * @var string
+     * @var CharacterId
      */
     private $characterId;
 
@@ -16,13 +18,13 @@ class MoveCharacterCommand
      */
     private $locationId;
 
-    public function __construct(string $characterId, string $locationId)
+    public function __construct(CharacterId $characterId, string $locationId)
     {
         $this->characterId = $characterId;
         $this->locationId = $locationId;
     }
 
-    public function getCharacterId(): string
+    public function getCharacterId(): CharacterId
     {
         return $this->characterId;
     }

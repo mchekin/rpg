@@ -3,6 +3,7 @@
 
 namespace App\Modules\Character\Infrastructure\ReconstitutionFactories;
 
+use App\Modules\Character\Domain\CharacterId;
 use App\Modules\Equipment\Infrastructure\ReconstitutionFactories\ItemReconstitutionFactory;
 use App\Modules\Character\Domain\Attributes;
 use App\Modules\Character\Domain\Character;
@@ -35,7 +36,7 @@ class CharacterReconstitutionFactory
              });
 
         $character = new Character(
-            $characterModel->getId(),
+            CharacterId::fromString($characterModel->getId()),
             $characterModel->getRaceId(),
             $characterModel->getLevelNumber(),
             $characterModel->getLocationId(),

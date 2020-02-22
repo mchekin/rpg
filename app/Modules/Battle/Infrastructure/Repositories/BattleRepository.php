@@ -11,11 +11,13 @@ use App\BattleRound as BattleRoundModel;
 use App\Modules\Battle\Domain\BattleId;
 use App\Modules\Battle\Domain\BattleRound;
 use App\Modules\Battle\Domain\BattleTurn;
+use App\Traits\GeneratesUuid;
 use Exception;
-use Ramsey\Uuid\Uuid;
 
 class BattleRepository implements BattleRepositoryInterface
 {
+    use GeneratesUuid;
+
     /**
      * @return BattleId
      *
@@ -23,7 +25,7 @@ class BattleRepository implements BattleRepositoryInterface
      */
     public function nextIdentity(): BattleId
     {
-        return BattleId::fromString(Uuid::uuid4()->toString());
+        return BattleId::fromString($this->generateUuid());
     }
 
     public function add(Battle $battle): void
@@ -32,9 +34,9 @@ class BattleRepository implements BattleRepositoryInterface
         $battleModel = BattleModel::query()->create([
             'id' => $battle->getId()->toString(),
             'location_id' => $battle->getLocationId(),
-            'attacker_id' => $battle->getAttacker()->getId(),
-            'defender_id' => $battle->getDefender()->getId(),
-            'victor_id' => $battle->getVictor()->getId(),
+            'attacker_id' => $battle->getAttacker()->getId()->toString(),
+            'defender_id' => $battle->getDefender()->getId()->toString(),
+            'victor_id' => $battle->getVictor()->getId()->toString(),
             'victor_xp_gained' => $battle->getVictorXpGained(),
         ]);
 
@@ -53,8 +55,8 @@ class BattleRepository implements BattleRepositoryInterface
                     'damageDone' => $turn->getDamageDone(),
                     'damageAbsorbed' => $turn->getDamageAbsorbed(),
                     'result_type' => $turn->getResultType(),
-                    'executor_id' => $turn->getOwner()->getId(),
-                    'target_id' => $turn->getTarget()->getId(),
+                    'executor_id' => $turn->getOwner()->getId()->toString(),
+                    'target_id' => $turn->getTarget()->getId()->toString(),
                 ]);
             }
         }

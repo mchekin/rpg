@@ -2,10 +2,12 @@
 
 namespace App\Modules\Equipment\Application\Commands;
 
+use App\Modules\Character\Domain\CharacterId;
+
 class AddItemToInventoryCommand
 {
     /**
-     * @var string
+     * @var CharacterId
      */
     private $characterId;
     /**
@@ -17,14 +19,14 @@ class AddItemToInventoryCommand
      */
     private $itemId;
 
-    public function __construct(string $characterId, int $slot, string $itemId)
+    public function __construct(CharacterId $characterId, int $slot, string $itemId)
     {
         $this->characterId = $characterId;
         $this->slot = $slot;
         $this->itemId = $itemId;
     }
 
-    public function getCharacterId(): string
+    public function getCharacterId(): CharacterId
     {
         return $this->characterId;
     }

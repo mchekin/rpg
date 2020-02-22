@@ -2,6 +2,8 @@
 
 namespace App\Modules\Image\Domain;
 
+use App\Modules\Character\Domain\CharacterId;
+
 class Image
 {
     /**
@@ -9,7 +11,7 @@ class Image
      */
     private $id;
     /**
-     * @var string
+     * @var CharacterId
      */
     private $characterId;
     /**
@@ -27,7 +29,7 @@ class Image
 
     public function __construct(
         string $id,
-        string $characterId,
+        CharacterId $characterId,
         ImageFile $fullSizeFile,
         ImageFile $smallSizeFile,
         ImageFile $iconSizeFile
@@ -44,7 +46,7 @@ class Image
         return $this->id;
     }
 
-    public function getCharacterId(): string
+    public function getCharacterId(): CharacterId
     {
         return $this->characterId;
     }

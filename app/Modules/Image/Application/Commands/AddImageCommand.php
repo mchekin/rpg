@@ -3,12 +3,13 @@
 
 namespace App\Modules\Image\Application\Commands;
 
+use App\Modules\Character\Domain\CharacterId;
 use Illuminate\Http\UploadedFile;
 
 class AddImageCommand
 {
     /**
-     * @var string
+     * @var CharacterId
      */
     private $characterId;
 
@@ -17,13 +18,13 @@ class AddImageCommand
      */
     private $uploadedFile;
 
-    public function __construct(string $characterId, UploadedFile $uploadedFile)
+    public function __construct(CharacterId $characterId, UploadedFile $uploadedFile)
     {
         $this->characterId = $characterId;
         $this->uploadedFile = $uploadedFile;
     }
 
-    public function getCharacterId(): string
+    public function getCharacterId(): CharacterId
     {
         return $this->characterId;
     }

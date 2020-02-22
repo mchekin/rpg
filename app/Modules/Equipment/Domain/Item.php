@@ -3,6 +3,7 @@
 namespace App\Modules\Equipment\Domain;
 
 
+use App\Modules\Character\Domain\CharacterId;
 use Illuminate\Support\Collection;
 
 class Item
@@ -32,11 +33,11 @@ class Item
      */
     private $prototypeId;
     /**
-     * @var string
+     * @var CharacterId
      */
     private $creatorCharacterId;
     /**
-     * @var string
+     * @var CharacterId
      */
     private $ownerCharacterId;
     /**
@@ -60,8 +61,8 @@ class Item
         ItemType $type,
         Collection $effects,
         string $prototypeId,
-        string $creatorCharacterId,
-        string $ownerCharacterId,
+        CharacterId $creatorCharacterId,
+        CharacterId $ownerCharacterId,
         InventorySlot $inventorySlot,
         bool $equipped = false
     )
@@ -114,12 +115,12 @@ class Item
         return $this->prototypeId;
     }
 
-    public function getCreatorCharacterId(): string
+    public function getCreatorCharacterId(): CharacterId
     {
         return $this->creatorCharacterId;
     }
 
-    public function getOwnerCharacterId(): string
+    public function getOwnerCharacterId(): CharacterId
     {
         return $this->ownerCharacterId;
     }

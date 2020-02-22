@@ -4,29 +4,31 @@
 namespace App\Modules\Character\Application\Commands;
 
 
+use App\Modules\Character\Domain\CharacterId;
+
 class AttackCharacterCommand
 {
     /**
-     * @var string
+     * @var CharacterId
      */
     private $attackerId;
     /**
-     * @var string
+     * @var CharacterId
      */
     private $defenderId;
 
-    public function __construct(string $attackerId, string $defenderId)
+    public function __construct(CharacterId $attackerId, CharacterId $defenderId)
     {
         $this->attackerId = $attackerId;
         $this->defenderId = $defenderId;
     }
 
-    public function getAttackerId(): string
+    public function getAttackerId(): CharacterId
     {
         return $this->attackerId;
     }
 
-    public function getDefenderId(): string
+    public function getDefenderId(): CharacterId
     {
         return $this->defenderId;
     }

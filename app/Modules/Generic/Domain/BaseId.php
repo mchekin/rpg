@@ -28,4 +28,9 @@ abstract class BaseId
     {
         return $this->id;
     }
+
+    public function equals(BaseId $baseId): bool
+    {
+        return $this->toString() === $baseId->toString();
+    }
 }

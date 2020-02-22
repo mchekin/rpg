@@ -5,10 +5,25 @@ namespace App\Modules\Character\Infrastructure\Repositories;
 use App\Modules\Character\Application\Contracts\CharacterRepositoryInterface;
 use App\Modules\Character\Domain\Character;
 use App\Character as CharacterModel;
+use App\Modules\Character\Domain\CharacterId;
 use App\Modules\Character\Infrastructure\ReconstitutionFactories\CharacterReconstitutionFactory;
+use App\Traits\GeneratesUuid;
+use Exception;
 
 class CharacterRepository implements CharacterRepositoryInterface
 {
+    use GeneratesUuid;
+
+    /**
+     * @return CharacterId
+     *
+     * @throws Exception
+     */
+    public function nextIdentity(): CharacterId
+    {
+        return CharacterId::fromString($this->generateUuid());
+    }
+
     /**
      * @var CharacterReconstitutionFactory
      */
@@ -23,7 +38,7 @@ class CharacterRepository implements CharacterRepositoryInterface
     {
         /** @var CharacterModel $characterModel */
         CharacterModel::query()->create([
-            'id' => $character->getId(),
+            'id' => $character->getId()->toString(),
             'user_id' => $character->getUserId(),
 
             'name' => $character->getName(),
@@ -53,10 +68,10 @@ class CharacterRepository implements CharacterRepositoryInterface
         ]);
     }
 
-    public function getOne(string $characterId): Character
+    public function getOne(CharacterId $characterId): Character
     {
         /** @var CharacterModel $characterModel */
-        $characterModel = CharacterModel::query()->with('items')->findOrFail($characterId);
+        $characterModel = CharacterModel::query()->with('items')->findOrFail($characterId->toString());
 
         return $this->characterReconstitutionFactory->reconstitute($characterModel);
     }
@@ -64,7 +79,7 @@ class CharacterRepository implements CharacterRepositoryInterface
     public function update(Character $character): void
     {
         /** @var CharacterModel $characterModel */
-        $characterModel = CharacterModel::query()->findOrFail($character->getId());
+        $characterModel = CharacterModel::query()->findOrFail($character->getId()->toString());
 
         $characterModel->update([
             'name' => $character->getName(),

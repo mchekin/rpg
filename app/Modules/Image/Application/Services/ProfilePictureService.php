@@ -4,6 +4,7 @@
 namespace App\Modules\Image\Application\Services;
 
 use App\Modules\Character\Application\Services\CharacterService;
+use App\Modules\Character\Domain\CharacterId;
 use App\Modules\Image\Application\Contracts\ImageRepositoryInterface;
 use App\Modules\Image\Domain\Image;
 use App\Modules\Image\Application\Factories\ImageFactory;
@@ -48,7 +49,7 @@ class ProfilePictureService
         $this->characterService->updateProfilePicture($profilePicture);
     }
 
-    public function delete(string $characterId): void
+    public function delete(CharacterId $characterId): void
     {
         $this->imageRepository->delete($characterId);
 

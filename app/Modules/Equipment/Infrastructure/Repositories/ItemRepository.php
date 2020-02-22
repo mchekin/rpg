@@ -33,8 +33,8 @@ class ItemRepository implements ItemRepositoryInterface
             'id' => $item->getId(),
 
             'prototype_id' => $item->getPrototypeId(),
-            'creator_character_id' => $item->getCreatorCharacterId(),
-            'owner_character_id' => $item->getOwnerCharacterId(),
+            'creator_character_id' => $item->getCreatorCharacterId()->toString(),
+            'owner_character_id' => $item->getOwnerCharacterId()->toString(),
 
             'inventory_slot_number' => $item->getInventorySlot()->getSlot(),
             'equipped' => $item->isEquipped(),
@@ -69,8 +69,8 @@ class ItemRepository implements ItemRepositoryInterface
 
         ItemModel::query()->where('id', $item->getId())->update([
             'prototype_id' => $item->getPrototypeId(),
-            'creator_character_id' => $item->getCreatorCharacterId(),
-            'owner_character_id' => $item->getOwnerCharacterId(),
+            'creator_character_id' => $item->getCreatorCharacterId()->toString(),
+            'owner_character_id' => $item->getOwnerCharacterId()->toString(),
 
             'inventory_slot_number' => $item->getInventorySlot()->getSlot(),
             'equipped' => $item->isEquipped(),

@@ -120,7 +120,7 @@ class Battle
 
     public function getLoser(): Character
     {
-        return $this->victor->getId() === $this->attacker->getId() ? $this->defender : $this->attacker;
+        return $this->victor->equals($this->attacker) ? $this->defender : $this->attacker;
     }
 
     public function getLocationId(): string

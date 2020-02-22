@@ -9,6 +9,7 @@ use App\Modules\Battle\Domain\Battle;
 use App\Modules\Battle\Domain\BattleId;
 use App\Modules\Battle\Domain\BattleRounds;
 use App\Modules\Character\Application\Contracts\RaceRepositoryInterface;
+use App\Modules\Character\Domain\CharacterId;
 use App\Modules\Equipment\Application\Commands\AddItemToInventoryCommand;
 use App\Modules\Character\Application\Contracts\CharacterRepositoryInterface;
 use App\Modules\Character\Domain\Character;
@@ -70,18 +71,14 @@ class CharacterService
 
     public function create(CreateCharacterCommand $command): Character
     {
+        $characterId = $this->characterRepository->nextIdentity();
         $race = $this->raceRepository->getOne($command->getRaceId());
 
-        $character = $this->characterFactory->create($command, $race);
+        $character = $this->characterFactory->create($characterId, $command, $race);
 
         $this->characterRepository->add($character);
 
         return $character;
-    }
-
-    public function getOne(string $characterId): Character
-    {
-        return $this->characterRepository->getOne($characterId);
     }
 
     public function equipItem(EquipItemCommand $command): void
@@ -196,7 +193,7 @@ class CharacterService
         $this->characterRepository->update($character);
     }
 
-    public function removeProfilePicture(string $characterId): void
+    public function removeProfilePicture(CharacterId $characterId): void
     {
         $character = $this->characterRepository->getOne($characterId);
 
