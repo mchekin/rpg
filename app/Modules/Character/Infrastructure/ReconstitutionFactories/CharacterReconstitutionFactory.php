@@ -4,14 +4,14 @@
 namespace App\Modules\Character\Infrastructure\ReconstitutionFactories;
 
 use App\Modules\Equipment\Infrastructure\ReconstitutionFactories\ItemReconstitutionFactory;
-use App\Modules\Character\Domain\ValueObjects\Attributes;
-use App\Modules\Character\Domain\Entities\Character;
-use App\Modules\Character\Domain\ValueObjects\Gender;
-use App\Modules\Character\Domain\ValueObjects\Inventory;
-use App\Modules\Character\Domain\ValueObjects\Statistics;
-use App\Modules\Character\Domain\ValueObjects\Money;
-use App\Modules\Character\Domain\ValueObjects\HitPoints;
-use App\Modules\Character\Domain\ValueObjects\Reputation;
+use App\Modules\Character\Domain\Attributes;
+use App\Modules\Character\Domain\Character;
+use App\Modules\Character\Domain\Gender;
+use App\Modules\Character\Domain\Inventory;
+use App\Modules\Character\Domain\Statistics;
+use App\Modules\Character\Domain\Money;
+use App\Modules\Character\Domain\HitPoints;
+use App\Modules\Character\Domain\Reputation;
 use App\Character as CharacterModel;
 use App\Item as ItemModel;
 

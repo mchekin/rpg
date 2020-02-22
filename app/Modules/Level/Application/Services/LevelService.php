@@ -3,7 +3,7 @@
 
 namespace App\Modules\Level\Application\Services;
 
-use App\Modules\Level\Domain\Entities\Level;
+use App\Modules\Level\Domain\Level;
 
 class LevelService
 {

@@ -4,7 +4,7 @@
 namespace App\Modules\Message\Application\Factories;
 
 
-use App\Modules\Message\Domain\Entities\Message;
+use App\Modules\Message\Domain\Message;
 use App\Modules\Message\Application\Commands\SendMessageCommand;
 use App\Traits\GeneratesUuid;
 

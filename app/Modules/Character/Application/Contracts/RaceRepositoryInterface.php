@@ -2,7 +2,7 @@
 
 namespace App\Modules\Character\Application\Contracts;
 
-use App\Modules\Character\Domain\Entities\Race;
+use App\Modules\Character\Domain\Race;
 
 interface RaceRepositoryInterface
 {

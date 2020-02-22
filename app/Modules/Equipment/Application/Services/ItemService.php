@@ -6,7 +6,7 @@ use App\Modules\Character\Application\Contracts\CharacterRepositoryInterface;
 use App\Modules\Equipment\Application\Commands\CreateItemCommand;
 use App\Modules\Equipment\Application\Contracts\ItemPrototypeRepositoryInterface;
 use App\Modules\Equipment\Application\Contracts\ItemRepositoryInterface;
-use App\Modules\Equipment\Domain\Entities\Item;
+use App\Modules\Equipment\Domain\Item;
 use App\Modules\Equipment\Application\Factories\ItemFactory;
 use Illuminate\Support\Facades\DB;
 

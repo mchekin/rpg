@@ -1,8 +1,8 @@
 <?php
 
 use App\ItemPrototype;
-use App\Modules\Equipment\Domain\ValueObjects\ItemEffect;
-use App\Modules\Equipment\Domain\ValueObjects\ItemType;
+use App\Modules\Equipment\Domain\ItemEffect;
+use App\Modules\Equipment\Domain\ItemType;
 use App\Traits\GeneratesUuid;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -20,11 +20,11 @@ class CreateItemsTable extends Migration
      */
     public function up()
     {
-        Schema::create('item_prototypes', function (Blueprint $table) {
+        Schema::create('item_prototypes', static function (Blueprint $table) {
             $table->uuid('id')->primary();
 
-            $table->string("name");
-            $table->string("description");
+            $table->string('name');
+            $table->string('description');
 
             $table->json('effects');
 
@@ -35,11 +35,11 @@ class CreateItemsTable extends Migration
             $table->timestamps();
         });
 
-        Schema::create('items', function (Blueprint $table) {
+        Schema::create('items', static function (Blueprint $table) {
             $table->uuid('id')->primary();
 
-            $table->string("name");
-            $table->string("description");
+            $table->string('name');
+            $table->string('description');
 
             $table->json('effects');
 
@@ -82,69 +82,69 @@ class CreateItemsTable extends Migration
 
         $prototypes = [
             [
-                "id" => $this->generateUuid(),
-                "name" => "Wooden Club",
-                "description" => "Simplest weapon. A crude wooden club made from a peace of wood.",
-                "effects" => [
+                'id' => $this->generateUuid(),
+                'name' => 'Wooden Club',
+                'description' => 'Simplest weapon. A crude wooden club made from a peace of wood.',
+                'effects' => [
                     [
                         'quantity' => 1,
                         'type' => ItemEffect::DAMAGE,
                     ]
                 ],
-                "type" => ItemType::MAIN_HAND,
-                "image_file_path" => 'images\equipment\main_hand\1club.png',
+                'type' => ItemType::MAIN_HAND,
+                'image_file_path' => 'images\equipment\main_hand\1club.png',
             ],
             [
-                "id" => $this->generateUuid(),
-                "name" => "Reinforced Club",
-                "description" => "A wooden club reinforced with metal.",
-                "effects" => [
+                'id' => $this->generateUuid(),
+                'name' => 'Reinforced Club',
+                'description' => 'A wooden club reinforced with metal.',
+                'effects' => [
                     [
                         'quantity' => 3,
                         'type' => ItemEffect::DAMAGE,
                     ]
                 ],
-                "type" => ItemType::MAIN_HAND,
-                "image_file_path" => 'images\equipment\main_hand\2reinforced_club.png',
+                'type' => ItemType::MAIN_HAND,
+                'image_file_path' => 'images\equipment\main_hand\2reinforced_club.png',
             ],
             [
-                "id" => $this->generateUuid(),
-                "name" => "Wooden Buckler",
-                "description" => "A small wooden shield.",
-                "effects" => [
+                'id' => $this->generateUuid(),
+                'name' => 'Wooden Buckler',
+                'description' => 'A small wooden shield.',
+                'effects' => [
                     [
                         'quantity' => 2,
                         'type' => ItemEffect::ARMOR,
                     ]
                 ],
-                "type" => ItemType::OFF_HAND,
-                "image_file_path" => 'images\equipment\off_hand\buckler.png',
+                'type' => ItemType::OFF_HAND,
+                'image_file_path' => 'images\equipment\off_hand\buckler.png',
             ],
             [
-                "id" => $this->generateUuid(),
-                "name" => "Linen Shirt",
-                "description" => "A simple shirt made of linen.",
-                "effects" => [
+                'id' => $this->generateUuid(),
+                'name' => 'Linen Shirt',
+                'description' => 'A simple shirt made of linen.',
+                'effects' => [
                     [
                         'quantity' => 1,
                         'type' => ItemEffect::ARMOR,
                     ]
                 ],
-                "type" => ItemType::BODY_ARMOR,
-                "image_file_path" => 'images\equipment\body_armor\linen_shirt.png',
+                'type' => ItemType::BODY_ARMOR,
+                'image_file_path' => 'images\equipment\body_armor\linen_shirt.png',
             ],
             [
-                "id" => $this->generateUuid(),
-                "name" => "Closed Steel Helmet",
-                "description" => "Closed helmet made of steel plates",
-                "effects" => [
+                'id' => $this->generateUuid(),
+                'name' => 'Closed Steel Helmet',
+                'description' => 'Closed helmet made of steel plates',
+                'effects' => [
                     [
                         'quantity' => 10,
                         'type' => ItemEffect::ARMOR,
                     ]
                 ],
-                "type" => ItemType::HEAD_GEAR,
-                "image_file_path" => 'images\equipment\head_gear\closed_steel_helmet.png',
+                'type' => ItemType::HEAD_GEAR,
+                'image_file_path' => 'images\equipment\head_gear\closed_steel_helmet.png',
             ],
         ];
 

@@ -4,16 +4,16 @@
 namespace App\Modules\Character\Application\Factories;
 
 use App\Modules\Character\Application\Commands\CreateCharacterCommand;
-use App\Modules\Character\Domain\Entities\Race;
-use App\Modules\Character\Domain\ValueObjects\Inventory;
-use App\Modules\Character\Domain\ValueObjects\Statistics;
+use App\Modules\Character\Domain\Race;
+use App\Modules\Character\Domain\Inventory;
+use App\Modules\Character\Domain\Statistics;
 use App\Traits\GeneratesUuid;
-use App\Modules\Character\Domain\ValueObjects\Attributes;
-use App\Modules\Character\Domain\Entities\Character;
-use App\Modules\Character\Domain\ValueObjects\Gender;
-use App\Modules\Character\Domain\ValueObjects\HitPoints;
-use App\Modules\Character\Domain\ValueObjects\Money;
-use App\Modules\Character\Domain\ValueObjects\Reputation;
+use App\Modules\Character\Domain\Attributes;
+use App\Modules\Character\Domain\Character;
+use App\Modules\Character\Domain\Gender;
+use App\Modules\Character\Domain\HitPoints;
+use App\Modules\Character\Domain\Money;
+use App\Modules\Character\Domain\Reputation;
 
 
 class CharacterFactory

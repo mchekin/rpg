@@ -3,7 +3,7 @@
 
 namespace Tests\Unit\App\Modules\Level\Application\Services;
 
-use App\Modules\Level\Domain\Entities\Level;
+use App\Modules\Level\Domain\Level;
 use App\Modules\Level\Application\Services\LevelService;
 use Tests\TestCase;
 

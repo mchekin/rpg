@@ -3,15 +3,15 @@
 namespace Tests\Unit\App\Modules\Equipment\Application\Services;
 
 use App\Modules\Character\Application\Contracts\CharacterRepositoryInterface;
-use App\Modules\Character\Domain\Entities\Character;
+use App\Modules\Character\Domain\Character;
 use App\Modules\Equipment\Application\Commands\CreateItemCommand;
 use App\Modules\Equipment\Application\Contracts\ItemPrototypeRepositoryInterface;
 use App\Modules\Equipment\Application\Contracts\ItemRepositoryInterface;
-use App\Modules\Equipment\Domain\Entities\ItemPrototype;
+use App\Modules\Equipment\Domain\ItemPrototype;
 use App\Modules\Equipment\Application\Factories\ItemFactory;
 use App\Modules\Equipment\Application\Services\ItemService;
-use App\Modules\Equipment\Domain\ValueObjects\ItemEffect;
-use App\Modules\Equipment\Domain\ValueObjects\ItemType;
+use App\Modules\Equipment\Domain\ItemEffect;
+use App\Modules\Equipment\Domain\ItemType;
 use Illuminate\Support\Collection;
 use Mockery;
 use Mockery\MockInterface;

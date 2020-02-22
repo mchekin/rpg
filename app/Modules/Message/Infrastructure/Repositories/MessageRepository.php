@@ -2,7 +2,7 @@
 
 namespace App\Modules\Message\Infrastructure\Repositories;
 
-use App\Modules\Message\Domain\Entities\Message;
+use App\Modules\Message\Domain\Message;
 use App\Message as MessageModel;
 use App\Modules\Message\Infrastructure\ReconstitutionFactories\MessageReconstitutionFactory;
 use App\Modules\Message\Application\Contracts\MessageRepositoryInterface;
@@ -21,8 +21,7 @@ class MessageRepository implements MessageRepositoryInterface
 
     public function add(Message $message): void
     {
-        /** @var MessageModel $messageModel */
-        $messageModel = MessageModel::query()->create([
+        MessageModel::query()->create([
             'id' => $message->getId(),
             'from_id' => $message->getSenderId(),
             'to_id' => $message->getRecipientId(),

@@ -2,7 +2,7 @@
 
 namespace App\Modules\Equipment\Application\Contracts;
 
-use App\Modules\Equipment\Domain\Entities\Item;
+use App\Modules\Equipment\Domain\Item;
 
 interface ItemRepositoryInterface
 {

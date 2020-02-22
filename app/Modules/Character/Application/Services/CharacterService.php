@@ -5,11 +5,11 @@ namespace App\Modules\Character\Application\Services;
 
 
 use App\Modules\Battle\Application\Services\BattleService;
-use App\Modules\Battle\Domain\Entities\Battle;
+use App\Modules\Battle\Domain\Battle;
 use App\Modules\Character\Application\Contracts\RaceRepositoryInterface;
 use App\Modules\Equipment\Application\Commands\AddItemToInventoryCommand;
 use App\Modules\Character\Application\Contracts\CharacterRepositoryInterface;
-use App\Modules\Character\Domain\Entities\Character;
+use App\Modules\Character\Domain\Character;
 use App\Modules\Character\Application\Commands\AttackCharacterCommand;
 use App\Modules\Character\Application\Commands\CreateCharacterCommand;
 use App\Modules\Character\Application\Commands\IncreaseAttributeCommand;
@@ -17,8 +17,8 @@ use App\Modules\Character\Application\Commands\MoveCharacterCommand;
 use App\Modules\Character\Application\Factories\CharacterFactory;
 use App\Modules\Equipment\Application\Commands\EquipItemCommand;
 use App\Modules\Equipment\Application\Contracts\ItemRepositoryInterface;
-use App\Modules\Equipment\Domain\Entities\Item;
-use App\Modules\Image\Domain\Entities\Image;
+use App\Modules\Equipment\Domain\Item;
+use App\Modules\Image\Domain\Image;
 use App\Modules\Level\Application\Services\LevelService;
 use App\Traits\GeneratesUuid;
 use Illuminate\Support\Facades\DB;

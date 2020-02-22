@@ -3,7 +3,7 @@
 
 namespace App\Modules\Message\Application\Contracts;
 
-use App\Modules\Message\Domain\Entities\Message;
+use App\Modules\Message\Domain\Message;
 
 interface MessageRepositoryInterface
 {

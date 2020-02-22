@@ -4,8 +4,8 @@ namespace App\Modules\Equipment\Infrastructure\Repositories;
 
 use App\Item as ItemModel;
 use App\Modules\Equipment\Application\Contracts\ItemRepositoryInterface;
-use App\Modules\Equipment\Domain\Entities\Item;
-use App\Modules\Equipment\Domain\ValueObjects\ItemEffect;
+use App\Modules\Equipment\Domain\Item;
+use App\Modules\Equipment\Domain\ItemEffect;
 use App\Modules\Equipment\Infrastructure\ReconstitutionFactories\ItemReconstitutionFactory;
 
 class ItemRepository implements ItemRepositoryInterface

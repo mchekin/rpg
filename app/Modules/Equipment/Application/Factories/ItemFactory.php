@@ -2,9 +2,9 @@
 
 namespace App\Modules\Equipment\Application\Factories;
 
-use App\Modules\Equipment\Domain\Entities\Item;
-use App\Modules\Equipment\Domain\Entities\ItemPrototype;
-use App\Modules\Equipment\Domain\ValueObjects\InventorySlot;
+use App\Modules\Equipment\Domain\Item;
+use App\Modules\Equipment\Domain\ItemPrototype;
+use App\Modules\Equipment\Domain\InventorySlot;
 use App\Traits\GeneratesUuid;
 
 

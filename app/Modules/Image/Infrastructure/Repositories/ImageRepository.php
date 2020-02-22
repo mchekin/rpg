@@ -2,8 +2,8 @@
 
 namespace App\Modules\Image\Infrastructure\Repositories;
 
-use App\Modules\Image\Domain\ValueObjects\ImageFile;
-use App\Modules\Image\Domain\Entities\Image;
+use App\Modules\Image\Domain\ImageFile;
+use App\Modules\Image\Domain\Image;
 use App\Image as ImageModel;
 use App\Modules\Image\Application\Contracts\ImageRepositoryInterface;
 use Illuminate\Filesystem\Filesystem;

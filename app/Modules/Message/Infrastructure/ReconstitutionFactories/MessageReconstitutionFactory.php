@@ -3,7 +3,7 @@
 
 namespace App\Modules\Message\Infrastructure\ReconstitutionFactories;
 
-use App\Modules\Message\Domain\Entities\Message;
+use App\Modules\Message\Domain\Message;
 use App\Message as MessageModel;
 
 

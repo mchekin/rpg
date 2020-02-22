@@ -2,7 +2,7 @@
 
 namespace App\Modules\Equipment\Application\Contracts;
 
-use App\Modules\Equipment\Domain\Entities\ItemPrototype;
+use App\Modules\Equipment\Domain\ItemPrototype;
 
 interface ItemPrototypeRepositoryInterface
 {
