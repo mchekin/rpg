@@ -6,14 +6,11 @@ use App\ItemPrototype;
 use App\Location;
 use App\Modules\Character\Application\Contracts\CharacterRepositoryInterface;
 use App\Modules\Equipment\Application\Contracts\ItemRepositoryInterface;
-use App\Traits\GeneratesUuid;
 use App\User;
 use Illuminate\Database\Seeder;
 
 class CharacterSeeder extends Seeder
 {
-    use GeneratesUuid;
-
     /**
      * Run the database seeds.
      *

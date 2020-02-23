@@ -5,8 +5,10 @@ namespace App\Providers;
 use App\Modules\Battle\Application\Contracts\BattleRepositoryInterface;
 use App\Modules\Battle\Infrastructure\Repositories\BattleRepository;
 use App\Modules\Character\Application\Contracts\CharacterRepositoryInterface;
+use App\Modules\Character\Application\Contracts\LocationRepositoryInterface;
 use App\Modules\Character\Application\Contracts\RaceRepositoryInterface;
 use App\Modules\Character\Infrastructure\Repositories\CharacterRepository;
+use App\Modules\Character\Infrastructure\Repositories\LocationRepository;
 use App\Modules\Equipment\Application\Contracts\ItemPrototypeRepositoryInterface;
 use App\Modules\Equipment\Application\Contracts\ItemRepositoryInterface;
 use App\Modules\Equipment\Infrastructure\Repositories\ItemPrototypeRepository;
@@ -42,6 +44,11 @@ class AppServiceProvider extends ServiceProvider
 
     protected function registerRepositoryInterfaces(): self
     {
+        $this->app->bind(
+            LocationRepositoryInterface::class,
+            LocationRepository::class
+        );
+
         $this->app->bind(
             RaceRepositoryInterface::class,
             RaceRepository::class

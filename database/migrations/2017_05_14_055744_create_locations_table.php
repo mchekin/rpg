@@ -1,15 +1,13 @@
 <?php
 
 use App\Location;
-use App\Traits\GeneratesUuid;
+use App\Modules\Character\Application\Contracts\LocationRepositoryInterface;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 class CreateLocationsTable extends Migration
 {
-    use GeneratesUuid;
-
     /**
      * Run the migrations.
      *
@@ -17,7 +15,7 @@ class CreateLocationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('locations', function (Blueprint $table) {
+        Schema::create('locations', static function (Blueprint $table) {
             $table->uuid('id')->primary();
 
             $table->string('name')->unique();
@@ -29,7 +27,7 @@ class CreateLocationsTable extends Migration
             $table->timestamps();
         });
 
-        Schema::create('adjacent_location', function (Blueprint $table) {
+        Schema::create('adjacent_location', static function (Blueprint $table) {
 
             $table->uuid('location_id')->index();
             $table->uuid('adjacent_location_id')->index();
@@ -44,30 +42,34 @@ class CreateLocationsTable extends Migration
             $table->timestamps();
         });
 
+
+        /** @var LocationRepositoryInterface $locationRepository */
+        $locationRepository = resolve(LocationRepositoryInterface::class);
+
         $locations = [
             [
-                'id' => $this->generateUuid(),
-                'name' => "Inn",
+                'id' => $locationRepository->nextIdentity()->toString(),
+                'name' => 'Inn',
                 'description' => 'An establishment or building providing lodging and, usually, food and drink for travelers (Starting location)',
                 'image' => 'locations/Inn-800px.png',
                 'image_sm' => 'locations/Inn-300px.png',
             ],
             array(
-                'id' => $this->generateUuid(),
+                'id' => $locationRepository->nextIdentity()->toString(),
                 'name' => 'Town Hall',
                 'description' => 'Public forum or meeting in which those attending gather to discuss civic or political issues, hear and ask questions about the ideas of a candidate for public office',
                 'image' => 'locations/Townhall-800px.png',
                 'image_sm' => 'locations/Townhall-300px.png',
             ),
             [
-                'id' => $this->generateUuid(),
+                'id' => $locationRepository->nextIdentity()->toString(),
                 'name' => 'Smithy',
                 'description' => "A blacksmith's shop. A place to purchase weaponry and armor or train one's skill as a blacksmith",
                 'image' => 'locations/Blacksmith-800px.png',
                 'image_sm' => 'locations/Blacksmith-300px.png',
             ],
             [
-                'id' => $this->generateUuid(),
+                'id' => $locationRepository->nextIdentity()->toString(),
                 'name' => 'Military academy fortress',
                 'description' => 'An institute where soldiers and mercenaries train they martial skills',
                 'image' => 'locations/Fortress-800px.png',
