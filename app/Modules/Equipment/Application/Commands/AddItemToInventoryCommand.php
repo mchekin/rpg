@@ -3,6 +3,7 @@
 namespace App\Modules\Equipment\Application\Commands;
 
 use App\Modules\Character\Domain\CharacterId;
+use App\Modules\Equipment\Domain\ItemId;
 
 class AddItemToInventoryCommand
 {
@@ -15,11 +16,11 @@ class AddItemToInventoryCommand
      */
     private $slot;
     /**
-     * @var string
+     * @var ItemId
      */
     private $itemId;
 
-    public function __construct(CharacterId $characterId, int $slot, string $itemId)
+    public function __construct(CharacterId $characterId, int $slot, ItemId $itemId)
     {
         $this->characterId = $characterId;
         $this->slot = $slot;
@@ -36,7 +37,7 @@ class AddItemToInventoryCommand
         return $this->slot;
     }
 
-    public function getItemId(): string
+    public function getItemId(): ItemId
     {
         return $this->itemId;
     }

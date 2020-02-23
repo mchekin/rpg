@@ -3,11 +3,12 @@
 namespace App\Modules\Equipment\Application\Commands;
 
 use App\Modules\Character\Domain\CharacterId;
+use App\Modules\Equipment\Domain\ItemPrototypeId;
 
 class CreateItemCommand
 {
     /**
-     * @var string
+     * @var ItemPrototypeId
      */
     private $prototypeId;
     /**
@@ -15,13 +16,13 @@ class CreateItemCommand
      */
     private $creatorCharacterId;
 
-    public function __construct(string $prototypeId, CharacterId $creatorCharacterId)
+    public function __construct(ItemPrototypeId $prototypeId, CharacterId $creatorCharacterId)
     {
         $this->prototypeId = $prototypeId;
         $this->creatorCharacterId = $creatorCharacterId;
     }
 
-    public function getPrototypeId(): string
+    public function getPrototypeId(): ItemPrototypeId
     {
         return $this->prototypeId;
     }

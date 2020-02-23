@@ -3,13 +3,18 @@
 namespace App\Modules\Equipment\Infrastructure\Repositories;
 
 use App\Item as ItemModel;
+use App\Modules\Equipment\Domain\ItemId;
 use App\Modules\Equipment\Application\Contracts\ItemRepositoryInterface;
 use App\Modules\Equipment\Domain\Item;
 use App\Modules\Equipment\Domain\ItemEffect;
 use App\Modules\Equipment\Infrastructure\ReconstitutionFactories\ItemReconstitutionFactory;
+use App\Traits\GeneratesUuid;
+use Exception;
 
 class ItemRepository implements ItemRepositoryInterface
 {
+    use GeneratesUuid;
+
     /**
      * @var ItemReconstitutionFactory
      */
@@ -18,6 +23,16 @@ class ItemRepository implements ItemRepositoryInterface
     public function __construct(ItemReconstitutionFactory $reconstitutionFactory)
     {
         $this->reconstitutionFactory = $reconstitutionFactory;
+    }
+
+    /**
+     * @return ItemId
+     *
+     * @throws Exception
+     */
+    public function nextIdentity(): ItemId
+    {
+        return ItemId::fromString($this->generateUuid());
     }
 
     public function add(Item $item): void
@@ -50,10 +65,10 @@ class ItemRepository implements ItemRepositoryInterface
         ]);
     }
 
-    public function getOne(string $itemId): Item
+    public function getOne(ItemId $itemId): Item
     {
         /** @var ItemModel $model */
-        $model = ItemModel::query()->findOrFail($itemId);
+        $model = ItemModel::query()->findOrFail($itemId->toString());
 
         return $this->reconstitutionFactory->reconstitute($model);
     }

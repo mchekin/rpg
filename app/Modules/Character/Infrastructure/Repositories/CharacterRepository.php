@@ -15,16 +15,6 @@ class CharacterRepository implements CharacterRepositoryInterface
     use GeneratesUuid;
 
     /**
-     * @return CharacterId
-     *
-     * @throws Exception
-     */
-    public function nextIdentity(): CharacterId
-    {
-        return CharacterId::fromString($this->generateUuid());
-    }
-
-    /**
      * @var CharacterReconstitutionFactory
      */
     private $characterReconstitutionFactory;
@@ -32,6 +22,16 @@ class CharacterRepository implements CharacterRepositoryInterface
     public function __construct(CharacterReconstitutionFactory $characterReconstitutionFactory)
     {
         $this->characterReconstitutionFactory = $characterReconstitutionFactory;
+    }
+
+    /**
+     * @return CharacterId
+     *
+     * @throws Exception
+     */
+    public function nextIdentity(): CharacterId
+    {
+        return CharacterId::fromString($this->generateUuid());
     }
 
     public function add(Character $character): void

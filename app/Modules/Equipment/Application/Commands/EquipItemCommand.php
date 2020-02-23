@@ -3,11 +3,12 @@
 namespace App\Modules\Equipment\Application\Commands;
 
 use App\Modules\Character\Domain\CharacterId;
+use App\Modules\Equipment\Domain\ItemId;
 
 class EquipItemCommand
 {
     /**
-     * @var string
+     * @var ItemId
      */
     private $itemId;
     /**
@@ -15,13 +16,13 @@ class EquipItemCommand
      */
     private $ownerCharacterId;
 
-    public function __construct(string $itemId, CharacterId $ownerCharacterId)
+    public function __construct(ItemId $itemId, CharacterId $ownerCharacterId)
     {
         $this->itemId = $itemId;
         $this->ownerCharacterId = $ownerCharacterId;
     }
 
-    public function getItemId(): string
+    public function getItemId(): ItemId
     {
         return $this->itemId;
     }
