@@ -2,6 +2,8 @@
 
 namespace App\Modules\Equipment\UI\Http\CommandMappers;
 
+use App\Modules\Character\Domain\CharacterId;
+use App\Modules\Equipment\Domain\ItemId;
 use App\Modules\Equipment\Application\Commands\AddItemToInventoryCommand;
 use Illuminate\Http\Request;
 use App\User as UserModel;
@@ -14,9 +16,9 @@ class AddItemToInventoryCommandMapper
         $userModel = $request->user();
 
         return new AddItemToInventoryCommand(
-            $userModel->character->getId(),
+            CharacterId::fromString($userModel->character->getId()),
             (int)$request->input('inventory_slot'),
-            (string)$request->input('item_id')
+            ItemId::fromString((string)$request->input('item_id'))
         );
     }
 }

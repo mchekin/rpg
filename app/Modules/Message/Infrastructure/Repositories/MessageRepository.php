@@ -2,39 +2,35 @@
 
 namespace App\Modules\Message\Infrastructure\Repositories;
 
+use App\Modules\Message\Domain\MessageId;
 use App\Modules\Message\Domain\Message;
 use App\Message as MessageModel;
-use App\Modules\Message\Infrastructure\ReconstitutionFactories\MessageReconstitutionFactory;
 use App\Modules\Message\Application\Contracts\MessageRepositoryInterface;
+use App\Traits\GeneratesUuid;
+use Exception;
 
 class MessageRepository implements MessageRepositoryInterface
 {
-    /**
-     * @var MessageReconstitutionFactory
-     */
-    private $characterReconstitutionFactory;
+    use GeneratesUuid;
 
-    public function __construct(MessageReconstitutionFactory $characterReconstitutionFactory)
+    /**
+     * @return MessageId
+     *
+     * @throws Exception
+     */
+    public function nextIdentity(): MessageId
     {
-        $this->characterReconstitutionFactory = $characterReconstitutionFactory;
+        return MessageId::fromString($this->generateUuid());
     }
 
     public function add(Message $message): void
     {
         MessageModel::query()->create([
-            'id' => $message->getId(),
-            'from_id' => $message->getSenderId(),
-            'to_id' => $message->getRecipientId(),
+            'id' => $message->getId()->toString(),
+            'from_id' => $message->getSenderId()->toString(),
+            'to_id' => $message->getRecipientId()->toString(),
             'content' => $message->getContent(),
             'state' => $message->getState()
         ]);
-    }
-
-    public function getOne(string $messageId): Message
-    {
-        /** @var MessageModel $characterModel */
-        $characterModel = MessageModel::query()->findOrFail($messageId);
-
-        return $this->characterReconstitutionFactory->reconstitute($characterModel);
     }
 }

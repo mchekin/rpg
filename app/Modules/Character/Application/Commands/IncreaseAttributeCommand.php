@@ -4,10 +4,12 @@
 namespace App\Modules\Character\Application\Commands;
 
 
+use App\Modules\Character\Domain\CharacterId;
+
 class IncreaseAttributeCommand
 {
     /**
-     * @var string
+     * @var CharacterId
      */
     private $characterId;
     /**
@@ -15,13 +17,13 @@ class IncreaseAttributeCommand
      */
     private $attribute;
 
-    public function __construct(string $characterId, string $attribute)
+    public function __construct(CharacterId $characterId, string $attribute)
     {
         $this->characterId = $characterId;
         $this->attribute = $attribute;
     }
 
-    public function getCharacterId(): string
+    public function getCharacterId(): CharacterId
     {
         return $this->characterId;
     }

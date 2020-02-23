@@ -4,10 +4,10 @@
 namespace App\Modules\Character\Application\Factories;
 
 use App\Modules\Character\Application\Commands\CreateCharacterCommand;
+use App\Modules\Character\Domain\CharacterId;
 use App\Modules\Character\Domain\Race;
 use App\Modules\Character\Domain\Inventory;
 use App\Modules\Character\Domain\Statistics;
-use App\Traits\GeneratesUuid;
 use App\Modules\Character\Domain\Attributes;
 use App\Modules\Character\Domain\Character;
 use App\Modules\Character\Domain\Gender;
@@ -18,12 +18,10 @@ use App\Modules\Character\Domain\Reputation;
 
 class CharacterFactory
 {
-    use GeneratesUuid;
-
-    public function create(CreateCharacterCommand $command, Race $race): Character
+    public function create(CharacterId $characterId, CreateCharacterCommand $command, Race $race): Character
     {
         return new Character(
-            $this->generateUuid(),
+            $characterId,
             $race->getId(),
             1,
             $race->getStartingLocationId(),

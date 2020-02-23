@@ -4,22 +4,19 @@
 namespace App\Modules\Image\Application\Factories;
 
 
+use App\Modules\Character\Domain\CharacterId;
 use App\Modules\Image\Domain\ImageFile;
 use App\Modules\Image\Domain\Image;
-use App\Traits\GeneratesUuid;
+use App\Modules\Image\Domain\ImageId;
 
 class ImageFactory
 {
-    use GeneratesUuid;
-
-    public function create(string $characterId, string $extension): Image
+    public function create(ImageId $imageId, CharacterId $characterId, string $extension): Image
     {
-        $id = $this->generateUuid();
-
-        $fileName = $id . '.' . $extension;
+        $fileName = $imageId->toString() . '.' . $extension;
 
         return new Image(
-            $id,
+            $imageId,
             $characterId,
             ImageFile::full('full_' . $fileName),
             ImageFile::small('small_' . $fileName),

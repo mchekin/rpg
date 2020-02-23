@@ -4,6 +4,7 @@
 namespace App\Modules\Character\UI\Http\CommandMappers;
 
 use App\Modules\Character\Application\Commands\AttackCharacterCommand;
+use App\Modules\Character\Domain\CharacterId;
 use App\User as UserModel;
 use Illuminate\Http\Request;
 
@@ -12,8 +13,11 @@ class AttackCharacterCommandMapper
     public function map(Request $request, string $defenderId): AttackCharacterCommand
     {
         /** @var UserModel $authenticatedUser */
-        $authenticatedUser = $request->user();
+        $userModel = $request->user();
 
-        return new AttackCharacterCommand($authenticatedUser->getCharacter()->getId(), $defenderId);
+        return new AttackCharacterCommand(
+            CharacterId::fromString($userModel->character->getId()),
+            CharacterId::fromString($defenderId)
+        );
     }
 }

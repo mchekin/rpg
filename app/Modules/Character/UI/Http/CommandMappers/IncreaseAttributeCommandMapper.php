@@ -4,6 +4,7 @@
 namespace App\Modules\Character\UI\Http\CommandMappers;
 
 use App\Modules\Character\Application\Commands\IncreaseAttributeCommand;
+use App\Modules\Character\Domain\CharacterId;
 use Illuminate\Http\Request;
 
 class IncreaseAttributeCommandMapper
@@ -11,7 +12,7 @@ class IncreaseAttributeCommandMapper
     public function map(string $characterId, Request $request): IncreaseAttributeCommand
     {
         return new IncreaseAttributeCommand(
-            $characterId,
+            CharacterId::fromString($characterId),
             $request->input('attribute')
         );
     }

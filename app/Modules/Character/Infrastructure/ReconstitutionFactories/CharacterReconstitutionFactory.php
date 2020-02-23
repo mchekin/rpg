@@ -3,6 +3,7 @@
 
 namespace App\Modules\Character\Infrastructure\ReconstitutionFactories;
 
+use App\Modules\Character\Domain\CharacterId;
 use App\Modules\Equipment\Infrastructure\ReconstitutionFactories\ItemReconstitutionFactory;
 use App\Modules\Character\Domain\Attributes;
 use App\Modules\Character\Domain\Character;
@@ -14,6 +15,7 @@ use App\Modules\Character\Domain\HitPoints;
 use App\Modules\Character\Domain\Reputation;
 use App\Character as CharacterModel;
 use App\Item as ItemModel;
+use App\Modules\Image\Domain\ImageId;
 
 
 class CharacterReconstitutionFactory
@@ -34,8 +36,10 @@ class CharacterReconstitutionFactory
                  return $this->itemReconstitutionFactory->reconstitute($itemModel);
              });
 
+        $profilePictureId = $characterModel->getProfilePictureId();
+
         $character = new Character(
-            $characterModel->getId(),
+            CharacterId::fromString($characterModel->getId()),
             $characterModel->getRaceId(),
             $characterModel->getLevelNumber(),
             $characterModel->getLocationId(),
@@ -62,7 +66,7 @@ class CharacterReconstitutionFactory
             ]),
             Inventory::withItems($items),
             $characterModel->getUserId(),
-            $characterModel->getProfilePictureId()
+            $profilePictureId ? ImageId::fromString($profilePictureId) : null
         );
 
         return $character;

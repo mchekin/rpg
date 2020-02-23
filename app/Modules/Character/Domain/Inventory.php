@@ -77,14 +77,14 @@ class Inventory
     public function findEquippedItemOfType(ItemType $type)
     {
         return $this->items->first(static function (Item $item) use ($type) {
-            return $item->getType()->equals($type) && $item->isEquipped();
+            return $item->isOfType($type) && $item->isEquipped();
         });
     }
 
     public function hasItem(Item $itemToFind): bool
     {
         return $this->items->contains(static function (Item $item) use ($itemToFind) {
-            return $item->getId() === $itemToFind->getId();
+            return $item->equals($itemToFind);
         });
     }
 

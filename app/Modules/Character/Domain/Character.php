@@ -5,6 +5,7 @@ namespace App\Modules\Character\Domain;
 
 use App\Modules\Equipment\Domain\Item;
 use App\Modules\Equipment\Domain\ItemEffect;
+use App\Modules\Image\Domain\ImageId;
 use App\Traits\ThrowsDice;
 
 class Character
@@ -52,7 +53,7 @@ class Character
      */
     private $hitPoints;
     /**
-     * @var string
+     * @var CharacterId
      */
     private $id;
     /**
@@ -68,12 +69,12 @@ class Character
      */
     private $userId;
     /**
-     * @var string
+     * @var ImageId
      */
     private $profilePictureId;
 
     public function __construct(
-        string $id,
+        CharacterId $id,
         int $raceId,
         int $levelId,
         string $locationId,
@@ -87,7 +88,7 @@ class Character
         Statistics $statistics,
         Inventory $inventory,
         int $userId = null,
-        string $profilePictureId = null
+        ImageId $profilePictureId = null
     )
     {
         $this->id = $id;
@@ -112,7 +113,7 @@ class Character
         return $this->levelId;
     }
 
-    public function getId(): string
+    public function getId(): CharacterId
     {
         return $this->id;
     }
@@ -224,7 +225,7 @@ class Character
 
     public function equals(Character $other): bool
     {
-        return $this->getName() === $other->getName();
+        return $this->getId()->equals($other->getId());
     }
 
     public function getName(): string
@@ -333,15 +334,15 @@ class Character
         $this->attributes = $this->attributes->addAvailablePoints($points);
     }
 
-    public function setProfilePictureId(string $profilePictureId): void
+    public function setProfilePictureId(ImageId $profilePictureId): void
     {
         $this->profilePictureId = $profilePictureId;
     }
 
     /**
-     * @return string|null
+     * @return ImageId|null
      */
-    public function getProfilePictureId(): ?string
+    public function getProfilePictureId(): ?ImageId
     {
         return $this->profilePictureId;
     }

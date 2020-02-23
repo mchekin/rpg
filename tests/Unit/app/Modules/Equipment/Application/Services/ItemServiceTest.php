@@ -4,6 +4,7 @@ namespace Tests\Unit\App\Modules\Equipment\Application\Services;
 
 use App\Modules\Character\Application\Contracts\CharacterRepositoryInterface;
 use App\Modules\Character\Domain\Character;
+use App\Modules\Character\Domain\CharacterId;
 use App\Modules\Equipment\Application\Commands\CreateItemCommand;
 use App\Modules\Equipment\Application\Contracts\ItemPrototypeRepositoryInterface;
 use App\Modules\Equipment\Application\Contracts\ItemRepositoryInterface;
@@ -11,6 +12,7 @@ use App\Modules\Equipment\Domain\ItemPrototype;
 use App\Modules\Equipment\Application\Factories\ItemFactory;
 use App\Modules\Equipment\Application\Services\ItemService;
 use App\Modules\Equipment\Domain\ItemEffect;
+use App\Modules\Equipment\Domain\ItemPrototypeId;
 use App\Modules\Equipment\Domain\ItemType;
 use Illuminate\Support\Collection;
 use Mockery;
@@ -54,18 +56,18 @@ class ItemServiceTest extends TestCase
     public function testCreate(): void
     {
         // Arrange
-        $prototypeId = '598d1570-e0e3-40d1-979b-64e48626f6f6';
+        $itemPrototypeId = ItemPrototypeId::fromString('598d1570-e0e3-40d1-979b-64e48626f6f6');
         $name = 'Wooden club';
         $description = 'Club made from wood';
         $type = ItemType::mainHand();
         $effects = Collection::make([
             ItemEffect::damage(5)
         ]);
-        $creatorCharacterId = '65976e46-d2eb-4373-ba69-b7c9ea81b56f';
+        $creatorCharacterId = CharacterId::fromString('65976e46-d2eb-4373-ba69-b7c9ea81b56f');
         $imageFilePath = 'images\equipment\main_hand\1club.png';
 
         $itemPrototype = new ItemPrototype(
-            $prototypeId,
+            $itemPrototypeId,
             $name,
             $description,
             $imageFilePath,
@@ -73,7 +75,7 @@ class ItemServiceTest extends TestCase
             $effects
         );
 
-        $createCommand = new CreateItemCommand($prototypeId, $creatorCharacterId);
+        $createCommand = new CreateItemCommand($itemPrototypeId, $creatorCharacterId);
 
         $this->characterRepository->shouldReceive('getOne')->once()->andReturn($this->character);
         $this->itemPrototypeRepository->shouldReceive('getOne')->once()->andReturn($itemPrototype);
@@ -91,7 +93,7 @@ class ItemServiceTest extends TestCase
         $this->assertEquals($imageFilePath, $item->getImageFilePath());
         $this->assertEquals($type, $item->getType());
         $this->assertEquals($effects, $item->getEffects());
-        $this->assertEquals($prototypeId, $item->getPrototypeId());
+        $this->assertEquals($itemPrototypeId, $item->getPrototypeId());
         $this->assertEquals($creatorCharacterId, $item->getCreatorCharacterId());
         $this->assertEquals($creatorCharacterId, $item->getOwnerCharacterId());
     }

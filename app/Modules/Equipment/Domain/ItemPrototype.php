@@ -8,7 +8,7 @@ use Illuminate\Support\Collection;
 class ItemPrototype
 {
     /**
-     * @var string
+     * @var ItemPrototypeId
      */
     private $id;
     /**
@@ -33,7 +33,7 @@ class ItemPrototype
     private $effects;
 
     public function __construct(
-        string $id,
+        ItemPrototypeId $id,
         string $name,
         string $description,
         string $imageFilePath,
@@ -48,7 +48,7 @@ class ItemPrototype
         $this->effects = $effects;
     }
 
-    public function getId(): string
+    public function getId(): ItemPrototypeId
     {
         return $this->id;
     }

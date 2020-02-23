@@ -4,14 +4,16 @@
 namespace App\Modules\Message\Application\Commands;
 
 
+use App\Modules\Character\Domain\CharacterId;
+
 class SendMessageCommand
 {
     /**
-     * @var string
+     * @var CharacterId
      */
     private $senderId;
     /**
-     * @var string
+     * @var CharacterId
      */
     private $recipientId;
     /**
@@ -19,19 +21,19 @@ class SendMessageCommand
      */
     private $content;
 
-    public function __construct(string $senderId, string $recipientId, string $content)
+    public function __construct(CharacterId $senderId, CharacterId $recipientId, string $content)
     {
         $this->senderId = $senderId;
         $this->recipientId = $recipientId;
         $this->content = $content;
     }
 
-    public function getSenderId(): string
+    public function getSenderId(): CharacterId
     {
         return $this->senderId;
     }
 
-    public function getRecipientId(): string
+    public function getRecipientId(): CharacterId
     {
         return $this->recipientId;
     }

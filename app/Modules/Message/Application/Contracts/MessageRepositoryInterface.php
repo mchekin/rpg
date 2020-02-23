@@ -3,11 +3,12 @@
 
 namespace App\Modules\Message\Application\Contracts;
 
+use App\Modules\Message\Domain\MessageId;
 use App\Modules\Message\Domain\Message;
 
 interface MessageRepositoryInterface
 {
-    public function add(Message $message):void;
+    public function nextIdentity(): MessageId;
 
-    public function getOne(string $messageId): Message;
+    public function add(Message $message):void;
 }
