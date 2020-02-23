@@ -1,10 +1,9 @@
 <?php
 
 use App\ItemPrototype;
+use App\Modules\Equipment\Application\Contracts\ItemPrototypeRepositoryInterface;
 use App\Modules\Equipment\Domain\ItemEffect;
 use App\Modules\Equipment\Domain\ItemType;
-use App\Modules\Equipment\Infrastructure\ReconstitutionFactories\ItemPrototypeReconstitutionFactory;
-use App\Modules\Equipment\Infrastructure\Repositories\ItemPrototypeRepository;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
@@ -85,11 +84,12 @@ class CreateItemsTable extends Migration
     {
         DB::table('item_prototypes')->delete();
 
-        $itemPrototypeRepository = new ItemPrototypeRepository(new ItemPrototypeReconstitutionFactory());
+        /** @var ItemPrototypeRepositoryInterface $itemPrototypeRepository */
+        $itemPrototypeRepository = resolve(ItemPrototypeRepositoryInterface::class);
 
         $prototypes = [
             [
-                'id' => $itemPrototypeRepository->nextIdentity(),
+                'id' => $itemPrototypeRepository->nextIdentity()->toString(),
                 'name' => 'Wooden Club',
                 'description' => 'Simplest weapon. A crude wooden club made from a peace of wood.',
                 'effects' => [
@@ -102,7 +102,7 @@ class CreateItemsTable extends Migration
                 'image_file_path' => 'images\equipment\main_hand\1club.png',
             ],
             [
-                'id' => $itemPrototypeRepository->nextIdentity(),
+                'id' => $itemPrototypeRepository->nextIdentity()->toString(),
                 'name' => 'Reinforced Club',
                 'description' => 'A wooden club reinforced with metal.',
                 'effects' => [
@@ -115,7 +115,7 @@ class CreateItemsTable extends Migration
                 'image_file_path' => 'images\equipment\main_hand\2reinforced_club.png',
             ],
             [
-                'id' => $itemPrototypeRepository->nextIdentity(),
+                'id' => $itemPrototypeRepository->nextIdentity()->toString(),
                 'name' => 'Wooden Buckler',
                 'description' => 'A small wooden shield.',
                 'effects' => [
@@ -128,7 +128,7 @@ class CreateItemsTable extends Migration
                 'image_file_path' => 'images\equipment\off_hand\buckler.png',
             ],
             [
-                'id' => $itemPrototypeRepository->nextIdentity(),
+                'id' => $itemPrototypeRepository->nextIdentity()->toString(),
                 'name' => 'Linen Shirt',
                 'description' => 'A simple shirt made of linen.',
                 'effects' => [
@@ -141,7 +141,7 @@ class CreateItemsTable extends Migration
                 'image_file_path' => 'images\equipment\body_armor\linen_shirt.png',
             ],
             [
-                'id' => $itemPrototypeRepository->nextIdentity(),
+                'id' => $itemPrototypeRepository->nextIdentity()->toString(),
                 'name' => 'Closed Steel Helmet',
                 'description' => 'Closed helmet made of steel plates',
                 'effects' => [

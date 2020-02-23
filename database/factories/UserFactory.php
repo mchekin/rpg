@@ -14,13 +14,14 @@
 use App\Character;
 use App\ItemPrototype;
 use App\Location;
+use App\Modules\Character\Application\Contracts\CharacterRepositoryInterface;
 use App\Modules\Character\Domain\HitPoints;
 use App\Modules\Character\Infrastructure\Repositories\RaceRepository;
+use App\Modules\Equipment\Application\Contracts\ItemRepositoryInterface;
 use App\Race;
 use App\User;
 use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Support\Str;
-use Ramsey\Uuid\Uuid;
 
 /** @var Factory $factory */
 
@@ -35,7 +36,11 @@ $factory->define(App\User::class, static function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(Character::class, static function (Faker\Generator $faker) use ($factory) {
+$factory->define(Character::class, static function (Faker\Generator $faker) {
+
+
+    /** @var CharacterRepositoryInterface $characterFactory */
+    $characterFactory = resolve(CharacterRepositoryInterface::class);
 
     /** @var Race $raceModel */
     $raceModel = Race::query()->inRandomOrder()->first();
@@ -47,7 +52,7 @@ $factory->define(Character::class, static function (Faker\Generator $faker) use 
     $genders = ['male', 'female'];
 
     return [
-        'id' => Uuid::uuid4(),
+        'id' => $characterFactory->nextIdentity()->toString(),
 
         'race_id' => $race->getId(),
 
@@ -83,6 +88,9 @@ $factory->define(Character::class, static function (Faker\Generator $faker) use 
 $factory->define(App\Item::class, static function () {
     static $charactersIds = [];
 
+    /** @var ItemRepositoryInterface $itemRepository */
+    $itemRepository = resolve(ItemRepositoryInterface::class);
+
     /** @var ItemPrototype $itemPrototype */
     $itemPrototype = ItemPrototype::query()->inRandomOrder()->first();
 
@@ -92,7 +100,7 @@ $factory->define(App\Item::class, static function () {
     $charactersIds[] = $character->getId();
 
     return [
-        'id' => Uuid::uuid4(),
+        'id' => $itemRepository->nextIdentity()->toString(),
         'name' => $itemPrototype->getName(),
         'description' => $itemPrototype->getDescription(),
         'effects' => $itemPrototype->getEffects(),

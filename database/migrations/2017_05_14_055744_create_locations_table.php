@@ -23,13 +23,13 @@ class CreateLocationsTable extends Migration
             $table->string('name')->unique();
             $table->string('description');
 
-            $table->string("image");
-            $table->string("image_sm");
+            $table->string('image');
+            $table->string('image_sm');
 
             $table->timestamps();
         });
 
-        Schema::create('adjacent_location', function(Blueprint $table) {
+        Schema::create('adjacent_location', function (Blueprint $table) {
 
             $table->uuid('location_id')->index();
             $table->uuid('adjacent_location_id')->index();
@@ -46,55 +46,54 @@ class CreateLocationsTable extends Migration
 
         $locations = [
             [
-                "id"            => $this->generateUuid(),
-                "name"          => "Inn",
-                "description"   => "An establishment or building providing lodging and, usually, food and drink for travelers (Starting location)",
-                "image"         => "locations/Inn-800px.png",
-                "image_sm"      => "locations/Inn-300px.png",
+                'id' => $this->generateUuid(),
+                'name' => "Inn",
+                'description' => 'An establishment or building providing lodging and, usually, food and drink for travelers (Starting location)',
+                'image' => 'locations/Inn-800px.png',
+                'image_sm' => 'locations/Inn-300px.png',
+            ],
+            array(
+                'id' => $this->generateUuid(),
+                'name' => 'Town Hall',
+                'description' => 'Public forum or meeting in which those attending gather to discuss civic or political issues, hear and ask questions about the ideas of a candidate for public office',
+                'image' => 'locations/Townhall-800px.png',
+                'image_sm' => 'locations/Townhall-300px.png',
+            ),
+            [
+                'id' => $this->generateUuid(),
+                'name' => 'Smithy',
+                'description' => "A blacksmith's shop. A place to purchase weaponry and armor or train one's skill as a blacksmith",
+                'image' => 'locations/Blacksmith-800px.png',
+                'image_sm' => 'locations/Blacksmith-300px.png',
             ],
             [
-                "id"            => $this->generateUuid(),
-                "name"          => "Town Hall",
-                "description"   => "Public forum or meeting in which those attending gather to discuss civic or political issues, hear and ask questions about the ideas of a candidate for public office",
-                "image"         => "locations/Townhall-800px.png",
-                "image_sm"      => "locations/Townhall-300px.png",
-            ],
-            [
-                "id"            => $this->generateUuid(),
-                "name"          => "Smithy",
-                "description"   => "A blacksmith's shop. A place to purchase weaponry and armor or train one's skill as a blacksmith",
-                "image"         => "locations/Blacksmith-800px.png",
-                "image_sm"      => "locations/Blacksmith-300px.png",
-            ],
-            [
-                "id"            => $this->generateUuid(),
-                "name"          => "Military academy fortress",
-                "description"   => "An institute where soldiers and mercenaries train they martial skills",
-                "image"         => "locations/Fortress-800px.png",
-                "image_sm"      => "locations/Fortress-300px.png",
+                'id' => $this->generateUuid(),
+                'name' => 'Military academy fortress',
+                'description' => 'An institute where soldiers and mercenaries train they martial skills',
+                'image' => 'locations/Fortress-800px.png',
+                'image_sm' => 'locations/Fortress-300px.png',
             ],
         ];
 
-        foreach ($locations as $location)
-        {
+        foreach ($locations as $location) {
             Location::query()->forceCreate($location);
         }
 
         $adjacent_locations = [
             [
-                "location_id"           => $locations[0]['id'],
-                "adjacent_location_id"  => $locations[1]['id'],
-                "direction"             => "north",
+                'location_id' => $locations[0]['id'],
+                'adjacent_location_id' => $locations[1]['id'],
+                'direction' => 'north',
             ],
             [
-                "location_id"           => $locations[0]['id'],
-                "adjacent_location_id"  => $locations[2]['id'],
-                "direction"             => "east",
+                'location_id' => $locations[0]['id'],
+                'adjacent_location_id' => $locations[2]['id'],
+                'direction' => 'east',
             ],
             [
-                "location_id"           => $locations[0]['id'],
-                "adjacent_location_id"  => $locations[3]['id'],
-                "direction"             => "south",
+                'location_id' => $locations[0]['id'],
+                'adjacent_location_id' => $locations[3]['id'],
+                'direction' => 'south',
             ],
         ];
 
