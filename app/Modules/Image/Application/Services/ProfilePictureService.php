@@ -6,7 +6,6 @@ namespace App\Modules\Image\Application\Services;
 use App\Modules\Character\Application\Services\CharacterService;
 use App\Modules\Character\Domain\CharacterId;
 use App\Modules\Image\Application\Contracts\ImageRepositoryInterface;
-use App\Modules\Image\Domain\Image;
 use App\Modules\Image\Application\Factories\ImageFactory;
 use App\Modules\Image\Application\Commands\AddImageCommand;
 
@@ -37,7 +36,10 @@ class ProfilePictureService
 
     public function update(AddImageCommand $command): void
     {
+        $imageId = $this->imageRepository->nextIdentity();
+
         $profilePicture = $this->imageFactory->create(
+            $imageId,
             $command->getCharacterId(),
             $command->getUploadedFile()->getClientOriginalExtension()
         );
@@ -54,10 +56,5 @@ class ProfilePictureService
         $this->imageRepository->delete($characterId);
 
         $this->characterService->removeProfilePicture($characterId);
-    }
-
-    public function getOne(string $id): Image
-    {
-        return $this->imageRepository->getOne($id);
     }
 }

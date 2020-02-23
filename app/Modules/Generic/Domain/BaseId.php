@@ -29,8 +29,8 @@ abstract class BaseId
         return $this->id;
     }
 
-    public function equals(BaseId $baseId): bool
+    public function equals(BaseId $otherId): bool
     {
-        return $this->toString() === $baseId->toString();
+        return $this->toString() === $otherId->toString();
     }
 }

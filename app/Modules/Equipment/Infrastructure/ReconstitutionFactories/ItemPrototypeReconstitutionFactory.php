@@ -6,6 +6,7 @@ namespace App\Modules\Equipment\Infrastructure\ReconstitutionFactories;
 use App\ItemPrototype as ItemPrototypeModel;
 use App\Modules\Equipment\Domain\ItemPrototype;
 use App\Modules\Equipment\Domain\ItemEffect;
+use App\Modules\Equipment\Domain\ItemPrototypeId;
 use App\Modules\Equipment\Domain\ItemType;
 use Illuminate\Support\Collection;
 
@@ -21,7 +22,7 @@ class ItemPrototypeReconstitutionFactory
             });
 
         $itemPrototype = new ItemPrototype(
-            $model->getId(),
+            ItemPrototypeId::fromString($model->getId()),
             $model->getName(),
             $model->getDescription(),
             $model->getImageFilePath(),

@@ -5,6 +5,7 @@ namespace App\Modules\Character\Domain;
 
 use App\Modules\Equipment\Domain\Item;
 use App\Modules\Equipment\Domain\ItemEffect;
+use App\Modules\Image\Domain\ImageId;
 use App\Traits\ThrowsDice;
 
 class Character
@@ -68,7 +69,7 @@ class Character
      */
     private $userId;
     /**
-     * @var string
+     * @var ImageId
      */
     private $profilePictureId;
 
@@ -87,7 +88,7 @@ class Character
         Statistics $statistics,
         Inventory $inventory,
         int $userId = null,
-        string $profilePictureId = null
+        ImageId $profilePictureId = null
     )
     {
         $this->id = $id;
@@ -333,15 +334,15 @@ class Character
         $this->attributes = $this->attributes->addAvailablePoints($points);
     }
 
-    public function setProfilePictureId(string $profilePictureId): void
+    public function setProfilePictureId(ImageId $profilePictureId): void
     {
         $this->profilePictureId = $profilePictureId;
     }
 
     /**
-     * @return string|null
+     * @return ImageId|null
      */
-    public function getProfilePictureId(): ?string
+    public function getProfilePictureId(): ?ImageId
     {
         return $this->profilePictureId;
     }

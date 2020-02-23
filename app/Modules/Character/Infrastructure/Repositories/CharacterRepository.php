@@ -36,6 +36,8 @@ class CharacterRepository implements CharacterRepositoryInterface
 
     public function add(Character $character): void
     {
+        $profilePictureId = $character->getProfilePictureId();
+
         /** @var CharacterModel $characterModel */
         CharacterModel::query()->create([
             'id' => $character->getId()->toString(),
@@ -64,7 +66,7 @@ class CharacterRepository implements CharacterRepositoryInterface
             'battles_won' => $character->getBattlesWon(),
             'battles_lost' => $character->getBattlesLost(),
 
-            'profile_picture_id' => $character->getProfilePictureId(),
+            'profile_picture_id' => $profilePictureId ? $profilePictureId->toString() : null,
         ]);
     }
 
@@ -80,6 +82,8 @@ class CharacterRepository implements CharacterRepositoryInterface
     {
         /** @var CharacterModel $characterModel */
         $characterModel = CharacterModel::query()->findOrFail($character->getId()->toString());
+
+        $profilePictureId = $character->getProfilePictureId();
 
         $characterModel->update([
             'name' => $character->getName(),
@@ -105,7 +109,7 @@ class CharacterRepository implements CharacterRepositoryInterface
 
             'location_id' => $character->getLocationId(),
 
-            'profile_picture_id' => $character->getProfilePictureId(),
+            'profile_picture_id' => $profilePictureId ? $profilePictureId->toString() : null,
         ]);
     }
 }

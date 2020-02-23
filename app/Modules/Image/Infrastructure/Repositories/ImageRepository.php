@@ -7,6 +7,9 @@ use App\Modules\Image\Domain\ImageFile;
 use App\Modules\Image\Domain\Image;
 use App\Image as ImageModel;
 use App\Modules\Image\Application\Contracts\ImageRepositoryInterface;
+use App\Modules\Image\Domain\ImageId;
+use App\Traits\GeneratesUuid;
+use Exception;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\UploadedFile;
 use Intervention\Image\Constraint;
@@ -15,6 +18,8 @@ use Intervention\Image\Image as ImageManagerFile;
 
 class ImageRepository implements ImageRepositoryInterface
 {
+    use GeneratesUuid;
+
     /**
      * @var Filesystem
      */
@@ -30,6 +35,16 @@ class ImageRepository implements ImageRepositoryInterface
         $this->imageManager = $imageManager;
     }
 
+    /**
+     * @return ImageId
+     *
+     * @throws Exception
+     */
+    public function nextIdentity(): ImageId
+    {
+        return ImageId::fromString($this->generateUuid());
+    }
+
     public function add(Image $image, UploadedFile $uploadedFile): void
     {
         $urlPath = $this->getUrlPath($image->getCharacterId());
@@ -37,7 +52,7 @@ class ImageRepository implements ImageRepositoryInterface
         $this->writeFiles($image, $uploadedFile);
 
         ImageModel::query()->create([
-            'id' => $image->getId(),
+            'id' => $image->getId()->toString(),
             'character_id' => $image->getCharacterId()->toString(),
             'file_path_full' => $urlPath . $image->getFullSizeFile()->getFileName(),
             'file_path_small' => $urlPath . $image->getSmallSizeFile()->getFileName(),
@@ -50,20 +65,6 @@ class ImageRepository implements ImageRepositoryInterface
         $this->filesystem->deleteDirectory($this->getFolderPath($characterId));
 
         ImageModel::query()->where('character_id', '=', $characterId->toString())->delete();
-    }
-
-    public function getOne($id): Image
-    {
-        /** @var ImageModel $imageModel */
-        $imageModel = ImageModel::query()->findOrFail($id);
-
-        return new Image(
-            $imageModel->getId(),
-            CharacterId::fromString($imageModel->getCharacterId()),
-            ImageFile::full($imageModel->getFilePathFull()),
-            ImageFile::small($imageModel->getFilePathSmall()),
-            ImageFile::icon($imageModel->getFilePathIcon())
-        );
     }
 
     private function writeFiles(Image $image, UploadedFile $uploadedFile): void

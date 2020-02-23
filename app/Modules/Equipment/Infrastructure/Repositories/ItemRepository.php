@@ -45,9 +45,9 @@ class ItemRepository implements ItemRepositoryInterface
         })->toJson();
 
         ItemModel::query()->create([
-            'id' => $item->getId(),
+            'id' => $item->getId()->toString(),
 
-            'prototype_id' => $item->getPrototypeId(),
+            'prototype_id' => $item->getPrototypeId()->toString(),
             'creator_character_id' => $item->getCreatorCharacterId()->toString(),
             'owner_character_id' => $item->getOwnerCharacterId()->toString(),
 
@@ -82,8 +82,8 @@ class ItemRepository implements ItemRepositoryInterface
             ];
         })->toJson();
 
-        ItemModel::query()->where('id', $item->getId())->update([
-            'prototype_id' => $item->getPrototypeId(),
+        ItemModel::query()->where('id', $item->getId()->toString())->update([
+            'prototype_id' => $item->getPrototypeId()->toString(),
             'creator_character_id' => $item->getCreatorCharacterId()->toString(),
             'owner_character_id' => $item->getOwnerCharacterId()->toString(),
 

@@ -8,6 +8,8 @@ use App\Modules\Character\Domain\CharacterId;
 use App\Modules\Equipment\Domain\Item;
 use App\Modules\Equipment\Domain\InventorySlot;
 use App\Modules\Equipment\Domain\ItemEffect;
+use App\Modules\Equipment\Domain\ItemId;
+use App\Modules\Equipment\Domain\ItemPrototypeId;
 use App\Modules\Equipment\Domain\ItemType;
 use Illuminate\Support\Collection;
 
@@ -24,13 +26,13 @@ class ItemReconstitutionFactory
         });
 
         $itemPrototype = new Item(
-            $model->getId(),
+            ItemId::fromString($model->getId()),
             $model->getName(),
             $model->getDescription(),
             $model->getImageFilePath(),
             ItemType::ofType($model->getType()),
             $effects,
-            $model->getPrototypeId(),
+            ItemPrototypeId::fromString($model->getPrototypeId()),
             CharacterId::fromString($model->getCreatorCharacterId()),
             CharacterId::fromString($model->getOwnerCharacterId()),
             InventorySlot::defined($model->getInventorySlotNumber()),

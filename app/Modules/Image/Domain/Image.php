@@ -7,7 +7,7 @@ use App\Modules\Character\Domain\CharacterId;
 class Image
 {
     /**
-     * @var string
+     * @var ImageId
      */
     private $id;
     /**
@@ -28,7 +28,7 @@ class Image
     private $iconSizeFile;
 
     public function __construct(
-        string $id,
+        ImageId $id,
         CharacterId $characterId,
         ImageFile $fullSizeFile,
         ImageFile $smallSizeFile,
@@ -41,7 +41,7 @@ class Image
         $this->iconSizeFile = $iconSizeFile;
     }
 
-    public function getId(): string
+    public function getId(): ImageId
     {
         return $this->id;
     }

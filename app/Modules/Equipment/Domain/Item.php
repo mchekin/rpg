@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 class Item
 {
     /**
-     * @var string
+     * @var ItemId
      */
     private $id;
     /**
@@ -29,7 +29,7 @@ class Item
      */
     private $effects;
     /**
-     * @var string
+     * @var ItemPrototypeId
      */
     private $prototypeId;
     /**
@@ -54,13 +54,13 @@ class Item
     private $equipped;
 
     public function __construct(
-        string $id,
+        ItemId $id,
         string $name,
         string $description,
         string $imageFilePath,
         ItemType $type,
         Collection $effects,
-        string $prototypeId,
+        ItemPrototypeId $prototypeId,
         CharacterId $creatorCharacterId,
         CharacterId $ownerCharacterId,
         InventorySlot $inventorySlot,
@@ -80,7 +80,7 @@ class Item
         $this->equipped = $equipped;
     }
 
-    public function getId(): string
+    public function getId(): ItemId
     {
         return $this->id;
     }
@@ -110,7 +110,7 @@ class Item
         return $this->effects;
     }
 
-    public function getPrototypeId(): string
+    public function getPrototypeId(): ItemPrototypeId
     {
         return $this->prototypeId;
     }
@@ -163,5 +163,15 @@ class Item
         return $this->effects->filter(static function (ItemEffect $effect) use ($itemEffectType) {
             return $effect->getType() === $itemEffectType;
         });
+    }
+
+    public function equals(Item $otherItem): bool
+    {
+        return $this->getId()->equals($otherItem->getId());
+    }
+
+    public function isOfType(ItemType $type): bool
+    {
+        return $this->getType()->equals($type);
     }
 }

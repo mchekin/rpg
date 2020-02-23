@@ -47,8 +47,9 @@ class ItemService
         return DB::transaction(function () use ($command) {
             $itemPrototype = $this->itemPrototypeRepository->getOne($command->getPrototypeId());
             $character = $this->characterRepository->getOne($command->getCreatorCharacterId());
+            $itemId = $this->itemRepository->nextIdentity();
 
-            $item = $this->itemFactory->create($itemPrototype, $character->getId());
+            $item = $this->itemFactory->create($itemId, $itemPrototype, $character->getId());
 
             $character->addItemToInventory($item);
 
