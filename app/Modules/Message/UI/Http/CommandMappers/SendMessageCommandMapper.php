@@ -4,6 +4,7 @@
 namespace App\Modules\Message\UI\Http\CommandMappers;
 
 use App\Character;
+use App\Modules\Character\Domain\CharacterId;
 use App\Modules\Message\Application\Commands\SendMessageCommand;
 use Illuminate\Http\Request;
 
@@ -16,8 +17,8 @@ class SendMessageCommandMapper
         $currentCharacter = $user->character;
 
         return new SendMessageCommand(
-            $currentCharacter->id,
-            (string)$request->route('character'),
+            CharacterId::fromString($currentCharacter->id),
+            CharacterId::fromString((string)$request->route('character')),
             (string)$request->get('content')
         );
     }

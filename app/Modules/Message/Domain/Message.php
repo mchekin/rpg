@@ -3,21 +3,23 @@
 
 namespace App\Modules\Message\Domain;
 
+use App\Modules\Character\Domain\CharacterId;
+
 class Message
 {
     public const UNREAD = 'unread';
     public const READ = 'read';
 
     /**
-     * @var string
+     * @var MessageId
      */
     private $id;
     /**
-     * @var string
+     * @var CharacterId
      */
     private $senderId;
     /**
-     * @var string
+     * @var CharacterId
      */
     private $recipientId;
     /**
@@ -30,9 +32,9 @@ class Message
     private $state;
 
     public function __construct(
-        string $id,
-        string $senderId,
-        string $recipientId,
+        MessageId $id,
+        CharacterId $senderId,
+        CharacterId $recipientId,
         string $content,
         string $state = self::UNREAD
     ) {
@@ -43,17 +45,17 @@ class Message
         $this->state = $state;
     }
 
-    public function getId(): string
+    public function getId(): MessageId
     {
         return $this->id;
     }
 
-    public function getSenderId(): string
+    public function getSenderId(): CharacterId
     {
         return $this->senderId;
     }
 
-    public function getRecipientId(): string
+    public function getRecipientId(): CharacterId
     {
         return $this->recipientId;
     }
