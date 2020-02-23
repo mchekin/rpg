@@ -8,6 +8,7 @@ use App\Modules\Character\Domain\CharacterId;
 use App\Modules\Equipment\Application\Commands\CreateItemCommand;
 use App\Modules\Equipment\Application\Contracts\ItemPrototypeRepositoryInterface;
 use App\Modules\Equipment\Application\Contracts\ItemRepositoryInterface;
+use App\Modules\Equipment\Domain\ItemId;
 use App\Modules\Equipment\Domain\ItemPrototype;
 use App\Modules\Equipment\Application\Factories\ItemFactory;
 use App\Modules\Equipment\Application\Services\ItemService;
@@ -56,6 +57,7 @@ class ItemServiceTest extends TestCase
     public function testCreate(): void
     {
         // Arrange
+        $itemId = ItemId::fromString('598d1570-e0e3-40d1-979b-64e48626f777');
         $itemPrototypeId = ItemPrototypeId::fromString('598d1570-e0e3-40d1-979b-64e48626f6f6');
         $name = 'Wooden club';
         $description = 'Club made from wood';
@@ -79,6 +81,7 @@ class ItemServiceTest extends TestCase
 
         $this->characterRepository->shouldReceive('getOne')->once()->andReturn($this->character);
         $this->itemPrototypeRepository->shouldReceive('getOne')->once()->andReturn($itemPrototype);
+        $this->itemRepository->shouldReceive('nextIdentity')->once()->andReturn($itemId);
         $this->character->shouldReceive('getId')->once()->andReturn($creatorCharacterId);
         $this->character->shouldReceive('addItemToInventory')->once();
         $this->itemRepository->shouldReceive('add')->once();
@@ -88,6 +91,7 @@ class ItemServiceTest extends TestCase
         $item = $this->sut->create($createCommand);
 
         // Assert
+        $this->assertEquals($itemId, $item->getId());
         $this->assertEquals($name, $item->getName());
         $this->assertEquals($description, $item->getDescription());
         $this->assertEquals($imageFilePath, $item->getImageFilePath());
