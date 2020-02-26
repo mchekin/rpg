@@ -6,6 +6,7 @@ use App\ItemPrototype;
 use App\Location;
 use App\Modules\Character\Application\Contracts\CharacterRepositoryInterface;
 use App\Modules\Equipment\Application\Contracts\ItemRepositoryInterface;
+use App\Modules\Equipment\Domain\ItemStatus;
 use App\User;
 use Illuminate\Database\Seeder;
 
@@ -65,8 +66,9 @@ class CharacterSeeder extends Seeder
                     'name' => $weaponPrototype->getName(),
                     'description' => $weaponPrototype->getDescription(),
                     'effects' => $weaponPrototype->getEffects(),
+                    'price' => $weaponPrototype->getPrice(),
                     'inventory_slot_number' => $slot,
-                    'equipped' => $slot ? false : true,
+                    'status' => $slot ? ItemStatus::IN_BACKPACK : ItemStatus::EQUIPPED,
                     'type' => $weaponPrototype->getType(),
                     'image_file_path' => $weaponPrototype->getImageFilePath(),
                     'prototype_id' => $weaponPrototype->getId(),

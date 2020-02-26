@@ -3,6 +3,7 @@
 use App\ItemPrototype;
 use App\Modules\Equipment\Application\Contracts\ItemPrototypeRepositoryInterface;
 use App\Modules\Equipment\Domain\ItemEffect;
+use App\Modules\Equipment\Domain\ItemStatus;
 use App\Modules\Equipment\Domain\ItemType;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -28,6 +29,8 @@ class CreateItemsTable extends Migration
 
             $table->json('effects');
 
+            $table->integer('price')->default(0);
+
             $table->string('image_file_path');
 
             $table->enum('type', ItemType::TYPES)->default(ItemType::MISCELLANEOUS);
@@ -43,10 +46,13 @@ class CreateItemsTable extends Migration
 
             $table->json('effects');
 
+            $table->integer('price')->default(0);
+
             $table->string('image_file_path');
 
             $table->smallInteger('inventory_slot_number');
-            $table->boolean('equipped')->default(false);
+
+            $table->enum('status', ItemStatus::STATUSES)->default(ItemStatus::IN_BACKPACK);
 
             $table->enum('type', ItemType::TYPES)->default(ItemType::MISCELLANEOUS);
 
@@ -98,6 +104,7 @@ class CreateItemsTable extends Migration
                         'type' => ItemEffect::DAMAGE,
                     ]
                 ],
+                'price' => 15,
                 'type' => ItemType::MAIN_HAND,
                 'image_file_path' => 'images\equipment\main_hand\1club.png',
             ],
@@ -111,6 +118,7 @@ class CreateItemsTable extends Migration
                         'type' => ItemEffect::DAMAGE,
                     ]
                 ],
+                'price' => 500,
                 'type' => ItemType::MAIN_HAND,
                 'image_file_path' => 'images\equipment\main_hand\2reinforced_club.png',
             ],
@@ -124,6 +132,7 @@ class CreateItemsTable extends Migration
                         'type' => ItemEffect::ARMOR,
                     ]
                 ],
+                'price' => 20,
                 'type' => ItemType::OFF_HAND,
                 'image_file_path' => 'images\equipment\off_hand\buckler.png',
             ],
@@ -137,6 +146,7 @@ class CreateItemsTable extends Migration
                         'type' => ItemEffect::ARMOR,
                     ]
                 ],
+                'price' => 5,
                 'type' => ItemType::BODY_ARMOR,
                 'image_file_path' => 'images\equipment\body_armor\linen_shirt.png',
             ],
@@ -150,6 +160,7 @@ class CreateItemsTable extends Migration
                         'type' => ItemEffect::ARMOR,
                     ]
                 ],
+                'price' => 1000,
                 'type' => ItemType::HEAD_GEAR,
                 'image_file_path' => 'images\equipment\head_gear\closed_steel_helmet.png',
             ],

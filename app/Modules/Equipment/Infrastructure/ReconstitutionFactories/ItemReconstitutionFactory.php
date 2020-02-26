@@ -9,7 +9,9 @@ use App\Modules\Equipment\Domain\Item;
 use App\Modules\Equipment\Domain\InventorySlot;
 use App\Modules\Equipment\Domain\ItemEffect;
 use App\Modules\Equipment\Domain\ItemId;
+use App\Modules\Equipment\Domain\ItemPrice;
 use App\Modules\Equipment\Domain\ItemPrototypeId;
+use App\Modules\Equipment\Domain\ItemStatus;
 use App\Modules\Equipment\Domain\ItemType;
 use Illuminate\Support\Collection;
 
@@ -25,20 +27,21 @@ class ItemReconstitutionFactory
             );
         });
 
-        $itemPrototype = new Item(
+        $item = new Item(
             ItemId::fromString($model->getId()),
             $model->getName(),
             $model->getDescription(),
             $model->getImageFilePath(),
             ItemType::ofType($model->getType()),
+            ItemStatus::ofStatus($model->getStatus()),
             $effects,
+            ItemPrice::ofAmount($model->getPrice()),
             ItemPrototypeId::fromString($model->getPrototypeId()),
             CharacterId::fromString($model->getCreatorCharacterId()),
             CharacterId::fromString($model->getOwnerCharacterId()),
-            InventorySlot::defined($model->getInventorySlotNumber()),
-            $model->isEquipped()
+            InventorySlot::defined($model->getInventorySlotNumber())
         );
 
-        return $itemPrototype;
+        return $item;
     }
 }

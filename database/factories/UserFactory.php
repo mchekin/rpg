@@ -18,6 +18,7 @@ use App\Modules\Character\Application\Contracts\CharacterRepositoryInterface;
 use App\Modules\Character\Domain\HitPoints;
 use App\Modules\Character\Infrastructure\Repositories\RaceRepository;
 use App\Modules\Equipment\Application\Contracts\ItemRepositoryInterface;
+use App\Modules\Equipment\Domain\ItemStatus;
 use App\Race;
 use App\User;
 use Illuminate\Database\Eloquent\Factory;
@@ -104,8 +105,9 @@ $factory->define(App\Item::class, static function () {
         'name' => $itemPrototype->getName(),
         'description' => $itemPrototype->getDescription(),
         'effects' => $itemPrototype->getEffects(),
+        'price' => $itemPrototype->getPrice(),
         'inventory_slot_number' => 0,
-        'equipped' => true,
+        'status' => ItemStatus::EQUIPPED,
         'type' => $itemPrototype->getType(),
         'image_file_path' => $itemPrototype->getImageFilePath(),
         'prototype_id' => $itemPrototype->getId(),

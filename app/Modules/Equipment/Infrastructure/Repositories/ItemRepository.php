@@ -52,16 +52,18 @@ class ItemRepository implements ItemRepositoryInterface
             'owner_character_id' => $item->getOwnerCharacterId()->toString(),
 
             'inventory_slot_number' => $item->getInventorySlot()->getSlot(),
-            'equipped' => $item->isEquipped(),
 
             'name' => $item->getName(),
             'description' => $item->getDescription(),
 
             'effects' => $effects,
 
+            'price' => $item->getPrice()->getAmount(),
+
             'image_file_path' => $item->getImageFilePath(),
 
             'type' => $item->getType()->toString(),
+            'status' => $item->getStatus()->toString(),
         ]);
     }
 
@@ -88,16 +90,18 @@ class ItemRepository implements ItemRepositoryInterface
             'owner_character_id' => $item->getOwnerCharacterId()->toString(),
 
             'inventory_slot_number' => $item->getInventorySlot()->getSlot(),
-            'equipped' => $item->isEquipped(),
 
             'name' => $item->getName(),
             'description' => $item->getDescription(),
 
             'effects' => $effects,
 
+            'price' => $item->getPrice()->getAmount(),
+
             'image_file_path' => $item->getImageFilePath(),
 
             'type' => $item->getType()->toString(),
+            'status' => $item->getStatus()->toString(),
         ]);
     }
 }

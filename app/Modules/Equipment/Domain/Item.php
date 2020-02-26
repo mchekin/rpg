@@ -49,9 +49,13 @@ class Item
      */
     private $inventorySlot;
     /**
-     * @var bool
+     * @var ItemPrice
      */
-    private $equipped;
+    private $price;
+    /**
+     * @var ItemStatus
+     */
+    private $status;
 
     public function __construct(
         ItemId $id,
@@ -59,12 +63,13 @@ class Item
         string $description,
         string $imageFilePath,
         ItemType $type,
+        ItemStatus $status,
         Collection $effects,
+        ItemPrice $price,
         ItemPrototypeId $prototypeId,
         CharacterId $creatorCharacterId,
         CharacterId $ownerCharacterId,
-        InventorySlot $inventorySlot,
-        bool $equipped = false
+        InventorySlot $inventorySlot
     )
     {
         $this->id = $id;
@@ -72,12 +77,13 @@ class Item
         $this->description = $description;
         $this->imageFilePath = $imageFilePath;
         $this->type = $type;
+        $this->status = $status;
         $this->effects = $effects;
+        $this->price = $price;
         $this->prototypeId = $prototypeId;
         $this->creatorCharacterId = $creatorCharacterId;
         $this->ownerCharacterId = $ownerCharacterId;
         $this->inventorySlot = $inventorySlot;
-        $this->equipped = $equipped;
     }
 
     public function getId(): ItemId
@@ -103,6 +109,11 @@ class Item
     public function getType(): ItemType
     {
         return $this->type;
+    }
+
+    public function getStatus(): ItemStatus
+    {
+        return $this->status;
     }
 
     public function getEffects(): Collection
@@ -137,17 +148,17 @@ class Item
 
     public function isEquipped(): bool
     {
-        return $this->equipped;
+        return $this->status->equals(ItemStatus::equipped());
     }
 
     public function equip(): void
     {
-        $this->equipped = true;
+        $this->status = ItemStatus::equipped();
     }
 
     public function unEquip(): void
     {
-        $this->equipped = false;
+        $this->status = ItemStatus::inBackpack();
     }
 
     public function getItemEffect(string $itemEffectType): int
@@ -173,5 +184,10 @@ class Item
     public function isOfType(ItemType $type): bool
     {
         return $this->getType()->equals($type);
+    }
+
+    public function getPrice(): ItemPrice
+    {
+        return $this->price;
     }
 }

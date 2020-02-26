@@ -4,6 +4,7 @@
 namespace App\Modules\Equipment\Infrastructure\ReconstitutionFactories;
 
 use App\ItemPrototype as ItemPrototypeModel;
+use App\Modules\Equipment\Domain\ItemPrice;
 use App\Modules\Equipment\Domain\ItemPrototype;
 use App\Modules\Equipment\Domain\ItemEffect;
 use App\Modules\Equipment\Domain\ItemPrototypeId;
@@ -27,7 +28,8 @@ class ItemPrototypeReconstitutionFactory
             $model->getDescription(),
             $model->getImageFilePath(),
             ItemType::ofType($model->getType()),
-            $effects
+            $effects,
+            ItemPrice::ofAmount($model->getPrice())
         );
 
         return $itemPrototype;

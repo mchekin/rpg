@@ -31,6 +31,10 @@ class ItemPrototype
      * @var Collection
      */
     private $effects;
+    /**
+     * @var ItemPrice
+     */
+    private $price;
 
     public function __construct(
         ItemPrototypeId $id,
@@ -38,7 +42,8 @@ class ItemPrototype
         string $description,
         string $imageFilePath,
         ItemType $type,
-        Collection $effects
+        Collection $effects,
+        ItemPrice $price
     ) {
         $this->id = $id;
         $this->name = $name;
@@ -46,6 +51,7 @@ class ItemPrototype
         $this->imageFilePath = $imageFilePath;
         $this->type = $type;
         $this->effects = $effects;
+        $this->price = $price;
     }
 
     public function getId(): ItemPrototypeId
@@ -76,5 +82,10 @@ class ItemPrototype
     public function getEffects(): Collection
     {
         return $this->effects;
+    }
+
+    public function getPrice(): ItemPrice
+    {
+        return $this->price;
     }
 }

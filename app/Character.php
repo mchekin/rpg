@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Modules\Equipment\Domain\ItemStatus;
 use App\Modules\Equipment\Domain\ItemType;
 use App\Traits\UsesStringId;
 use Illuminate\Database\Eloquent\Collection;
@@ -279,27 +280,27 @@ class Character extends Model
     {
         return $this->items
             ->where('type', ItemType::HEAD_GEAR)
-            ->where('equipped', true)->first();
+            ->where('status', ItemStatus::EQUIPPED)->first();
     }
 
     public function getBodyArmorItem()
     {
         return $this->items
             ->where('type', ItemType::BODY_ARMOR)
-            ->where('equipped', true)->first();
+            ->where('status', ItemStatus::EQUIPPED)->first();
     }
 
     public function getMainHandItem()
     {
         return $this->items
             ->where('type', ItemType::MAIN_HAND)
-            ->where('equipped', true)->first();
+            ->where('status', ItemStatus::EQUIPPED)->first();
     }
 
     public function getOffHandItem()
     {
         return $this->items
             ->where('type', ItemType::OFF_HAND)
-            ->where('equipped', true)->first();
+            ->where('status', ItemStatus::EQUIPPED)->first();
     }
 }
