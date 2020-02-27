@@ -9,11 +9,13 @@ use App\Modules\Equipment\Application\Commands\CreateItemCommand;
 use App\Modules\Equipment\Application\Contracts\ItemPrototypeRepositoryInterface;
 use App\Modules\Equipment\Application\Contracts\ItemRepositoryInterface;
 use App\Modules\Equipment\Domain\ItemId;
+use App\Modules\Equipment\Domain\ItemPrice;
 use App\Modules\Equipment\Domain\ItemPrototype;
 use App\Modules\Equipment\Application\Factories\ItemFactory;
 use App\Modules\Equipment\Application\Services\ItemService;
 use App\Modules\Equipment\Domain\ItemEffect;
 use App\Modules\Equipment\Domain\ItemPrototypeId;
+use App\Modules\Equipment\Domain\ItemStatus;
 use App\Modules\Equipment\Domain\ItemType;
 use Illuminate\Support\Collection;
 use Mockery;
@@ -62,6 +64,7 @@ class ItemServiceTest extends TestCase
         $name = 'Wooden club';
         $description = 'Club made from wood';
         $type = ItemType::mainHand();
+        $price = ItemPrice::ofAmount(30);
         $effects = Collection::make([
             ItemEffect::damage(5)
         ]);
@@ -74,7 +77,8 @@ class ItemServiceTest extends TestCase
             $description,
             $imageFilePath,
             $type,
-            $effects
+            $effects,
+            $price
         );
 
         $createCommand = new CreateItemCommand($itemPrototypeId, $creatorCharacterId);
@@ -100,5 +104,6 @@ class ItemServiceTest extends TestCase
         $this->assertEquals($itemPrototypeId, $item->getPrototypeId());
         $this->assertEquals($creatorCharacterId, $item->getCreatorCharacterId());
         $this->assertEquals($creatorCharacterId, $item->getOwnerCharacterId());
+        $this->assertEquals($price, $item->getPrice());
     }
 }
