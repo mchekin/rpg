@@ -6,7 +6,7 @@ namespace App\Modules\Character\Application\Factories;
 use App\Modules\Character\Application\Commands\CreateCharacterCommand;
 use App\Modules\Character\Domain\CharacterId;
 use App\Modules\Character\Domain\Race;
-use App\Modules\Character\Domain\Inventory;
+use App\Modules\Equipment\Domain\Inventory;
 use App\Modules\Character\Domain\Statistics;
 use App\Modules\Character\Domain\Attributes;
 use App\Modules\Character\Domain\Character;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Character\Domain\Inventory;
+namespace App\Modules\Equipment\Domain\Inventory;
 
 use InvalidArgumentException;
 

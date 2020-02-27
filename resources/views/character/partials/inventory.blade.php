@@ -7,7 +7,7 @@
 <form role="form" method="POST">
     {!! csrf_field() !!}
     <div class="my-3 row table-dark align-items-center">
-        @foreach(range(0, App\Modules\Character\Domain\Inventory::NUMBER_OF_SLOTS) as $slotNumber)
+        @foreach(range(0, App\Modules\Equipment\Domain\Inventory::NUMBER_OF_SLOTS) as $slotNumber)
             @php
                 $item = $items->where('inventory_slot_number', $slotNumber)->first();
                 $isHighlighted = isset($item) && $item->isEquipped() ? 'equipped' : '';

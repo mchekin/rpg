@@ -1,14 +1,11 @@
 <?php
 
-namespace App\Modules\Character\Domain;
+namespace App\Modules\Equipment\Domain;
 
-use App\Modules\Character\Domain\Inventory\InventorySlotIsTakenException;
-use App\Modules\Character\Domain\Inventory\InventorySlotOutOfRangeException;
-use App\Modules\Character\Domain\Inventory\InventoryIsFullException;
-use App\Modules\Character\Domain\Inventory\NotEnoughSpaceException;
-use App\Modules\Equipment\Domain\Item;
-use App\Modules\Equipment\Domain\InventorySlot;
-use App\Modules\Equipment\Domain\ItemType;
+use App\Modules\Equipment\Domain\Inventory\InventorySlotIsTakenException;
+use App\Modules\Equipment\Domain\Inventory\InventorySlotOutOfRangeException;
+use App\Modules\Equipment\Domain\Inventory\InventoryIsFullException;
+use App\Modules\Equipment\Domain\Inventory\NotEnoughSpaceException;
 use Illuminate\Support\Collection;
 
 class Inventory

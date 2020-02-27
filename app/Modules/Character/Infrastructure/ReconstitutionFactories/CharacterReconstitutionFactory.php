@@ -8,7 +8,7 @@ use App\Modules\Equipment\Infrastructure\ReconstitutionFactories\ItemReconstitut
 use App\Modules\Character\Domain\Attributes;
 use App\Modules\Character\Domain\Character;
 use App\Modules\Character\Domain\Gender;
-use App\Modules\Character\Domain\Inventory;
+use App\Modules\Equipment\Domain\Inventory;
 use App\Modules\Character\Domain\Statistics;
 use App\Modules\Character\Domain\Money;
 use App\Modules\Character\Domain\HitPoints;
