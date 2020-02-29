@@ -8,6 +8,7 @@ use App\Modules\Character\Domain\CharacterId;
 use App\Modules\Equipment\Application\Commands\CreateItemCommand;
 use App\Modules\Equipment\Application\Contracts\ItemPrototypeRepositoryInterface;
 use App\Modules\Equipment\Application\Contracts\ItemRepositoryInterface;
+use App\Modules\Equipment\Domain\Item;
 use App\Modules\Equipment\Domain\ItemId;
 use App\Modules\Equipment\Domain\ItemPrice;
 use App\Modules\Equipment\Domain\ItemPrototype;
@@ -15,11 +16,11 @@ use App\Modules\Equipment\Application\Factories\ItemFactory;
 use App\Modules\Equipment\Application\Services\ItemService;
 use App\Modules\Equipment\Domain\ItemEffect;
 use App\Modules\Equipment\Domain\ItemPrototypeId;
-use App\Modules\Equipment\Domain\ItemStatus;
 use App\Modules\Equipment\Domain\ItemType;
 use Illuminate\Support\Collection;
 use Mockery;
 use Mockery\MockInterface;
+use PHPUnit\Framework\Assert;
 use Tests\TestCase;
 
 class ItemServiceTest extends TestCase
@@ -39,7 +40,7 @@ class ItemServiceTest extends TestCase
     /** @var MockInterface| Character */
     private $character;
 
-    protected function setUp():void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -88,22 +89,27 @@ class ItemServiceTest extends TestCase
         $this->itemRepository->shouldReceive('nextIdentity')->once()->andReturn($itemId);
         $this->character->shouldReceive('getId')->once()->andReturn($creatorCharacterId);
         $this->character->shouldReceive('addItemToInventory')->once();
-        $this->itemRepository->shouldReceive('add')->once();
+        $this->itemRepository->shouldReceive('add')->once()
+            ->with(\Mockery::on(static function (Item $item)
+            use ($itemId, $name, $description, $imageFilePath, $type, $effects, $itemPrototypeId, $creatorCharacterId, $price) {
+
+                // Assert
+                Assert::assertEquals($itemId, $item->getId());
+                Assert::assertEquals($name, $item->getName());
+                Assert::assertEquals($description, $item->getDescription());
+                Assert::assertEquals($imageFilePath, $item->getImageFilePath());
+                Assert::assertEquals($type, $item->getType());
+                Assert::assertEquals($effects, $item->getEffects());
+                Assert::assertEquals($itemPrototypeId, $item->getPrototypeId());
+                Assert::assertEquals($creatorCharacterId, $item->getCreatorCharacterId());
+                Assert::assertEquals($creatorCharacterId, $item->getOwnerCharacterId());
+                Assert::assertEquals($price, $item->getPrice());
+
+                return true;
+            }));
         $this->characterRepository->shouldReceive('update')->once();
 
         // Act
-        $item = $this->sut->create($createCommand);
-
-        // Assert
-        $this->assertEquals($itemId, $item->getId());
-        $this->assertEquals($name, $item->getName());
-        $this->assertEquals($description, $item->getDescription());
-        $this->assertEquals($imageFilePath, $item->getImageFilePath());
-        $this->assertEquals($type, $item->getType());
-        $this->assertEquals($effects, $item->getEffects());
-        $this->assertEquals($itemPrototypeId, $item->getPrototypeId());
-        $this->assertEquals($creatorCharacterId, $item->getCreatorCharacterId());
-        $this->assertEquals($creatorCharacterId, $item->getOwnerCharacterId());
-        $this->assertEquals($price, $item->getPrice());
+        $this->sut->create($createCommand);
     }
 }

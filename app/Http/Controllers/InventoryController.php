@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Character;
-use App\Modules\Character\Application\Services\CharacterService;
-use App\Modules\Equipment\Application\Services\ItemService;
+use App\Modules\Equipment\Application\Services\InventoryService;
 use App\Modules\Equipment\UI\Http\CommandMappers\EquipItemCommandMapper;
 use App\Modules\Level\Application\Services\LevelService;
 use Exception;
@@ -16,15 +15,15 @@ use Illuminate\Support\Facades\DB;
 class InventoryController extends Controller
 {
     /**
-     * @var CharacterService
+     * @var InventoryService
      */
-    private $characterService;
+    private $inventoryService;
 
-    public function __construct(ItemService $itemService, CharacterService $characterService)
+    public function __construct(InventoryService $inventoryService)
     {
         $this->middleware('auth');
 
-        $this->characterService = $characterService;
+        $this->inventoryService = $inventoryService;
     }
 
     public function index(Request $request, LevelService $levelService): View
@@ -44,7 +43,7 @@ class InventoryController extends Controller
         try {
 
             DB::transaction(function () use ($equipItemCommand) {
-                $this->characterService->equipItem($equipItemCommand);
+                $this->inventoryService->equipItem($equipItemCommand);
             });
 
         } catch (Exception $exception) {
@@ -64,7 +63,7 @@ class InventoryController extends Controller
         try {
 
             DB::transaction(function () use ($equipItemCommand) {
-                $this->characterService->unEquipItem($equipItemCommand);
+                $this->inventoryService->unEquipItem($equipItemCommand);
             });
 
         } catch (Exception $exception) {
