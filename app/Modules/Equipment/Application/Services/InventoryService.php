@@ -3,69 +3,50 @@
 
 namespace App\Modules\Equipment\Application\Services;
 
-
-use App\Modules\Character\Application\Contracts\CharacterRepositoryInterface;
-use App\Modules\Equipment\Application\Commands\AddItemToInventoryCommand;
+use App\Modules\Equipment\Application\Commands\CreateInventoryCommand;
 use App\Modules\Equipment\Application\Commands\EquipItemCommand;
-use App\Modules\Equipment\Application\Contracts\ItemRepositoryInterface;
-use App\Modules\Equipment\Domain\Item;
+use App\Modules\Equipment\Application\Contracts\InventoryRepositoryInterface;
+use App\Modules\Equipment\Domain\Inventory;
+use Illuminate\Support\Collection;
 
 class InventoryService
 {
     /**
-     * @var ItemRepositoryInterface
+     * @var InventoryRepositoryInterface
      */
-    private $itemRepository;
-    /**
-     * @var CharacterRepositoryInterface
-     */
-    private $characterRepository;
+    private $inventoryRepository;
 
-    public function __construct(ItemRepositoryInterface $itemRepository, CharacterRepositoryInterface $characterRepository)
+    public function __construct(InventoryRepositoryInterface $inventoryRepository)
     {
-        $this->itemRepository = $itemRepository;
-        $this->characterRepository = $characterRepository;
+        $this->inventoryRepository = $inventoryRepository;
+    }
+
+    public function create(CreateInventoryCommand $command):Inventory
+    {
+        $id = $this->inventoryRepository->nextIdentity();
+
+        $inventory = new Inventory($id, $command->getCharacterId(), Collection::make());
+
+        $this->inventoryRepository->add($inventory);
+
+        return $inventory;
     }
 
     public function equipItem(EquipItemCommand $command): void
     {
-        $item = $this->itemRepository->getOne($command->getItemId());
-        $character = $this->characterRepository->getOne($command->getOwnerCharacterId());
+        $inventory = $this->inventoryRepository->forCharacter($command->getOwnerCharacterId());
 
-        if (!$item->isEquipped() && $character->getInventory()->hasItem($item)) {
-            $equippedItem = $character->getInventory()->findEquippedItemOfType($item->getType());
+        $inventory->equip($command->getItemId());
 
-            if ($equippedItem !== null) {
-                /** @var Item $equippedItem */
-                $equippedItem->unEquip();
-                $this->itemRepository->update($equippedItem);
-            }
-
-            $item->equip();
-
-            $this->itemRepository->update($item);
-        }
+        $this->inventoryRepository->update($inventory);
     }
 
     public function unEquipItem(EquipItemCommand $command): void
     {
-        $item = $this->itemRepository->getOne($command->getItemId());
-        $character = $this->characterRepository->getOne($command->getOwnerCharacterId());
+        $inventory = $this->inventoryRepository->forCharacter($command->getOwnerCharacterId());
 
-        if ($item->isEquipped() && $character->getInventory()->hasItem($item)) {
-            /** @var Item $item */
-            $item->unEquip();
-            $this->itemRepository->update($item);
-        }
-    }
+        $inventory->unEquipItem($command->getItemId());
 
-    public function addItemToInventory(AddItemToInventoryCommand $command): void
-    {
-        $character = $this->characterRepository->getOne($command->getCharacterId());
-        $item = $this->itemRepository->getOne($command->getItemId());
-
-        $character->addItemToInventorySlot($command->getSlot(), $item);
-
-        $this->characterRepository->update($character);
+        $this->inventoryRepository->update($inventory);
     }
 }

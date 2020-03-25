@@ -17,6 +17,8 @@ use App\Modules\Character\Application\Commands\CreateCharacterCommand;
 use App\Modules\Character\Application\Commands\IncreaseAttributeCommand;
 use App\Modules\Character\Application\Commands\MoveCharacterCommand;
 use App\Modules\Character\Application\Factories\CharacterFactory;
+use App\Modules\Equipment\Application\Commands\CreateInventoryCommand;
+use App\Modules\Equipment\Application\Services\InventoryService;
 use App\Modules\Image\Domain\Image;
 use App\Modules\Level\Application\Services\LevelService;
 use Illuminate\Support\Facades\DB;
@@ -43,13 +45,18 @@ class CharacterService
      * @var LevelService
      */
     private $levelService;
+    /**
+     * @var InventoryService
+     */
+    private $inventoryService;
 
     public function __construct(
         CharacterFactory $characterFactory,
         CharacterRepositoryInterface $characterRepository,
         RaceRepositoryInterface $raceRepository,
         BattleRepositoryInterface $battleRepository,
-        LevelService $levelService
+        LevelService $levelService,
+        InventoryService $inventoryService
     )
     {
         $this->characterFactory = $characterFactory;
@@ -57,14 +64,17 @@ class CharacterService
         $this->raceRepository = $raceRepository;
         $this->battleRepository = $battleRepository;
         $this->levelService = $levelService;
+        $this->inventoryService = $inventoryService;
     }
 
     public function create(CreateCharacterCommand $command): Character
     {
         $characterId = $this->characterRepository->nextIdentity();
-        $race = $this->raceRepository->getOne($command->getRaceId());
 
-        $character = $this->characterFactory->create($characterId, $command, $race);
+        $race = $this->raceRepository->getOne($command->getRaceId());
+        $inventory = $this->inventoryService->create(new CreateInventoryCommand($characterId));
+
+        $character = $this->characterFactory->create($characterId, $command, $race, $inventory);
 
         $this->characterRepository->add($character);
 

@@ -37,25 +37,13 @@ class Item
      */
     private $creatorCharacterId;
     /**
-     * @var CharacterId
-     */
-    private $ownerCharacterId;
-    /**
      * @var string
      */
     private $imageFilePath;
     /**
-     * @var InventorySlot
-     */
-    private $inventorySlot;
-    /**
      * @var ItemPrice
      */
     private $price;
-    /**
-     * @var ItemStatus
-     */
-    private $status;
 
     public function __construct(
         ItemId $id,
@@ -63,13 +51,10 @@ class Item
         string $description,
         string $imageFilePath,
         ItemType $type,
-        ItemStatus $status,
         Collection $effects,
         ItemPrice $price,
         ItemPrototypeId $prototypeId,
-        CharacterId $creatorCharacterId,
-        CharacterId $ownerCharacterId,
-        InventorySlot $inventorySlot
+        CharacterId $creatorCharacterId
     )
     {
         $this->id = $id;
@@ -77,13 +62,10 @@ class Item
         $this->description = $description;
         $this->imageFilePath = $imageFilePath;
         $this->type = $type;
-        $this->status = $status;
         $this->effects = $effects;
         $this->price = $price;
         $this->prototypeId = $prototypeId;
         $this->creatorCharacterId = $creatorCharacterId;
-        $this->ownerCharacterId = $ownerCharacterId;
-        $this->inventorySlot = $inventorySlot;
     }
 
     public function getId(): ItemId
@@ -111,11 +93,6 @@ class Item
         return $this->type;
     }
 
-    public function getStatus(): ItemStatus
-    {
-        return $this->status;
-    }
-
     public function getEffects(): Collection
     {
         return $this->effects;
@@ -129,36 +106,6 @@ class Item
     public function getCreatorCharacterId(): CharacterId
     {
         return $this->creatorCharacterId;
-    }
-
-    public function getOwnerCharacterId(): CharacterId
-    {
-        return $this->ownerCharacterId;
-    }
-
-    public function getInventorySlot(): InventorySlot
-    {
-        return $this->inventorySlot;
-    }
-
-    public function setInventorySlot(InventorySlot $inventorySlot): void
-    {
-        $this->inventorySlot = $inventorySlot;
-    }
-
-    public function isEquipped(): bool
-    {
-        return $this->status->equals(ItemStatus::equipped());
-    }
-
-    public function equip(): void
-    {
-        $this->status = ItemStatus::equipped();
-    }
-
-    public function unEquip(): void
-    {
-        $this->status = ItemStatus::inBackpack();
     }
 
     public function getItemEffect(string $itemEffectType): int

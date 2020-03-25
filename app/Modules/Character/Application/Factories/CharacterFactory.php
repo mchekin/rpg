@@ -18,7 +18,7 @@ use App\Modules\Character\Domain\Reputation;
 
 class CharacterFactory
 {
-    public function create(CharacterId $characterId, CreateCharacterCommand $command, Race $race): Character
+    public function create(CharacterId $characterId, CreateCharacterCommand $command, Race $race, Inventory $inventory): Character
     {
         return new Character(
             $characterId,
@@ -43,7 +43,7 @@ class CharacterFactory
                 'battlesLost' => 0,
                 'battlesWon' => 0,
             ]),
-            Inventory::empty(),
+            $inventory,
             $command->getUserId()
         );
     }

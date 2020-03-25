@@ -4,37 +4,33 @@
 namespace App\Modules\Character\Infrastructure\ReconstitutionFactories;
 
 use App\Modules\Character\Domain\CharacterId;
-use App\Modules\Equipment\Infrastructure\ReconstitutionFactories\ItemReconstitutionFactory;
+use App\Modules\Equipment\Infrastructure\ReconstitutionFactories\InventoryReconstitutionFactory;
 use App\Modules\Character\Domain\Attributes;
 use App\Modules\Character\Domain\Character;
 use App\Modules\Character\Domain\Gender;
-use App\Modules\Equipment\Domain\Inventory;
 use App\Modules\Character\Domain\Statistics;
 use App\Modules\Character\Domain\Money;
 use App\Modules\Character\Domain\HitPoints;
 use App\Modules\Character\Domain\Reputation;
 use App\Character as CharacterModel;
-use App\Item as ItemModel;
 use App\Modules\Image\Domain\ImageId;
 
 
 class CharacterReconstitutionFactory
 {
     /**
-     * @var ItemReconstitutionFactory
+     * @var InventoryReconstitutionFactory
      */
-    private $itemReconstitutionFactory;
+    private $inventoryReconstitutionFactory;
 
-    public function __construct(ItemReconstitutionFactory $itemReconstitutionFactory)
+    public function __construct(InventoryReconstitutionFactory $inventoryReconstitutionFactory)
     {
-        $this->itemReconstitutionFactory = $itemReconstitutionFactory;
+        $this->inventoryReconstitutionFactory = $inventoryReconstitutionFactory;
     }
 
     public function reconstitute(CharacterModel $characterModel): Character
     {
-        $items = $characterModel->items->map(function (ItemModel $itemModel) {
-                 return $this->itemReconstitutionFactory->reconstitute($itemModel);
-             });
+        $inventory = $this->inventoryReconstitutionFactory->reconstitute($characterModel->inventory);
 
         $profilePictureId = $characterModel->getProfilePictureId();
 
@@ -64,7 +60,7 @@ class CharacterReconstitutionFactory
                 'battlesLost' => $characterModel->getBattlesLost(),
                 'battlesWon' => $characterModel->getBattlesWon(),
             ]),
-            Inventory::withItems($items),
+            $inventory,
             $characterModel->getUserId(),
             $profilePictureId ? ImageId::fromString($profilePictureId) : null
         );

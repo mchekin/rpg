@@ -1,11 +1,5 @@
 <?php
 
-use App\Battle;
-use App\Character;
-use App\Image;
-use App\Location;
-use App\Message;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,14 +18,14 @@ Route::post('/inventory/item/{item}/equip', 'InventoryController@equipItem')->na
 Route::post('/inventory/item/{item}/un-equip', 'InventoryController@unEquipItem')->name('inventory.item.un-equip');
 
 // Simple routes...
-Route::group(['middleware' => 'guest'], function () {
-    Route::get('/', function () {
+Route::group(['middleware' => 'guest'], static function () {
+    Route::get('/', static function () {
         return view('pages.index');
     })->name('index');
 });
 
-Route::group(['middleware' => ['auth', 'has.character']], function () {
-    Route::get('/home', function () {
+Route::group(['middleware' => ['auth', 'has.character']], static function () {
+    Route::get('/home', static function () {
         $location = Auth::user()->character->location;
         return redirect()->route('location.show', compact('location'));
     })->name('home');
@@ -40,14 +34,14 @@ Route::group(['middleware' => ['auth', 'has.character']], function () {
 Auth::routes();
 
 // Route resources...
-Route::resource("inventory", "InventoryController")->only('index');
-Route::resource("character", "CharacterController")->only('create', 'store', 'show', 'update');
-Route::resource("location", "LocationController")->only(['show']);
-Route::resource("battle", "BattleController")->only(['show']);
-Route::resource("message", "MessageController")->only(['index']);
-Route::resource("character.message", "CharacterMessageController")->only(['index', 'store']);
-Route::resource("character.profile-picture", "ProfilePictureController")->only(['store', 'destroy']);
-Route::resource("character.battle", "CharacterBattleController")->only(['index']);
+Route::resource('inventory', 'InventoryController')->only('index');
+Route::resource('character', 'CharacterController')->only('create', 'store', 'show', 'update');
+Route::resource('location', 'LocationController')->only(['show']);
+Route::resource('battle', 'BattleController')->only(['show']);
+Route::resource('message', 'MessageController')->only(['index']);
+Route::resource('character.message', 'CharacterMessageController')->only(['index', 'store']);
+Route::resource('character.profile-picture', 'ProfilePictureController')->only(['store', 'destroy']);
+Route::resource('character.battle', 'CharacterBattleController')->only(['index']);
 
 
 Route::group(['prefix' => 'admin'], function () {

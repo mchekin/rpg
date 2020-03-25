@@ -8,12 +8,10 @@ class ItemStatus
 {
     public const EQUIPPED = 'equipped';
     public const IN_BACKPACK = 'in_backpack';
-    public const FOR_SALE = 'for_sale';
 
     public const STATUSES = [
         self::EQUIPPED,
         self::IN_BACKPACK,
-        self::FOR_SALE,
     ];
 
     /**
@@ -38,11 +36,6 @@ class ItemStatus
     public static function inBackpack(): self
     {
         return new self(self::IN_BACKPACK);
-    }
-
-    public static function forSale(): self
-    {
-        return new self(self::FOR_SALE);
     }
 
     public static function equipped(): self

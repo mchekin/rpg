@@ -9,8 +9,10 @@ use App\Modules\Character\Application\Contracts\LocationRepositoryInterface;
 use App\Modules\Character\Application\Contracts\RaceRepositoryInterface;
 use App\Modules\Character\Infrastructure\Repositories\CharacterRepository;
 use App\Modules\Character\Infrastructure\Repositories\LocationRepository;
+use App\Modules\Equipment\Application\Contracts\InventoryRepositoryInterface;
 use App\Modules\Equipment\Application\Contracts\ItemPrototypeRepositoryInterface;
 use App\Modules\Equipment\Application\Contracts\ItemRepositoryInterface;
+use App\Modules\Equipment\Infrastructure\Repositories\InventoryRepository;
 use App\Modules\Equipment\Infrastructure\Repositories\ItemPrototypeRepository;
 use App\Modules\Equipment\Infrastructure\Repositories\ItemRepository;
 use App\Modules\Image\Application\Contracts\ImageRepositoryInterface;
@@ -44,6 +46,11 @@ class AppServiceProvider extends ServiceProvider
 
     protected function registerRepositoryInterfaces(): self
     {
+        $this->app->bind(
+            InventoryRepositoryInterface::class,
+            InventoryRepository::class
+        );
+
         $this->app->bind(
             LocationRepositoryInterface::class,
             LocationRepository::class

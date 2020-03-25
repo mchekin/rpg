@@ -276,14 +276,9 @@ class Character
         }
     }
 
-    public function addItemToInventorySlot(int $slot, Item $item): void
-    {
-        $this->inventory = $this->inventory->withAddedItem($slot, $item);
-    }
-
     public function addItemToInventory(Item $item): void
     {
-        $this->inventory = $this->inventory->withAddedItemToFreeSlot($item);
+        $this->inventory->add($item);
     }
 
     public function setLocationId(string $locationId): void

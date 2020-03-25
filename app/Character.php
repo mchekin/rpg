@@ -5,10 +5,10 @@ namespace App;
 use App\Modules\Equipment\Domain\ItemStatus;
 use App\Modules\Equipment\Domain\ItemType;
 use App\Traits\UsesStringId;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * @property User user
@@ -33,7 +33,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string name
  * @property int level_id
  * @property string profile_picture_id
- * @property Collection items
+ * @property Inventory inventory
  */
 class Character extends Model
 {
@@ -66,9 +66,9 @@ class Character extends Model
         return $this->hasMany(Image::class);
     }
 
-    public function items(): HasMany
+    public function inventory(): HasOne
     {
-        return $this->hasMany(Item::class, 'owner_character_id');
+        return $this->hasOne(Inventory::class);
     }
 
     public function receivedMessages(): HasMany
@@ -278,29 +278,37 @@ class Character extends Model
 
     public function getHeadGearItem()
     {
-        return $this->items
+        return $this->inventory->items()
             ->where('type', ItemType::HEAD_GEAR)
-            ->where('status', ItemStatus::EQUIPPED)->first();
+            ->wherePivot('status', ItemStatus::EQUIPPED)
+            ->first()
+        ;
     }
 
     public function getBodyArmorItem()
     {
-        return $this->items
+        return $this->inventory->items()
             ->where('type', ItemType::BODY_ARMOR)
-            ->where('status', ItemStatus::EQUIPPED)->first();
+            ->wherePivot('status', ItemStatus::EQUIPPED)
+            ->first()
+        ;
     }
 
     public function getMainHandItem()
     {
-        return $this->items
+        return $this->inventory->items()
             ->where('type', ItemType::MAIN_HAND)
-            ->where('status', ItemStatus::EQUIPPED)->first();
+            ->wherePivot('status', ItemStatus::EQUIPPED)
+            ->first()
+        ;
     }
 
     public function getOffHandItem()
     {
-        return $this->items
+        return $this->inventory->items()
             ->where('type', ItemType::OFF_HAND)
-            ->where('status', ItemStatus::EQUIPPED)->first();
+            ->wherePivot('status', ItemStatus::EQUIPPED)
+            ->first()
+        ;
     }
 }

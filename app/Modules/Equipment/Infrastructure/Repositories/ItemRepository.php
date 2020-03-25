@@ -49,9 +49,6 @@ class ItemRepository implements ItemRepositoryInterface
 
             'prototype_id' => $item->getPrototypeId()->toString(),
             'creator_character_id' => $item->getCreatorCharacterId()->toString(),
-            'owner_character_id' => $item->getOwnerCharacterId()->toString(),
-
-            'inventory_slot_number' => $item->getInventorySlot()->getSlot(),
 
             'name' => $item->getName(),
             'description' => $item->getDescription(),
@@ -63,7 +60,6 @@ class ItemRepository implements ItemRepositoryInterface
             'image_file_path' => $item->getImageFilePath(),
 
             'type' => $item->getType()->toString(),
-            'status' => $item->getStatus()->toString(),
         ]);
     }
 
@@ -87,9 +83,6 @@ class ItemRepository implements ItemRepositoryInterface
         ItemModel::query()->where('id', $item->getId()->toString())->update([
             'prototype_id' => $item->getPrototypeId()->toString(),
             'creator_character_id' => $item->getCreatorCharacterId()->toString(),
-            'owner_character_id' => $item->getOwnerCharacterId()->toString(),
-
-            'inventory_slot_number' => $item->getInventorySlot()->getSlot(),
 
             'name' => $item->getName(),
             'description' => $item->getDescription(),
@@ -101,7 +94,6 @@ class ItemRepository implements ItemRepositoryInterface
             'image_file_path' => $item->getImageFilePath(),
 
             'type' => $item->getType()->toString(),
-            'status' => $item->getStatus()->toString(),
         ]);
     }
 }

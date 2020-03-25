@@ -50,10 +50,6 @@ class CreateItemsTable extends Migration
 
             $table->string('image_file_path');
 
-            $table->smallInteger('inventory_slot_number');
-
-            $table->enum('status', ItemStatus::STATUSES)->default(ItemStatus::IN_BACKPACK);
-
             $table->enum('type', ItemType::TYPES)->default(ItemType::MISCELLANEOUS);
 
             $table->uuid('prototype_id');
@@ -61,9 +57,6 @@ class CreateItemsTable extends Migration
 
             $table->uuid('creator_character_id');
             $table->foreign('creator_character_id')->references('id')->on('characters')->onDelete('restrict');
-
-            $table->uuid('owner_character_id');
-            $table->foreign('owner_character_id')->references('id')->on('characters')->onDelete('restrict');
 
             $table->timestamps();
         });

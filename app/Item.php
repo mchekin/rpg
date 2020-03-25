@@ -5,6 +5,7 @@ namespace App;
 use App\Modules\Equipment\Domain\ItemStatus;
 use App\Traits\UsesStringId;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * @property string id
@@ -19,6 +20,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string owner_character_id
  * @property int inventory_slot_number
  * @property int price
+ * @property Inventory inventory
+ * @property mixed pivot
  */
 class Item extends Model
 {
@@ -29,6 +32,11 @@ class Item extends Model
     protected $casts = [
         'effects' => 'array'
     ];
+
+    public function inventory(): BelongsToMany
+    {
+        return $this->belongsToMany(Inventory::class);
+    }
 
     public function getId(): string
     {
@@ -92,6 +100,6 @@ class Item extends Model
 
     public function isEquipped(): bool
     {
-        return $this->status === ItemStatus::EQUIPPED;
+        return $this->pivot->status === ItemStatus::EQUIPPED;
     }
 }

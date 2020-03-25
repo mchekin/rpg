@@ -102,7 +102,6 @@ class ItemServiceTest extends TestCase
                 Assert::assertEquals($effects, $item->getEffects());
                 Assert::assertEquals($itemPrototypeId, $item->getPrototypeId());
                 Assert::assertEquals($creatorCharacterId, $item->getCreatorCharacterId());
-                Assert::assertEquals($creatorCharacterId, $item->getOwnerCharacterId());
                 Assert::assertEquals($price, $item->getPrice());
 
                 return true;
