@@ -12,12 +12,15 @@
 */
 
 use App\Character;
+use App\Inventory;
 use App\ItemPrototype;
 use App\Location;
 use App\Modules\Character\Application\Contracts\CharacterRepositoryInterface;
 use App\Modules\Character\Domain\HitPoints;
 use App\Modules\Character\Infrastructure\Repositories\RaceRepository;
+use App\Modules\Equipment\Application\Contracts\InventoryRepositoryInterface;
 use App\Modules\Equipment\Application\Contracts\ItemRepositoryInterface;
+use App\Modules\Equipment\Domain\ItemStatus;
 use App\Race;
 use App\User;
 use Illuminate\Database\Eloquent\Factory;
@@ -39,8 +42,11 @@ $factory->define(App\User::class, static function (Faker\Generator $faker) {
 $factory->define(Character::class, static function (Faker\Generator $faker) {
 
 
-    /** @var CharacterRepositoryInterface $characterFactory */
-    $characterFactory = resolve(CharacterRepositoryInterface::class);
+    /** @var CharacterRepositoryInterface $characterRepository */
+    $characterRepository = resolve(CharacterRepositoryInterface::class);
+
+    /** @var InventoryRepositoryInterface $inventoryRepository */
+    $inventoryRepository = resolve(InventoryRepositoryInterface::class);
 
     /** @var Race $raceModel */
     $raceModel = Race::query()->inRandomOrder()->first();
@@ -51,8 +57,16 @@ $factory->define(Character::class, static function (Faker\Generator $faker) {
 
     $genders = ['male', 'female'];
 
+    $characterId = $characterRepository->nextIdentity()->toString();
+
+    /** @var Inventory $inventory */
+    Inventory::query()->create([
+        'id' => $inventoryRepository->nextIdentity()->toString(),
+        'character_id' => $characterId,
+    ]);
+
     return [
-        'id' => $characterFactory->nextIdentity()->toString(),
+        'id' => $characterId,
 
         'race_id' => $race->getId(),
 
@@ -99,17 +113,24 @@ $factory->define(App\Item::class, static function () {
 
     $charactersIds[] = $character->getId();
 
-    return [
-        'id' => $itemRepository->nextIdentity()->toString(),
+    $itemId = $itemRepository->nextIdentity()->toString();
+
+    $itemData = [
+        'id' => $itemId,
         'name' => $itemPrototype->getName(),
         'description' => $itemPrototype->getDescription(),
         'effects' => $itemPrototype->getEffects(),
-        'inventory_slot_number' => 0,
-        'equipped' => true,
+        'price' => $itemPrototype->getPrice(),
         'type' => $itemPrototype->getType(),
         'image_file_path' => $itemPrototype->getImageFilePath(),
         'prototype_id' => $itemPrototype->getId(),
         'creator_character_id' => $character->getId(),
-        'owner_character_id' => $character->getId(),
     ];
+
+    $character->inventory->items()->attach($itemId, [
+        'inventory_slot_number' => 0,
+        'status' => ItemStatus::EQUIPPED,
+    ]);
+
+    return $itemData;
 });

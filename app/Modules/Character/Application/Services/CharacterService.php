@@ -10,7 +10,6 @@ use App\Modules\Battle\Domain\BattleId;
 use App\Modules\Battle\Domain\BattleRounds;
 use App\Modules\Character\Application\Contracts\RaceRepositoryInterface;
 use App\Modules\Character\Domain\CharacterId;
-use App\Modules\Equipment\Application\Commands\AddItemToInventoryCommand;
 use App\Modules\Character\Application\Contracts\CharacterRepositoryInterface;
 use App\Modules\Character\Domain\Character;
 use App\Modules\Character\Application\Commands\AttackCharacterCommand;
@@ -18,9 +17,8 @@ use App\Modules\Character\Application\Commands\CreateCharacterCommand;
 use App\Modules\Character\Application\Commands\IncreaseAttributeCommand;
 use App\Modules\Character\Application\Commands\MoveCharacterCommand;
 use App\Modules\Character\Application\Factories\CharacterFactory;
-use App\Modules\Equipment\Application\Commands\EquipItemCommand;
-use App\Modules\Equipment\Application\Contracts\ItemRepositoryInterface;
-use App\Modules\Equipment\Domain\Item;
+use App\Modules\Equipment\Application\Commands\CreateInventoryCommand;
+use App\Modules\Equipment\Application\Services\InventoryService;
 use App\Modules\Image\Domain\Image;
 use App\Modules\Level\Application\Services\LevelService;
 use Illuminate\Support\Facades\DB;
@@ -36,10 +34,6 @@ class CharacterService
      */
     private $characterRepository;
     /**
-     * @var ItemRepositoryInterface
-     */
-    private $itemRepository;
-    /**
      * @var RaceRepositoryInterface
      */
     private $raceRepository;
@@ -51,77 +45,38 @@ class CharacterService
      * @var LevelService
      */
     private $levelService;
+    /**
+     * @var InventoryService
+     */
+    private $inventoryService;
 
     public function __construct(
         CharacterFactory $characterFactory,
         CharacterRepositoryInterface $characterRepository,
-        ItemRepositoryInterface $itemRepository,
         RaceRepositoryInterface $raceRepository,
         BattleRepositoryInterface $battleRepository,
-        LevelService $levelService
+        LevelService $levelService,
+        InventoryService $inventoryService
     )
     {
         $this->characterFactory = $characterFactory;
         $this->characterRepository = $characterRepository;
-        $this->itemRepository = $itemRepository;
         $this->raceRepository = $raceRepository;
         $this->battleRepository = $battleRepository;
         $this->levelService = $levelService;
+        $this->inventoryService = $inventoryService;
     }
 
     public function create(CreateCharacterCommand $command): Character
     {
         $characterId = $this->characterRepository->nextIdentity();
-        $race = $this->raceRepository->getOne($command->getRaceId());
 
-        $character = $this->characterFactory->create($characterId, $command, $race);
+        $race = $this->raceRepository->getOne($command->getRaceId());
+        $inventory = $this->inventoryService->create(new CreateInventoryCommand($characterId));
+
+        $character = $this->characterFactory->create($characterId, $command, $race, $inventory);
 
         $this->characterRepository->add($character);
-
-        return $character;
-    }
-
-    public function equipItem(EquipItemCommand $command): void
-    {
-        $item = $this->itemRepository->getOne($command->getItemId());
-        $character = $this->characterRepository->getOne($command->getOwnerCharacterId());
-
-        if (!$item->isEquipped() && $character->getInventory()->hasItem($item)) {
-            $equippedItem = $character->getInventory()->findEquippedItemOfType($item->getType());
-
-            if ($equippedItem !== null) {
-                /** @var Item $equippedItem */
-                $equippedItem->unEquip();
-                $this->itemRepository->update($equippedItem);
-            }
-
-            $item->equip();
-
-            $this->itemRepository->update($item);
-            $this->characterRepository->update($character);
-        }
-    }
-
-    public function unEquipItem(EquipItemCommand $command): void
-    {
-        $item = $this->itemRepository->getOne($command->getItemId());
-        $character = $this->characterRepository->getOne($command->getOwnerCharacterId());
-
-        if ($item->isEquipped() && $character->getInventory()->hasItem($item)) {
-            /** @var Item $item */
-            $item->unEquip();
-            $this->itemRepository->update($item);
-        }
-    }
-
-    public function addItemToInventory(AddItemToInventoryCommand $command): Character
-    {
-        $character = $this->characterRepository->getOne($command->getCharacterId());
-        $item = $this->itemRepository->getOne($command->getItemId());
-
-        $character->addItemToInventorySlot($command->getSlot(), $item);
-
-        $this->characterRepository->update($character);
 
         return $character;
     }

@@ -13,7 +13,7 @@ class InventorySlot
         return new self(-1);
     }
 
-    public static function defined(int $slot)
+    public static function defined(int $slot): self
     {
         return new self($slot);
     }

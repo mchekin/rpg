@@ -6,7 +6,6 @@ use App\Modules\Character\Domain\CharacterId;
 use App\Modules\Equipment\Domain\Item;
 use App\Modules\Equipment\Domain\ItemId;
 use App\Modules\Equipment\Domain\ItemPrototype;
-use App\Modules\Equipment\Domain\InventorySlot;
 
 
 class ItemFactory
@@ -20,10 +19,9 @@ class ItemFactory
             $itemPrototype->getImageFilePath(),
             $itemPrototype->getType(),
             $itemPrototype->getEffects(),
+            $itemPrototype->getPrice(),
             $itemPrototype->getId(),
-            $creatorCharacterId,
-            $creatorCharacterId,
-            InventorySlot::undefined()
+            $creatorCharacterId
         );
     }
 }

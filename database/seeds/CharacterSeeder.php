@@ -1,11 +1,14 @@
 <?php
 
 use App\Character;
+use App\Inventory;
 use App\Item;
 use App\ItemPrototype;
 use App\Location;
 use App\Modules\Character\Application\Contracts\CharacterRepositoryInterface;
+use App\Modules\Equipment\Application\Contracts\InventoryRepositoryInterface;
 use App\Modules\Equipment\Application\Contracts\ItemRepositoryInterface;
+use App\Modules\Equipment\Domain\ItemStatus;
 use App\User;
 use Illuminate\Database\Seeder;
 
@@ -20,8 +23,11 @@ class CharacterSeeder extends Seeder
     {
         DB::table('characters')->delete();
 
-        /** @var CharacterRepositoryInterface $characterFactory */
-        $characterFactory = resolve(CharacterRepositoryInterface::class);
+        /** @var CharacterRepositoryInterface $characterRepository */
+        $characterRepository = resolve(CharacterRepositoryInterface::class);
+
+        /** @var InventoryRepositoryInterface $inventoryRepository */
+        $inventoryRepository = resolve(InventoryRepositoryInterface::class);
 
         /** @var ItemRepositoryInterface $itemRepository */
         $itemRepository = resolve(ItemRepositoryInterface::class);
@@ -36,7 +42,7 @@ class CharacterSeeder extends Seeder
 
         /** @var Character $someone */
         $someone = Character::query()->create([
-            'id' => $characterFactory->nextIdentity()->toString(),
+            'id' => $characterRepository->nextIdentity()->toString(),
             'name' => 'Someone',
             'gender' => 'male',
 
@@ -58,20 +64,31 @@ class CharacterSeeder extends Seeder
             'race_id' => 1,
         ]);
 
+        /** @var Inventory $inventory */
+        $inventory = Inventory::query()->create([
+            'id' => $inventoryRepository->nextIdentity()->toString(),
+            'character_id' => $someone->getId(),
+        ]);
+
         ItemPrototype::query()->get()
-            ->each(static function (ItemPrototype $weaponPrototype, int $slot) use ($someone, $itemRepository) {
-                Item::query()->create([
+            ->each(static function (ItemPrototype $weaponPrototype, int $slot) use ($someone, $inventory, $itemRepository) {
+
+                /** @var Item $item */
+                $item = Item::query()->create([
                     'id' => $itemRepository->nextIdentity()->toString(),
                     'name' => $weaponPrototype->getName(),
                     'description' => $weaponPrototype->getDescription(),
                     'effects' => $weaponPrototype->getEffects(),
-                    'inventory_slot_number' => $slot,
-                    'equipped' => $slot ? false : true,
+                    'price' => $weaponPrototype->getPrice(),
                     'type' => $weaponPrototype->getType(),
                     'image_file_path' => $weaponPrototype->getImageFilePath(),
                     'prototype_id' => $weaponPrototype->getId(),
                     'creator_character_id' => $someone->getId(),
-                    'owner_character_id' => $someone->getId(),
+                ]);
+
+                $inventory->items()->attach($item->getId(), [
+                    'inventory_slot_number' => $slot,
+                    'status' => $slot ? ItemStatus::IN_BACKPACK : ItemStatus::EQUIPPED,
                 ]);
             });
 

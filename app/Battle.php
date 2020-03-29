@@ -22,44 +22,27 @@ class Battle extends Model
 
     protected $guarded = [];
 
-    /**
-     * @return HasMany
-     */
-    public function rounds()
+    public function rounds(): HasMany
     {
         return $this->hasMany(BattleRound::class);
     }
 
-    /**
-     * @return BelongsTo
-     */
-    public function attacker()
+    public function attacker(): BelongsTo
     {
         return $this->belongsTo(Character::class, 'attacker_id');
     }
 
-    /**
-     * @return BelongsTo
-     */
-    public function defender()
+    public function defender(): BelongsTo
     {
         return $this->belongsTo(Character::class, 'defender_id');
     }
 
-    /**
-     * @return BelongsTo
-     */
-    public function victor()
+    public function victor(): BelongsTo
     {
         return $this->belongsTo(Character::class, 'victor_id');
     }
 
-    /**
-     * Get the location of the battle
-     *
-     * @return BelongsTo
-     */
-    public function location()
+    public function location(): BelongsTo
     {
         return $this->belongsTo(Location::class);
     }

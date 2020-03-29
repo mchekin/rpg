@@ -6,7 +6,7 @@ namespace App\Modules\Character\Application\Factories;
 use App\Modules\Character\Application\Commands\CreateCharacterCommand;
 use App\Modules\Character\Domain\CharacterId;
 use App\Modules\Character\Domain\Race;
-use App\Modules\Character\Domain\Inventory;
+use App\Modules\Equipment\Domain\Inventory;
 use App\Modules\Character\Domain\Statistics;
 use App\Modules\Character\Domain\Attributes;
 use App\Modules\Character\Domain\Character;
@@ -18,7 +18,7 @@ use App\Modules\Character\Domain\Reputation;
 
 class CharacterFactory
 {
-    public function create(CharacterId $characterId, CreateCharacterCommand $command, Race $race): Character
+    public function create(CharacterId $characterId, CreateCharacterCommand $command, Race $race, Inventory $inventory): Character
     {
         return new Character(
             $characterId,
@@ -43,7 +43,7 @@ class CharacterFactory
                 'battlesLost' => 0,
                 'battlesWon' => 0,
             ]),
-            Inventory::empty(),
+            $inventory,
             $command->getUserId()
         );
     }

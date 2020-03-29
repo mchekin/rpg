@@ -3,6 +3,7 @@
 namespace App;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -33,12 +34,7 @@ class User extends \TCG\Voyager\Models\User
         'password', 'remember_token',
     ];
 
-    /**
-     * Get the character for the user.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function character()
+    public function character(): HasOne
     {
         return $this->hasOne(Character::class);
     }

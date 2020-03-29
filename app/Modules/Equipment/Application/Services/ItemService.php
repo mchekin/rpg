@@ -9,6 +9,7 @@ use App\Modules\Equipment\Application\Contracts\ItemRepositoryInterface;
 use App\Modules\Equipment\Domain\Item;
 use App\Modules\Equipment\Application\Factories\ItemFactory;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Concerns\ValidatesAttributes;
 
 class ItemService
 {
@@ -42,9 +43,9 @@ class ItemService
         $this->itemFactory = $itemFactory;
     }
 
-    public function create(CreateItemCommand $command): Item
+    public function create(CreateItemCommand $command): void
     {
-        return DB::transaction(function () use ($command) {
+        DB::transaction(function () use ($command) {
             $itemPrototype = $this->itemPrototypeRepository->getOne($command->getPrototypeId());
             $character = $this->characterRepository->getOne($command->getCreatorCharacterId());
             $itemId = $this->itemRepository->nextIdentity();
@@ -55,8 +56,6 @@ class ItemService
 
             $this->itemRepository->add($item);
             $this->characterRepository->update($character);
-
-            return $item;
         });
     }
 }

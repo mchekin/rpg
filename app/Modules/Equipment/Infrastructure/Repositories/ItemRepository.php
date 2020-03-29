@@ -49,15 +49,13 @@ class ItemRepository implements ItemRepositoryInterface
 
             'prototype_id' => $item->getPrototypeId()->toString(),
             'creator_character_id' => $item->getCreatorCharacterId()->toString(),
-            'owner_character_id' => $item->getOwnerCharacterId()->toString(),
-
-            'inventory_slot_number' => $item->getInventorySlot()->getSlot(),
-            'equipped' => $item->isEquipped(),
 
             'name' => $item->getName(),
             'description' => $item->getDescription(),
 
             'effects' => $effects,
+
+            'price' => $item->getPrice()->getAmount(),
 
             'image_file_path' => $item->getImageFilePath(),
 
@@ -85,15 +83,13 @@ class ItemRepository implements ItemRepositoryInterface
         ItemModel::query()->where('id', $item->getId()->toString())->update([
             'prototype_id' => $item->getPrototypeId()->toString(),
             'creator_character_id' => $item->getCreatorCharacterId()->toString(),
-            'owner_character_id' => $item->getOwnerCharacterId()->toString(),
-
-            'inventory_slot_number' => $item->getInventorySlot()->getSlot(),
-            'equipped' => $item->isEquipped(),
 
             'name' => $item->getName(),
             'description' => $item->getDescription(),
 
             'effects' => $effects,
+
+            'price' => $item->getPrice()->getAmount(),
 
             'image_file_path' => $item->getImageFilePath(),
 

@@ -73,7 +73,7 @@ class CharacterRepository implements CharacterRepositoryInterface
     public function getOne(CharacterId $characterId): Character
     {
         /** @var CharacterModel $characterModel */
-        $characterModel = CharacterModel::query()->with('items')->findOrFail($characterId->toString());
+        $characterModel = CharacterModel::query()->with('inventory')->findOrFail($characterId->toString());
 
         return $this->characterReconstitutionFactory->reconstitute($characterModel);
     }

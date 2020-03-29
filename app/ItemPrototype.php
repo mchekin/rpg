@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string image_file_path
  * @property string type
  * @property array effects
+ * @property int price
  */
 class ItemPrototype extends Model
 {
@@ -51,5 +52,10 @@ class ItemPrototype extends Model
     public function getEffects(): array
     {
         return $this->effects;
+    }
+
+    public function getPrice(): int
+    {
+        return $this->price;
     }
 }
