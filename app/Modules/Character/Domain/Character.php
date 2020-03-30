@@ -4,8 +4,10 @@
 namespace App\Modules\Character\Domain;
 
 use App\Modules\Equipment\Domain\Inventory;
+use App\Modules\Equipment\Domain\InventoryItem;
 use App\Modules\Equipment\Domain\Item;
 use App\Modules\Equipment\Domain\ItemEffect;
+use App\Modules\Equipment\Domain\ItemStatus;
 use App\Modules\Image\Domain\ImageId;
 use App\Traits\ThrowsDice;
 
@@ -278,7 +280,9 @@ class Character
 
     public function addItemToInventory(Item $item): void
     {
-        $this->inventory->add($item);
+        $inventoryItem = new InventoryItem($item, ItemStatus::inBackpack());
+
+        $this->inventory->add($inventoryItem);
     }
 
     public function setLocationId(string $locationId): void

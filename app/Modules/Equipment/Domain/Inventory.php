@@ -3,11 +3,11 @@
 namespace App\Modules\Equipment\Domain;
 
 use App\Modules\Character\Domain\CharacterId;
-use App\Modules\Equipment\Domain\Inventory\InventorySlotIsTakenException;
-use App\Modules\Equipment\Domain\Inventory\InventorySlotOutOfRangeException;
-use App\Modules\Equipment\Domain\Inventory\InventoryIsFullException;
-use App\Modules\Equipment\Domain\Inventory\ItemNotInInventory;
-use App\Modules\Equipment\Domain\Inventory\NotEnoughSpaceException;
+use App\Modules\Generic\Domain\Container\ContainerSlotIsTakenException;
+use App\Modules\Generic\Domain\Container\ContainerSlotOutOfRangeException;
+use App\Modules\Generic\Domain\Container\ContainerIsFullException;
+use App\Modules\Generic\Domain\Container\ContainerNotInContainer;
+use App\Modules\Generic\Domain\Container\NotEnoughSpaceInContainerException;
 use Illuminate\Support\Collection;
 
 class Inventory
@@ -32,7 +32,9 @@ class Inventory
     public function __construct(InventoryId $id, CharacterId $characterId, Collection $items)
     {
         if ($items->count() >= self::NUMBER_OF_SLOTS) {
-            throw new NotEnoughSpaceException("Not enough space in the Inventory for {$items->count()} new items");
+            throw new NotEnoughSpaceInContainerException(
+                "Not enough space in the Inventory for {$items->count()} new items"
+            );
         }
 
         $this->id = $id;
@@ -48,11 +50,11 @@ class Inventory
     public function addItemToSlot(int $slot, InventoryItem $item): void
     {
         if ($slot >= self::NUMBER_OF_SLOTS) {
-            throw new InventorySlotOutOfRangeException("Inventory slot $slot is out of range.");
+            throw new ContainerSlotOutOfRangeException("Inventory slot $slot is out of range.");
         }
 
         if ($this->items->has($slot)) {
-            throw new InventorySlotIsTakenException("Inventory slot $slot is already take");
+            throw new ContainerSlotIsTakenException("Inventory slot $slot is already taken");
         }
 
         $this->items->put($slot, $item);
@@ -73,7 +75,7 @@ class Inventory
             }
         }
 
-        throw new InventoryIsFullException('Cannot add to full inventory');
+        throw new ContainerIsFullException('Cannot add to full inventory');
     }
 
     public function findItem(ItemId $itemId):? InventoryItem
@@ -94,13 +96,6 @@ class Inventory
     {
         return $this->items->first(static function (InventoryItem $item) use ($type) {
             return $item->isOfType($type) && $item->isEquipped();
-        });
-    }
-
-    public function hasItem(InventoryItem $itemToFind): bool
-    {
-        return $this->items->contains(static function (InventoryItem $item) use ($itemToFind) {
-            return $item->equals($itemToFind);
         });
     }
 
@@ -135,7 +130,7 @@ class Inventory
     {
         $item = $this->findItem($itemId);
         if (!$item) {
-            throw new ItemNotInInventory('Cannot equip item that is not in the inventory');
+            throw new ContainerNotInContainer('Cannot equip item that is not in the inventory');
         }
 
         if ($equippedItem = $this->findEquippedItemOfType($item->getType())) {

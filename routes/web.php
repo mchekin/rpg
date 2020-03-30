@@ -35,6 +35,7 @@ Auth::routes();
 
 // Route resources...
 Route::resource('inventory', 'InventoryController')->only('index');
+Route::resource('store', 'StoreController')->only('index');
 Route::resource('character', 'CharacterController')->only('create', 'store', 'show', 'update');
 Route::resource('location', 'LocationController')->only(['show']);
 Route::resource('battle', 'BattleController')->only(['show']);
@@ -44,6 +45,6 @@ Route::resource('character.profile-picture', 'ProfilePictureController')->only([
 Route::resource('character.battle', 'CharacterBattleController')->only(['index']);
 
 
-Route::group(['prefix' => 'admin'], function () {
+Route::group(['prefix' => 'admin'], static function () {
     Voyager::routes();
 });

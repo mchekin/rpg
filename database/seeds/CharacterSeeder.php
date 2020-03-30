@@ -9,6 +9,8 @@ use App\Modules\Character\Application\Contracts\CharacterRepositoryInterface;
 use App\Modules\Equipment\Application\Contracts\InventoryRepositoryInterface;
 use App\Modules\Equipment\Application\Contracts\ItemRepositoryInterface;
 use App\Modules\Equipment\Domain\ItemStatus;
+use App\Modules\Trade\Application\Contracts\StoreRepositoryInterface;
+use App\Store;
 use App\User;
 use Illuminate\Database\Seeder;
 
@@ -28,6 +30,9 @@ class CharacterSeeder extends Seeder
 
         /** @var InventoryRepositoryInterface $inventoryRepository */
         $inventoryRepository = resolve(InventoryRepositoryInterface::class);
+
+        /** @var StoreRepositoryInterface $storeRepository */
+        $storeRepository = resolve(StoreRepositoryInterface::class);
 
         /** @var ItemRepositoryInterface $itemRepository */
         $itemRepository = resolve(ItemRepositoryInterface::class);
@@ -67,6 +72,11 @@ class CharacterSeeder extends Seeder
         /** @var Inventory $inventory */
         $inventory = Inventory::query()->create([
             'id' => $inventoryRepository->nextIdentity()->toString(),
+            'character_id' => $someone->getId(),
+        ]);
+
+        Store::query()->create([
+            'id' => $storeRepository->nextIdentity()->toString(),
             'character_id' => $someone->getId(),
         ]);
 

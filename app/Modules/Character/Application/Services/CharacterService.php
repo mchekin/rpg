@@ -21,6 +21,8 @@ use App\Modules\Equipment\Application\Commands\CreateInventoryCommand;
 use App\Modules\Equipment\Application\Services\InventoryService;
 use App\Modules\Image\Domain\Image;
 use App\Modules\Level\Application\Services\LevelService;
+use App\Modules\Trade\Application\Commands\CreateStoreCommand;
+use App\Modules\Trade\Application\Services\StoreService;
 use Illuminate\Support\Facades\DB;
 
 class CharacterService
@@ -49,6 +51,10 @@ class CharacterService
      * @var InventoryService
      */
     private $inventoryService;
+    /**
+     * @var StoreService
+     */
+    private $storeService;
 
     public function __construct(
         CharacterFactory $characterFactory,
@@ -56,7 +62,8 @@ class CharacterService
         RaceRepositoryInterface $raceRepository,
         BattleRepositoryInterface $battleRepository,
         LevelService $levelService,
-        InventoryService $inventoryService
+        InventoryService $inventoryService,
+        StoreService $storeService
     )
     {
         $this->characterFactory = $characterFactory;
@@ -65,6 +72,7 @@ class CharacterService
         $this->battleRepository = $battleRepository;
         $this->levelService = $levelService;
         $this->inventoryService = $inventoryService;
+        $this->storeService = $storeService;
     }
 
     public function create(CreateCharacterCommand $command): Character
@@ -73,6 +81,7 @@ class CharacterService
 
         $race = $this->raceRepository->getOne($command->getRaceId());
         $inventory = $this->inventoryService->create(new CreateInventoryCommand($characterId));
+        $this->storeService->create(new CreateStoreCommand($characterId));
 
         $character = $this->characterFactory->create($characterId, $command, $race, $inventory);
 

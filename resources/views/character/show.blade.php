@@ -1,11 +1,11 @@
-@extends("base")
+@extends('base')
 
-@section("head")
+@section('head')
     <title>{{ $character->getName() }} (Level: {{ $character->getLevelNumber() }})</title>
     @parent
 @stop
 
-@section("body")
+@section('body')
     <div class="row">
 
         <div class="col-md-12">
@@ -40,7 +40,7 @@
 
 @stop
 
-@section("footer")
+@section('footer')
     @parent
 
     <script src="{{ asset('js/character-update.js') }}"></script>
