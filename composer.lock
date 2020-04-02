@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8cd7150f9f233a75352c413237fd66ff",
+    "content-hash": "84899982802048d6d109a84dab4fd4ae",
     "packages": [
         {
             "name": "arrilot/laravel-widgets",
@@ -4064,16 +4064,16 @@
         },
         {
             "name": "tcg/voyager",
-            "version": "v1.3.0",
+            "version": "v1.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/the-control-group/voyager.git",
-                "reference": "c6dad15f4eff4bad97a85488dcc93cbf795eb2f6"
+                "reference": "75179876689fc9a46e647c8c354f9a7d7686073e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/the-control-group/voyager/zipball/c6dad15f4eff4bad97a85488dcc93cbf795eb2f6",
-                "reference": "c6dad15f4eff4bad97a85488dcc93cbf795eb2f6",
+                "url": "https://api.github.com/repos/the-control-group/voyager/zipball/75179876689fc9a46e647c8c354f9a7d7686073e",
+                "reference": "75179876689fc9a46e647c8c354f9a7d7686073e",
                 "shasum": ""
             },
             "require": {
@@ -4125,7 +4125,21 @@
                 "laravel",
                 "panel"
             ],
-            "time": "2019-10-17T16:30:54+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/emptynick",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/fletch3555",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/tnylea",
+                    "type": "github"
+                }
+            ],
+            "time": "2020-03-10T12:55:35+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
@@ -6482,5 +6496,6 @@
     "platform": {
         "php": "^7.2"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "1.1.0"
 }
