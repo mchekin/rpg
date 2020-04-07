@@ -1,15 +1,15 @@
-@extends("base")
+@extends('base')
 
-@section("head")
+@section('head')
     <title>{{ $location->name }}</title>
     @parent
 @stop
 
-@section("body")
+@section('body')
 
-    <div class="row">
+    <div class="row mx-1">
         <div class="col-lg-6">
-            <h2>{{ $location->name }}</h2>
+            <h5 class="text-center">{{ $location->name }}</h5>
             <hr>
             <p>{{ $location->description }}</p>
             <div class="row justify-content-center">
@@ -23,9 +23,9 @@
         </div>
 
         <div class="col-lg-6">
-            <h2>Characters at this location:</h2>
+            <h5 class="text-center">Local characters:</h5>
             <hr>
-            <form role="form" method="POST" class="w-100">
+            <form role="form" method="POST" class="mx-1">
                 {!! csrf_field() !!}
                 <ul class="list-group">
 

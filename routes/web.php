@@ -16,6 +16,8 @@ Route::post('/character/{character}/location/{location}/move', 'CharacterControl
 Route::post('/character/{character}/attack', 'CharacterController@attack')->name('character.attack');
 Route::post('/inventory/item/{item}/equip', 'InventoryController@equipItem')->name('inventory.item.equip');
 Route::post('/inventory/item/{item}/un-equip', 'InventoryController@unEquipItem')->name('inventory.item.un-equip');
+Route::post('/inventory/item/{item}/move-to-store', 'InventoryController@moveToStore')->name('inventory.item.move-to-store');
+Route::post('/store/item/{item}/move-to-inventory', 'StoreController@moveToInventory')->name('store.item.move-to-inventory');
 
 // Simple routes...
 Route::group(['middleware' => 'guest'], static function () {

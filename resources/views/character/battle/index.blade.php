@@ -13,7 +13,7 @@
             <ul class="list-group">
                 @forelse ($battles as $battle)
                     <li class="list-group-item text-center">
-                        <a class="d-block w-100 h-100" href="{{ route('battle.show', compact('battle')) }}">
+                        <a class="d-block mx-1 h-100" href="{{ route('battle.show', compact('battle')) }}">
                             <div class="row">
                                 <div class="col-md-2">
                                     <small>{{ $battle->created_at->diffForHumans() }}</small>

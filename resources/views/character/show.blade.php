@@ -9,9 +9,9 @@
     <div class="row">
 
         <div class="col-md-12">
-            <h2 class="text-center">
+            <h5 class="text-center">
                 {{ $character->getName() }}
-            </h2>
+            </h5>
         </div>
 
         <!-- Left Side -->

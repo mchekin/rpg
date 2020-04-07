@@ -1,4 +1,4 @@
-<form role="form" method="POST" class="w-100">
+<form role="form" method="POST" class="mx-1">
     {!! csrf_field() !!}
     <div class="text-center mt-3">
         @if($character->isYou())
@@ -11,7 +11,7 @@
                 <span class="fas fa-table"></span>
             </a>
         @else
-            <div class="w-100 my-3 px-5 text-center" role="group" aria-label="Character Actions">
+            <div class="mx-1 my-3 px-5 text-center" role="group" aria-label="Character Actions">
                 @if(!$character->isNPC())
                     <a href="{{ route('character.message.index', ['character' => $character]) }}"
                        class="btn btn-sm btn-success">

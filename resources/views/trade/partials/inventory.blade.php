@@ -4,6 +4,10 @@
     $items = $character->inventory->items;
 @endphp
 
+<h5 class="text-center">
+    {{ $character->getName() }}'s Inventory
+</h5>
+
 <form role="form" method="POST">
     {!! csrf_field() !!}
     <div class="my-3 row mx-1 table-dark align-items-center">
@@ -15,17 +19,10 @@
 
             <div class="inventory-item {{ $isHighlighted }}">
                 @if($item)
-                    @if($item->isEquipped())
-                        <button type="submit" class="btn btn-link-thin"
-                                formaction="{{ route('inventory.item.un-equip', compact('item')) }}">
-                            <img src="{{ asset($item->image_file_path) }}">
-                        </button>
-                    @else
-                        <button type="submit" class="btn btn-link-thin"
-                                formaction="{{ route('inventory.item.equip', compact('item')) }}">
-                            <img src="{{ asset($item->image_file_path) }}">
-                        </button>
-                    @endif
+                    <button type="submit" class="btn btn-link-thin"
+                            formaction="{{ route('inventory.item.move-to-store', compact('item')) }}">
+                        <img src="{{ asset($item->image_file_path) }}">
+                    </button>
                 @endif
             </div>
 

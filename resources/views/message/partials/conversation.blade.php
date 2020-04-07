@@ -1,4 +1,4 @@
-<div class="message-list-container row message {{$side}}">
+<div class="message-list-container row mx-1 message {{$side}}">
     <div class="col-md-2 text-center">
         @include('message.partials.conversation-card', ['character' => $currentCharacter, 'message' => $message])
     </div>

@@ -1,4 +1,4 @@
-<div class="message-list-container row message right">
+<div class="message-list-container row mx-1 message right">
     <div class="col-sm-10">
         <div class="text_wrapper">
             <p class="text-wrap">{!! $message->content !!}</p>

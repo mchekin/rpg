@@ -11,11 +11,11 @@
         <!-- Left Side -->
         <div class="col-md-6">
 
-            @include('character.partials.inventory', compact('character'))
+            @include('trade.partials.inventory', compact('character'))
 
             <div class="text-center my-3">
                 <a class="btn btn-sm btn-primary" href="{{  route('character.show',  compact('character')) }}">
-                    Back to Profile 1
+                    Back to Profile
                     <span class="fa fa-arrow-left"></span>
                 </a>
             </div>

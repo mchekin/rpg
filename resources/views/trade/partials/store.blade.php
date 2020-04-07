@@ -4,9 +4,13 @@
     $items = $character->store->items;
 @endphp
 
+<h5 class="text-center">
+    {{ $character->getName() }}'s Store
+</h5>
+
 <form role="form" method="POST">
     {!! csrf_field() !!}
-    <div class="my-3 row table-dark align-items-center">
+    <div class="my-3 row mx-1 table-dark align-items-center">
         @foreach(range(0, App\Modules\Equipment\Domain\Inventory::NUMBER_OF_SLOTS) as $slotNumber)
             @php
                 $item = $items->where('pivot.inventory_slot_number', $slotNumber)->first();
@@ -14,7 +18,10 @@
 
             <div class="inventory-item">
                 @if($item)
-                    <img src="{{ asset($item->image_file_path) }}">
+                    <button type="submit" class="btn btn-link-thin"
+                            formaction="{{ route('store.item.move-to-inventory', compact('item')) }}">
+                        <img src="{{ asset($item->image_file_path) }}">
+                    </button><img src="{{ asset($item->image_file_path) }}">
                 @endif
             </div>
 

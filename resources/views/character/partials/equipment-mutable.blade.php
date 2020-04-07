@@ -3,9 +3,9 @@
     /** @var \App\Item $item */
 @endphp
 
-<form role="form" method="POST" class="w-100">
+<form role="form" method="POST" class="mx-1">
     {!! csrf_field() !!}
-    <div class="row table-dark align-items-center">
+    <div class="row mx-1 table-dark align-items-center">
         <div class="col-3 equipment-item">
             @php
                 $item = $character->getHeadGearItem();
