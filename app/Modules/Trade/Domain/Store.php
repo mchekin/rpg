@@ -3,6 +3,7 @@
 namespace App\Modules\Trade\Domain;
 
 use App\Modules\Character\Domain\CharacterId;
+use App\Modules\Equipment\Domain\Item;
 use App\Modules\Equipment\Domain\ItemId;
 use App\Modules\Equipment\Domain\ItemType;
 use App\Modules\Generic\Domain\Container\ContainerIsFullException;
@@ -67,8 +68,10 @@ class Store
         $this->items->put($slot, $item);
     }
 
-    public function add(StoreItem $item): void
+    public function add(Item $item): void
     {
+        $item = new StoreItem($item, $item->getPrice());
+
         $slot = $this->findFreeSlot();
 
         $this->items->put($slot, $item);

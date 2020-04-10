@@ -5,6 +5,6 @@ namespace App\Modules\Generic\Domain\Container;
 
 use InvalidArgumentException;
 
-class ContainerNotInContainer extends InvalidArgumentException
+class ItemNotInContainer extends InvalidArgumentException
 {
 }

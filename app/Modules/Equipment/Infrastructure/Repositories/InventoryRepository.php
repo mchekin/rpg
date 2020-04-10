@@ -59,14 +59,16 @@ class InventoryRepository implements InventoryRepositoryInterface
 
         $inventoryItems = $inventory->getItems()->mapWithKeys(static function (InventoryItem $item, int $slot) {
             $itemId = $item->getId()->toString();
+
             return [
                 $itemId => [
+                    'item_id' => $itemId,
                     'status' => $item->getStatus()->toString(),
                     'inventory_slot_number' => $slot,
                 ],
             ];
         });
 
-        $inventoryModel->items()->sync($inventoryItems);
+         $inventoryModel->items()->sync($inventoryItems->all());
     }
 }

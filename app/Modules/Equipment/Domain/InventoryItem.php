@@ -46,4 +46,19 @@ class InventoryItem extends Item
     {
         $this->status = ItemStatus::inBackpack();
     }
+
+    public function toBaseItem(): Item
+    {
+        return new Item(
+            $this->getId(),
+            $this->getName(),
+            $this->getDescription(),
+            $this->getImageFilePath(),
+            $this->getType(),
+            $this->getEffects(),
+            $this->getPrice(),
+            $this->getPrototypeId(),
+            $this->getCreatorCharacterId()
+        );
+    }
 }

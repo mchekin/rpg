@@ -280,9 +280,7 @@ class Character
 
     public function addItemToInventory(Item $item): void
     {
-        $inventoryItem = new InventoryItem($item, ItemStatus::inBackpack());
-
-        $this->inventory->add($inventoryItem);
+        $this->inventory->add($item);
     }
 
     public function setLocationId(string $locationId): void

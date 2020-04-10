@@ -6,7 +6,7 @@ use App\Modules\Character\Domain\CharacterId;
 use App\Modules\Generic\Domain\Container\ContainerSlotIsTakenException;
 use App\Modules\Generic\Domain\Container\ContainerSlotOutOfRangeException;
 use App\Modules\Generic\Domain\Container\ContainerIsFullException;
-use App\Modules\Generic\Domain\Container\ContainerNotInContainer;
+use App\Modules\Generic\Domain\Container\ItemNotInContainer;
 use App\Modules\Generic\Domain\Container\NotEnoughSpaceInContainerException;
 use Illuminate\Support\Collection;
 
@@ -62,6 +62,8 @@ class Inventory
 
     public function add(Item $item): void
     {
+        $item = new InventoryItem($item, ItemStatus::inBackpack());
+
         $slot = $this->findFreeSlot();
 
         $this->items->put($slot, $item);
@@ -130,7 +132,7 @@ class Inventory
     {
         $item = $this->findItem($itemId);
         if (!$item) {
-            throw new ContainerNotInContainer('Cannot equip item that is not in the inventory');
+            throw new ItemNotInContainer('Cannot equip item that is not in the inventory');
         }
 
         if ($equippedItem = $this->findEquippedItemOfType($item->getType())) {
@@ -148,5 +150,23 @@ class Inventory
     public function getItems(): Collection
     {
         return $this->items;
+    }
+
+    public function takeOut(ItemId $itemId): Item
+    {
+        $slot = $this->items->search(static function (InventoryItem $item) use ($itemId) {
+            return $item->getId()->equals($itemId);
+        });
+
+        if ($slot === false) {
+            throw new ItemNotInContainer('Cannot take out item from empty slot');
+        }
+
+        /** @var InventoryItem $item */
+        $item = $this->items->get($slot);
+
+        $this->items->forget($slot);
+
+        return $item->toBaseItem();
     }
 }

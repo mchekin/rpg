@@ -2,10 +2,10 @@
 
 namespace App\Modules\Trade\Infrastructure\Repositories;
 
+use App\Modules\Trade\Domain\StoreItem;
 use App\Modules\Trade\Infrastructure\ReconstitutionFactories\StoreReconstitutionFactory;
 use App\Store as StoreModel;
 use App\Modules\Character\Domain\CharacterId;
-use App\Modules\Equipment\Domain\InventoryItem;
 use App\Modules\Trade\Application\Contracts\StoreRepositoryInterface;
 use App\Modules\Trade\Domain\Store;
 use App\Modules\Trade\Domain\StoreId;
@@ -57,16 +57,17 @@ class StoreRepository implements StoreRepositoryInterface
         /** @var StoreModel $inventoryModel */
         $inventoryModel = StoreModel::query()->findOrFail($store->getId()->toString());
 
-        $inventoryItems = $store->getItems()->mapWithKeys(static function (InventoryItem $item, int $slot) {
+        $inventoryItems = $store->getItems()->mapWithKeys(static function (StoreItem $item, int $slot) {
             $itemId = $item->getId()->toString();
             return [
                 $itemId => [
-                    'status' => $item->getStatus()->toString(),
+                    'item_id' => $itemId,
+                    'price' => $item->getPrice()->getAmount(),
                     'inventory_slot_number' => $slot,
                 ],
             ];
         });
 
-        $inventoryModel->items()->sync($inventoryItems);
+        $inventoryModel->items()->sync($inventoryItems->all());
     }
 }

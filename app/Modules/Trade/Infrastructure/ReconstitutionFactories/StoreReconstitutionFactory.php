@@ -24,8 +24,12 @@ class StoreReconstitutionFactory
 
     public function reconstitute(StoreModel $storeModel): Store
     {
-        $items = $storeModel->items->map(function (ItemModel $itemModel) {
-            return $this->inventoryItemReconstitutionFactory->reconstitute($itemModel);
+        $items = $storeModel->items->mapWithKeys(function (ItemModel $itemModel) {
+
+            $key = $itemModel->getInventorySlotNumber();
+            $inventoryItem = $this->inventoryItemReconstitutionFactory->reconstitute($itemModel);
+
+            return [$key => $inventoryItem];
         });
 
         return new Store(

@@ -88,18 +88,13 @@ class Item extends Model
         return $this->creator_character_id;
     }
 
-    public function getOwnerCharacterId(): string
+    public function isEquipped(): bool
     {
-        return $this->owner_character_id;
+        return $this->pivot->status === ItemStatus::EQUIPPED;
     }
 
     public function getInventorySlotNumber(): int
     {
-        return $this->inventory_slot_number;
-    }
-
-    public function isEquipped(): bool
-    {
-        return $this->pivot->status === ItemStatus::EQUIPPED;
+        return $this->pivot->inventory_slot_number;
     }
 }

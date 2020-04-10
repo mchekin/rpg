@@ -38,12 +38,12 @@ class InventoryController extends Controller
 
     public function equipItem(Request $request, EquipItemCommandMapper $commandMapper): RedirectResponse
     {
-        $equipItemCommand = $commandMapper->map($request);
+        $command = $commandMapper->map($request);
 
         try {
 
-            DB::transaction(function () use ($equipItemCommand) {
-                $this->inventoryService->equipItem($equipItemCommand);
+            DB::transaction(function () use ($command) {
+                $this->inventoryService->equipItem($command);
             });
 
         } catch (Exception $exception) {
@@ -58,12 +58,12 @@ class InventoryController extends Controller
 
     public function unEquipItem(Request $request, EquipItemCommandMapper $commandMapper): RedirectResponse
     {
-        $equipItemCommand = $commandMapper->map($request);
+        $command = $commandMapper->map($request);
 
         try {
 
-            DB::transaction(function () use ($equipItemCommand) {
-                $this->inventoryService->unEquipItem($equipItemCommand);
+            DB::transaction(function () use ($command) {
+                $this->inventoryService->unEquipItem($command);
             });
 
         } catch (Exception $exception) {
