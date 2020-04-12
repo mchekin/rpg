@@ -9,6 +9,7 @@ use App\Modules\Equipment\Domain\ItemType;
 use App\Modules\Generic\Domain\Container\ContainerIsFullException;
 use App\Modules\Generic\Domain\Container\ContainerSlotIsTakenException;
 use App\Modules\Generic\Domain\Container\ContainerSlotOutOfRangeException;
+use App\Modules\Generic\Domain\Container\ItemNotInContainer;
 use App\Modules\Generic\Domain\Container\NotEnoughSpaceInContainerException;
 use Illuminate\Support\Collection;
 
@@ -110,5 +111,23 @@ class Store
     public function getItems(): Collection
     {
         return $this->items;
+    }
+
+    public function takeOut(ItemId $itemId): Item
+    {
+        $slot = $this->items->search(static function (StoreItem $item) use ($itemId) {
+            return $item->getId()->equals($itemId);
+        });
+
+        if ($slot === false) {
+            throw new ItemNotInContainer('Cannot take out item from empty slot');
+        }
+
+        /** @var StoreItem $item */
+        $item = $this->items->get($slot);
+
+        $this->items->forget($slot);
+
+        return $item->toBaseItem();
     }
 }

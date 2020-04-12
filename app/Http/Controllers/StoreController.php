@@ -46,10 +46,30 @@ class StoreController extends Controller
         } catch (Exception $exception) {
 
             return redirect()->back()->withErrors([
-                'message' => 'Error moving item to store'
+                'message' => 'Error moving item to store: ' . $exception->getMessage()
             ]);
         }
 
         return redirect()->back()->with('status', 'Item moved to store');
+    }
+
+    public function moveItemToInventory(Request $request, MoveItemToStoreCommandMapper $commandMapper): RedirectResponse
+    {
+        $command = $commandMapper->map($request);
+
+        try {
+
+            DB::transaction(function () use ($command) {
+                $this->service->moveItemToInventory($command);
+            });
+
+        } catch (Exception $exception) {
+
+            return redirect()->back()->withErrors([
+                'message' => 'Error moving item to store: ' . $exception->getMessage()
+            ]);
+        }
+
+        return redirect()->back()->with('status', 'Item moved to inventory');
     }
 }

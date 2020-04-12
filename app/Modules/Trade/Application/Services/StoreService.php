@@ -50,4 +50,16 @@ class StoreService
         $this->inventoryRepository->update($inventory);
         $this->storeRepository->update($store);
     }
+
+    public function moveItemToInventory(MoveItemToStoreCommand $command): void
+    {
+        $inventory = $this->inventoryRepository->forCharacter($command->getCharacterId());
+        $store = $this->storeRepository->forCharacter($command->getCharacterId());
+
+        $item = $store->takeOut($command->getItemId());
+        $inventory->add($item);
+
+        $this->inventoryRepository->update($inventory);
+        $this->storeRepository->update($store);
+    }
 }
