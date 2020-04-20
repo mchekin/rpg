@@ -41,6 +41,7 @@ class InventoryRepository implements InventoryRepositoryInterface
         InventoryModel::query()->create([
             'id' => $inventory->getId()->toString(),
             'character_id' => $inventory->getCharacterId()->toString(),
+            'money' => $inventory->getMoney()->getValue(),
         ]);
     }
 
@@ -70,5 +71,9 @@ class InventoryRepository implements InventoryRepositoryInterface
         });
 
          $inventoryModel->items()->sync($inventoryItems->all());
+
+         $inventoryModel->update([
+             'money' => $inventory->getMoney()->getValue(),
+         ]);
     }
 }

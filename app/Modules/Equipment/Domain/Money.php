@@ -1,7 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 
 
-namespace App\Modules\Character\Domain;
+namespace App\Modules\Equipment\Domain;
 
 
 class Money

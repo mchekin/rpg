@@ -67,6 +67,7 @@ $factory->define(Character::class, static function (Faker\Generator $faker) {
     Inventory::query()->create([
         'id' => $inventoryRepository->nextIdentity()->toString(),
         'character_id' => $characterId,
+        'money' => random_int(0, 5000),
     ]);
 
     Store::query()->create([
@@ -87,7 +88,6 @@ $factory->define(Character::class, static function (Faker\Generator $faker) {
         'gender' => $genders[array_rand($genders)],
 
         'xp' => 0,
-        'money' => random_int(0, 5000),
         'reputation' => 0,
 
         // attributes

@@ -29,7 +29,12 @@ class Inventory
      */
     private $items;
 
-    public function __construct(InventoryId $id, CharacterId $characterId, Collection $items)
+    /**
+     * @var Money
+     */
+    private $money;
+
+    public function __construct(InventoryId $id, CharacterId $characterId, Collection $items, Money $money)
     {
         if ($items->count() >= self::NUMBER_OF_SLOTS) {
             throw new NotEnoughSpaceInContainerException(
@@ -40,6 +45,7 @@ class Inventory
         $this->id = $id;
         $this->characterId = $characterId;
         $this->items = $items;
+        $this->money = $money;
     }
 
     public function getId(): InventoryId
@@ -168,5 +174,10 @@ class Inventory
         $this->items->forget($slot);
 
         return $item->toBaseItem();
+    }
+
+    public function getMoney(): Money
+    {
+        return $this->money;
     }
 }

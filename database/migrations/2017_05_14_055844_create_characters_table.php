@@ -23,8 +23,6 @@ class CreateCharactersTable extends Migration
             $table->unsignedInteger('available_attribute_points')->default(0);
             $table->integer('reputation');
 
-            $table->integer('money');
-
             // attributes
             $table->integer('strength');
             $table->integer('agility');

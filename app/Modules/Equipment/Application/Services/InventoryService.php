@@ -7,6 +7,7 @@ use App\Modules\Equipment\Application\Commands\CreateInventoryCommand;
 use App\Modules\Equipment\Application\Commands\EquipItemCommand;
 use App\Modules\Equipment\Application\Contracts\InventoryRepositoryInterface;
 use App\Modules\Equipment\Domain\Inventory;
+use App\Modules\Equipment\Domain\Money;
 use Illuminate\Support\Collection;
 
 class InventoryService
@@ -25,7 +26,7 @@ class InventoryService
     {
         $id = $this->inventoryRepository->nextIdentity();
 
-        $inventory = new Inventory($id, $command->getCharacterId(), Collection::make());
+        $inventory = new Inventory($id, $command->getCharacterId(), Collection::make(), new Money(0));
 
         $this->inventoryRepository->add($inventory);
 

@@ -12,7 +12,6 @@ use App\Modules\Character\Domain\Attributes;
 use App\Modules\Character\Domain\Character;
 use App\Modules\Character\Domain\Gender;
 use App\Modules\Character\Domain\HitPoints;
-use App\Modules\Character\Domain\Money;
 use App\Modules\Character\Domain\Reputation;
 
 
@@ -28,7 +27,6 @@ class CharacterFactory
             $command->getName(),
             new Gender($command->getGender()),
             0,
-            new Money(0),
             new Reputation(0),
             new Attributes([
                 'strength' => $race->getStrength(),

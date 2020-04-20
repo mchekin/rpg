@@ -35,6 +35,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property string profile_picture_id
  * @property Inventory inventory
  * @property Store store
+ * @property integer reputation
  */
 class Character extends Model
 {

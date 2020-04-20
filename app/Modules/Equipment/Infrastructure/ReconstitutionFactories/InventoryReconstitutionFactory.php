@@ -8,6 +8,7 @@ use App\Inventory as InventoryModel;
 use App\Modules\Character\Domain\CharacterId;
 use App\Modules\Equipment\Domain\Inventory;
 use App\Modules\Equipment\Domain\InventoryId;
+use App\Modules\Equipment\Domain\Money;
 
 class InventoryReconstitutionFactory
 {
@@ -34,7 +35,8 @@ class InventoryReconstitutionFactory
         return new Inventory(
             InventoryId::fromString($inventoryModel->getId()),
             CharacterId::fromString($inventoryModel->getCharacterId()),
-            $items
+            $items,
+            new Money($inventoryModel->getMoney())
         );
     }
 }

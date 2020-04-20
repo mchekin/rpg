@@ -9,7 +9,6 @@ use App\Modules\Character\Domain\Attributes;
 use App\Modules\Character\Domain\Character;
 use App\Modules\Character\Domain\Gender;
 use App\Modules\Character\Domain\Statistics;
-use App\Modules\Character\Domain\Money;
 use App\Modules\Character\Domain\HitPoints;
 use App\Modules\Character\Domain\Reputation;
 use App\Character as CharacterModel;
@@ -42,7 +41,6 @@ class CharacterReconstitutionFactory
             $characterModel->getName(),
             new Gender($characterModel->getGender()),
             $characterModel->getXp(),
-            new Money(0),
             new Reputation(0),
             new Attributes([
                 'strength' => $characterModel->getStrength(),

@@ -6,7 +6,7 @@
     </tr>
     <tr>
         <th scope="row">Money</th>
-        <td>{{ $character->money }}</td>
+        <td>{{ $character->inventory->money }}</td>
     </tr>
     <tr>
         <th scope="row">

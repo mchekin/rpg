@@ -13,6 +13,7 @@ use App\Modules\Trade\Application\Contracts\StoreRepositoryInterface;
 use App\Store;
 use App\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class CharacterSeeder extends Seeder
 {
@@ -55,7 +56,6 @@ class CharacterSeeder extends Seeder
             'reputation' => 0,
             'hit_points' => $totalHitPoints,
             'total_hit_points' => $totalHitPoints,
-            'money' => 100,
 
             'strength' => 5,
             'agility' => 5,
@@ -73,6 +73,7 @@ class CharacterSeeder extends Seeder
         $inventory = Inventory::query()->create([
             'id' => $inventoryRepository->nextIdentity()->toString(),
             'character_id' => $someone->getId(),
+            'money' => 100,
         ]);
 
         Store::query()->create([
