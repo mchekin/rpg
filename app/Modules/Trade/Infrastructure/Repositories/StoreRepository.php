@@ -41,6 +41,7 @@ class StoreRepository implements StoreRepositoryInterface
         StoreModel::query()->create([
             'id' => $store->getId()->toString(),
             'character_id' => $store->getCharacterId()->toString(),
+            'money' => $store->getMoney()->getValue(),
         ]);
     }
 
@@ -54,11 +55,13 @@ class StoreRepository implements StoreRepositoryInterface
 
     public function update(Store $store): void
     {
-        /** @var StoreModel $inventoryModel */
-        $inventoryModel = StoreModel::query()->findOrFail($store->getId()->toString());
+        /** @var StoreModel $storeModel */
+        $storeModel = StoreModel::query()->findOrFail($store->getId()->toString());
 
-        $inventoryItems = $store->getItems()->mapWithKeys(static function (StoreItem $item, int $slot) {
+        $storeItems = $store->getItems()->mapWithKeys(static function (StoreItem $item, int $slot) {
+
             $itemId = $item->getId()->toString();
+
             return [
                 $itemId => [
                     'item_id' => $itemId,
@@ -68,6 +71,10 @@ class StoreRepository implements StoreRepositoryInterface
             ];
         });
 
-        $inventoryModel->items()->sync($inventoryItems->all());
+        $storeModel->items()->sync($storeItems->all());
+
+        $storeModel->update([
+            'money' => $store->getMoney()->getValue(),
+        ]);
     }
 }

@@ -22,6 +22,8 @@ class CreateStores extends Migration
             $table->uuid('character_id')->nullable();
             $table->foreign('character_id')->references('id')->on('characters')->onDelete('restrict');
 
+            $table->integer('money');
+
             $table->timestamps();
         });
     }

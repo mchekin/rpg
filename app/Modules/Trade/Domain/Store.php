@@ -6,6 +6,7 @@ use App\Modules\Character\Domain\CharacterId;
 use App\Modules\Equipment\Domain\Item;
 use App\Modules\Equipment\Domain\ItemId;
 use App\Modules\Equipment\Domain\ItemType;
+use App\Modules\Equipment\Domain\Money;
 use App\Modules\Generic\Domain\Container\ContainerIsFullException;
 use App\Modules\Generic\Domain\Container\ContainerSlotIsTakenException;
 use App\Modules\Generic\Domain\Container\ContainerSlotOutOfRangeException;
@@ -37,7 +38,12 @@ class Store
      */
     private $type;
 
-    public function __construct(StoreId $id, CharacterId $characterId, StoreType $type, Collection $items)
+    /**
+     * @var Money
+     */
+    private $money;
+
+    public function __construct(StoreId $id, CharacterId $characterId, StoreType $type, Collection $items, Money $money)
     {
         if ($items->count() >= self::NUMBER_OF_SLOTS) {
             throw new NotEnoughSpaceInContainerException(
@@ -49,6 +55,7 @@ class Store
         $this->characterId = $characterId;
         $this->type = $type;
         $this->items = $items;
+        $this->money = $money;
     }
 
     public function getId(): StoreId
@@ -129,5 +136,10 @@ class Store
         $this->items->forget($slot);
 
         return $item->toBaseItem();
+    }
+
+    public function getMoney(): Money
+    {
+        return $this->money;
     }
 }

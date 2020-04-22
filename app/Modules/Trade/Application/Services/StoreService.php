@@ -4,6 +4,7 @@
 namespace App\Modules\Trade\Application\Services;
 
 use App\Modules\Equipment\Application\Contracts\InventoryRepositoryInterface;
+use App\Modules\Equipment\Domain\Money;
 use App\Modules\Trade\Application\Commands\CreateStoreCommand;
 use App\Modules\Trade\Application\Commands\MoveItemToStoreCommand;
 use App\Modules\Trade\Application\Contracts\StoreRepositoryInterface;
@@ -32,7 +33,7 @@ class StoreService
     {
         $id = $this->storeRepository->nextIdentity();
 
-        $store = new Store($id, $command->getCharacterId(), StoreType::sellOnly(), Collection::make());
+        $store = new Store($id, $command->getCharacterId(), StoreType::sellOnly(), Collection::make(), new Money(0));
 
         $this->storeRepository->add($store);
 

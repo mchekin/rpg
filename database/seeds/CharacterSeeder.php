@@ -79,6 +79,7 @@ class CharacterSeeder extends Seeder
         Store::query()->create([
             'id' => $storeRepository->nextIdentity()->toString(),
             'character_id' => $someone->getId(),
+            'money' => 1000,
         ]);
 
         ItemPrototype::query()->get()

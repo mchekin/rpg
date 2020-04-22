@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property string id
  * @property string type
  * @property string character_id
+ * @property int money
  */
 class Store extends Model
 {
@@ -45,5 +46,10 @@ class Store extends Model
     public function getCharacterId(): string
     {
         return $this->character_id;
+    }
+
+    public function getMoney(): int
+    {
+        return $this->money;
     }
 }

@@ -73,6 +73,7 @@ $factory->define(Character::class, static function (Faker\Generator $faker) {
     Store::query()->create([
         'id' => $storeRepository->nextIdentity()->toString(),
         'character_id' => $characterId,
+        'money' => random_int(0, 5000),
     ]);
 
     return [
