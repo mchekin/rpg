@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Character;
 use App\Modules\Trade\Application\Services\StoreService;
-use App\Modules\Trade\UI\Http\CommandMappers\MoveItemToStoreCommandMapper;
+use App\Modules\Trade\UI\Http\CommandMappers\MoveItemToContainerCommandMapper;
+use App\Modules\Trade\UI\Http\CommandMappers\MoveMoneyToContainerCommandMapper;
 use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -33,7 +34,7 @@ class StoreController extends Controller
         return view('trade.store.index', compact('character'));
     }
 
-    public function moveItemToStore(Request $request, MoveItemToStoreCommandMapper $commandMapper): RedirectResponse
+    public function moveItemToStore(Request $request, MoveItemToContainerCommandMapper $commandMapper): RedirectResponse
     {
         $command = $commandMapper->map($request);
 
@@ -53,7 +54,7 @@ class StoreController extends Controller
         return redirect()->back()->with('status', 'Item moved to store');
     }
 
-    public function moveItemToInventory(Request $request, MoveItemToStoreCommandMapper $commandMapper): RedirectResponse
+    public function moveItemToInventory(Request $request, MoveItemToContainerCommandMapper $commandMapper): RedirectResponse
     {
         $command = $commandMapper->map($request);
 
@@ -66,10 +67,50 @@ class StoreController extends Controller
         } catch (Exception $exception) {
 
             return redirect()->back()->withErrors([
-                'message' => 'Error moving item to store: ' . $exception->getMessage()
+                'message' => 'Error moving item to inventory: ' . $exception->getMessage()
             ]);
         }
 
         return redirect()->back()->with('status', 'Item moved to inventory');
+    }
+
+    public function moveMoneyToStore(Request $request, MoveMoneyToContainerCommandMapper $commandMapper): RedirectResponse
+    {
+        $command = $commandMapper->map($request);
+
+        try {
+
+            DB::transaction(function () use ($command) {
+                $this->service->moveMoneyToStore($command);
+            });
+
+        } catch (Exception $exception) {
+
+            return redirect()->back()->withErrors([
+                'message' => 'Error moving money to store: ' . $exception->getMessage()
+            ]);
+        }
+
+        return redirect()->back()->with('status', 'Money move to store');
+    }
+
+    public function moveMoneyToInventory(Request $request, MoveMoneyToContainerCommandMapper $commandMapper): RedirectResponse
+    {
+        $command = $commandMapper->map($request);
+
+        try {
+
+            DB::transaction(function () use ($command) {
+                $this->service->moveMoneyToInventory($command);
+            });
+
+        } catch (Exception $exception) {
+
+            return redirect()->back()->withErrors([
+                'message' => 'Error moving money to inventory: ' . $exception->getMessage()
+            ]);
+        }
+
+        return redirect()->back()->with('status', 'Money moved to inventory');
     }
 }

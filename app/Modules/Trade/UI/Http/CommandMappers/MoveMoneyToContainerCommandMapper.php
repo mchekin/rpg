@@ -3,20 +3,20 @@
 namespace App\Modules\Trade\UI\Http\CommandMappers;
 
 use App\Modules\Character\Domain\CharacterId;
-use App\Modules\Trade\Application\Commands\MoveItemToStoreCommand;
-use App\Modules\Equipment\Domain\ItemId;
+use App\Modules\Equipment\Domain\Money;
+use App\Modules\Trade\Application\Commands\MoveMoneyToContainerCommand;
 use Illuminate\Http\Request;
 use App\User as UserModel;
 
-class MoveItemToStoreCommandMapper
+class MoveMoneyToContainerCommandMapper
 {
-    public function map(Request $request): MoveItemToStoreCommand
+    public function map(Request $request): MoveMoneyToContainerCommand
     {
         /** @var UserModel $userModel */
         $userModel = $request->user();
 
-        return new MoveItemToStoreCommand(
-            ItemId::fromString((string)$request->route('item')),
+        return new MoveMoneyToContainerCommand(
+            new Money((int)$request->post('money_amount', 0)),
             CharacterId::fromString($userModel->character->getId())
         );
     }

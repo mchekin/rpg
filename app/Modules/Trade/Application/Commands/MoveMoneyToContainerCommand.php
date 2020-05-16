@@ -3,28 +3,28 @@
 namespace App\Modules\Trade\Application\Commands;
 
 use App\Modules\Character\Domain\CharacterId;
-use App\Modules\Equipment\Domain\ItemId;
+use App\Modules\Equipment\Domain\Money;
 
-class MoveItemToStoreCommand
+class MoveMoneyToContainerCommand
 {
     /**
-     * @var ItemId
+     * @var Money
      */
-    private $itemId;
+    private $money;
     /**
      * @var CharacterId
      */
     private $characterId;
 
-    public function __construct(ItemId $itemId, CharacterId $characterId)
+    public function __construct(Money $money, CharacterId $characterId)
     {
-        $this->itemId = $itemId;
+        $this->money = $money;
         $this->characterId = $characterId;
     }
 
-    public function getItemId(): ItemId
+    public function getMoney(): Money
     {
-        return $this->itemId;
+        return $this->money;
     }
 
     public function getCharacterId(): CharacterId

@@ -6,7 +6,8 @@ namespace App\Modules\Trade\Application\Services;
 use App\Modules\Equipment\Application\Contracts\InventoryRepositoryInterface;
 use App\Modules\Equipment\Domain\Money;
 use App\Modules\Trade\Application\Commands\CreateStoreCommand;
-use App\Modules\Trade\Application\Commands\MoveItemToStoreCommand;
+use App\Modules\Trade\Application\Commands\MoveItemToContainerCommand;
+use App\Modules\Trade\Application\Commands\MoveMoneyToContainerCommand;
 use App\Modules\Trade\Application\Contracts\StoreRepositoryInterface;
 use App\Modules\Trade\Domain\Store;
 use App\Modules\Trade\Domain\StoreType;
@@ -40,7 +41,7 @@ class StoreService
         return $store;
     }
 
-    public function moveItemToStore(MoveItemToStoreCommand $command): void
+    public function moveItemToStore(MoveItemToContainerCommand $command): void
     {
         $inventory = $this->inventoryRepository->forCharacter($command->getCharacterId());
         $store = $this->storeRepository->forCharacter($command->getCharacterId());
@@ -52,13 +53,37 @@ class StoreService
         $this->storeRepository->update($store);
     }
 
-    public function moveItemToInventory(MoveItemToStoreCommand $command): void
+    public function moveItemToInventory(MoveItemToContainerCommand $command): void
     {
         $inventory = $this->inventoryRepository->forCharacter($command->getCharacterId());
         $store = $this->storeRepository->forCharacter($command->getCharacterId());
 
         $item = $store->takeOut($command->getItemId());
         $inventory->add($item);
+
+        $this->inventoryRepository->update($inventory);
+        $this->storeRepository->update($store);
+    }
+
+    public function moveMoneyToStore(MoveMoneyToContainerCommand $command): void
+    {
+        $inventory = $this->inventoryRepository->forCharacter($command->getCharacterId());
+        $store = $this->storeRepository->forCharacter($command->getCharacterId());
+
+        $money = $inventory->takeMoneyOut($command->getMoney());
+        $store->putMoneyIn($money);
+
+        $this->inventoryRepository->update($inventory);
+        $this->storeRepository->update($store);
+    }
+
+    public function moveMoneyToInventory(MoveMoneyToContainerCommand $command): void
+    {
+        $inventory = $this->inventoryRepository->forCharacter($command->getCharacterId());
+        $store = $this->storeRepository->forCharacter($command->getCharacterId());
+
+        $money = $store->takeMoneyOut($command->getMoney());
+        $inventory->putMoneyIn($money);
 
         $this->inventoryRepository->update($inventory);
         $this->storeRepository->update($store);

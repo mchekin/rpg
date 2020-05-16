@@ -18,6 +18,8 @@ Route::post('/inventory/item/{item}/equip', 'InventoryController@equipItem')->na
 Route::post('/inventory/item/{item}/un-equip', 'InventoryController@unEquipItem')->name('inventory.item.un-equip');
 Route::post('/inventory/item/{item}/move-to-store', 'StoreController@moveItemToStore')->name('inventory.item.move-to-store');
 Route::post('/store/item/{item}/move-to-inventory', 'StoreController@moveItemToInventory')->name('store.item.move-to-inventory');
+Route::post('/inventory/money/move-to-store', 'StoreController@moveMoneyToStore')->name('inventory.money.move-to-store');
+Route::post('/store/money/move-to-inventory', 'StoreController@moveMoneyToInventory')->name('store.money.move-to-inventory');
 
 // Simple routes...
 Route::group(['middleware' => 'guest'], static function () {

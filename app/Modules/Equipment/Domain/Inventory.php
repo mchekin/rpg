@@ -176,6 +176,18 @@ class Inventory
         return $item->toBaseItem();
     }
 
+    public function putMoneyIn(Money $money): void
+    {
+        $this->money = $this->money->combine($money);
+    }
+
+    public function takeMoneyOut(Money $money): Money
+    {
+        $this->money = $this->money->remove($money);
+
+        return $money;
+    }
+
     public function getMoney(): Money
     {
         return $this->money;
