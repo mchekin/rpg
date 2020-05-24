@@ -1,0 +1,270 @@
+/* Main title */
+.title {
+    font-size: 50px;
+}
+
+/* Carousel */
+.carousel-control {
+    background-image: none !important;
+    filter: none !important;
+    color: black !important;
+}
+
+.carousel-content {
+    display: block;
+    text-align: center;
+}
+
+/* Character attributes table */
+caption.caption-top {
+    caption-side: top !important;
+}
+
+.table-attributes {
+    /*width: 70%;*/
+    /*margin-left: 15%;*/
+    font-size: 1.8rem;
+}
+
+.table-attributes td.circle a {
+    border-radius: 25px;
+    background-color: #337ab7;
+    /*font-weight: bold;*/
+    color: white;
+}
+
+/* Images */
+.img-race {
+    width: 80% !important;
+}
+
+.active a {
+    color: white !important;
+}
+
+/* Messages */
+.message-list-container {
+    border: 2px solid #dedede;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+/* Darker chat container */
+.message-list-darker {
+    border-color: #ccc;
+    background-color: #ddd;
+}
+
+/* Clear floats */
+.message-list-container::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+/* Message links */
+.message-list-container a {
+    color: black !important;
+}
+
+.message-list-container a:active {
+    color: red !important;
+}
+
+/* Message avatar */
+.nav-avatar {
+    overflow: hidden;
+    height: 50px;
+}
+
+.profile-picture-wrapper {
+    height: 350px;
+    max-width: 80% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+img.profile-picture {
+    display: block !important;
+    max-height: 100% !important;
+    max-width: 100% !important;
+    margin: auto !important;
+}
+
+img.profile-picture-msg {
+    max-width: 90px;
+    width: 100%;
+}
+
+img.profile-picture-nav {
+    max-width: 80px;
+    width: 100%;
+    height: 100%;
+}
+
+/* Message Textarea Counter */
+.chars-length {
+    display: block;
+    font-size: 12px;
+    padding: 5px 20px;
+    text-align: right;
+    position: relative;
+    width: 100%;
+}
+
+.warn {
+    background-color: firebrick;
+    color: #fff;
+}
+
+/** Online/Offline status dots */
+.dot {
+    height: 10px;
+    width: 10px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.dot-online {
+    background-color: lightgreen;
+}
+
+.dot-offline {
+    background-color: lightgray;
+}
+
+.dot-npc {
+    opacity: 0.0;
+    filter: alpha(opacity=0); /* For IE8 and earlier */
+}
+
+/** General */
+.badge-lightpink {
+    color: #fff;
+    background-color: lightpink;
+}
+
+.badge-lightskyblue {
+    color: #fff;
+    background-color: lightskyblue;
+}
+
+.text-wrap {
+    word-wrap: break-word;
+}
+
+/** Location Navigator */
+
+.location-navigator .row {
+    /*border: 1px solid red;*/
+    height: 50px;
+}
+
+/** Specific message display */
+.messages {
+    list-style: none;
+    padding: 20px 10px 0 10px;
+    margin: 0;
+}
+
+.messages .message {
+    clear: both;
+    overflow: hidden;
+    margin-bottom: 20px;
+    transition: all 0.5s linear;
+}
+
+.messages .message.left .text_wrapper {
+    background-color: #f7ffd6;
+    margin-left: 20px;
+}
+
+.messages .message.left .text_wrapper::after, .messages .message.left .text_wrapper::before {
+    right: 100%;
+    border-right-color: #f7ffd6;
+}
+
+.messages .message.right .text_wrapper {
+    background-color: #c7eafc;
+    margin-right: 20px;
+    float: right;
+}
+
+.messages .message.right .text_wrapper::after, .messages .message.right .text_wrapper::before {
+    left: 100%;
+    border-left-color: #c7eafc;
+}
+
+.messages .message .text_wrapper {
+    padding: 20px;
+    border-radius: 6px;
+    width: calc(100% - 85px);
+    min-width: 100px;
+    position: relative;
+}
+
+.messages .message .text_wrapper::after, .messages .message .text_wrapper:before {
+    top: 18px;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+}
+
+.messages .message .text_wrapper::after {
+    border-width: 13px;
+    margin-top: 0;
+}
+
+.messages .message .text_wrapper::before {
+    border-width: 15px;
+    margin-top: -2px;
+}
+
+/** Character Equipment **/
+.equipment-item {
+    height: 150px;
+    border: 1px solid gray;
+}
+
+.inventory-item {
+    height: 110px;
+    border: 1px solid gray;
+    width: 20%;
+}
+
+.inventory-item.equipped {
+    background-color: #f7ffd6;
+}
+
+.inventory-item img, .equipment-item img {
+    display: block !important;
+    max-height: 90% !important;
+    max-width: 100% !important;
+    width: 90% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-top: 5px !important;
+}
+
+.btn-link-thin
+{
+    margin:0 !important;
+    padding:0 !important;
+    width:100% !important;
+    font-weight: 400;
+    color: #007bff;
+    background-color: transparent;
+}
+
+.btn-xxs {
+    padding: .25rem .4rem;
+    font-size: .700rem;
+    line-height: .3;
+    border-radius: .2rem;
+}
