@@ -2,7 +2,8 @@
 
 use App\User;
 use Illuminate\Database\Seeder;
-use Ramsey\Uuid\Uuid;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class UserSeeder extends Seeder
 {
@@ -17,9 +18,10 @@ class UserSeeder extends Seeder
 
         $users = [
             [
-                "name"          => "Misha Chekin",
-                "password"      => Hash::make("1234"),
-                "email"         => "mchekin@gmail.com",
+                'name' => 'Misha Chekin',
+                'password' => Hash::make('1234'),
+                'email' => 'mchekin@gmail.com',
+                'api_token' => Str::random(60),
             ],
         ];
 

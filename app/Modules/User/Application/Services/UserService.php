@@ -5,6 +5,7 @@ namespace App\Modules\User\Application\Services;
 
 use App\Modules\User\Application\Commands\CreateUserCommand;
 use App\User;
+use Illuminate\Support\Str;
 
 class UserService
 {
@@ -14,7 +15,8 @@ class UserService
         $user =  User::query()->create([
             'name' => $command->getName(),
             'email' => $command->getEmail(),
-            'password' => $command->getPassword()
+            'password' => $command->getPassword(),
+            'api_token' => Str::random(60),
         ]);
 
         return $user;
