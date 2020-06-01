@@ -2010,6 +2010,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     console.log('Component mounted.');
+  },
+  data: function data() {
+    return {};
+  },
+  created: function created() {
+    console.log('created');
+    this.fetchStore();
+  },
+  methods: {
+    fetchStore: function fetchStore() {
+      console.log('fetchStore');
+      fetch('api/store').then(function (response) {
+        console.log(response);
+        console.log(response.body);
+        return response.json;
+      }).then(function (json_response) {
+        console.log('dataReceived');
+        console.log(json_response.data);
+      });
+    }
   }
 });
 
