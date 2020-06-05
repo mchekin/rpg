@@ -78,10 +78,10 @@
                                     </button>
                                 </span>
                             </div>
-                            <label for="money-to-store"></label>
+                            <label for="money-to-inventory"></label>
                             <input type="number"
                                    name="money_amount"
-                                   id="money-to-store"
+                                   id="money-to-inventory"
                                    class="form-control"
                                    value="{{ $character->store->money }}"
                                    min="0"
