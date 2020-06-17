@@ -7,6 +7,10 @@
 
 @section('body')
 
+    <div class="row">
+        <store-management></store-management>
+    </div>
+
     <div class="row mx-1">
         <div class="col-lg-6">
             <h5 class="text-center">{{ $location->name }}</h5>

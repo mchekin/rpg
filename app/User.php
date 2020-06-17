@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
-use Laravel\Passport\HasApiTokens;
 
 /**
  * @property Character character
@@ -15,7 +14,7 @@ use Laravel\Passport\HasApiTokens;
  */
 class User extends \TCG\Voyager\Models\User
 {
-    use HasApiTokens, Notifiable;
+    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
