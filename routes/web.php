@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Http\Request;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -51,4 +53,8 @@ Route::resource('character.battle', 'CharacterBattleController')->only(['index']
 
 Route::group(['prefix' => 'admin'], static function () {
     Voyager::routes();
+});
+
+Route::middleware('auth', 'has.character')->get('/api/character',  static function (Request $request) {
+    return $request->user()->character;
 });
