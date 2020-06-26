@@ -96,26 +96,14 @@
             return {
                 total_inventory_slots: 25,
                 total_store_slots: 25,
-                character: {
-                    name: '',
-                    inventory: {
-                        items: [
-
-                        ]
-                    },
-                    store: {
-                        items: [
-
-                        ]
-                    }
-                }
+                character: this.$attrs.character
             }
         },
 
         created() {
             console.log('created');
 
-            this.getCharacter();
+            // this.getCharacter();
         },
 
         methods: {

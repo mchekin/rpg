@@ -7,16 +7,16 @@
 
 @section('body')
 
-    <store-management character="{{ $character->toJson() }}"></store-management>
+    <store-management :character="{{ $character->load('inventory.items', 'store.items') }}"></store-management>
 
     <div class="row">
 
         <!-- Left Side -->
-        <div class="col-md-6">
+        {{--<div class="col-md-6">--}}
 
-            @include('trade.partials.inventory', compact('character'))
+            {{--@include('trade.partials.inventory', compact('character'))--}}
 
-        </div>
+        {{--</div>--}}
 
 
         <!-- Right Side -->
