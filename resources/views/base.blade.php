@@ -6,7 +6,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="google" content="notranslate">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <script>window.Laravel = { csrfToken: '{{ csrf_token() }}' }</script>
+        <script>
+            window.Laravel = { csrfToken: '{{ csrf_token() }}' };
+
+            window._asset = '{{ asset('') }}';
+        </script>
         {{--<meta http-equiv="refresh" content="30">--}}
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
         <link rel="stylesheet"

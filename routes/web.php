@@ -56,5 +56,8 @@ Route::group(['prefix' => 'admin'], static function () {
 });
 
 Route::middleware('auth', 'has.character')->get('/api/character',  static function (Request $request) {
-    return $request->user()->character;
+    /** @var \App\Character $character */
+    $character = $request->user()->character;
+
+    return $character->load('inventory.items', 'store.items');
 });
