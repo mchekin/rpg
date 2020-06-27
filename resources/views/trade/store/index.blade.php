@@ -9,9 +9,9 @@
 
     <store-management :character="{{ $character->load('inventory.items', 'store.items') }}"></store-management>
 
-    <div class="row">
+    {{--<div class="row">--}}
 
-        <!-- Left Side -->
+        {{--<!-- Left Side -->--}}
         {{--<div class="col-md-6">--}}
 
             {{--@include('trade.partials.inventory', compact('character'))--}}
@@ -19,13 +19,13 @@
         {{--</div>--}}
 
 
-        <!-- Right Side -->
+        {{--<!-- Right Side -->--}}
         {{--<div class="col-md-6">--}}
 
             {{--@include('trade.partials.store', compact('character'))--}}
 
         {{--</div>--}}
-    </div>
+    {{--</div>--}}
 
     <div class="row">
 
