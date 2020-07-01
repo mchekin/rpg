@@ -8,6 +8,7 @@ use App\Modules\Trade\UI\Http\CommandMappers\MoveItemToContainerCommandMapper;
 use App\Modules\Trade\UI\Http\CommandMappers\MoveMoneyToContainerCommandMapper;
 use Exception;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -34,7 +35,7 @@ class StoreController extends Controller
         return view('trade.store.index', compact('character'));
     }
 
-    public function moveItemToStore(Request $request, MoveItemToContainerCommandMapper $commandMapper): RedirectResponse
+    public function moveItemToStore(Request $request, MoveItemToContainerCommandMapper $commandMapper): JsonResponse
     {
         $command = $commandMapper->map($request);
 
@@ -46,15 +47,15 @@ class StoreController extends Controller
 
         } catch (Exception $exception) {
 
-            return redirect()->back()->withErrors([
+            return response()->json([
                 'message' => 'Error moving item to store: ' . $exception->getMessage()
-            ]);
+            ], 500);
         }
 
-        return redirect()->back()->with('status', 'Item moved to store');
+        return response()->json(['message' => 'Item moved to store']);
     }
 
-    public function moveItemToInventory(Request $request, MoveItemToContainerCommandMapper $commandMapper): RedirectResponse
+    public function moveItemToInventory(Request $request, MoveItemToContainerCommandMapper $commandMapper): JsonResponse
     {
         $command = $commandMapper->map($request);
 
@@ -66,12 +67,12 @@ class StoreController extends Controller
 
         } catch (Exception $exception) {
 
-            return redirect()->back()->withErrors([
+            return response()->json([
                 'message' => 'Error moving item to inventory: ' . $exception->getMessage()
-            ]);
+            ], 500);
         }
 
-        return redirect()->back()->with('status', 'Item moved to inventory');
+        return  response()->json(['message' => 'Item moved to inventory']);
     }
 
     public function moveMoneyToStore(Request $request, MoveMoneyToContainerCommandMapper $commandMapper): RedirectResponse
