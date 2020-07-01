@@ -94,8 +94,7 @@
                             }
                         ]
                     }
-                },
-                renderKey: 0
+                }
             }
         },
 
@@ -108,16 +107,27 @@
         },
 
         methods: {
+            findFreeStoreSlot() {
 
-            forceRerender() {
-                this.renderKey += 1;
+                console.log('findFreeStoreSlot');
+
+                for (let slot = 0; slot < this.total_store_slots; slot++) {
+
+                    if (this.getStoreItem(slot) === undefined) {
+                        return slot;
+                    }
+                }
+
+                return null;
             },
 
             findFreeInventorySlot() {
 
-                for (let slot in this.total_inventory_slots) {
+                console.log('findFreeInventorySlot');
 
-                    if (this.getInventoryItem(slot) === null) {
+                for (let slot = 0; slot < this.total_inventory_slots; slot++) {
+
+                    if (this.getInventoryItem(slot) === undefined) {
                         return slot;
                     }
                 }
@@ -140,7 +150,11 @@
 
                         this.character.inventory.items.push(item);
 
-                        this.forceRerender();
+                        let index = this.character.store.items.indexOf(item);
+
+                        if (index > -1) {
+                            this.character.store.items.splice(index, 1);
+                        }
 
                     }).catch(error => {
                     console.log('error');
@@ -157,7 +171,19 @@
 
                 axios.post('/inventory/item/' + item.id + '/move-to-store')
                     .then(response => {
+
                         console.log(response);
+
+                        item.pivot.inventory_slot_number = this.findFreeStoreSlot();
+
+                        this.character.store.items.push(item);
+
+                        let index = this.character.inventory.items.indexOf(item);
+
+                        if (index > -1) {
+                            this.character.inventory.items.splice(index, 1);
+                        }
+
                     }).catch(error => {
                     console.log('error');
                     console.log(error.message);
@@ -184,7 +210,9 @@
             },
 
             getInventoryItem(index) {
-                return this.character.inventory.items.find(item => parseInt(item.pivot.inventory_slot_number) === index);
+                return this.character.inventory.items.find(
+                    item => parseInt(item.pivot.inventory_slot_number) === index
+                );
             },
 
             getStoreItem(index) {
