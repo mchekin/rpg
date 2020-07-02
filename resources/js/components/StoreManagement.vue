@@ -55,7 +55,6 @@
             </form>
 
         </div>
-        <!--<pre>{{ $data }}</pre>-->
     </div>
 </template>
 
@@ -63,7 +62,7 @@
 
     export default {
         mounted() {
-            console.log('Component mounted.')
+
         },
 
         data() {
@@ -99,17 +98,12 @@
         },
 
         created() {
-            console.log('created');
 
             this.character = this.$attrs.character;
-
-            // this.getCharacter();
         },
 
         methods: {
             findFreeStoreSlot() {
-
-                console.log('findFreeStoreSlot');
 
                 for (let slot = 0; slot < this.total_store_slots; slot++) {
 
@@ -123,8 +117,6 @@
 
             findFreeInventorySlot() {
 
-                console.log('findFreeInventorySlot');
-
                 for (let slot = 0; slot < this.total_inventory_slots; slot++) {
 
                     if (this.getInventoryItem(slot) === undefined) {
@@ -136,15 +128,13 @@
             },
 
             moveToInventory(item) {
-                console.log('moveToInventory');
 
                 if (item === null) {
                     return;
                 }
 
                 axios.post('/store/item/' + item.id + '/move-to-inventory')
-                    .then(response => {
-                        console.log(response);
+                    .then(() => {
 
                         item.pivot.inventory_slot_number = this.findFreeInventorySlot();
 
@@ -157,24 +147,21 @@
                         }
 
                     }).catch(error => {
-                    console.log('error');
                     console.log(error.message);
                 });
             },
 
             moveToStore(item) {
-                console.log('moveToStore');
 
                 if (item === null) {
                     return;
                 }
 
                 axios.post('/inventory/item/' + item.id + '/move-to-store')
-                    .then(response => {
-
-                        console.log(response);
+                    .then(() => {
 
                         item.pivot.inventory_slot_number = this.findFreeStoreSlot();
+                        item.pivot.status = 'in_backpack';
 
                         this.character.store.items.push(item);
 
@@ -185,20 +172,6 @@
                         }
 
                     }).catch(error => {
-                    console.log('error');
-                    console.log(error.message);
-                });
-            },
-
-            getCharacter() {
-                console.log('getCharacter');
-
-                axios.get('/api/character')
-                    .then(response => {
-                        console.log(response);
-                        this.character = response.data;
-                    }).catch(error => {
-                    console.log('error');
                     console.log(error.message);
                 });
             },
