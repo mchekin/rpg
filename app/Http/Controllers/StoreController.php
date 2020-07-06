@@ -75,7 +75,7 @@ class StoreController extends Controller
         return  response()->json(['message' => 'Item moved to inventory']);
     }
 
-    public function moveMoneyToStore(Request $request, MoveMoneyToContainerCommandMapper $commandMapper): RedirectResponse
+    public function moveMoneyToStore(Request $request, MoveMoneyToContainerCommandMapper $commandMapper): JsonResponse
     {
         $command = $commandMapper->map($request);
 
@@ -87,15 +87,15 @@ class StoreController extends Controller
 
         } catch (Exception $exception) {
 
-            return redirect()->back()->withErrors([
+            return response()->json([
                 'message' => 'Error moving money to store: ' . $exception->getMessage()
             ]);
         }
 
-        return redirect()->back()->with('status', 'Money move to store');
+        return response()->json(['message' => 'Money moved to store']);
     }
 
-    public function moveMoneyToInventory(Request $request, MoveMoneyToContainerCommandMapper $commandMapper): RedirectResponse
+    public function moveMoneyToInventory(Request $request, MoveMoneyToContainerCommandMapper $commandMapper): JsonResponse
     {
         $command = $commandMapper->map($request);
 
@@ -107,11 +107,11 @@ class StoreController extends Controller
 
         } catch (Exception $exception) {
 
-            return redirect()->back()->withErrors([
+            return response()->json([
                 'message' => 'Error moving money to inventory: ' . $exception->getMessage()
             ]);
         }
 
-        return redirect()->back()->with('status', 'Money moved to inventory');
+        return response()->json(['status' => 'Money moved to inventory']);
     }
 }

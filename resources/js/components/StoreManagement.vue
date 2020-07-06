@@ -1,22 +1,22 @@
 <template>
+    <div>
 
-    <div class="row" v-bind="character">
+        <div class="row">
 
-        <!-- Left Side -->
-        <div class="col-md-6">
+            <!-- Left Side -->
+            <div class="col-md-6">
 
-            <h5 class="text-center">
-                {{ character.name }}'s Inventory
-            </h5>
+                <h5 class="text-center">
+                    {{ character.name }}'s Inventory
+                </h5>
 
-            <form role="form" method="POST">
-                <!--{!! csrf_field() !!}-->
                 <div class="my-3 row mx-1 table-dark align-items-center">
 
                     <div v-for="index in total_inventory_slots"
                          :id="index-1"
                          :class="[isEquipped(index-1) ? 'inventory-item equipped' : 'inventory-item']">
-                        <button @click.stop.prevent="moveToStore(getInventoryItem(index-1))"
+                        <button type="submit"
+                                @click.stop.prevent="moveItemToStore(getInventoryItem(index-1))"
                                 class="btn btn-link-thin"
                                 v-if="getInventoryItem(index-1)">
                             <img :src="asset(getInventoryItem(index-1).image_file_path)">
@@ -24,26 +24,23 @@
                     </div>
 
                 </div>
-            </form>
 
-        </div>
+            </div>
 
-        <!-- Right Side -->
-        <div class="col-md-6">
+            <!-- Right Side -->
+            <div class="col-md-6">
 
-            <h5 class="text-center">
-                {{ character.name }}'s Store
-            </h5>
+                <h5 class="text-center">
+                    {{ character.name }}'s Store
+                </h5>
 
-            <form role="form" method="POST">
-                <!--{!! csrf_field() !!}-->
                 <div class="my-3 row mx-1 table-dark align-items-center">
 
                     <div v-for="index in total_store_slots"
                          :id="index-1"
                          class="inventory-item">
                         <button type="submit"
-                                @click.stop.prevent="moveToInventory(getStoreItem(index-1))"
+                                @click.stop.prevent="moveItemToInventory(getStoreItem(index-1))"
                                 class="btn btn-link-thin"
                                 v-if="getStoreItem(index-1)">
                             <img :src="asset(getStoreItem(index-1).image_file_path)">
@@ -51,9 +48,82 @@
                     </div>
 
                 </div>
-            </form>
+
+            </div>
+        </div>
+
+        <div class="row">
+
+            <!-- Left Side -->
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-12 text-center my-3">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text font-weight-bold">
+                                    Money in inventory: {{ character.inventory.money }}
+                                </span>
+                            </div>
+                            <label for="money-to-store"></label>
+                            <input type="number"
+                                   name="money_amount"
+                                   id="money-to-store"
+                                   class="form-control"
+                                   v-model.number="money_to_store"
+                                   min="0"
+                                   :max=character.inventory.money
+                                   aria-label="Money to move to store">
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                                    <button type="submit"
+                                            class="btn btn-sm btn-secondary"
+                                            @click.stop.prevent="moveMoneyToStore()">
+                                        Move to Store
+                                         <span class="fas fa-long-arrow-alt-right"></span>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side -->
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-12 text-center my-3">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <button type="submit"
+                                            class="btn btn-sm btn-secondary"
+                                            @click.stop.prevent="moveMoneyToInventory()">
+                                        <span class="fas fa-long-arrow-alt-left"></span>
+                                        Move to Inventory
+                                    </button>
+                                </span>
+                            </div>
+                            <label for="money-to-inventory"></label>
+                            <input type="number"
+                                   name="money_amount"
+                                   id="money-to-inventory"
+                                   class="form-control"
+                                   v-model.number="money_to_inventory"
+                                   min="0"
+                                   :max=character.store.money
+                                   aria-label="Money to move to inventory">
+                            <div class="input-group-append">
+                                <span class="input-group-text font-weight-bold">
+                                    Money in store: {{ character.store.money }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         </div>
+
     </div>
 </template>
 
@@ -66,6 +136,8 @@
 
         data() {
             return {
+                money_to_store: 0,
+                money_to_inventory: 0,
                 total_inventory_slots: 25,
                 total_store_slots: 25,
                 character: {
@@ -79,7 +151,8 @@
                                 },
                                 image_file_path: ''
                             }
-                        ]
+                        ],
+                        money: 0
                     },
                     store: {
                         items: [
@@ -90,14 +163,14 @@
                                 },
                                 image_file_path: ''
                             }
-                        ]
+                        ],
+                        money: 0
                     }
                 }
             }
         },
 
         created() {
-
             this.character = this.$attrs.character;
         },
 
@@ -126,7 +199,7 @@
                 return null;
             },
 
-            moveToInventory(item) {
+            moveItemToInventory(item) {
 
                 if (item === null) {
                     return;
@@ -135,7 +208,6 @@
                 axios.post('/store/item/' + item.id + '/move-to-inventory')
                     .then(() => {
 
-                        // debugger;
                         item.pivot.inventory_slot_number = this.findFreeInventorySlot();
 
                         this.character.inventory.items.push(item);
@@ -145,14 +217,13 @@
                         if (index > -1) {
                             this.character.store.items.splice(index, 1);
                         }
-                        // debugger;
 
                     }).catch(error => {
                     console.log(error.message);
                 });
             },
 
-            moveToStore(item) {
+            moveItemToStore(item) {
 
                 if (item === null) {
                     return;
@@ -161,7 +232,6 @@
                 axios.post('/inventory/item/' + item.id + '/move-to-store')
                     .then(() => {
 
-                        // debugger;
                         item.pivot.inventory_slot_number = this.findFreeStoreSlot();
                         item.pivot.status = 'in_backpack';
 
@@ -172,7 +242,44 @@
                         if (index > -1) {
                             this.character.inventory.items.splice(index, 1);
                         }
-                        // debugger;
+
+                    }).catch(error => {
+                    console.log(error.message);
+                });
+            },
+
+            moveMoneyToInventory() {
+
+                if (this.money_to_inventory === 0) {
+                    return;
+                }
+
+                axios.post('/store/money/move-to-inventory', {'money_amount': this.money_to_inventory})
+                    .then(() => {
+
+                        this.character.inventory.money += this.money_to_inventory;
+                        this.character.store.money -= this.money_to_inventory;
+
+                        this.money_to_inventory = 0;
+
+                    }).catch(error => {
+                    console.log(error.message);
+                });
+            },
+
+            moveMoneyToStore() {
+
+                if (this.money_to_store === 0) {
+                    return;
+                }
+
+                axios.post('/inventory/money/move-to-store', {'money_amount': this.money_to_store})
+                    .then(() => {
+
+                        this.character.store.money += this.money_to_store;
+                        this.character.inventory.money -= this.money_to_store;
+
+                        this.money_to_store = 0;
 
                     }).catch(error => {
                     console.log(error.message);

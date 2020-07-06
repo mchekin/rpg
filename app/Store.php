@@ -20,6 +20,10 @@ class Store extends Model
 {
     use UsesStringId;
 
+    protected $casts = [
+        'money' => 'integer',
+    ];
+
     protected $guarded = [];
 
     public function character(): BelongsTo
