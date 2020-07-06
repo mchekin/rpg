@@ -18,7 +18,6 @@
                          :class="[isEquipped(index-1) ? 'inventory-item equipped' : 'inventory-item']">
                         <button @click.stop.prevent="moveToStore(getInventoryItem(index-1))"
                                 class="btn btn-link-thin"
-                                v-bind="getInventoryItem(index-1)"
                                 v-if="getInventoryItem(index-1)">
                             <img :src="asset(getInventoryItem(index-1).image_file_path)">
                         </button>
@@ -136,6 +135,7 @@
                 axios.post('/store/item/' + item.id + '/move-to-inventory')
                     .then(() => {
 
+                        // debugger;
                         item.pivot.inventory_slot_number = this.findFreeInventorySlot();
 
                         this.character.inventory.items.push(item);
@@ -145,6 +145,7 @@
                         if (index > -1) {
                             this.character.store.items.splice(index, 1);
                         }
+                        // debugger;
 
                     }).catch(error => {
                     console.log(error.message);
@@ -160,6 +161,7 @@
                 axios.post('/inventory/item/' + item.id + '/move-to-store')
                     .then(() => {
 
+                        // debugger;
                         item.pivot.inventory_slot_number = this.findFreeStoreSlot();
                         item.pivot.status = 'in_backpack';
 
@@ -170,6 +172,7 @@
                         if (index > -1) {
                             this.character.inventory.items.splice(index, 1);
                         }
+                        // debugger;
 
                     }).catch(error => {
                     console.log(error.message);
