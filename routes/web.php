@@ -18,10 +18,6 @@ Route::post('/character/{character}/location/{location}/move', 'CharacterControl
 Route::post('/character/{character}/attack', 'CharacterController@attack')->name('character.attack');
 Route::post('/inventory/item/{item}/equip', 'InventoryController@equipItem')->name('inventory.item.equip');
 Route::post('/inventory/item/{item}/un-equip', 'InventoryController@unEquipItem')->name('inventory.item.un-equip');
-Route::post('/inventory/item/{item}/move-to-store', 'StoreController@moveItemToStore')->name('inventory.item.move-to-store');
-Route::post('/store/item/{item}/move-to-inventory', 'StoreController@moveItemToInventory')->name('store.item.move-to-inventory');
-Route::post('/inventory/money/move-to-store', 'StoreController@moveMoneyToStore')->name('inventory.money.move-to-store');
-Route::post('/store/money/move-to-inventory', 'StoreController@moveMoneyToInventory')->name('store.money.move-to-inventory');
 
 // Simple routes...
 Route::group(['middleware' => 'guest'], static function () {
@@ -55,9 +51,11 @@ Route::group(['prefix' => 'admin'], static function () {
     Voyager::routes();
 });
 
-Route::middleware('auth', 'has.character')->get('/api/character',  static function (Request $request) {
-    /** @var \App\Character $character */
-    $character = $request->user()->character;
+Route::middleware('auth', 'has.character')->namespace('Api')->prefix('api')->group(static function () {
 
-    return $character->load('inventory.items', 'store.items');
+    Route::post('/inventory/item/{item}/move-to-store', 'StoreController@moveItemToStore')->name('inventory.item.move-to-store');
+    Route::post('/store/item/{item}/move-to-inventory', 'StoreController@moveItemToInventory')->name('store.item.move-to-inventory');
+    Route::post('/inventory/money/move-to-store', 'StoreController@moveMoneyToStore')->name('inventory.money.move-to-store');
+    Route::post('/store/money/move-to-inventory', 'StoreController@moveMoneyToInventory')->name('store.money.move-to-inventory');
+
 });

@@ -205,7 +205,7 @@
                     return;
                 }
 
-                axios.post('/store/item/' + item.id + '/move-to-inventory')
+                axios.post('/api/store/item/' + item.id + '/move-to-inventory')
                     .then(() => {
 
                         item.pivot.inventory_slot_number = this.findFreeInventorySlot();
@@ -229,7 +229,7 @@
                     return;
                 }
 
-                axios.post('/inventory/item/' + item.id + '/move-to-store')
+                axios.post('/api/inventory/item/' + item.id + '/move-to-store')
                     .then(() => {
 
                         item.pivot.inventory_slot_number = this.findFreeStoreSlot();
@@ -254,7 +254,7 @@
                     return;
                 }
 
-                axios.post('/store/money/move-to-inventory', {'money_amount': this.money_to_inventory})
+                axios.post('/api/store/money/move-to-inventory', {'money_amount': this.money_to_inventory})
                     .then(() => {
 
                         this.character.inventory.money += this.money_to_inventory;
@@ -273,7 +273,7 @@
                     return;
                 }
 
-                axios.post('/inventory/money/move-to-store', {'money_amount': this.money_to_store})
+                axios.post('/api/inventory/money/move-to-store', {'money_amount': this.money_to_store})
                     .then(() => {
 
                         this.character.store.money += this.money_to_store;
