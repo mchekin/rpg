@@ -2,12 +2,7 @@
     <div>
 
         <div class="row">
-            <popup-modal v-if="showModal" @close="showModal = false">
-                <!-- use the modal component, pass in the prop -->
-                    <!--
-                  you can use custom content here to overwrite
-                  default content
-                -->
+            <popup-modal v-if="showModal">
 
                 <div slot="content">
 
@@ -31,10 +26,14 @@
                     </div>
 
                     <div class="set-item-price-controls" role="toolbar">
-                        <button type="submit" class="btn btn-secondary">
+                        <button type="submit"
+                                class="btn btn-secondary"
+                                @click.stop.prevent="showModal = false">
                             Cancel
                         </button>
-                        <button type="submit" class="btn btn-primary">
+                        <button type="submit"
+                                class="btn btn-primary"
+                                @click.stop.prevent="moveItemToStore(itemForSale)">
                             Confirm
                         </button>
                     </div>
@@ -59,7 +58,7 @@
                          :id="index-1"
                          :class="[isEquipped(index-1) ? 'inventory-item equipped' : 'inventory-item']">
                         <button type="submit"
-                                @click.stop.prevent="moveItemToStore(getInventoryItem(index-1))"
+                                @click.stop.prevent="prepareItemForStore(getInventoryItem(index-1))"
                                 class="btn btn-link-thin"
                                 v-if="getInventoryItem(index-1)">
                             <img :src="asset(getInventoryItem(index-1).image_file_path)">
@@ -277,7 +276,9 @@
                 });
             },
 
-            moveItemToStore(item) {
+            prepareItemForStore(item) {
+
+                console.log(item);
 
                 if (item === null) {
                     return;
@@ -285,6 +286,15 @@
 
                 this.itemForSale = item;
                 this.showModal = true;
+            },
+
+            moveItemToStore(item) {
+
+                if (item === null) {
+                    return;
+                }
+
+                this.showModal = false;
 
                 axios.post('/api/inventory/item/' + item.id + '/move-to-store')
                     .then(() => {
