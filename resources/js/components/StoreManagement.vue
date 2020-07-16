@@ -2,6 +2,49 @@
     <div>
 
         <div class="row">
+            <popup-modal v-if="showModal" @close="showModal = false">
+                <!-- use the modal component, pass in the prop -->
+                    <!--
+                  you can use custom content here to overwrite
+                  default content
+                -->
+
+                <div slot="content">
+
+                    <div class="font-weight-bold">
+                        Set item price
+                    </div>
+
+                    <div class="set-item-price-image">
+                        <img :src="itemForSale.image_file_path">
+                    </div>
+
+                    <div class="set-item-price-input">
+                        <label for="set-item-price"></label>
+                        <input type="number"
+                               name="money_amount"
+                               id="set-item-price"
+                               class="form-control"
+                               v-model.number="itemForSale.price"
+                               min="0"
+                               aria-label="Set item price">
+                    </div>
+
+                    <div class="set-item-price-controls" role="toolbar">
+                        <button type="submit" class="btn btn-secondary">
+                            Cancel
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            Confirm
+                        </button>
+                    </div>
+
+                </div>
+
+            </popup-modal>
+        </div>
+
+        <div class="row">
 
             <!-- Left Side -->
             <div class="col-md-6">
@@ -136,6 +179,15 @@
 
         data() {
             return {
+                itemForSale: {
+                    pivot: {
+                        inventory_slot_number: null,
+                        status: ''
+                    },
+                    image_file_path: '',
+                    price: 0
+                },
+                showModal: false,
                 money_to_store: 0,
                 money_to_inventory: 0,
                 total_inventory_slots: 25,
@@ -149,7 +201,8 @@
                                     inventory_slot_number: null,
                                     status: ''
                                 },
-                                image_file_path: ''
+                                image_file_path: '',
+                                price: 0
                             }
                         ],
                         money: 0
@@ -161,7 +214,8 @@
                                     inventory_slot_number: null,
                                     status: ''
                                 },
-                                image_file_path: ''
+                                image_file_path: '',
+                                price: 0
                             }
                         ],
                         money: 0
@@ -228,6 +282,9 @@
                 if (item === null) {
                     return;
                 }
+
+                this.itemForSale = item;
+                this.showModal = true;
 
                 axios.post('/api/inventory/item/' + item.id + '/move-to-store')
                     .then(() => {
@@ -310,4 +367,17 @@
 </script>
 
 <style scoped>
+    .set-item-price-image img {
+        height: 240px;
+        width: 100%;
+        background-color: black;
+    }
+    .set-item-price-input {
+    }
+    .set-item-price-controls {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: space-around;
+        margin-top: 15px;
+    }
 </style>
