@@ -19,27 +19,21 @@
                             <th scope="row">Sell price</th>
                             <td>
                                 <form>
+                                    <label for="set-item-price"></label>
                                     <input type="number"
                                            name="money_amount"
                                            id="set-item-price"
                                            class="w-100"
                                            v-model.number="itemForSale.price"
+                                           @change.stop.prevent="changeItemPrice(itemForSale)"
                                            min="0"
                                            aria-label="Set item price">
                                 </form>
-                            </td>
-                            <td>
-                                <button type="submit"
-                                        class="btn btn-sm btn-primary w-100"
-                                        @click.stop.prevent="moveItemToStore(itemForSale)">
-                                    Change
-                                </button>
                             </td>
                         </tr>
                         <tr>
                             <th scope="row">Type</th>
                             <td>{{ itemForSale.type | underscoreToWhitespace | capitalize }}</td>
-                            <td></td>
                         </tr>
                         <tr>
                             <th scope="row">Effects</th>
@@ -50,7 +44,6 @@
                                     </li>
                                 </ul>
                             </td>
-                            <td></td>
                         </tr>
                     </table>
 
@@ -327,6 +320,20 @@
 
                 this.itemForSale = item;
                 this.showModal = true;
+            },
+
+            changeItemPrice(item) {
+
+                if (item === null) {
+                    return;
+                }
+
+                axios.post('/api/inventory/item/' + item.id + '/change-price', {'price': item.price})
+                    .then(() => {
+
+                    }).catch(error => {
+                    console.log(error.message);
+                });
             },
 
             moveItemToStore(item) {

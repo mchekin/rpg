@@ -5,6 +5,8 @@ namespace App\Modules\Trade\Application\Services;
 
 use App\Modules\Equipment\Application\Contracts\InventoryRepositoryInterface;
 use App\Modules\Equipment\Domain\Money;
+use App\Modules\Equipment\Infrastructure\Repositories\ItemRepository;
+use App\Modules\Trade\Application\Commands\ChangeItemPriceCommand;
 use App\Modules\Trade\Application\Commands\CreateStoreCommand;
 use App\Modules\Trade\Application\Commands\MoveItemToContainerCommand;
 use App\Modules\Trade\Application\Commands\MoveMoneyToContainerCommand;
@@ -23,11 +25,20 @@ class StoreService
      * @var InventoryRepositoryInterface
      */
     private $inventoryRepository;
+    /**
+     * @var ItemRepository
+     */
+    private $itemRepository;
 
-    public function __construct(StoreRepositoryInterface $storeRepository, InventoryRepositoryInterface $inventoryRepository)
+    public function __construct(
+        StoreRepositoryInterface $storeRepository,
+        InventoryRepositoryInterface $inventoryRepository,
+        ItemRepository $itemRepository
+    )
     {
         $this->storeRepository = $storeRepository;
         $this->inventoryRepository = $inventoryRepository;
+        $this->itemRepository = $itemRepository;
     }
 
     public function create(CreateStoreCommand $command): Store
@@ -63,6 +74,16 @@ class StoreService
 
         $this->inventoryRepository->update($inventory);
         $this->storeRepository->update($store);
+    }
+
+    public function changeItemPrice(ChangeItemPriceCommand $command): void
+    {
+        $inventory = $this->inventoryRepository->forCharacter($command->getCharacterId());
+
+        $item = $inventory->findItemOrFail($command->getItemId());
+        $item->changePrice($command->getItemPrice());
+
+        $this->itemRepository->update($item);
     }
 
     public function moveMoneyToStore(MoveMoneyToContainerCommand $command): void

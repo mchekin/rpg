@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Modules\Trade\Application\Services\StoreService;
+use App\Modules\Trade\UI\Http\CommandMappers\ChangeItemPriceCommandMapper;
 use App\Modules\Trade\UI\Http\CommandMappers\MoveItemToContainerCommandMapper;
 use App\Modules\Trade\UI\Http\CommandMappers\MoveMoneyToContainerCommandMapper;
 use Exception;
@@ -21,6 +22,26 @@ class StoreController extends Controller
     public function __construct(StoreService $service)
     {
         $this->service = $service;
+    }
+
+    public function changeItemPrice(Request $request, ChangeItemPriceCommandMapper $commandMapper): JsonResponse
+    {
+        $command = $commandMapper->map($request);
+
+        try {
+
+            DB::transaction(function () use ($command) {
+                $this->service->changeItemPrice($command);
+            });
+
+        } catch (Exception $exception) {
+
+            return response()->json([
+                'message' => 'Error changing item price: ' . $exception->getMessage()
+            ], 500);
+        }
+
+        return response()->json(['message' => 'Item price changed']);
     }
 
     public function moveItemToStore(Request $request, MoveItemToContainerCommandMapper $commandMapper): JsonResponse

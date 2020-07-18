@@ -53,19 +53,6 @@ class Inventory
         return $this->id;
     }
 
-    public function addItemToSlot(int $slot, InventoryItem $item): void
-    {
-        if ($slot >= self::NUMBER_OF_SLOTS) {
-            throw new ContainerSlotOutOfRangeException("Inventory slot $slot is out of range.");
-        }
-
-        if ($this->items->has($slot)) {
-            throw new ContainerSlotIsTakenException("Inventory slot $slot is already taken");
-        }
-
-        $this->items->put($slot, $item);
-    }
-
     public function add(Item $item): void
     {
         $item = new InventoryItem($item, ItemStatus::inBackpack());
@@ -75,38 +62,6 @@ class Inventory
         $this->items->put($slot, $item);
     }
 
-    private function findFreeSlot(): int
-    {
-        for ($slot = 0; $slot < self::NUMBER_OF_SLOTS; $slot++) {
-            if (!$this->items->has($slot)) {
-                return $slot;
-            }
-        }
-
-        throw new ContainerIsFullException('Cannot add to full inventory');
-    }
-
-    public function findItem(ItemId $itemId):? InventoryItem
-    {
-        return $this->items->first(static function (InventoryItem $item) use ($itemId) {
-            return $item->getId()->equals($itemId);
-        });
-    }
-
-    public function findEquippedItem(ItemId $itemId):? InventoryItem
-    {
-        return $this->items->first(static function (InventoryItem $item) use ($itemId) {
-            return $item->getId()->equals($itemId) && $item->isEquipped();
-        });
-    }
-
-    public function findEquippedItemOfType(ItemType $type):? InventoryItem
-    {
-        return $this->items->first(static function (InventoryItem $item) use ($type) {
-            return $item->isOfType($type) && $item->isEquipped();
-        });
-    }
-
     public function getEquippedItemsEffect(string $itemEffectType): int
     {
         return (int)$this->getEquippedItems()->reduce(static function ($carry, InventoryItem $item) use ($itemEffectType) {
@@ -114,13 +69,6 @@ class Inventory
             $itemEffect = $item->getItemEffect($itemEffectType);
 
             return $carry + $itemEffect;
-        });
-    }
-
-    private function getEquippedItems(): Collection
-    {
-        return $this->items->filter(static function (InventoryItem $item) {
-            return $item->isEquipped();
         });
     }
 
@@ -191,5 +139,55 @@ class Inventory
     public function getMoney(): Money
     {
         return $this->money;
+    }
+
+    public function findItemOrFail(ItemId $itemId): InventoryItem
+    {
+        $item = $this->findItem($itemId);
+
+        if ($item === null) {
+            throw new ItemNotInContainer('Cannot find item');
+        }
+
+        return $item;
+    }
+
+    private function findItem(ItemId $itemId):? InventoryItem
+    {
+        return $this->items->first(static function (InventoryItem $item) use ($itemId) {
+            return $item->getId()->equals($itemId);
+        });
+    }
+
+    private function findFreeSlot(): int
+    {
+        for ($slot = 0; $slot < self::NUMBER_OF_SLOTS; $slot++) {
+            if (!$this->items->has($slot)) {
+                return $slot;
+            }
+        }
+
+        throw new ContainerIsFullException('Cannot add to full inventory');
+    }
+
+    private function findEquippedItem(ItemId $itemId):? InventoryItem
+    {
+        return $this->items->first(static function (InventoryItem $item) use ($itemId) {
+            return $item->getId()->equals($itemId) && $item->isEquipped();
+        });
+    }
+
+    private function findEquippedItemOfType(ItemType $type):? InventoryItem
+    {
+        return $this->items->first(static function (InventoryItem $item) use ($type) {
+            return $item->isOfType($type) && $item->isEquipped();
+        });
+    }
+
+    private function getEquippedItems(): Collection
+    {
+        return $this->items->filter(static function (InventoryItem $item) {
+            return $item->isEquipped();
+        });
     }
 }
