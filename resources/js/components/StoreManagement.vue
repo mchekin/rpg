@@ -5,39 +5,67 @@
             <popup-modal v-if="showModal">
 
                 <div slot="content">
-
                     <div class="font-weight-bold">
-                        Set item price
+                        {{ itemForSale.name }}
                     </div>
 
-                    <div class="set-item-price-image">
+                    <div class="modal-item-price-image">
                         <img :src="itemForSale.image_file_path">
                     </div>
 
-                    <div class="set-item-price-input">
-                        <label for="set-item-price"></label>
-                        <input type="number"
-                               name="money_amount"
-                               id="set-item-price"
-                               class="form-control"
-                               v-model.number="itemForSale.price"
-                               min="0"
-                               aria-label="Set item price">
-                    </div>
+                    <table class="table model-item-attributes-table">
+                        <caption class="caption-top">Attributes</caption>
+                        <tr>
+                            <th scope="row">Sell price</th>
+                            <td>
+                                <form>
+                                    <input type="number"
+                                           name="money_amount"
+                                           id="set-item-price"
+                                           class="w-100"
+                                           v-model.number="itemForSale.price"
+                                           min="0"
+                                           aria-label="Set item price">
+                                </form>
+                            </td>
+                            <td>
+                                <button type="submit"
+                                        class="btn btn-sm btn-primary w-100"
+                                        @click.stop.prevent="moveItemToStore(itemForSale)">
+                                    Change
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Type</th>
+                            <td>{{ itemForSale.type | underscoreToWhitespace | capitalize }}</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Effects</th>
+                            <td>
+                                <ul class="list-unstyled modal-item-effects">
+                                    <li v-for="effect in itemForSale.effects" class="">
+                                        {{ effect.type | capitalize }}: {{ effect.quantity | plusForPositiveNumber }}
+                                    </li>
+                                </ul>
+                            </td>
+                            <td></td>
+                        </tr>
+                    </table>
 
-                    <div class="set-item-price-controls" role="toolbar">
+                    <div class="modal-item-price-controls" role="toolbar">
                         <button type="submit"
                                 class="btn btn-secondary"
                                 @click.stop.prevent="showModal = false">
-                            Cancel
+                            Close
                         </button>
                         <button type="submit"
-                                class="btn btn-primary"
+                                class="btn btn-sm btn-primary"
                                 @click.stop.prevent="moveItemToStore(itemForSale)">
-                            Confirm
+                            Move to store
                         </button>
                     </div>
-
                 </div>
 
             </popup-modal>
@@ -58,7 +86,7 @@
                          :id="index-1"
                          :class="[isEquipped(index-1) ? 'inventory-item equipped' : 'inventory-item']">
                         <button type="submit"
-                                @click.stop.prevent="prepareItemForStore(getInventoryItem(index-1))"
+                                @click.stop.prevent="openItemModal(getInventoryItem(index-1))"
                                 class="btn btn-link-thin"
                                 v-if="getInventoryItem(index-1)">
                             <img :src="asset(getInventoryItem(index-1).image_file_path)">
@@ -184,7 +212,12 @@
                         status: ''
                     },
                     image_file_path: '',
-                    price: 0
+                    price: 0,
+                    type: '',
+                    effects : {
+                        quantity: 0,
+                        type: ''
+                    }
                 },
                 showModal: false,
                 money_to_store: 0,
@@ -201,7 +234,12 @@
                                     status: ''
                                 },
                                 image_file_path: '',
-                                price: 0
+                                price: 0,
+                                type: '',
+                                effects : {
+                                    quantity: 0,
+                                    type: ''
+                                }
                             }
                         ],
                         money: 0
@@ -214,7 +252,12 @@
                                     status: ''
                                 },
                                 image_file_path: '',
-                                price: 0
+                                price: 0,
+                                type: '',
+                                effects : {
+                                    quantity: 0,
+                                    type: ''
+                                }
                             }
                         ],
                         money: 0
@@ -276,9 +319,7 @@
                 });
             },
 
-            prepareItemForStore(item) {
-
-                console.log(item);
+            openItemModal(item) {
 
                 if (item === null) {
                     return;
@@ -377,17 +418,27 @@
 </script>
 
 <style scoped>
-    .set-item-price-image img {
+    .modal-item-price-image img {
         height: 240px;
         width: 100%;
         background-color: black;
     }
-    .set-item-price-input {
-    }
-    .set-item-price-controls {
+
+    .modal-item-price-controls {
         display: flex;
         flex-wrap: nowrap;
         justify-content: space-around;
         margin-top: 15px;
+    }
+
+    .modal-item-effects {
+        vertical-align: middle;
+        margin: 0;
+    }
+
+    .model-item-attributes-table th, .model-item-attributes-table td {
+        vertical-align: middle;
+        font-size: small;
+        white-space: nowrap;
     }
 </style>
