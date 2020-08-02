@@ -80,6 +80,8 @@
                          :class="[isEquipped(index-1) ? 'inventory-item equipped' : 'inventory-item']">
                         <button type="submit"
                                 @click.stop.prevent="openItemModal(getInventoryItem(index-1))"
+                                @dragstart="startDrag($event, index-1)"
+                                draggable="true"
                                 class="btn btn-link-thin"
                                 v-if="getInventoryItem(index-1)">
                             <img :src="asset(getInventoryItem(index-1).image_file_path)">
@@ -101,7 +103,10 @@
 
                     <div v-for="index in total_store_slots"
                          :id="index-1"
-                         class="inventory-item">
+                         class="inventory-item"
+                         @drop="onDrop($event)"
+                         @dragover.prevent
+                         @dragenter.prevent>
                         <button type="submit"
                                 @click.stop.prevent="moveItemToInventory(getStoreItem(index-1))"
                                 class="btn btn-link-thin"
@@ -290,7 +295,7 @@
 
             moveItemToInventory(item) {
 
-                if (item === null) {
+                if (!item) {
                     return;
                 }
 
@@ -314,7 +319,7 @@
 
             openItemModal(item) {
 
-                if (item === null) {
+                if (!item) {
                     return;
                 }
 
@@ -324,7 +329,7 @@
 
             changeItemPrice(item) {
 
-                if (item === null) {
+                if (!item) {
                     return;
                 }
 
@@ -338,7 +343,7 @@
 
             moveItemToStore(item) {
 
-                if (item === null) {
+                if (!item) {
                     return;
                 }
 
@@ -409,17 +414,34 @@
 
             getInventoryItem(index) {
                 return this.character.inventory.items.find(
-                    item => parseInt(item.pivot.inventory_slot_number) === index
+                    item => parseInt(item.pivot.inventory_slot_number) === parseInt(index)
                 );
             },
 
             getStoreItem(index) {
-                return this.character.store.items.find(item => parseInt(item.pivot.inventory_slot_number) === index);
+                return this.character.store.items.find(
+                    item => parseInt(item.pivot.inventory_slot_number) === parseInt(index)
+                );
             },
 
             isEquipped(index) {
                 return this.getInventoryItem(index) && this.getInventoryItem(index).pivot.status === 'equipped';
-            }
+            },
+
+            startDrag(evt, itemIndex) {
+                evt.dataTransfer.dropEffect = 'move';
+                evt.dataTransfer.effectAllowed = 'move';
+
+                evt.dataTransfer.setData('itemIndex', itemIndex);
+            },
+
+            onDrop(evt, list) {
+                const itemIndex = evt.dataTransfer.getData('itemIndex');
+
+                let inventoryItem = this.getInventoryItem(itemIndex);
+
+                this.moveItemToStore(inventoryItem);
+            },
         }
     };
 </script>
