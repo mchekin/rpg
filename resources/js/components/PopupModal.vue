@@ -2,10 +2,12 @@
     <div>
         <transition name="modal">
             <div class="modal-mask">
-                <div class="modal-wrapper">
-                    <div class="modal-container">
+                <div class="modal-wrapper" @click.stop.prevent="$emit('closeModal')">
+                    <div class="modal-container" @click.stop>
 
-                            <slot name="content"></slot>
+                        <div class="modal-body">
+                            <slot name="body"></slot>
+                        </div>
 
                     </div>
                 </div>
@@ -45,9 +47,8 @@
     }
 
     .modal-container {
-        width: 300px;
+        width: 240px;
         margin: 0 auto;
-        padding: 20px 30px;
         background-color: #fff;
         border-radius: 2px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);

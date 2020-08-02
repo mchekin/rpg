@@ -2,11 +2,18 @@
     <div>
 
         <div class="row">
-            <popup-modal v-if="showModal">
+            <popup-modal v-if="showModal" @closeModal="showModal = false">
 
-                <div slot="content">
+                <div slot="body">
+
                     <div class="font-weight-bold">
                         {{ itemForSale.name }}
+
+                        <button type="submit"
+                                class="close"
+                                @click.stop.prevent="showModal = false">
+                            x
+                        </button>
                     </div>
 
                     <div class="modal-item-price-image">
@@ -46,19 +53,6 @@
                             </td>
                         </tr>
                     </table>
-
-                    <div class="modal-item-price-controls" role="toolbar">
-                        <button type="submit"
-                                class="btn btn-secondary"
-                                @click.stop.prevent="showModal = false">
-                            Close
-                        </button>
-                        <button type="submit"
-                                class="btn btn-sm btn-primary"
-                                @click.stop.prevent="moveItemToStore(itemForSale)">
-                            Move to store
-                        </button>
-                    </div>
                 </div>
 
             </popup-modal>
@@ -448,16 +442,9 @@
 
 <style scoped>
     .modal-item-price-image img {
-        height: 240px;
+        height: 210px;
         width: 100%;
         background-color: black;
-    }
-
-    .modal-item-price-controls {
-        display: flex;
-        flex-wrap: nowrap;
-        justify-content: space-around;
-        margin-top: 15px;
     }
 
     .modal-item-effects {
