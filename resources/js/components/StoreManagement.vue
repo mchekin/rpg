@@ -299,18 +299,18 @@
                     return;
                 }
 
+                item.pivot.inventory_slot_number = this.findFreeInventorySlot();
+
+                this.character.inventory.items.push(item);
+
+                let index = this.character.store.items.indexOf(item);
+
+                if (index > -1) {
+                    this.character.store.items.splice(index, 1);
+                }
+
                 axios.post('/api/store/item/' + item.id + '/move-to-inventory')
                     .then(() => {
-
-                        item.pivot.inventory_slot_number = this.findFreeInventorySlot();
-
-                        this.character.inventory.items.push(item);
-
-                        let index = this.character.store.items.indexOf(item);
-
-                        if (index > -1) {
-                            this.character.store.items.splice(index, 1);
-                        }
 
                     }).catch(error => {
                     console.log(error.message);
@@ -349,19 +349,19 @@
 
                 this.showModal = false;
 
+                item.pivot.inventory_slot_number = this.findFreeStoreSlot();
+                item.pivot.status = 'in_backpack';
+
+                this.character.store.items.push(item);
+
+                let index = this.character.inventory.items.indexOf(item);
+
+                if (index > -1) {
+                    this.character.inventory.items.splice(index, 1);
+                }
+
                 axios.post('/api/inventory/item/' + item.id + '/move-to-store')
                     .then(() => {
-
-                        item.pivot.inventory_slot_number = this.findFreeStoreSlot();
-                        item.pivot.status = 'in_backpack';
-
-                        this.character.store.items.push(item);
-
-                        let index = this.character.inventory.items.indexOf(item);
-
-                        if (index > -1) {
-                            this.character.inventory.items.splice(index, 1);
-                        }
 
                     }).catch(error => {
                     console.log(error.message);
@@ -374,13 +374,13 @@
                     return;
                 }
 
+                this.character.inventory.money += this.money_to_inventory;
+                this.character.store.money -= this.money_to_inventory;
+
+                this.money_to_inventory = 0;
+
                 axios.post('/api/store/money/move-to-inventory', {'money_amount': this.money_to_inventory})
                     .then(() => {
-
-                        this.character.inventory.money += this.money_to_inventory;
-                        this.character.store.money -= this.money_to_inventory;
-
-                        this.money_to_inventory = 0;
 
                     }).catch(error => {
                     console.log(error.message);
@@ -393,13 +393,13 @@
                     return;
                 }
 
+                this.character.store.money += this.money_to_store;
+                this.character.inventory.money -= this.money_to_store;
+
+                this.money_to_store = 0;
+
                 axios.post('/api/inventory/money/move-to-store', {'money_amount': this.money_to_store})
                     .then(() => {
-
-                        this.character.store.money += this.money_to_store;
-                        this.character.inventory.money -= this.money_to_store;
-
-                        this.money_to_store = 0;
 
                     }).catch(error => {
                     console.log(error.message);
