@@ -47,7 +47,7 @@ class InventoryTest extends TestCase
         );
     }
 
-    public function testCreatingNewInventoryMaximumNumberOfItemsWorks(): void
+    public function testCreatingNewInventoryWithMaximumNumberOfItemsWorks(): void
     {
         $numberOfSlots = Inventory::NUMBER_OF_SLOTS;
 
@@ -61,6 +61,18 @@ class InventoryTest extends TestCase
         );
 
         $this->assertSame($numberOfSlots, $sut->getItems()->count());
+    }
+
+    public function testCreatingNewInventoryWithNoItemsWorks(): void
+    {
+        $sut = new Inventory(
+            $this->id,
+            $this->characterId,
+            new Collection(),
+            $this->money
+        );
+
+        $this->assertSame(0, $sut->getItems()->count());
     }
 
     private function generateItems(int $numberOfItems): Collection
