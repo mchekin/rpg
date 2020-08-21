@@ -36,7 +36,7 @@ class Inventory
 
     public function __construct(InventoryId $id, CharacterId $characterId, Collection $items, Money $money)
     {
-        if ($items->count() >= self::NUMBER_OF_SLOTS) {
+        if ($items->count() > self::NUMBER_OF_SLOTS) {
             throw new NotEnoughSpaceInContainerException(
                 "Not enough space in the Inventory for {$items->count()} new items"
             );

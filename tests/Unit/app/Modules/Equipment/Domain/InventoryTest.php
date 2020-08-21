@@ -33,13 +33,9 @@ class InventoryTest extends TestCase
         $this->money = Mockery::mock(Money::class);
     }
 
-    public function testWillThrowExceptionOnTryingToCreateInventoryWithTooManySlots(): void
+    public function testWillThrowExceptionOnTryingToCreateInventoryWithTooManyItems(): void
     {
-        $items = Collection::make(array_map(static function () {
-
-           return Mockery::mock(Item::class);
-
-        }, range(0, Inventory::NUMBER_OF_SLOTS)));
+        $items = $this->generateItems(Inventory::NUMBER_OF_SLOTS + 1);
 
         $this->expectException(NotEnoughSpaceInContainerException::class);
 
@@ -49,5 +45,30 @@ class InventoryTest extends TestCase
             $items,
             $this->money
         );
+    }
+
+    public function testCreatingNewInventoryMaximumNumberOfItemsWorks(): void
+    {
+        $numberOfSlots = Inventory::NUMBER_OF_SLOTS;
+
+        $items = $this->generateItems($numberOfSlots);
+
+        $sut = new Inventory(
+            $this->id,
+            $this->characterId,
+            $items,
+            $this->money
+        );
+
+        $this->assertSame($numberOfSlots, $sut->getItems()->count());
+    }
+
+    private function generateItems(int $numberOfItems): Collection
+    {
+        return Collection::make(array_map(static function () {
+
+            return Mockery::mock(Item::class);
+
+        }, range(0, $numberOfItems - 1)));
     }
 }
