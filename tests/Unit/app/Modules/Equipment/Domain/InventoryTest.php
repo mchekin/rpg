@@ -6,7 +6,9 @@ namespace Tests\Unit\app\Modules\Equipment\Domain;
 use App\Modules\Character\Domain\CharacterId;
 use App\Modules\Equipment\Domain\Inventory;
 use App\Modules\Equipment\Domain\InventoryId;
+use App\Modules\Equipment\Domain\InventoryItem;
 use App\Modules\Equipment\Domain\Item;
+use App\Modules\Equipment\Domain\ItemStatus;
 use App\Modules\Equipment\Domain\Money;
 use App\Modules\Generic\Domain\Container\NotEnoughSpaceInContainerException;
 use Illuminate\Support\Collection;
@@ -129,6 +131,37 @@ class InventoryTest extends TestCase
         $this->assertSame(
             $initialMoney->getValue() - $moneyToTakeOut->getValue(),
             $sut->getMoney()->getValue()
+        );
+    }
+
+    public function testAddingItemSequentially(): void
+    {
+        $initialNumberOfItems = $additionalItemOffset = 5;
+        $additionalItem = Mockery::mock(Item::class);
+
+        $sut = new Inventory(
+            $this->id,
+            $this->characterId,
+            $this->generateItems($initialNumberOfItems),
+            $this->money
+        );
+
+        $additionalItem->shouldReceive('getId')->atLeast()->once();
+        $additionalItem->shouldReceive('getName')->atLeast()->once();
+        $additionalItem->shouldReceive('getDescription')->atLeast()->once();
+        $additionalItem->shouldReceive('getImageFilePath')->atLeast()->once();
+        $additionalItem->shouldReceive('getType')->atLeast()->once();
+        $additionalItem->shouldReceive('getEffects')->atLeast()->once();
+        $additionalItem->shouldReceive('getPrice')->atLeast()->once();
+        $additionalItem->shouldReceive('getPrototypeId')->atLeast()->once();
+        $additionalItem->shouldReceive('getCreatorCharacterId')->atLeast()->once();
+
+        $sut->add($additionalItem);
+
+        $this->assertSame($initialNumberOfItems + 1, $sut->getItems()->count());
+        $this->assertEquals(
+            new InventoryItem($additionalItem, ItemStatus::inBackpack()),
+            $sut->getItems()->offsetGet($additionalItemOffset)
         );
     }
 
