@@ -112,6 +112,26 @@ class InventoryTest extends TestCase
         );
     }
 
+    public function testRightAmountOfMoneyAfterTakingMoneyOut(): void
+    {
+        $initialMoney = new Money(5);
+        $moneyToTakeOut = new Money(4);
+
+        $sut = new Inventory(
+            $this->id,
+            $this->characterId,
+            $this->generateItems(5),
+            $initialMoney
+        );
+
+        $sut->takeMoneyOut($moneyToTakeOut);
+
+        $this->assertSame(
+            $initialMoney->getValue() - $moneyToTakeOut->getValue(),
+            $sut->getMoney()->getValue()
+        );
+    }
+
     private function generateItems(int $numberOfItems): Collection
     {
         return Collection::make(array_map(static function () {

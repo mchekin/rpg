@@ -3,8 +3,6 @@
 namespace App\Modules\Equipment\Domain;
 
 use App\Modules\Character\Domain\CharacterId;
-use App\Modules\Generic\Domain\Container\ContainerSlotIsTakenException;
-use App\Modules\Generic\Domain\Container\ContainerSlotOutOfRangeException;
 use App\Modules\Generic\Domain\Container\ContainerIsFullException;
 use App\Modules\Generic\Domain\Container\ItemNotInContainer;
 use App\Modules\Generic\Domain\Container\NotEnoughSpaceInContainerException;
