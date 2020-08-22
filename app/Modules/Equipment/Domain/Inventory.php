@@ -7,6 +7,7 @@ use App\Modules\Generic\Domain\Container\ContainerIsFullException;
 use App\Modules\Generic\Domain\Container\ItemNotInContainer;
 use App\Modules\Generic\Domain\Container\NotEnoughSpaceInContainerException;
 use Illuminate\Support\Collection;
+use InvalidArgumentException;
 
 class Inventory
 {
@@ -39,6 +40,12 @@ class Inventory
                 "Not enough space in the Inventory for {$items->count()} new items"
             );
         }
+
+        $items->each(static function ($item) {
+           if (!($item instanceof InventoryItem)) {
+               throw new InvalidArgumentException('Trying to populate inventory with non inventory item');
+           }
+        });
 
         $this->id = $id;
         $this->characterId = $characterId;

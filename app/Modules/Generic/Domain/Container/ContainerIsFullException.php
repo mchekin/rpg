@@ -2,8 +2,8 @@
 
 namespace App\Modules\Generic\Domain\Container;
 
-use InvalidArgumentException;
+use RuntimeException;
 
-class ContainerIsFullException extends InvalidArgumentException
+class ContainerIsFullException extends RuntimeException
 {
 }

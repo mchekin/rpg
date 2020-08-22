@@ -12,6 +12,7 @@ use App\Modules\Equipment\Domain\ItemStatus;
 use App\Modules\Equipment\Domain\Money;
 use App\Modules\Generic\Domain\Container\NotEnoughSpaceInContainerException;
 use Illuminate\Support\Collection;
+use InvalidArgumentException;
 use Mockery;
 use Tests\TestCase;
 
@@ -33,6 +34,20 @@ class InventoryTest extends TestCase
         $this->id = Mockery::mock(InventoryId::class);
         $this->characterId = Mockery::mock(CharacterId::class);
         $this->money = Mockery::mock(Money::class);
+    }
+
+    public function testWillThrowExceptionOnTryingToCreateInventoryWithNonInventoryItems(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        new Inventory(
+            $this->id,
+            $this->characterId,
+            Collection::make([
+                Mockery::mock(Item::class),
+            ]),
+            $this->money
+        );
     }
 
     public function testWillThrowExceptionOnTryingToCreateInventoryWithTooManyItems(): void
@@ -169,7 +184,7 @@ class InventoryTest extends TestCase
     {
         return Collection::make(array_map(static function () {
 
-            return Mockery::mock(Item::class);
+            return Mockery::mock(InventoryItem::class);
 
         }, range(0, $numberOfItems - 1)));
     }

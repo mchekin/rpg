@@ -2,8 +2,8 @@
 
 namespace App\Modules\Generic\Domain\Container;
 
-use InvalidArgumentException;
+use RuntimeException;
 
-class ContainerSlotOutOfRangeException extends InvalidArgumentException
+class ContainerSlotOutOfRangeException extends RuntimeException
 {
 }

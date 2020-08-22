@@ -2,8 +2,8 @@
 
 namespace App\Modules\Generic\Domain\Container;
 
-use InvalidArgumentException;
+use RuntimeException;
 
-class NotEnoughSpaceInContainerException extends InvalidArgumentException
+class NotEnoughSpaceInContainerException extends RuntimeException
 {
 }

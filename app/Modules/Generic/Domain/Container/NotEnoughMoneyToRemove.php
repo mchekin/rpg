@@ -3,8 +3,8 @@
 
 namespace App\Modules\Generic\Domain\Container;
 
-use InvalidArgumentException;
+use RuntimeException;
 
-class NotEnoughMoneyToRemove extends InvalidArgumentException
+class NotEnoughMoneyToRemove extends RuntimeException
 {
 }

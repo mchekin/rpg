@@ -3,8 +3,8 @@
 
 namespace App\Modules\Generic\Domain\Container;
 
-use InvalidArgumentException;
+use RuntimeException;
 
-class InvalidMoneyValue extends InvalidArgumentException
+class InvalidMoneyValue extends RuntimeException
 {
 }
