@@ -75,6 +75,43 @@ class InventoryTest extends TestCase
         $this->assertSame(0, $sut->getItems()->count());
     }
 
+    public function testRightAmountOfMoneyAfterPuttingMoneyIn(): void
+    {
+        $initialMoney = new Money(5);
+
+        $sut = new Inventory(
+            $this->id,
+            $this->characterId,
+            $this->generateItems(5),
+            $initialMoney
+        );
+
+        $this->assertSame(
+            $initialMoney->getValue(),
+            $sut->getMoney()->getValue()
+        );
+    }
+
+    public function testRightAmountOfMoneyAfterPuttingMoreMoneyIn(): void
+    {
+        $initialMoney = new Money(5);
+        $additionalMoney = new Money(4);
+
+        $sut = new Inventory(
+            $this->id,
+            $this->characterId,
+            $this->generateItems(5),
+            $initialMoney
+        );
+
+        $sut->putMoneyIn($additionalMoney);
+
+        $this->assertSame(
+            $initialMoney->getValue() + $additionalMoney->getValue(),
+            $sut->getMoney()->getValue()
+        );
+    }
+
     private function generateItems(int $numberOfItems): Collection
     {
         return Collection::make(array_map(static function () {
