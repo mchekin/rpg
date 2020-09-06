@@ -5,6 +5,7 @@ namespace App\Modules\Trade\Application\Commands;
 use App\Modules\Character\Domain\CharacterId;
 use App\Modules\Equipment\Domain\ItemId;
 use App\Modules\Equipment\Domain\ItemPrice;
+use App\Modules\Generic\Domain\ContainerType;
 
 class ChangeItemPriceCommand
 {
@@ -20,12 +21,21 @@ class ChangeItemPriceCommand
      * @var CharacterId
      */
     private $characterId;
+    /**
+     * @var ContainerType
+     */
+    private $containerType;
 
-    public function __construct(ItemId $itemId, ItemPrice $itemPrice, CharacterId $characterId)
-    {
+    public function __construct(
+        ItemId $itemId,
+        ItemPrice $itemPrice,
+        CharacterId $characterId,
+        ContainerType $containerType
+    ) {
         $this->itemId = $itemId;
         $this->itemPrice = $itemPrice;
         $this->characterId = $characterId;
+        $this->containerType = $containerType;
     }
 
     public function getItemId(): ItemId
@@ -41,5 +51,10 @@ class ChangeItemPriceCommand
     public function getCharacterId(): CharacterId
     {
         return $this->characterId;
+    }
+
+    public function getContainerType(): ContainerType
+    {
+        return $this->containerType;
     }
 }

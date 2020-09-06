@@ -146,18 +146,7 @@ class Inventory
         return $this->money;
     }
 
-    public function findItemOrFail(ItemId $itemId): InventoryItem
-    {
-        $item = $this->findItem($itemId);
-
-        if ($item === null) {
-            throw new ItemNotInContainer('Cannot find item');
-        }
-
-        return $item;
-    }
-
-    private function findItem(ItemId $itemId):? InventoryItem
+    public function findItem(ItemId $itemId):? InventoryItem
     {
         return $this->items->first(static function (InventoryItem $item) use ($itemId) {
             return $item->getId()->equals($itemId);

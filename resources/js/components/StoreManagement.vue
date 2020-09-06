@@ -7,7 +7,7 @@
                 <div slot="body">
 
                     <div class="font-weight-bold">
-                        {{ itemForSale.name }}
+                        {{ itemToDisplay.name }}
 
                         <button type="submit"
                                 class="close"
@@ -17,7 +17,7 @@
                     </div>
 
                     <div class="modal-item-price-image">
-                        <img :src="itemForSale.image_file_path">
+                        <img :src="itemToDisplay.image_file_path">
                     </div>
 
                     <table class="table model-item-attributes-table">
@@ -31,8 +31,8 @@
                                            name="money_amount"
                                            id="set-item-price"
                                            class="w-100"
-                                           v-model.number="itemForSale.price"
-                                           @change.stop.prevent="changeItemPrice(itemForSale)"
+                                           v-model.number="itemToDisplay.price"
+                                           @change.stop.prevent="changeItemPrice(itemToDisplay)"
                                            min="0"
                                            aria-label="Set item price">
                                 </form>
@@ -40,13 +40,13 @@
                         </tr>
                         <tr>
                             <th scope="row">Type</th>
-                            <td>{{ itemForSale.type | underscoreToWhitespace | capitalize }}</td>
+                            <td>{{ itemToDisplay.type | underscoreToWhitespace | capitalize }}</td>
                         </tr>
                         <tr>
                             <th scope="row">Effects</th>
                             <td>
                                 <ul class="list-unstyled modal-item-effects">
-                                    <li v-for="effect in itemForSale.effects" class="">
+                                    <li v-for="effect in itemToDisplay.effects" class="">
                                         {{ effect.type | capitalize }}: {{ effect.quantity | plusForPositiveNumber }}
                                     </li>
                                 </ul>
@@ -71,10 +71,13 @@
 
                     <div v-for="index in total_inventory_slots"
                          :id="index-1"
-                         :class="[isEquipped(index-1) ? 'inventory-item equipped' : 'inventory-item']">
+                         :class="[isEquipped(index-1) ? 'inventory-item equipped' : 'inventory-item']"
+                         @drop="onDrop($event, 'inventory')"
+                         @dragover.prevent
+                         @dragenter.prevent>
                         <button type="submit"
-                                @click.stop.prevent="openItemModal(getInventoryItem(index-1))"
-                                @dragstart="startDrag($event, index-1)"
+                                @click.stop.prevent="openItemModal(getInventoryItem(index-1), 'inventory')"
+                                @dragstart="startDrag($event, index-1, 'inventory')"
                                 draggable="true"
                                 class="btn btn-link-thin"
                                 v-if="getInventoryItem(index-1)">
@@ -98,12 +101,14 @@
                     <div v-for="index in total_store_slots"
                          :id="index-1"
                          class="inventory-item"
-                         @drop="onDrop($event)"
+                         @drop="onDrop($event, 'store')"
                          @dragover.prevent
                          @dragenter.prevent>
                         <button type="submit"
-                                @click.stop.prevent="moveItemToInventory(getStoreItem(index-1))"
+                                @click.stop.prevent="openItemModal(getStoreItem(index-1), 'store')"
                                 class="btn btn-link-thin"
+                                @dragstart="startDrag($event, index-1, 'store')"
+                                draggable="true"
                                 v-if="getStoreItem(index-1)">
                             <img :src="asset(getStoreItem(index-1).image_file_path)">
                         </button>
@@ -198,7 +203,7 @@
 
         data() {
             return {
-                itemForSale: {
+                itemToDisplay: {
                     pivot: {
                         inventory_slot_number: null,
                         status: ''
@@ -206,12 +211,14 @@
                     image_file_path: '',
                     price: 0,
                     type: '',
-                    effects : {
+                    effects: {
                         quantity: 0,
                         type: ''
                     }
                 },
                 showModal: false,
+                showContainer: 'inventory',
+                sourceContainer: 'inventory',
                 money_to_store: 0,
                 money_to_inventory: 0,
                 total_inventory_slots: 25,
@@ -228,7 +235,7 @@
                                 image_file_path: '',
                                 price: 0,
                                 type: '',
-                                effects : {
+                                effects: {
                                     quantity: 0,
                                     type: ''
                                 }
@@ -246,7 +253,7 @@
                                 image_file_path: '',
                                 price: 0,
                                 type: '',
-                                effects : {
+                                effects: {
                                     quantity: 0,
                                     type: ''
                                 }
@@ -287,6 +294,33 @@
                 return null;
             },
 
+            moveItemToStore(item) {
+
+                if (!item) {
+                    return;
+                }
+
+                this.showModal = false;
+
+                item.pivot.inventory_slot_number = this.findFreeStoreSlot();
+                item.pivot.status = 'in_backpack';
+
+                this.character.store.items.push(item);
+
+                let index = this.character.inventory.items.indexOf(item);
+
+                if (index > -1) {
+                    this.character.inventory.items.splice(index, 1);
+                }
+
+                axios.post('/api/inventory/item/' + item.id + '/move-to-store')
+                    .then(() => {
+
+                    }).catch(error => {
+                    console.log(error.message);
+                });
+            },
+
             moveItemToInventory(item) {
 
                 if (!item) {
@@ -311,14 +345,15 @@
                 });
             },
 
-            openItemModal(item) {
+            openItemModal(item, container) {
 
                 if (!item) {
                     return;
                 }
 
-                this.itemForSale = item;
+                this.itemToDisplay = item;
                 this.showModal = true;
+                this.showContainer = container;
             },
 
             changeItemPrice(item) {
@@ -327,34 +362,10 @@
                     return;
                 }
 
-                axios.post('/api/inventory/item/' + item.id + '/change-price', {'price': item.price})
-                    .then(() => {
-
-                    }).catch(error => {
-                    console.log(error.message);
-                });
-            },
-
-            moveItemToStore(item) {
-
-                if (!item) {
-                    return;
-                }
-
-                this.showModal = false;
-
-                item.pivot.inventory_slot_number = this.findFreeStoreSlot();
-                item.pivot.status = 'in_backpack';
-
-                this.character.store.items.push(item);
-
-                let index = this.character.inventory.items.indexOf(item);
-
-                if (index > -1) {
-                    this.character.inventory.items.splice(index, 1);
-                }
-
-                axios.post('/api/inventory/item/' + item.id + '/move-to-store')
+                axios.post('/api/store/item/' + item.id + '/change-price', {
+                    'price': item.price,
+                    'containerType': this.showContainer
+                })
                     .then(() => {
 
                     }).catch(error => {
@@ -422,19 +433,34 @@
                 return this.getInventoryItem(index) && this.getInventoryItem(index).pivot.status === 'equipped';
             },
 
-            startDrag(evt, itemIndex) {
+            startDrag(evt, itemIndex, container) {
                 evt.dataTransfer.dropEffect = 'move';
                 evt.dataTransfer.effectAllowed = 'move';
+
+                this.sourceContainer = container;
 
                 evt.dataTransfer.setData('itemIndex', itemIndex);
             },
 
-            onDrop(evt, list) {
+            onDrop(evt, container) {
                 const itemIndex = evt.dataTransfer.getData('itemIndex');
 
-                let inventoryItem = this.getInventoryItem(itemIndex);
+                if (container === this.sourceContainer) {
+                    return;
+                }
 
-                this.moveItemToStore(inventoryItem);
+                if (container === 'store')
+                {
+                    let inventoryItem = this.getInventoryItem(itemIndex);
+
+                    this.moveItemToStore(inventoryItem);
+                }
+                else {
+
+                    let storeItem = this.getStoreItem(itemIndex);
+
+                    this.moveItemToInventory(storeItem);
+                }
             },
         }
     };

@@ -6,6 +6,7 @@ namespace App\Modules\Trade\Application\Services;
 use App\Modules\Equipment\Application\Contracts\InventoryRepositoryInterface;
 use App\Modules\Equipment\Domain\Money;
 use App\Modules\Equipment\Infrastructure\Repositories\ItemRepository;
+use App\Modules\Generic\Domain\Container\ItemNotInContainer;
 use App\Modules\Trade\Application\Commands\ChangeItemPriceCommand;
 use App\Modules\Trade\Application\Commands\CreateStoreCommand;
 use App\Modules\Trade\Application\Commands\MoveItemToContainerCommand;
@@ -78,9 +79,16 @@ class StoreService
 
     public function changeItemPrice(ChangeItemPriceCommand $command): void
     {
-        $inventory = $this->inventoryRepository->forCharacter($command->getCharacterId());
+        $container = $command->getContainerType()->isStore()
+            ? $this->storeRepository->forCharacter($command->getCharacterId())
+            : $this->inventoryRepository->forCharacter($command->getCharacterId());
 
-        $item = $inventory->findItemOrFail($command->getItemId());
+        $item = $container->findItem($command->getItemId());
+
+        if ($item === null) {
+            throw new ItemNotInContainer('Cannot find item');
+        }
+
         $item->changePrice($command->getItemPrice());
 
         $this->itemRepository->update($item);
