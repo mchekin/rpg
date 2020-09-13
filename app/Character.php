@@ -34,6 +34,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property int level_id
  * @property string profile_picture_id
  * @property Inventory inventory
+ * @property Store store
+ * @property integer reputation
  */
 class Character extends Model
 {
@@ -69,6 +71,11 @@ class Character extends Model
     public function inventory(): HasOne
     {
         return $this->hasOne(Inventory::class);
+    }
+
+    public function store(): HasOne
+    {
+        return $this->hasOne(Store::class);
     }
 
     public function receivedMessages(): HasMany

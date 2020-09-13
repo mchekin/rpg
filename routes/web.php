@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Http\Request;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -35,6 +37,7 @@ Auth::routes();
 
 // Route resources...
 Route::resource('inventory', 'InventoryController')->only('index');
+Route::resource('store', 'StoreController')->only('index');
 Route::resource('character', 'CharacterController')->only('create', 'store', 'show', 'update');
 Route::resource('location', 'LocationController')->only(['show']);
 Route::resource('battle', 'BattleController')->only(['show']);
@@ -44,6 +47,16 @@ Route::resource('character.profile-picture', 'ProfilePictureController')->only([
 Route::resource('character.battle', 'CharacterBattleController')->only(['index']);
 
 
-Route::group(['prefix' => 'admin'], function () {
+Route::group(['prefix' => 'admin'], static function () {
     Voyager::routes();
+});
+
+Route::middleware('auth', 'has.character')->namespace('Api')->prefix('api')->group(static function () {
+
+    Route::post('/inventory/item/{item}/move-to-store', 'StoreController@moveItemToStore')->name('inventory.item.move-to-store');
+    Route::post('/store/item/{item}/change-price', 'StoreController@changeItemPrice')->name('store.item.change-price');
+    Route::post('/store/item/{item}/move-to-inventory', 'StoreController@moveItemToInventory')->name('store.item.move-to-inventory');
+    Route::post('/inventory/money/move-to-store', 'StoreController@moveMoneyToStore')->name('inventory.money.move-to-store');
+    Route::post('/store/money/move-to-inventory', 'StoreController@moveMoneyToInventory')->name('store.money.move-to-inventory');
+
 });

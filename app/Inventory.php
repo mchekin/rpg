@@ -13,10 +13,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property Collection items
  * @property string id
  * @property string character_id
+ * @property int money
  */
 class Inventory extends Model
 {
     use UsesStringId;
+
+    protected $casts = [
+        'money' => 'integer',
+    ];
 
     protected $guarded = [];
 
@@ -38,5 +43,10 @@ class Inventory extends Model
     public function getCharacterId(): string
     {
         return $this->character_id;
+    }
+
+    public function getMoney(): int
+    {
+        return $this->money;
     }
 }

@@ -137,4 +137,9 @@ class Item
     {
         return $this->price;
     }
+
+    public function changePrice(ItemPrice $price): void
+    {
+        $this->price = $price;
+    }
 }

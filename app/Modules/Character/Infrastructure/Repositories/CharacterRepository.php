@@ -48,7 +48,6 @@ class CharacterRepository implements CharacterRepositoryInterface
 
             'xp' => $character->getXp(),
             'level_id' => $character->getLevelNumber(),
-            'money' => $character->getMoney()->getValue(),
             'reputation' => $character->getReputation()->getValue(),
 
             'strength' => $character->getStrength(),
@@ -91,7 +90,6 @@ class CharacterRepository implements CharacterRepositoryInterface
 
             'xp' => $character->getXp(),
             'level_id' => $character->getLevelNumber(),
-            'money' => $character->getMoney()->getValue(),
             'reputation' => $character->getReputation()->getValue(),
 
             'strength' => $character->getStrength(),

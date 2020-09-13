@@ -3,7 +3,7 @@
     /** @var \App\Item $item */
 @endphp
 
-<div class="mt-5 row table-dark align-items-center">
+<div class="mt-5 row mx-1 table-dark align-items-center mx-1">
     <div class="col-3 equipment-item">
         @php
             $item = $character->getHeadGearItem()

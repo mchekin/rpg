@@ -3,9 +3,9 @@
     $character = Auth::user()->character;
 @endphp
 
-<form role="form" method="POST" class="w-100">
+<form role="form" method="POST" class="mx-1">
     {!! csrf_field() !!}
-    <div class="row location-navigator mt-5 mb-5">
+    <div class="row mx-1 location-navigator mt-5 mb-5">
         <div class="col">
             <div class="row">
                 <div class="col"></div>

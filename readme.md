@@ -19,6 +19,7 @@
 - [Git](https://git-scm.com/)
 - [Composer](https://getcomposer.org/)
 - [SQLite](https://www.sqlite.org/)
+- [NodeJS](https://nodejs.org/)
 
 <a name="installation"></a>
 ### Installation
@@ -57,6 +58,10 @@
 - Run Laravel database migrations and seeds
 
         php artisan migrate --seed
+
+- Compile frontend assets 
+
+        npm install & npm run dev
 
 <a name="runningindevelopmentenvironment"></a>
 ### Running in local environment

@@ -1,8 +1,10 @@
-(function($) {
+(function ($) {
 
-    $(".increment_attribute").click(function(event){
-        var attributeName = this.id;
+    $(".increment_attribute").click(function (event) {
+
+        let attributeName = this.id;
+
         $('#attribute_input').val(attributeName);
     });
 
-})(jQuery );
+})(jQuery);

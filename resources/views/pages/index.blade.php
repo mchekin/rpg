@@ -1,6 +1,6 @@
 @extends("base")
 
-@section("head")
+@section('head')
     <title>{{ config('app.name') }}</title>
 
     @parent

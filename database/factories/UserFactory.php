@@ -21,7 +21,9 @@ use App\Modules\Character\Infrastructure\Repositories\RaceRepository;
 use App\Modules\Equipment\Application\Contracts\InventoryRepositoryInterface;
 use App\Modules\Equipment\Application\Contracts\ItemRepositoryInterface;
 use App\Modules\Equipment\Domain\ItemStatus;
+use App\Modules\Trade\Application\Contracts\StoreRepositoryInterface;
 use App\Race;
+use App\Store;
 use App\User;
 use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Support\Str;
@@ -35,7 +37,8 @@ $factory->define(App\User::class, static function (Faker\Generator $faker) {
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
         'password' => $password ?: $password = bcrypt('secret'),
-        'remember_token' => Str::random(10),
+        'remember_token' => Str::random(60),
+        'api_token' => Str::random(60),
     ];
 });
 
@@ -48,6 +51,9 @@ $factory->define(Character::class, static function (Faker\Generator $faker) {
     /** @var InventoryRepositoryInterface $inventoryRepository */
     $inventoryRepository = resolve(InventoryRepositoryInterface::class);
 
+    /** @var StoreRepositoryInterface $storeRepository */
+    $storeRepository = resolve(StoreRepositoryInterface::class);
+
     /** @var Race $raceModel */
     $raceModel = Race::query()->inRandomOrder()->first();
     $location = Location::query()->inRandomOrder()->first();
@@ -59,10 +65,16 @@ $factory->define(Character::class, static function (Faker\Generator $faker) {
 
     $characterId = $characterRepository->nextIdentity()->toString();
 
-    /** @var Inventory $inventory */
     Inventory::query()->create([
         'id' => $inventoryRepository->nextIdentity()->toString(),
         'character_id' => $characterId,
+        'money' => random_int(0, 5000),
+    ]);
+
+    Store::query()->create([
+        'id' => $storeRepository->nextIdentity()->toString(),
+        'character_id' => $characterId,
+        'money' => random_int(0, 5000),
     ]);
 
     return [
@@ -78,7 +90,6 @@ $factory->define(Character::class, static function (Faker\Generator $faker) {
         'gender' => $genders[array_rand($genders)],
 
         'xp' => 0,
-        'money' => random_int(0, 5000),
         'reputation' => 0,
 
         // attributes

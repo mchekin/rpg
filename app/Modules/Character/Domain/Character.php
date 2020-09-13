@@ -6,6 +6,7 @@ namespace App\Modules\Character\Domain;
 use App\Modules\Equipment\Domain\Inventory;
 use App\Modules\Equipment\Domain\Item;
 use App\Modules\Equipment\Domain\ItemEffect;
+use App\Modules\Equipment\Domain\Money;
 use App\Modules\Image\Domain\ImageId;
 use App\Traits\ThrowsDice;
 
@@ -37,10 +38,6 @@ class Character
      * @var int
      */
     private $xp;
-    /**
-     * @var Money
-     */
-    private $money;
     /**
      * @var Reputation
      */
@@ -82,7 +79,6 @@ class Character
         string $name,
         Gender $gender,
         int $xp,
-        Money $money,
         Reputation $reputation,
         Attributes $attributes,
         HitPoints $hitPoints,
@@ -99,7 +95,6 @@ class Character
         $this->raceId = $raceId;
         $this->locationId = $locationId;
         $this->xp = $xp;
-        $this->money = $money;
         $this->reputation = $reputation;
         $this->attributes = $attributes;
         $this->hitPoints = $hitPoints;
@@ -256,7 +251,7 @@ class Character
 
     public function getMoney(): Money
     {
-        return $this->money;
+        return $this->inventory->getMoney();
     }
 
     public function getReputation(): Reputation
