@@ -1,1 +1,1 @@
-* * * * * php /var/www/artisan schedule:run >> /var/log/schedule.log
+* * * * * /usr/local/bin/php /var/www/artisan schedule:run > /proc/1/fd/1 2>/proc/1/fd/2

@@ -26,10 +26,6 @@ RUN docker-php-ext-install pdo_mysql mbstring zip exif pcntl
 RUN docker-php-ext-configure gd --with-gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ --with-png-dir=/usr/include/
 RUN docker-php-ext-install gd
 
-# Create the log file
-RUN touch /var/log/schedule.log
-RUN chmod 0777 /var/log/schedule.log
-
 # Add crontab file in the cron directory
 ADD ./docker/cron/scheduler /etc/cron.d/scheduler
 
