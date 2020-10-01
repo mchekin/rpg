@@ -1,0 +1,133 @@
+version: "3.0"
+
+services:
+
+  nginx:
+    image: sierratecnologia/nginx
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./docker/nginx_conf:/etc/nginx/conf.d
+      - ./:/var/www/html
+      - /usr/bin/ssh:/usr/bin/ssh
+    depends_on:
+      - php
+    networks:
+      - outside
+      - internal
+      - sdnet
+      
+  php:
+    image: sierratecnologia/php:7.4
+    # build:
+    #   context: ./docker/php/
+    #   dockerfile: ./Dockerfile
+    command: bash -c "php-fpm"
+    environment:
+      PHP_XDEBUG_ENABLED: 1 # Set 1 to enable.
+      PHP_IDE_CONFIG: "serverName=docker"
+      XDEBUG_CONFIG: "remote_host=172.17.0.1"
+    volumes:
+      - ./:/var/www/html
+      - ~/.ssh:/root/.ssh
+      - ./docker/logs/xdebug/:/tmp/xdebug_log #Logs for Xdebug
+    restart: always
+    depends_on:
+      - db
+    networks:
+      - internal
+      - sdnet
+
+  redis:
+    image: redis:5.0
+    restart: always
+    networks:
+      - internal
+      - sdnet
+    volumes:
+      - rpg_cachedata:/data
+
+  db:
+    image: mysql:5.7
+    volumes:
+      - rpg_db_data:/var/lib/mysql
+      - ./database/dumps:/dumps
+    environment:
+      MYSQL_ROOT_PASSWORD: A123456
+      MYSQL_DATABASE: rpg
+      MYSQL_USER: rpg
+      MYSQL_PASSWORD: A123456
+    networks:
+      - internal
+
+  # db:
+  #   image: postgres:12.3
+  #   restart: always
+  #   volumes:
+  #     - db_datapg:/var/lib/postgresql/data
+  #     - ./database/dumps:/dumps
+  #   environment:
+  #     POSTGRES_ROOT_PASSWORD: A123456
+  #     POSTGRES_DB: novacao
+  #     POSTGRES_USER: novacao
+  #     POSTGRES_PASSWORD: A123456
+  #   networks:
+  #     - internal
+
+  # adminer:
+  #   image: adminer
+  #   restart: always
+  #   ports:
+  #     - 8080:8080
+
+
+  # mongo:
+  #   image: mongo:3.2
+  #   volumes:
+  #     - rpg_db_data:/var/lib/mongo
+  #     - ./database/dumps:/dumps
+  #   environment:
+  #     MONGO_INITDB_ROOT_USERNAME: root
+  #     MONGO_INITDB_ROOT_PASSWORD: A123456
+
+  # elasticsearch:
+  #   image: elasticsearch:2.3.5
+  #   volumes:
+  #     - db_elastic:/usr/share/elasticsearch/data
+  #   ports:
+  #     - "9200:9200"
+  #     - "9300:9300"
+  #   environment:
+  #     - discovery.type=single-node
+  #   networks:
+  #     - internal
+  
+  # selenium:
+  #   image: selenium/standalone-chrome
+  #   #selenium/standalone-chrome:3.11.0-antimony
+  #   depends_on:
+  #     - nginx
+  #   links:
+  #     - nginx:sdnet.test
+  #   volumes:
+  #     - /dev/shm:/dev/shm
+  #   networks:
+  #     - sdnet
+  #     # - outside
+
+volumes:
+  rpg_db_data:
+    driver: local
+  rpg_cachedata:
+    driver: local
+  rpg_db_elastic:
+    driver: local
+
+networks:
+  outside:
+    external: true
+  internal:
+    driver: bridge
+  sdnet:
+    driver: bridge
