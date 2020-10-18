@@ -19,7 +19,6 @@ services:
     networks:
       - app-network
 
-
   #Cron tab service
   cron:
     build:
