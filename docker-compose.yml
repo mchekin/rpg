@@ -22,6 +22,8 @@ services:
       - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
     networks:
       - rpg-app-network
+    depends_on:
+      - db
 
   #Cron tab service
   cron:
@@ -40,6 +42,8 @@ services:
       - ./:/var/www
     networks:
       - rpg-app-network
+    depends_on:
+      - db
 
   #Nginx Service
   nginx:
@@ -55,6 +59,8 @@ services:
       - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
     networks:
       - rpg-app-network
+    depends_on:
+      - app
 
   #MySQL Service
   db:
