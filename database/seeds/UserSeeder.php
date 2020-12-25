@@ -14,7 +14,10 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->delete();
+        if (User::query()->count())
+        {
+            return;
+        }
 
         $users = [
             [
@@ -25,9 +28,8 @@ class UserSeeder extends Seeder
             ],
         ];
 
-        foreach ($users as $user)
-        {
-           User::query()->create($user);
+        foreach ($users as $user) {
+            User::query()->create($user);
         }
     }
 }
