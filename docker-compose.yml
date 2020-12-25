@@ -17,6 +17,7 @@ services:
       SERVICE_NAME: app
       SERVICE_TAGS: dev
     working_dir: /var/www
+    command: /var/www/docker/php/application-init.sh
     volumes:
       - ./:/var/www
       - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
@@ -43,7 +44,7 @@ services:
     networks:
       - rpg-app-network
     depends_on:
-      - db
+      - app
 
   #Nginx Service
   nginx:
