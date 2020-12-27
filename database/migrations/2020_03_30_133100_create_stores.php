@@ -15,7 +15,8 @@ class CreateStores extends Migration
     public function up()
     {
         Schema::create('stores', static function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->bigIncrements('auto_id');
+            $table->uuid('id')->index();
 
             $table->enum('type', StoreType::TYPES)->default(StoreType::SELL_ONLY);
 

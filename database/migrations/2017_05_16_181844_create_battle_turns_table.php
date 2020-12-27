@@ -15,7 +15,8 @@ class CreateBattleTurnsTable extends Migration
     public function up()
     {
         Schema::create('battle_turns', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->bigIncrements('auto_id');
+            $table->uuid('id')->index();
 
             $table->integer('damageDone')->default(0);
 
