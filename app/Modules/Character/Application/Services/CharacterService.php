@@ -79,13 +79,16 @@ class CharacterService
     {
         $characterId = $this->characterRepository->nextIdentity();
 
-        $race = $this->raceRepository->getOne($command->getRaceId());
-        $inventory = $this->inventoryService->create(new CreateInventoryCommand($characterId));
-        $this->storeService->create(new CreateStoreCommand($characterId));
-
-        $character = $this->characterFactory->create($characterId, $command, $race, $inventory);
+        $character = $this->characterFactory->create(
+            $characterId,
+            $command,
+            $this->raceRepository->getOne($command->getRaceId()),
+            $this->inventoryService->create(new CreateInventoryCommand($characterId))
+        );
 
         $this->characterRepository->add($character);
+
+        $this->storeService->create(new CreateStoreCommand($characterId));
 
         return $character;
     }

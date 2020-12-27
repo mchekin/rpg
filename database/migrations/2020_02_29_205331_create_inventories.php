@@ -17,7 +17,8 @@ class CreateInventories extends Migration
             $table->uuid('id')->primary();
 
             $table->uuid('character_id')->nullable();
-            $table->foreign('character_id')->references('id')->on('characters')->onDelete('restrict');
+            // TODO: refactor character creation to allow creating character record before inventory record
+            // $table->foreign('character_id')->references('id')->on('characters')->onDelete('restrict');
 
             $table->integer('money');
 
