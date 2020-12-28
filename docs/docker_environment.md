@@ -2,8 +2,6 @@
 
 ![](https://raw.githubusercontent.com/mchekin/rpg/f19c452aefcbd028c7db521bd50d1cec5995b137/public/images/locations/Fortress-300px.png)
 
-![](https://travis-ci.org/mchekin/rpg.svg)
-
 ### Table of Contents
 
 1. [Requirements](#requirments)
