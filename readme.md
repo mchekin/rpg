@@ -12,20 +12,12 @@
 ### Running in development environment
 
 #### Docker (recommended)
-Requirements
-- [Docker & Docker Compose](https://www.docker.com/get-started)
 
-Go to [Guide](docs/docker_environment.md)
+Go to >>> [Guide](docs/docker_environment.md)
 
 #### Local
-Requirements
-- PHP 7.2.0 or Higher
-- [Git](https://git-scm.com/)
-- [Composer](https://getcomposer.org/)
-- [SQLite](https://www.sqlite.org/)
-- [NodeJS](https://nodejs.org/)
 
-Go to [Guide](docs/local_environment.md)
+Go to >>> [Guide](docs/local_environment.md)
 
 <a name="license"></a>
 ### License

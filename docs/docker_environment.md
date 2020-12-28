@@ -49,7 +49,7 @@ To use the Admin:
 
         docker-compose exec app php artisan voyager:admin <user email>
         
-- Navigate to [http://localhost:8000/admin](http://localhost:8000/admin).
+- Navigate to [http://localhost:8080/admin](http://localhost:8080/admin).
 - Log in with the user credentials (If not logged in automatically).
 
 Further information about using Voyager can be found on its [official website](https://laravelvoyager.com/).
