@@ -16,6 +16,7 @@ services:
     environment:
       SERVICE_NAME: app
       SERVICE_TAGS: dev
+      PHP_IDE_CONFIG: serverName=RpgServer
     working_dir: /var/www
     command: /var/www/docker/php/application-init.sh
     volumes:
