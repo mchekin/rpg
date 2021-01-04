@@ -12,7 +12,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class StoreController extends Controller
+class ManageStoreController extends Controller
 {
     /**
      * @var ManageStoreService
