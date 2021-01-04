@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Modules\Trade\Application\Services\StoreService;
+use App\Modules\Trade\Application\Services\ManageStoreService;
 use App\Modules\Trade\UI\Http\CommandMappers\ChangeItemPriceCommandMapper;
 use App\Modules\Trade\UI\Http\CommandMappers\MoveItemToContainerCommandMapper;
 use App\Modules\Trade\UI\Http\CommandMappers\MoveMoneyToContainerCommandMapper;
@@ -15,11 +15,11 @@ use Illuminate\Support\Facades\DB;
 class StoreController extends Controller
 {
     /**
-     * @var StoreService
+     * @var ManageStoreService
      */
     private $service;
 
-    public function __construct(StoreService $service)
+    public function __construct(ManageStoreService $service)
     {
         $this->service = $service;
     }
