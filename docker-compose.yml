@@ -1,0 +1,96 @@
+version: "3.7"
+services:
+
+  #PHP Service
+  app:
+    build:
+      args:
+        user: user
+        uid: 1000
+      context: ./
+      dockerfile: docker/php/Dockerfile
+    image: rpg
+    container_name: rpg-app
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: app
+      SERVICE_TAGS: dev
+      PHP_IDE_CONFIG: serverName=RpgServer
+    working_dir: /var/www
+    command: /var/www/docker/php/application-init.sh
+    volumes:
+      - ./:/var/www
+      - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - rpg-app-network
+    depends_on:
+      - db
+
+  #Cron tab service
+  cron:
+    build:
+      context: .
+      dockerfile: docker/cron/Dockerfile
+    image: cron
+    container_name: rpg-cron
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: app
+      SERVICE_TAGS: dev
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+    networks:
+      - rpg-app-network
+    depends_on:
+      - app
+
+  #Nginx Service
+  nginx:
+    image: nginx:1.17-alpine
+    container_name: rpg-nginx
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "8080:80"
+      - "443:443"
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - rpg-app-network
+    depends_on:
+      - app
+
+  #MySQL Service
+  db:
+    image: mysql:5.7.32
+    container_name: rpg-db
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - dbdata:/var/lib/mysql
+      - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
+    networks:
+      - rpg-app-network
+
+#Docker Networks
+networks:
+  rpg-app-network:
+    driver: bridge
+
+#Volumes
+volumes:
+  dbdata:
+    driver: local

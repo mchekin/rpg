@@ -13,6 +13,7 @@
 
 use App\Character;
 use App\Inventory;
+use App\Item;
 use App\ItemPrototype;
 use App\Location;
 use App\Modules\Character\Application\Contracts\CharacterRepositoryInterface;
@@ -27,10 +28,11 @@ use App\Store;
 use App\User;
 use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Support\Str;
+use Faker\Generator;
 
 /** @var Factory $factory */
 
-$factory->define(App\User::class, static function (Faker\Generator $faker) {
+$factory->define(User::class, static function (Generator $faker) {
     static $password;
 
     return [
@@ -42,17 +44,10 @@ $factory->define(App\User::class, static function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(Character::class, static function (Faker\Generator $faker) {
-
+$factory->define(Character::class, static function (Generator $faker) {
 
     /** @var CharacterRepositoryInterface $characterRepository */
     $characterRepository = resolve(CharacterRepositoryInterface::class);
-
-    /** @var InventoryRepositoryInterface $inventoryRepository */
-    $inventoryRepository = resolve(InventoryRepositoryInterface::class);
-
-    /** @var StoreRepositoryInterface $storeRepository */
-    $storeRepository = resolve(StoreRepositoryInterface::class);
 
     /** @var Race $raceModel */
     $raceModel = Race::query()->inRandomOrder()->first();
@@ -64,18 +59,6 @@ $factory->define(Character::class, static function (Faker\Generator $faker) {
     $genders = ['male', 'female'];
 
     $characterId = $characterRepository->nextIdentity()->toString();
-
-    Inventory::query()->create([
-        'id' => $inventoryRepository->nextIdentity()->toString(),
-        'character_id' => $characterId,
-        'money' => random_int(0, 5000),
-    ]);
-
-    Store::query()->create([
-        'id' => $storeRepository->nextIdentity()->toString(),
-        'character_id' => $characterId,
-        'money' => random_int(0, 5000),
-    ]);
 
     return [
         'id' => $characterId,
@@ -110,7 +93,29 @@ $factory->define(Character::class, static function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\Item::class, static function () {
+$factory->afterCreating(Character::class, static function (Character $character) {
+
+    /** @var InventoryRepositoryInterface $inventoryRepository */
+    $inventoryRepository = resolve(InventoryRepositoryInterface::class);
+
+    /** @var StoreRepositoryInterface $storeRepository */
+    $storeRepository = resolve(StoreRepositoryInterface::class);
+
+    Inventory::query()->create([
+        'id' => $inventoryRepository->nextIdentity()->toString(),
+        'character_id' => $character->getId(),
+        'money' => random_int(0, 5000),
+    ]);
+
+    Store::query()->create([
+        'id' => $storeRepository->nextIdentity()->toString(),
+        'character_id' => $character->getId(),
+        'money' => random_int(0, 5000),
+    ]);
+});
+
+
+$factory->define(Item::class, static function () {
     static $charactersIds = [];
 
     /** @var ItemRepositoryInterface $itemRepository */
@@ -126,7 +131,7 @@ $factory->define(App\Item::class, static function () {
 
     $itemId = $itemRepository->nextIdentity()->toString();
 
-    $itemData = [
+    return [
         'id' => $itemId,
         'name' => $itemPrototype->getName(),
         'description' => $itemPrototype->getDescription(),
@@ -137,11 +142,19 @@ $factory->define(App\Item::class, static function () {
         'prototype_id' => $itemPrototype->getId(),
         'creator_character_id' => $character->getId(),
     ];
+});
 
-    $character->inventory->items()->attach($itemId, [
+$factory->afterCreating(Item::class, static function (Item $item) {
+
+    static $charactersIds = [];
+
+    /** @var Character $character */
+    $character = Character::query()->whereNotIn('id', $charactersIds)->first();
+
+    $charactersIds[] = $character->getId();
+
+    $character->inventory->items()->attach($item->getId(), [
         'inventory_slot_number' => 0,
         'status' => ItemStatus::EQUIPPED,
     ]);
-
-    return $itemData;
 });

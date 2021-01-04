@@ -382,11 +382,9 @@
                 this.character.inventory.money += this.money_to_inventory;
                 this.character.store.money -= this.money_to_inventory;
 
-                this.money_to_inventory = 0;
-
                 axios.post('/api/store/money/move-to-inventory', {'money_amount': this.money_to_inventory})
                     .then(() => {
-
+                      this.money_to_inventory = 0;
                     }).catch(error => {
                     console.log(error.message);
                 });
@@ -401,11 +399,9 @@
                 this.character.store.money += this.money_to_store;
                 this.character.inventory.money -= this.money_to_store;
 
-                this.money_to_store = 0;
-
                 axios.post('/api/inventory/money/move-to-store', {'money_amount': this.money_to_store})
                     .then(() => {
-
+                      this.money_to_store = 0;
                     }).catch(error => {
                     console.log(error.message);
                 });

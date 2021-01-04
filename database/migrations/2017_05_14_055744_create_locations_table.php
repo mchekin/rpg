@@ -16,7 +16,8 @@ class CreateLocationsTable extends Migration
     public function up()
     {
         Schema::create('locations', static function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->bigIncrements('auto_id');
+            $table->uuid('id')->index();
 
             $table->string('name')->unique();
             $table->string('description');

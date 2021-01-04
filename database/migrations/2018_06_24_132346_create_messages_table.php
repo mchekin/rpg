@@ -14,7 +14,8 @@ class CreateMessagesTable extends Migration
     public function up()
     {
         Schema::create('messages', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->bigIncrements('auto_id');
+            $table->uuid('id')->index();
 
             $table->uuid('from_id');
             $table->uuid('to_id')->nullable();
@@ -25,8 +26,8 @@ class CreateMessagesTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('from_id')->references('id')->on('character');
-            $table->foreign('to_id')->references('id')->on('character');
+            $table->foreign('from_id')->references('id')->on('characters');
+            $table->foreign('to_id')->references('id')->on('characters');
         });
     }
 

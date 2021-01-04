@@ -14,10 +14,12 @@ class CreateInventories extends Migration
     public function up()
     {
         Schema::create('inventories', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->bigIncrements('auto_id');
+            $table->uuid('id')->index();
 
             $table->uuid('character_id')->nullable();
-            $table->foreign('character_id')->references('id')->on('characters')->onDelete('restrict');
+            // TODO: refactor character creation to allow creating character record before inventory record
+            // $table->foreign('character_id')->references('id')->on('characters')->onDelete('restrict');
 
             $table->integer('money');
 

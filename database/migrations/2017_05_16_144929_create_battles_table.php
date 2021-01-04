@@ -14,7 +14,8 @@ class CreateBattlesTable extends Migration
     public function up()
     {
         Schema::create('battles', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->bigIncrements('auto_id');
+            $table->uuid('id')->index();
 
             $table->boolean('seen_by_defender')->default(0);
 

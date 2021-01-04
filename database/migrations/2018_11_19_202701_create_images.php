@@ -14,7 +14,8 @@ class CreateImages extends Migration
     public function up()
     {
         Schema::create('images', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->bigIncrements('auto_id');
+            $table->uuid('id')->index();
 
             $table->uuid('character_id');
             $table->foreign('character_id')->references('id')->on('characters')->onDelete('restrict');

@@ -13,7 +13,6 @@ use App\Modules\Trade\Application\Contracts\StoreRepositoryInterface;
 use App\Store;
 use App\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class CharacterSeeder extends Seeder
 {
@@ -24,7 +23,10 @@ class CharacterSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('characters')->delete();
+        if (Character::query()->count())
+        {
+            return;
+        }
 
         /** @var CharacterRepositoryInterface $characterRepository */
         $characterRepository = resolve(CharacterRepositoryInterface::class);
