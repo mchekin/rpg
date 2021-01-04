@@ -45,6 +45,14 @@ class StoreRepository implements StoreRepositoryInterface
         ]);
     }
 
+    public function getOne(StoreId $storeId): Store
+    {
+        /** @var StoreModel $model */
+        $model = StoreModel::query()->findOrFail($storeId->toString());
+
+        return $this->reconstitutionFactory->reconstitute($model);
+    }
+
     public function forCharacter(CharacterId $characterId): Store
     {
         /** @var StoreModel $model */

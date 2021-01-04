@@ -53,10 +53,13 @@ Route::group(['prefix' => 'admin'], static function () {
 
 Route::middleware('auth', 'has.character')->namespace('Api')->prefix('api')->group(static function () {
 
+    // Manage store
     Route::post('/inventory/item/{item}/move-to-store', 'ManageStoreController@moveItemToStore')->name('inventory.item.move-to-store');
     Route::post('/store/item/{item}/change-price', 'ManageStoreController@changeItemPrice')->name('store.item.change-price');
     Route::post('/store/item/{item}/move-to-inventory', 'ManageStoreController@moveItemToInventory')->name('store.item.move-to-inventory');
     Route::post('/inventory/money/move-to-store', 'ManageStoreController@moveMoneyToStore')->name('inventory.money.move-to-store');
     Route::post('/store/money/move-to-inventory', 'ManageStoreController@moveMoneyToInventory')->name('store.money.move-to-inventory');
 
+    // Trade
+    Route::post('/store/{store}/item/{item}/buy', 'TrandController@buyItem')->name('store.item.buy');
 });
