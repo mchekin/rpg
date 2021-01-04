@@ -17,7 +17,7 @@
                     </div>
 
                     <div class="modal-item-price-image">
-                        <img :src="itemToDisplay.image_file_path">
+                        <img :src="itemToDisplay.image_file_path" :alt="itemToDisplay.name">
                     </div>
 
                     <table class="table model-item-attributes-table">
@@ -81,7 +81,7 @@
                                 draggable="true"
                                 class="btn btn-link-thin"
                                 v-if="getInventoryItem(index-1)">
-                            <img :src="asset(getInventoryItem(index-1).image_file_path)">
+                            <img :src="asset(getInventoryItem(index-1).image_file_path)" :alt="getInventoryItem(index-1).name">
                         </button>
                     </div>
 
@@ -110,7 +110,7 @@
                                 @dragstart="startDrag($event, index-1, 'store')"
                                 draggable="true"
                                 v-if="getStoreItem(index-1)">
-                            <img :src="asset(getStoreItem(index-1).image_file_path)">
+                            <img :src="asset(getStoreItem(index-1).image_file_path)" :alt="getStoreItem(index-1).name">
                         </button>
                     </div>
 
@@ -211,6 +211,7 @@
                     image_file_path: '',
                     price: 0,
                     type: '',
+                    name: '',
                     effects: {
                         quantity: 0,
                         type: ''
@@ -235,6 +236,7 @@
                                 image_file_path: '',
                                 price: 0,
                                 type: '',
+                                name: '',
                                 effects: {
                                     quantity: 0,
                                     type: ''
@@ -253,6 +255,7 @@
                                 image_file_path: '',
                                 price: 0,
                                 type: '',
+                                name: '',
                                 effects: {
                                     quantity: 0,
                                     type: ''
