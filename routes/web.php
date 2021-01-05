@@ -37,12 +37,13 @@ Auth::routes();
 
 // Route resources...
 Route::resource('inventory', 'InventoryController')->only('index');
-Route::resource('store', 'StoreController')->only('index');
+Route::resource('store', 'OwnStoreController')->only('index');
 Route::resource('character', 'CharacterController')->only('create', 'store', 'show', 'update');
 Route::resource('location', 'LocationController')->only(['show']);
 Route::resource('battle', 'BattleController')->only(['show']);
 Route::resource('message', 'MessageController')->only(['index']);
 Route::resource('character.message', 'CharacterMessageController')->only(['index', 'store']);
+Route::resource('character.store', 'CharacterStoreController')->only(['index']);
 Route::resource('character.profile-picture', 'ProfilePictureController')->only(['store', 'destroy']);
 Route::resource('character.battle', 'CharacterBattleController')->only(['index']);
 

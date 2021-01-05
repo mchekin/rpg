@@ -7,20 +7,12 @@
 
 @section('body')
 
-    <store-management :character="{{ $character->load('inventory.items', 'store.items') }}"></store-management>
+    <store-trade :buyer="{{ $buyer->load('inventory.items') }}" :seller="{{ $seller->load('store.items') }}"></store-trade>
 
     <div class="row">
 
         <!-- Left Side -->
         <div class="col-md-6">
-
-            <div class="text-center my-3">
-                <a class="btn btn-sm btn-primary" href="{{  route('character.show',  compact('character')) }}">
-                    Back to Profile
-                    <span class="fa fa-arrow-left"></span>
-                </a>
-            </div>
-
         </div>
 
         <!-- Right Side -->

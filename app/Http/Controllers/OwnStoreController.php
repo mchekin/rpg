@@ -6,11 +6,12 @@ use App\Character;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
-class StoreController extends Controller
+class OwnStoreController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('has.character');
     }
 
     public function index(Request $request): View
@@ -18,6 +19,6 @@ class StoreController extends Controller
         /** @var Character $character */
         $character = $request->user()->character;
 
-        return view('trade.store.index', compact('character'));
+        return view('trade.own_store.index', compact('character'));
     }
 }

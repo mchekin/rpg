@@ -21,7 +21,7 @@ if (!$character->isNPC()) {
         </span>
     @endif
 
-    @if($character->gender == 'male')
+    @if($character->gender === 'male')
         <span class="badge badge-pill badge-lightskyblue">
             <span class="fa fa-mars"></span>
         </span>
@@ -49,6 +49,11 @@ if (!$character->isNPC()) {
                     class="btn btn-xxs btn-danger">
                 attack <span class="fas fa-bolt"></span>
             </button>
+
+            <a href="{{ route('character.store.index', ['character' => $character]) }}"
+                    class="btn btn-xxs btn-info">
+                trade <span class="fas fa-money-bill"></span>
+            </a>
         </span>
     @endif
 
