@@ -241,33 +241,6 @@
 
         methods: {
 
-            sell(item) {
-
-                if (!item) {
-                    return;
-                }
-
-                this.showModal = false;
-
-                item.pivot.inventory_slot_number = this.findFreeStoreSlot();
-                item.pivot.status = 'in_backpack';
-
-                this.seller.store.items.push(item);
-
-                let index = this.buyer.inventory.items.indexOf(item);
-
-                if (index > -1) {
-                    this.buyer.inventory.items.splice(index, 1);
-                }
-
-                axios.post('/api/inventory/item/' + item.id + '/move-to-store')
-                    .then(() => {
-
-                    }).catch(error => {
-                    console.log(error.message);
-                });
-            },
-
             buy(item) {
 
                 if (!item) {
@@ -283,6 +256,9 @@
                 if (index > -1) {
                     this.seller.store.items.splice(index, 1);
                 }
+
+                this.buyer.inventory.money -= item.price;
+                this.seller.store.money += item.price
 
                 axios.post('/api/store/' + this.seller.store.id + '/item/' + item.id + '/buy')
                     .then(() => {
@@ -339,40 +315,6 @@
                 })
                     .then(() => {
 
-                    }).catch(error => {
-                    console.log(error.message);
-                });
-            },
-
-            moveMoneyToInventory() {
-
-                if (this.money_to_inventory === 0) {
-                    return;
-                }
-
-                this.buyer.inventory.money += this.money_to_inventory;
-                this.seller.store.money -= this.money_to_inventory;
-
-                axios.post('/api/store/money/move-to-inventory', {'money_amount': this.money_to_inventory})
-                    .then(() => {
-                      this.money_to_inventory = 0;
-                    }).catch(error => {
-                    console.log(error.message);
-                });
-            },
-
-            moveMoneyToStore() {
-
-                if (this.money_to_store === 0) {
-                    return;
-                }
-
-                this.seller.store.money += this.money_to_store;
-                this.buyer.inventory.money -= this.money_to_store;
-
-                axios.post('/api/inventory/money/move-to-store', {'money_amount': this.money_to_store})
-                    .then(() => {
-                      this.money_to_store = 0;
                     }).catch(error => {
                     console.log(error.message);
                 });
