@@ -62,5 +62,5 @@ Route::middleware('auth', 'has.character')->namespace('Api')->prefix('api')->gro
     Route::post('/store/money/move-to-inventory', 'ManageStoreController@moveMoneyToInventory')->name('store.money.move-to-inventory');
 
     // Trade
-    Route::post('/store/{store}/item/{item}/buy', 'TrandController@buyItem')->name('store.item.buy');
+    Route::post('/store/{store}/item/{item}/buy', 'TradeController@buyItem')->name('store.item.buy');
 });

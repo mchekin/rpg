@@ -111,6 +111,7 @@ $factory->afterCreating(Character::class, static function (Character $character)
         'id' => $storeRepository->nextIdentity()->toString(),
         'character_id' => $character->getId(),
         'money' => random_int(0, 5000),
+        'type' => 'sell_only',
     ]);
 });
 
@@ -156,5 +157,19 @@ $factory->afterCreating(Item::class, static function (Item $item) {
     $character->inventory->items()->attach($item->getId(), [
         'inventory_slot_number' => 0,
         'status' => ItemStatus::EQUIPPED,
+    ]);
+});
+
+$factory->afterCreating(Item::class, static function (Item $item) {
+
+    static $charactersIds = [];
+
+    /** @var Character $character */
+    $character = Character::query()->whereNotIn('id', $charactersIds)->first();
+
+    $charactersIds[] = $character->getId();
+
+    $character->store->items()->attach($item->getId(), [
+        'inventory_slot_number' => 0,
     ]);
 });

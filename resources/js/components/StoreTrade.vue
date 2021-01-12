@@ -131,25 +131,6 @@
                                     Money in inventory: {{ buyer.inventory.money }}
                                 </span>
                             </div>
-                            <label for="money-to-store"></label>
-                            <input type="number"
-                                   name="money_amount"
-                                   id="money-to-store"
-                                   class="form-control"
-                                   v-model.number="money_to_store"
-                                   min="0"
-                                   :max=buyer.inventory.money
-                                   aria-label="Money to move to store">
-                            <div class="input-group-append">
-                                <span class="input-group-text">
-                                    <button type="submit"
-                                            class="btn btn-sm btn-secondary"
-                                            @click.stop.prevent="moveMoneyToStore()">
-                                        Move to Store
-                                         <span class="fas fa-long-arrow-alt-right"></span>
-                                    </button>
-                                </span>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -160,25 +141,6 @@
                 <div class="row">
                     <div class="col-md-12 text-center my-3">
                         <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <button type="submit"
-                                            class="btn btn-sm btn-secondary"
-                                            @click.stop.prevent="moveMoneyToInventory()">
-                                        <span class="fas fa-long-arrow-alt-left"></span>
-                                        Move to Inventory
-                                    </button>
-                                </span>
-                            </div>
-                            <label for="money-to-inventory"></label>
-                            <input type="number"
-                                   name="money_amount"
-                                   id="money-to-inventory"
-                                   class="form-control"
-                                   v-model.number="money_to_inventory"
-                                   min="0"
-                                   :max=seller.store.money
-                                   aria-label="Money to move to inventory">
                             <div class="input-group-append">
                                 <span class="input-group-text font-weight-bold">
                                     Money in store: {{ seller.store.money }}
@@ -249,6 +211,7 @@
                 seller: {
                     name: '',
                     store: {
+                      id: '',
                       items: [
                         {
                           pivot: {
@@ -277,31 +240,8 @@
         },
 
         methods: {
-            findFreeStoreSlot() {
 
-                for (let slot = 0; slot < this.total_store_slots; slot++) {
-
-                    if (this.getStoreItem(slot) === undefined) {
-                        return slot;
-                    }
-                }
-
-                return null;
-            },
-
-            findFreeInventorySlot() {
-
-                for (let slot = 0; slot < this.total_inventory_slots; slot++) {
-
-                    if (this.getInventoryItem(slot) === undefined) {
-                        return slot;
-                    }
-                }
-
-                return null;
-            },
-
-            moveItemToStore(item) {
+            sell(item) {
 
                 if (!item) {
                     return;
@@ -328,7 +268,7 @@
                 });
             },
 
-            moveItemToInventory(item) {
+            buy(item) {
 
                 if (!item) {
                     return;
@@ -344,12 +284,36 @@
                     this.seller.store.items.splice(index, 1);
                 }
 
-                axios.post('/api/store/item/' + item.id + '/move-to-inventory')
+                axios.post('/api/store/' + this.seller.store.id + '/item/' + item.id + '/buy')
                     .then(() => {
 
                     }).catch(error => {
                     console.log(error.message);
                 });
+            },
+
+            findFreeStoreSlot() {
+
+              for (let slot = 0; slot < this.total_store_slots; slot++) {
+
+                if (this.getStoreItem(slot) === undefined) {
+                  return slot;
+                }
+              }
+
+              return null;
+            },
+
+            findFreeInventorySlot() {
+
+              for (let slot = 0; slot < this.total_inventory_slots; slot++) {
+
+                if (this.getInventoryItem(slot) === undefined) {
+                  return slot;
+                }
+              }
+
+              return null;
             },
 
             openItemModal(item, container) {
@@ -456,13 +420,13 @@
                 {
                     let inventoryItem = this.getInventoryItem(itemIndex);
 
-                    this.moveItemToStore(inventoryItem);
+                    this.sell(inventoryItem);
                 }
                 else {
 
                     let storeItem = this.getStoreItem(itemIndex);
 
-                    this.moveItemToInventory(storeItem);
+                    this.buy(storeItem);
                 }
             },
         }

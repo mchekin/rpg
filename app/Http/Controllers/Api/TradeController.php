@@ -22,7 +22,7 @@ class TradeController extends Controller
         $this->service = $service;
     }
 
-    public function butItem(Request $request, BuyItemCommandMapper $commandMapper): JsonResponse
+    public function buyItem(Request $request, BuyItemCommandMapper $commandMapper): JsonResponse
     {
         $command = $commandMapper->map($request);
 
