@@ -99,7 +99,7 @@ class CreateItemsTable extends Migration
                 ],
                 'price' => 15,
                 'type' => ItemType::MAIN_HAND,
-                'image_file_path' => 'images\equipment\main_hand\1club.png',
+                'image_file_path' => 'images/equipment/main_hand/1club.png',
             ],
             [
                 'id' => $itemPrototypeRepository->nextIdentity()->toString(),
@@ -113,7 +113,7 @@ class CreateItemsTable extends Migration
                 ],
                 'price' => 500,
                 'type' => ItemType::MAIN_HAND,
-                'image_file_path' => 'images\equipment\main_hand\2reinforced_club.png',
+                'image_file_path' => 'images/equipment/main_hand/2reinforced_club.png',
             ],
             [
                 'id' => $itemPrototypeRepository->nextIdentity()->toString(),
@@ -127,7 +127,7 @@ class CreateItemsTable extends Migration
                 ],
                 'price' => 20,
                 'type' => ItemType::OFF_HAND,
-                'image_file_path' => 'images\equipment\off_hand\buckler.png',
+                'image_file_path' => 'images/equipment/off_hand/buckler.png',
             ],
             [
                 'id' => $itemPrototypeRepository->nextIdentity()->toString(),
@@ -141,7 +141,7 @@ class CreateItemsTable extends Migration
                 ],
                 'price' => 5,
                 'type' => ItemType::BODY_ARMOR,
-                'image_file_path' => 'images\equipment\body_armor\linen_shirt.png',
+                'image_file_path' => 'images/equipment/body_armor/linen_shirt.png',
             ],
             [
                 'id' => $itemPrototypeRepository->nextIdentity()->toString(),
@@ -155,7 +155,7 @@ class CreateItemsTable extends Migration
                 ],
                 'price' => 1000,
                 'type' => ItemType::HEAD_GEAR,
-                'image_file_path' => 'images\equipment\head_gear\closed_steel_helmet.png',
+                'image_file_path' => 'images/equipment/head_gear/closed_steel_helmet.png',
             ],
         ];
 
