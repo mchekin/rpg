@@ -16,12 +16,12 @@ class CharacterStoreController extends Controller
 
     public function index(Request $request, string $characterId): View
     {
-        /** @var Character $buyer */
-        $buyer = $request->user()->character;
+        /** @var Character $customer */
+        $customer = $request->user()->character;
 
-        /** @var Character $seller */
-        $seller = Character::query()->findOrFail($characterId);
+        /** @var Character $trader */
+        $trader = Character::query()->findOrFail($characterId);
 
-        return view('trade.store.index', compact('buyer', 'seller'));
+        return view('trade.store.index', compact('customer', 'trader'));
     }
 }

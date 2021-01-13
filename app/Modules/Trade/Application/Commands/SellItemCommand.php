@@ -6,7 +6,7 @@ use App\Modules\Character\Domain\CharacterId;
 use App\Modules\Equipment\Domain\ItemId;
 use App\Modules\Trade\Domain\StoreId;
 
-class BuyItemCommand
+class SellItemCommand
 {
     /**
      * @var CharacterId

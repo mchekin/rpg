@@ -64,7 +64,7 @@
             <div class="col-md-6">
 
                 <h5 class="text-center">
-                    {{ buyer.name }}'s Inventory
+                  {{ customer.name }}'s Inventory
                 </h5>
 
                 <div class="my-3 row mx-1 table-dark align-items-center">
@@ -93,7 +93,7 @@
             <div class="col-md-6">
 
                 <h5 class="text-center">
-                    {{ seller.name }}'s Store
+                  {{ trader.name }}'s Store
                 </h5>
 
                 <div class="my-3 row mx-1 table-dark align-items-center">
@@ -128,7 +128,7 @@
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text font-weight-bold">
-                                    Money in inventory: {{ buyer.inventory.money }}
+                                    Money in inventory: {{ customer.inventory.money }}
                                 </span>
                             </div>
                         </div>
@@ -143,7 +143,7 @@
                         <div class="input-group mb-3">
                             <div class="input-group-append">
                                 <span class="input-group-text font-weight-bold">
-                                    Money in store: {{ seller.store.money }}
+                                    Money in store: {{ trader.store.money }}
                                 </span>
                             </div>
                         </div>
@@ -186,7 +186,7 @@
                 money_to_inventory: 0,
                 total_inventory_slots: 25,
                 total_store_slots: 25,
-                buyer: {
+                customer: {
                     name: '',
                     inventory: {
                         items: [
@@ -208,65 +208,92 @@
                         money: 0
                     },
                 },
-                seller: {
+                trader: {
                     name: '',
                     store: {
-                      id: '',
-                      items: [
-                        {
-                          pivot: {
-                            inventory_slot_number: null,
-                            status: ''
-                          },
-                          image_file_path: '',
-                          price: 0,
-                          type: '',
-                          name: '',
-                          effects: {
-                            quantity: 0,
-                            type: ''
-                          }
-                        }
-                      ],
-                      money: 0
+                        id: '',
+                        items: [
+                            {
+                                pivot: {
+                                    inventory_slot_number: null,
+                                    status: ''
+                                },
+                                image_file_path: '',
+                                price: 0,
+                                type: '',
+                                name: '',
+                                effects: {
+                                    quantity: 0,
+                                    type: ''
+                                }
+                            }
+                        ],
+                        money: 0
                     }
               }
             }
         },
 
         created() {
-            this.buyer = this.$attrs.buyer;
-            this.seller = this.$attrs.seller;
+            this.customer = this.$attrs.customer;
+            this.trader = this.$attrs.trader;
         },
 
         methods: {
 
             buy(item) {
 
-                if (!item) {
+                if (!item || this.customer.inventory.money < item.price) {
                     return;
                 }
 
                 item.pivot.inventory_slot_number = this.findFreeInventorySlot();
 
-                this.buyer.inventory.items.push(item);
+                this.customer.inventory.items.push(item);
 
-                let index = this.seller.store.items.indexOf(item);
+                let index = this.trader.store.items.indexOf(item);
 
                 if (index > -1) {
-                    this.seller.store.items.splice(index, 1);
+                    this.trader.store.items.splice(index, 1);
                 }
 
-                this.buyer.inventory.money -= item.price;
-                this.seller.store.money += item.price
+                this.customer.inventory.money -= item.price;
+                this.trader.store.money += item.price
 
-                axios.post('/api/store/' + this.seller.store.id + '/item/' + item.id + '/buy')
+                axios.post('/api/store/' + this.trader.store.id + '/item/' + item.id + '/buy')
                     .then(() => {
 
                     }).catch(error => {
                     console.log(error.message);
                 });
             },
+
+          sell(item) {
+
+            if (!item || this.trader.store.money < item.price) {
+              return;
+            }
+
+            item.pivot.inventory_slot_number = this.findFreeStoreSlot();
+
+            this.trader.store.items.push(item);
+
+            let index = this.customer.inventory.items.indexOf(item);
+
+            if (index > -1) {
+              this.customer.inventory.items.splice(index, 1);
+            }
+
+            this.trader.store.money -= item.price;
+            this.customer.inventory.money += item.price
+
+            axios.post('/api/store/' + this.trader.store.id + '/item/' + item.id + '/sell')
+                .then(() => {
+
+                }).catch(error => {
+              console.log(error.message);
+            });
+          },
 
             findFreeStoreSlot() {
 
@@ -327,13 +354,13 @@
             },
 
             getInventoryItem(index) {
-                return this.buyer.inventory.items.find(
+                return this.customer.inventory.items.find(
                     item => parseInt(item.pivot.inventory_slot_number) === parseInt(index)
                 );
             },
 
             getStoreItem(index) {
-                return this.seller.store.items.find(
+                return this.trader.store.items.find(
                     item => parseInt(item.pivot.inventory_slot_number) === parseInt(index)
                 );
             },

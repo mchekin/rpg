@@ -63,4 +63,5 @@ Route::middleware('auth', 'has.character')->namespace('Api')->prefix('api')->gro
 
     // Trade
     Route::post('/store/{store}/item/{item}/buy', 'TradeController@buyItem')->name('store.item.buy');
+    Route::post('/store/{store}/item/{item}/sell', 'TradeController@sellItem')->name('store.item.sell');
 });

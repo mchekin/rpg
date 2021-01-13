@@ -7,7 +7,7 @@
 
 @section('body')
 
-    <store-trade :buyer="{{ $buyer->load('inventory.items') }}" :seller="{{ $seller->load('store.items') }}"></store-trade>
+    <store-trade :customer="{{ $customer->load('inventory.items') }}" :trader="{{ $trader->load('store.items') }}"></store-trade>
 
     <div class="row">
 
