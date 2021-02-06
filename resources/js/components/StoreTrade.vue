@@ -243,7 +243,15 @@ export default {
 
     buy(item) {
 
-      if (!item || this.customer.inventory.money < item.price) {
+      if (!item) {
+        this.logError('Item not found');
+
+        return;
+      }
+
+      if (this.customer.inventory.money < item.price) {
+        this.logError('You don\'t have ' + item.price + ' silver');
+
         return;
       }
 
@@ -395,6 +403,10 @@ export default {
 
         this.buy(storeItem);
       }
+    },
+
+    logError(error) {
+      this.$root.$emit('errorHappened', error);
     },
   }
 };

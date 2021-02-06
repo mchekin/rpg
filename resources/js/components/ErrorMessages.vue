@@ -1,5 +1,5 @@
 <template>
-  <div id="errors-alert" class="alert alert-danger alert-dismissible fade show" role="alert">
+  <div v-if="errors.length" id="errors-alert" class="alert alert-danger alert-dismissible fade show" role="alert">
     <ul class="list-unstyled">
       <li v-for="error in errors" class="">
         {{ error }}
@@ -14,7 +14,9 @@
 <script>
 export default {
   mounted() {
-
+    this.$root.$on('errorHappened', error => {
+      this.errors = [error];
+    });
   },
 
   data() {
@@ -27,5 +29,9 @@ export default {
   created() {
     this.errors = this.$attrs.errors;
   },
+
+  methods: {
+
+  }
 }
 </script>
