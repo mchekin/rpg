@@ -33,6 +33,12 @@ Vue.component(
     require('./components/StoreTrade.vue').default
 );
 
+Vue.component(
+    'error-messages',
+    require('./components/ErrorMessages.vue').default
+);
+
+
 const app = new Vue({
     el: '#app',
 });
