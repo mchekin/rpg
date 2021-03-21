@@ -1,6 +1,6 @@
 <template>
   <Transition name="slide-fade">
-    <div v-if="errors.length" id="errors-alert" class="alert alert-danger" role="alert">
+    <div v-if="errors.length" class="alert alert-danger" role="alert">
       <ul class="list-unstyled">
         <li v-for="error in errors" class="">
           {{ error }}
