@@ -1,14 +1,14 @@
 <template>
   <Transition name="slide-fade">
-    <div v-if="errors.length" class="alert alert-danger" role="alert">
+    <div v-if="errors.length" class="" role="alert">
       <ul class="list-unstyled">
-        <li v-for="error in errors" class="">
+        <li v-for="(error, index) in errors" class="alert alert-danger">
           {{ error }}
+          <button type="button" class="dismiss-message" aria-label="Close" v-on:click="removeMessage(index)">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </li>
       </ul>
-      <button type="button" class="dismiss-message" aria-label="Close" v-on:click="errors = []">
-        <span aria-hidden="true">&times;</span>
-      </button>
     </div>
   </Transition>
 </template>
@@ -16,29 +16,40 @@
 <script>
 export default {
   mounted() {
-    let timer;
     this.$root.$on('errorHappened', error => {
-      clearTimeout(timer);
-
-      this.errors.push(error);
-
-      timer = setTimeout(() => {
-        this.errors = [];
-      }, 10000);
+      this.addMessage(error);
     });
   },
 
   data() {
     return {
-      errors: []
+      errors: [],
+      timers: [],
     };
   },
 
   created() {
-    this.errors = this.$attrs.errors;
+    this.$attrs.errors.forEach(message => {
+        this.addMessage(message);
+    });
   },
 
-  methods: {}
+  methods: {
+
+    addMessage(message) {
+      this.errors.push(message);
+
+      this.timers.push(setTimeout(() => {
+        this.removeMessage(0)
+      }, 15000));
+    },
+
+    removeMessage(index) {
+
+      this.errors.splice(index, 1);
+      this.timers.splice(index, 1);
+    },
+  }
 }
 </script>
 <style scoped>
