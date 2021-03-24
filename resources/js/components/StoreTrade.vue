@@ -344,12 +344,14 @@ export default {
         return;
       }
 
+      let newPrice = item.price;
+
       axios.post('/api/store/item/' + item.id + '/change-price', {
-        'price': item.price,
+        'price': newPrice,
         'containerType': this.showContainer
       })
           .then(() => {
-            this.logSuccess(item.name + ' price changed to ' + item.price + ' coins');
+            this.logSuccess(item.name + ' price changed to ' + newPrice + ' coins');
           }).catch(error => {
         this.logError('Changing price failed: ' + error.message);
       });
