@@ -56,13 +56,13 @@
                                         @break
 
                                     @case('hit')
-                                        <li class="list-group-item {{ $index % 2 ? 'text-danger' : 'text-success'}}">
+                                        <li class="list-group-item {{ $index % 2 ? 'text-primary' : 'text-success'}}">
                                             {{ $turn->executor->name }} did <b>{{ $turn->damageDone }}</b> damage
                                             to {{ $turn->target->name }}.
                                             @if($turn->damageAbsorbed)
                                                 <br>
-                                                <span class="text-warning">
-                                                    <b>{{ $turn->damageAbsorbed }}</b> was damage absorbed by
+                                                <span class="text-secondary">
+                                                    <b>{{ $turn->damageAbsorbed }}</b> damage was absorbed by
                                                     {{ $turn->target->name }}'s armor.
                                                 </span>
                                             @endif
@@ -70,13 +70,13 @@
                                         @break
 
                                     @case('critical_hit')
-                                        <li class="list-group-item {{ $index % 2 ? 'text-danger' : 'text-success'}}">
+                                        <li class="list-group-item text-danger">
                                             {{ $turn->executor->name }} did <b>{{ $turn->damageDone }}</b> critical damage
                                             to {{ $turn->target->name }}.
                                             @if($turn->damageAbsorbed)
                                                 <br>
-                                                <span class="text-warning">
-                                                    <b>{{ $turn->damageAbsorbed }}</b> was damage absorbed by
+                                                <span class="text-secondary">
+                                                    <b>{{ $turn->damageAbsorbed }}</b> damage was absorbed by
                                                     {{ $turn->target->name }}'s armor.
                                                 </span>
                                             @endif
