@@ -250,7 +250,7 @@ export default {
       }
 
       if (this.customer.inventory.money < item.price) {
-        this.logError('You don\'t have ' + item.price + ' silver');
+        this.logError('You don\'t have ' + item.price + ' coins');
 
         return;
       }
@@ -270,9 +270,9 @@ export default {
 
       axios.post('/api/store/' + this.trader.store.id + '/item/' + item.id + '/buy')
           .then(() => {
-
+            this.logSuccess('Bought: ' + item.name + ' for ' + item.price + ' coins');
           }).catch(error => {
-        console.log(error.message);
+        this.logError('Buying failed: ' + error.message);
       });
     },
 
@@ -297,9 +297,9 @@ export default {
 
       axios.post('/api/store/' + this.trader.store.id + '/item/' + item.id + '/sell')
           .then(() => {
-
+            this.logSuccess('Sold: ' + item.name + ' for ' + item.price + ' coins');
           }).catch(error => {
-        console.log(error.message);
+        this.logError('Selling failed: ' + error.message);
       });
     },
 
@@ -349,9 +349,9 @@ export default {
         'containerType': this.showContainer
       })
           .then(() => {
-
+            this.logSuccess(item.price + ' price changed to : ' + item.price + ' coins');
           }).catch(error => {
-        console.log(error.message);
+        this.logError('Changing price failed: ' + error.message);
       });
     },
 
@@ -403,6 +403,10 @@ export default {
 
         this.buy(storeItem);
       }
+    },
+
+    logSuccess(message) {
+      this.$root.$emit('successHappened', message);
     },
 
     logError(error) {
