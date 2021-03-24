@@ -20,7 +20,7 @@
 <div class="container" id="app">
     @include('partials.navbar')
 
-    @include('partials.errors')
+    @include('partials.flash-messages')
 
     @yield('body')
 </div>
