@@ -1,5 +1,21 @@
 @php
     /** @var \Illuminate\Support\ViewErrorBag $errors */
+
+    $messages = [];
+    foreach ($errors->all() as $error) {
+        $messages[] = [
+            'text' => $error,
+            'type' => 'error',
+        ];
+    }
+
+    if (session('status')) {
+        $messages[] = [
+            'text' => session('status'),
+            'type' => 'success',
+        ];
+    }
+
 @endphp
 
-<flash-messages :errors="{{ json_encode($errors->get('message')) }}" v-on:errorHappened="handleError($event)"></flash-messages>
+<flash-messages :messages="{{ json_encode($messages) }}"></flash-messages>

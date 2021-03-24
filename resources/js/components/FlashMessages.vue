@@ -1,9 +1,12 @@
 <template>
   <Transition name="slide-fade">
-    <div v-if="errors.length" class="" role="alert">
+    <div v-if="messages.length" class="" role="alert">
       <ul class="list-unstyled">
-        <li v-for="(error, index) in errors" class="alert alert-danger">
-          {{ error }}
+        <li v-for="(message, index) in messages" :class="{
+          'alert alert-danger': message.type === 'error',
+          'alert alert-success': message.type === 'success'
+        }">
+          {{ message.text }}
           <button type="button" class="dismiss-message" aria-label="Close" v-on:click="removeMessage(index)">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -17,19 +20,29 @@
 export default {
   mounted() {
     this.$root.$on('errorHappened', error => {
-      this.addMessage(error);
+      this.addMessage({
+          'text': error,
+          'type': 'error',
+      });
+    });
+
+    this.$root.$on('successHappened', status => {
+      this.addMessage({
+        'text': status,
+        'type': 'success',
+      });
     });
   },
 
   data() {
     return {
-      errors: [],
+      messages: [],
       timers: [],
     };
   },
 
   created() {
-    this.$attrs.errors.forEach(message => {
+    this.$attrs.messages.forEach(message => {
         this.addMessage(message);
     });
   },
@@ -37,16 +50,18 @@ export default {
   methods: {
 
     addMessage(message) {
-      this.errors.push(message);
+      this.messages.push(message);
+
+      let timeout = message.type === 'success' ? 2000: 10000;
 
       this.timers.push(setTimeout(() => {
         this.removeMessage(0)
-      }, 15000));
+      }, timeout));
     },
 
     removeMessage(index) {
 
-      this.errors.splice(index, 1);
+      this.messages.splice(index, 1);
       this.timers.splice(index, 1);
     },
   }

@@ -22,8 +22,6 @@
 
     @include('partials.errors')
 
-    @include('partials.status')
-
     @yield('body')
 </div>
 
