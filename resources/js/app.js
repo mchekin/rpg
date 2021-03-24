@@ -42,5 +42,3 @@ Vue.component(
 const app = new Vue({
     el: '#app',
 });
-
-require('./notifications.js');
