@@ -349,7 +349,7 @@ export default {
         'containerType': this.showContainer
       })
           .then(() => {
-            this.logSuccess(item.price + ' price changed to : ' + item.price + ' coins');
+            this.logSuccess(item.name + ' price changed to ' + item.price + ' coins');
           }).catch(error => {
         this.logError('Changing price failed: ' + error.message);
       });

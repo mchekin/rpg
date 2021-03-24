@@ -318,9 +318,11 @@ export default {
 
       axios.post('/api/inventory/item/' + item.id + '/move-to-store')
           .then(() => {
+            this.logSuccess('Moved: ' + item.name + ' to the store');
 
+            this.money_to_store = 0;
           }).catch(error => {
-        console.log(error.message);
+        this.logError('Moving item to the store failed: ' + error.message);
       });
     },
 
@@ -342,9 +344,11 @@ export default {
 
       axios.post('/api/store/item/' + item.id + '/move-to-inventory')
           .then(() => {
+            this.logSuccess('Moved: ' + item.name + ' to the inventory');
 
+            this.money_to_store = 0;
           }).catch(error => {
-        console.log(error.message);
+        this.logError('Moving item to the inventory failed: ' + error.message);
       });
     },
 
@@ -370,9 +374,9 @@ export default {
         'containerType': this.showContainer
       })
           .then(() => {
-
+            this.logSuccess(item.name + ' price changed to ' + item.price + ' coins');
           }).catch(error => {
-        console.log(error.message);
+        this.logError('Changing price failed: ' + error.message);
       });
     },
 
@@ -387,9 +391,11 @@ export default {
 
       axios.post('/api/store/money/move-to-inventory', {'money_amount': this.money_to_inventory})
           .then(() => {
+            this.logSuccess('Moved: ' + this.money_to_store + ' coins to the inventory');
+
             this.money_to_inventory = 0;
           }).catch(error => {
-        console.log(error.message);
+        this.logError('Moving coins to the store failed: ' + error.message);
       });
     },
 
@@ -404,9 +410,11 @@ export default {
 
       axios.post('/api/inventory/money/move-to-store', {'money_amount': this.money_to_store})
           .then(() => {
+            this.logSuccess('Moved: ' + this.money_to_store + ' coins to the store');
+
             this.money_to_store = 0;
           }).catch(error => {
-        console.log(error.message);
+        this.logError('Moving coins to the store failed: ' + error.message);
       });
     },
 
@@ -458,6 +466,14 @@ export default {
 
         this.moveItemToInventory(storeItem);
       }
+    },
+
+    logSuccess(message) {
+      this.$root.$emit('successHappened', message);
+    },
+
+    logError(error) {
+      this.$root.$emit('errorHappened', error);
     },
   }
 };
