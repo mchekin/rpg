@@ -34,8 +34,8 @@ Vue.component(
 );
 
 Vue.component(
-    'error-messages',
-    require('./components/ErrorMessages.vue').default
+    'flash-messages',
+    require('./components/FlashMessages.vue').default
 );
 
 
