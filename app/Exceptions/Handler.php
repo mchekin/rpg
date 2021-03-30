@@ -5,8 +5,7 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Exceptions\PostTooLargeException;
-use Illuminate\Http\RedirectResponse;
-use Symfony\Component\HttpFoundation\Response;
+use Throwable;
 
 class Handler extends ExceptionHandler
 {
@@ -34,24 +33,26 @@ class Handler extends ExceptionHandler
      *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
      *
-     * @param  \Exception $exception
+     * @param  \Throwable $exception
      * @return void
      *
      * @throws Exception
      */
-    public function report(Exception $exception)
+    public function report(\Throwable $exception)
     {
         parent::report($exception);
     }
 
     /**
      * Render an exception into an HTTP response.
-     * @param $request
-     * @param Exception $exception
      *
-     * @return RedirectResponse|Response
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Throwable  $exception
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @throws \Throwable
      */
-    public function render($request, Exception $exception)
+    public function render($request, Throwable $exception)
     {
         if ($exception instanceof PostTooLargeException) {
 
