@@ -4,19 +4,14 @@
 namespace App\Modules\Trade\Application\Services;
 
 use App\Modules\Equipment\Application\Contracts\InventoryRepositoryInterface;
-use App\Modules\Equipment\Domain\Money;
 use App\Modules\Equipment\Infrastructure\Repositories\ItemRepository;
 use App\Modules\Generic\Domain\Container\ItemNotInContainer;
 use App\Modules\Trade\Application\Commands\ChangeItemPriceCommand;
-use App\Modules\Trade\Application\Commands\CreateStoreCommand;
 use App\Modules\Trade\Application\Commands\MoveItemToContainerCommand;
 use App\Modules\Trade\Application\Commands\MoveMoneyToContainerCommand;
 use App\Modules\Trade\Application\Contracts\StoreRepositoryInterface;
-use App\Modules\Trade\Domain\Store;
-use App\Modules\Trade\Domain\StoreType;
-use Illuminate\Support\Collection;
 
-class StoreService
+class ManageStoreService
 {
     /**
      * @var StoreRepositoryInterface
@@ -40,17 +35,6 @@ class StoreService
         $this->storeRepository = $storeRepository;
         $this->inventoryRepository = $inventoryRepository;
         $this->itemRepository = $itemRepository;
-    }
-
-    public function create(CreateStoreCommand $command): Store
-    {
-        $id = $this->storeRepository->nextIdentity();
-
-        $store = new Store($id, $command->getCharacterId(), StoreType::sellOnly(), Collection::make(), new Money(0));
-
-        $this->storeRepository->add($store);
-
-        return $store;
     }
 
     public function moveItemToStore(MoveItemToContainerCommand $command): void

@@ -37,12 +37,13 @@ Auth::routes();
 
 // Route resources...
 Route::resource('inventory', 'InventoryController')->only('index');
-Route::resource('store', 'StoreController')->only('index');
+Route::resource('store', 'OwnStoreController')->only('index');
 Route::resource('character', 'CharacterController')->only('create', 'store', 'show', 'update');
 Route::resource('location', 'LocationController')->only(['show']);
 Route::resource('battle', 'BattleController')->only(['show']);
 Route::resource('message', 'MessageController')->only(['index']);
 Route::resource('character.message', 'CharacterMessageController')->only(['index', 'store']);
+Route::resource('character.store', 'CharacterStoreController')->only(['index']);
 Route::resource('character.profile-picture', 'ProfilePictureController')->only(['store', 'destroy']);
 Route::resource('character.battle', 'CharacterBattleController')->only(['index']);
 
@@ -53,10 +54,14 @@ Route::group(['prefix' => 'admin'], static function () {
 
 Route::middleware('auth', 'has.character')->namespace('Api')->prefix('api')->group(static function () {
 
-    Route::post('/inventory/item/{item}/move-to-store', 'StoreController@moveItemToStore')->name('inventory.item.move-to-store');
-    Route::post('/store/item/{item}/change-price', 'StoreController@changeItemPrice')->name('store.item.change-price');
-    Route::post('/store/item/{item}/move-to-inventory', 'StoreController@moveItemToInventory')->name('store.item.move-to-inventory');
-    Route::post('/inventory/money/move-to-store', 'StoreController@moveMoneyToStore')->name('inventory.money.move-to-store');
-    Route::post('/store/money/move-to-inventory', 'StoreController@moveMoneyToInventory')->name('store.money.move-to-inventory');
+    // Manage store
+    Route::post('/inventory/item/{item}/move-to-store', 'ManageStoreController@moveItemToStore')->name('inventory.item.move-to-store');
+    Route::post('/store/item/{item}/change-price', 'ManageStoreController@changeItemPrice')->name('store.item.change-price');
+    Route::post('/store/item/{item}/move-to-inventory', 'ManageStoreController@moveItemToInventory')->name('store.item.move-to-inventory');
+    Route::post('/inventory/money/move-to-store', 'ManageStoreController@moveMoneyToStore')->name('inventory.money.move-to-store');
+    Route::post('/store/money/move-to-inventory', 'ManageStoreController@moveMoneyToInventory')->name('store.money.move-to-inventory');
 
+    // Trade
+    Route::post('/store/{store}/item/{item}/buy', 'TradeController@buyItem')->name('store.item.buy');
+    Route::post('/store/{store}/item/{item}/sell', 'TradeController@sellItem')->name('store.item.sell');
 });

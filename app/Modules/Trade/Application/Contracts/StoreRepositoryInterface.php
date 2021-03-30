@@ -12,6 +12,8 @@ interface StoreRepositoryInterface
 
     public function add(Store $store): void;
 
+    public function getOne(StoreId $storeId): Store;
+
     public function forCharacter(CharacterId $characterId): Store;
 
     public function update(Store $store): void;

@@ -64,7 +64,7 @@
       <div class="col-md-6">
 
         <h5 class="text-center">
-          {{ character.name }}'s Inventory
+          {{ customer.name }}'s Inventory
         </h5>
 
         <div class="my-3 row mx-1 table-dark align-items-center">
@@ -93,7 +93,7 @@
       <div class="col-md-6">
 
         <h5 class="text-center">
-          {{ character.name }}'s Store
+          {{ trader.name }}'s Store
         </h5>
 
         <div class="my-3 row mx-1 table-dark align-items-center">
@@ -128,26 +128,7 @@
             <div class="input-group mb-3">
               <div class="input-group-prepend">
                                 <span class="input-group-text font-weight-bold">
-                                    Money in inventory: {{ character.inventory.money }}
-                                </span>
-              </div>
-              <label for="money-to-store"></label>
-              <input type="number"
-                     name="money_amount"
-                     id="money-to-store"
-                     class="form-control"
-                     v-model.number="money_to_store"
-                     min="0"
-                     :max=character.inventory.money
-                     aria-label="Money to move to store">
-              <div class="input-group-append">
-                                <span class="input-group-text">
-                                    <button type="submit"
-                                            class="btn btn-sm btn-secondary"
-                                            @click.stop.prevent="moveMoneyToStore()">
-                                        Move to Store
-                                         <span class="fas fa-long-arrow-alt-right"></span>
-                                    </button>
+                                    Money in inventory: {{ customer.inventory.money }}
                                 </span>
               </div>
             </div>
@@ -160,28 +141,9 @@
         <div class="row">
           <div class="col-md-12 text-center my-3">
             <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <button type="submit"
-                                            class="btn btn-sm btn-secondary"
-                                            @click.stop.prevent="moveMoneyToInventory()">
-                                        <span class="fas fa-long-arrow-alt-left"></span>
-                                        Move to Inventory
-                                    </button>
-                                </span>
-              </div>
-              <label for="money-to-inventory"></label>
-              <input type="number"
-                     name="money_amount"
-                     id="money-to-inventory"
-                     class="form-control"
-                     v-model.number="money_to_inventory"
-                     min="0"
-                     :max=character.store.money
-                     aria-label="Money to move to inventory">
               <div class="input-group-append">
                                 <span class="input-group-text font-weight-bold">
-                                    Money in store: {{ character.store.money }}
+                                    Money in store: {{ trader.store.money }}
                                 </span>
               </div>
             </div>
@@ -224,7 +186,7 @@ export default {
       money_to_inventory: 0,
       total_inventory_slots: 25,
       total_store_slots: 25,
-      character: {
+      customer: {
         name: '',
         inventory: {
           items: [
@@ -245,7 +207,11 @@ export default {
           ],
           money: 0
         },
+      },
+      trader: {
+        name: '',
         store: {
+          id: '',
           items: [
             {
               pivot: {
@@ -269,10 +235,74 @@ export default {
   },
 
   created() {
-    this.character = this.$attrs.character;
+    this.customer = this.$attrs.customer;
+    this.trader = this.$attrs.trader;
   },
 
   methods: {
+
+    buy(item) {
+
+      if (!item) {
+        this.logError('Item not found');
+
+        return;
+      }
+
+      if (this.customer.inventory.money < item.price) {
+        this.logError('You don\'t have ' + item.price + ' coins');
+
+        return;
+      }
+
+      item.pivot.inventory_slot_number = this.findFreeInventorySlot();
+
+      this.customer.inventory.items.push(item);
+
+      let index = this.trader.store.items.indexOf(item);
+
+      if (index > -1) {
+        this.trader.store.items.splice(index, 1);
+      }
+
+      this.customer.inventory.money -= item.price;
+      this.trader.store.money += item.price
+
+      axios.post('/api/store/' + this.trader.store.id + '/item/' + item.id + '/buy')
+          .then(() => {
+            this.logSuccess('Bought: ' + item.name + ' for ' + item.price + ' coins');
+          }).catch(error => {
+        this.logError('Buying failed: ' + error.message);
+      });
+    },
+
+    sell(item) {
+
+      if (!item || this.trader.store.money < item.price) {
+        return;
+      }
+
+      item.pivot.inventory_slot_number = this.findFreeStoreSlot();
+
+      this.trader.store.items.push(item);
+
+      let index = this.customer.inventory.items.indexOf(item);
+
+      if (index > -1) {
+        this.customer.inventory.items.splice(index, 1);
+      }
+
+      this.trader.store.money -= item.price;
+      this.customer.inventory.money += item.price
+
+      axios.post('/api/store/' + this.trader.store.id + '/item/' + item.id + '/sell')
+          .then(() => {
+            this.logSuccess('Sold: ' + item.name + ' for ' + item.price + ' coins');
+          }).catch(error => {
+        this.logError('Selling failed: ' + error.message);
+      });
+    },
+
     findFreeStoreSlot() {
 
       for (let slot = 0; slot < this.total_store_slots; slot++) {
@@ -295,61 +325,6 @@ export default {
       }
 
       return null;
-    },
-
-    moveItemToStore(item) {
-
-      if (!item) {
-        return;
-      }
-
-      this.showModal = false;
-
-      item.pivot.inventory_slot_number = this.findFreeStoreSlot();
-      item.pivot.status = 'in_backpack';
-
-      this.character.store.items.push(item);
-
-      let index = this.character.inventory.items.indexOf(item);
-
-      if (index > -1) {
-        this.character.inventory.items.splice(index, 1);
-      }
-
-      axios.post('/api/inventory/item/' + item.id + '/move-to-store')
-          .then(() => {
-            this.logSuccess('Moved: ' + item.name + ' to the store');
-
-            this.money_to_store = 0;
-          }).catch(error => {
-        this.logError('Moving item to the store failed: ' + error.message);
-      });
-    },
-
-    moveItemToInventory(item) {
-
-      if (!item) {
-        return;
-      }
-
-      item.pivot.inventory_slot_number = this.findFreeInventorySlot();
-
-      this.character.inventory.items.push(item);
-
-      let index = this.character.store.items.indexOf(item);
-
-      if (index > -1) {
-        this.character.store.items.splice(index, 1);
-      }
-
-      axios.post('/api/store/item/' + item.id + '/move-to-inventory')
-          .then(() => {
-            this.logSuccess('Moved: ' + item.name + ' to the inventory');
-
-            this.money_to_store = 0;
-          }).catch(error => {
-        this.logError('Moving item to the inventory failed: ' + error.message);
-      });
     },
 
     openItemModal(item, container) {
@@ -382,44 +357,6 @@ export default {
       });
     },
 
-    moveMoneyToInventory() {
-
-      if (this.money_to_inventory === 0) {
-        return;
-      }
-
-      this.character.inventory.money += this.money_to_inventory;
-      this.character.store.money -= this.money_to_inventory;
-
-      axios.post('/api/store/money/move-to-inventory', {'money_amount': this.money_to_inventory})
-          .then(() => {
-            this.logSuccess('Moved: ' + this.money_to_store + ' coins to the inventory');
-
-            this.money_to_inventory = 0;
-          }).catch(error => {
-        this.logError('Moving coins to the store failed: ' + error.message);
-      });
-    },
-
-    moveMoneyToStore() {
-
-      if (this.money_to_store === 0) {
-        return;
-      }
-
-      this.character.store.money += this.money_to_store;
-      this.character.inventory.money -= this.money_to_store;
-
-      axios.post('/api/inventory/money/move-to-store', {'money_amount': this.money_to_store})
-          .then(() => {
-            this.logSuccess('Moved: ' + this.money_to_store + ' coins to the store');
-
-            this.money_to_store = 0;
-          }).catch(error => {
-        this.logError('Moving coins to the store failed: ' + error.message);
-      });
-    },
-
     asset(path) {
       let base_path = window._asset || '';
 
@@ -427,13 +364,13 @@ export default {
     },
 
     getInventoryItem(index) {
-      return this.character.inventory.items.find(
+      return this.customer.inventory.items.find(
           item => parseInt(item.pivot.inventory_slot_number) === parseInt(index)
       );
     },
 
     getStoreItem(index) {
-      return this.character.store.items.find(
+      return this.trader.store.items.find(
           item => parseInt(item.pivot.inventory_slot_number) === parseInt(index)
       );
     },
@@ -461,12 +398,12 @@ export default {
       if (container === 'store') {
         let inventoryItem = this.getInventoryItem(itemIndex);
 
-        this.moveItemToStore(inventoryItem);
+        this.sell(inventoryItem);
       } else {
 
         let storeItem = this.getStoreItem(itemIndex);
 
-        this.moveItemToInventory(storeItem);
+        this.buy(storeItem);
       }
     },
 

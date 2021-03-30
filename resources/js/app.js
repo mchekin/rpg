@@ -28,8 +28,17 @@ Vue.component(
     require('./components/StoreManagement.vue').default
 );
 
+Vue.component(
+    'store-trade',
+    require('./components/StoreTrade.vue').default
+);
+
+Vue.component(
+    'flash-messages',
+    require('./components/FlashMessages.vue').default
+);
+
+
 const app = new Vue({
     el: '#app',
 });
-
-require('./notifications.js');

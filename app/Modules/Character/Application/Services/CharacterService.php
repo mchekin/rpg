@@ -22,7 +22,7 @@ use App\Modules\Equipment\Application\Services\InventoryService;
 use App\Modules\Image\Domain\Image;
 use App\Modules\Level\Application\Services\LevelService;
 use App\Modules\Trade\Application\Commands\CreateStoreCommand;
-use App\Modules\Trade\Application\Services\StoreService;
+use App\Modules\Trade\Application\Services\CreateStoreService;
 use Illuminate\Support\Facades\DB;
 
 class CharacterService
@@ -52,7 +52,7 @@ class CharacterService
      */
     private $inventoryService;
     /**
-     * @var StoreService
+     * @var CreateStoreService
      */
     private $storeService;
 
@@ -63,7 +63,7 @@ class CharacterService
         BattleRepositoryInterface $battleRepository,
         LevelService $levelService,
         InventoryService $inventoryService,
-        StoreService $storeService
+        CreateStoreService $storeService
     )
     {
         $this->characterFactory = $characterFactory;
