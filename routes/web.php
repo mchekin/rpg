@@ -1,6 +1,8 @@
 <?php
 
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+use TCG\Voyager\Facades\Voyager;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,7 +54,7 @@ Route::group(['prefix' => 'admin'], static function () {
     Voyager::routes();
 });
 
-Route::middleware('auth', 'has.character')->namespace('Api')->prefix('api')->group(static function () {
+Route::middleware(['auth', 'has.character'])->namespace('Api')->prefix('api')->group(static function () {
 
     // Manage store
     Route::post('/inventory/item/{item}/move-to-store', 'ManageStoreController@moveItemToStore')->name('inventory.item.move-to-store');
