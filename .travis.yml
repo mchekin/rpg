@@ -6,6 +6,7 @@ php:
   - 7.4
 
 install:
+  - pecl install zip
   - cp .env.example .env
   - travis_retry composer install --no-interaction
   - php artisan dusk:chrome-driver 71
