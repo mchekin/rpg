@@ -34,6 +34,14 @@
 
         docker-compose up -d
 
+- Install NPM packages
+
+        docker-compose exec app npm install
+
+- Build frontend assets
+
+        docker-compose exec app npm run dev
+
 - Navigate to [http://localhost:8080/](http://localhost/8080)
 
 <a name="usingadmindashboard"></a>
