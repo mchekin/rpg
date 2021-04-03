@@ -24,7 +24,7 @@
         
 - Create .env file from the .env.example file
 
-        copy .env.docker.example .env
+        cp .env.example .env
   
   On Windows:
 

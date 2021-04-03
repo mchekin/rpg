@@ -3,3 +3,6 @@
 *.scss linguist-vendored
 *.js linguist-vendored
 CHANGELOG.md export-ignore
+
+# Files to keep with LF endings, even on Windows
+*.sh text eol=lf
