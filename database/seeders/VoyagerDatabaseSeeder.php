@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
 use TCG\Voyager\Traits\Seedable;
 
@@ -10,7 +12,7 @@ class VoyagerDatabaseSeeder extends Seeder
     protected $seedersPath = __DIR__.'/';
 
     /**
-     * Run the database seeds.
+     * Run the database seeders.
      *
      * @return void
      */

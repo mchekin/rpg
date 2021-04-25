@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\Character;
 use App\Inventory;
 use App\Item;
@@ -17,7 +19,7 @@ use Illuminate\Database\Seeder;
 class CharacterSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Run the database seeders.
      *
      * @return void
      */

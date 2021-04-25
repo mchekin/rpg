@@ -22,6 +22,7 @@ use App\Modules\Message\Application\Contracts\MessageRepositoryInterface;
 use App\Modules\Message\Infrastructure\Repositories\MessageRepository;
 use App\Modules\Trade\Application\Contracts\StoreRepositoryInterface;
 use App\Modules\Trade\Infrastructure\Repositories\StoreRepository;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -33,7 +34,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Paginator::useBootstrap();
     }
 
     /**
