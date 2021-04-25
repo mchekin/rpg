@@ -5,7 +5,7 @@ namespace App\Modules\Character\UI\Http\CommandMappers;
 
 use App\Modules\Character\Application\Commands\CreateCharacterCommand;
 use Illuminate\Http\Request;
-use App\User as UserModel;
+use App\Models\User as UserModel;
 
 class CreateCharacterCommandMapper
 {

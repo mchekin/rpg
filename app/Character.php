@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\User;
 use App\Modules\Equipment\Domain\ItemStatus;
 use App\Modules\Equipment\Domain\ItemType;
 use App\Traits\UsesStringId;

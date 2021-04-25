@@ -4,7 +4,7 @@
 namespace App\Modules\User\Application\Services;
 
 use App\Modules\User\Application\Commands\CreateUserCommand;
-use App\User;
+use App\Models\User;
 use Illuminate\Support\Str;
 
 class UserService

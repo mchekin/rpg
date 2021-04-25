@@ -5,7 +5,7 @@ namespace App\Modules\Character\UI\Http\CommandMappers;
 
 use App\Modules\Character\Application\Commands\AttackCharacterCommand;
 use App\Modules\Character\Domain\CharacterId;
-use App\User as UserModel;
+use App\Models\User as UserModel;
 use Illuminate\Http\Request;
 
 class AttackCharacterCommandMapper

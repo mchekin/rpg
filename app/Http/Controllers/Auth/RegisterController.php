@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Modules\User\Application\Services\UserService;
 use App\Modules\User\UI\Http\CommandMappers\CreateUserCommandMapper;
 use App\Http\Controllers\Controller;
-use App\User;
+use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 

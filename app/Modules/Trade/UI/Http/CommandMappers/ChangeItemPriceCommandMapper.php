@@ -8,7 +8,7 @@ use App\Modules\Generic\Domain\ContainerType;
 use App\Modules\Trade\Application\Commands\ChangeItemPriceCommand;
 use App\Modules\Equipment\Domain\ItemId;
 use Illuminate\Http\Request;
-use App\User as UserModel;
+use App\Models\User as UserModel;
 
 class ChangeItemPriceCommandMapper
 {

@@ -25,7 +25,7 @@ use App\Modules\Equipment\Domain\ItemStatus;
 use App\Modules\Trade\Application\Contracts\StoreRepositoryInterface;
 use App\Race;
 use App\Store;
-use App\User;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Support\Str;
 use Faker\Generator;

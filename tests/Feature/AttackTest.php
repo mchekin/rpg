@@ -4,7 +4,7 @@ namespace Tests\Feature;
 
 use App\Battle;
 use App\Character;
-use App\User;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

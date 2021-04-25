@@ -13,7 +13,7 @@ use App\Modules\Equipment\Application\Contracts\ItemRepositoryInterface;
 use App\Modules\Equipment\Domain\ItemStatus;
 use App\Modules\Trade\Application\Contracts\StoreRepositoryInterface;
 use App\Store;
-use App\User;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class CharacterSeeder extends Seeder
