@@ -2,17 +2,17 @@
 
 namespace Database\Seeders;
 
-use App\Character;
-use App\Inventory;
-use App\Item;
-use App\ItemPrototype;
-use App\Location;
+use App\Models\Character;
+use App\Models\Inventory;
+use App\Models\Item;
+use App\Models\ItemPrototype;
+use App\Models\Location;
 use App\Modules\Character\Application\Contracts\CharacterRepositoryInterface;
 use App\Modules\Equipment\Application\Contracts\InventoryRepositoryInterface;
 use App\Modules\Equipment\Application\Contracts\ItemRepositoryInterface;
 use App\Modules\Equipment\Domain\ItemStatus;
 use App\Modules\Trade\Application\Contracts\StoreRepositoryInterface;
-use App\Store;
+use App\Models\Store;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 

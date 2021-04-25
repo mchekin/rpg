@@ -6,8 +6,8 @@ namespace App\Modules\Battle\Infrastructure\Repositories;
 
 use App\Modules\Battle\Application\Contracts\BattleRepositoryInterface;
 use App\Modules\Battle\Domain\Battle;
-use App\Battle as BattleModel;
-use App\BattleRound as BattleRoundModel;
+use App\Models\Battle as BattleModel;
+use App\Models\BattleRound as BattleRoundModel;
 use App\Modules\Battle\Domain\BattleId;
 use App\Modules\Battle\Domain\BattleRound;
 use App\Modules\Battle\Domain\BattleTurn;

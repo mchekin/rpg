@@ -1,6 +1,6 @@
 @php
-    /** @var \App\Character $character */
-    /** @var \App\Item $item */
+    /** @var \App\Models\Character $character */
+    /** @var \App\Models\Item $item */
 @endphp
 
 <div class="mt-5 row mx-1 table-dark align-items-center mx-1">

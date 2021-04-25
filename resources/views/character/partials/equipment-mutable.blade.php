@@ -1,6 +1,6 @@
 @php
-    /** @var \App\Character $character */
-    /** @var \App\Item $item */
+    /** @var \App\Models\Character $character */
+    /** @var \App\Models\Item $item */
 @endphp
 
 <form role="form" method="POST" class="mx-1">

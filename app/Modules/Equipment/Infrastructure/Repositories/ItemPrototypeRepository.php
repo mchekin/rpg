@@ -2,7 +2,7 @@
 
 namespace App\Modules\Equipment\Infrastructure\Repositories;
 
-use App\ItemPrototype as ItemPrototypeModel;
+use App\Models\ItemPrototype as ItemPrototypeModel;
 use App\Modules\Equipment\Domain\ItemPrototypeId;
 use App\Modules\Equipment\Application\Contracts\ItemPrototypeRepositoryInterface;
 use App\Modules\Equipment\Domain\ItemPrototype;
@@ -36,7 +36,7 @@ class ItemPrototypeRepository implements ItemPrototypeRepositoryInterface
 
     public function getOne(ItemPrototypeId $itemPrototypeId): ItemPrototype
     {
-        /** @var ItemPrototypeModel $model */
+        /** @var \App\Models\ItemPrototypeModel $model */
         $model = ItemPrototypeModel::query()->findOrFail($itemPrototypeId->toString());
 
         return $this->reconstitutionFactory->reconstitute($model);

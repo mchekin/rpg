@@ -1,6 +1,6 @@
 <?php
 
-use App\Location;
+use App\Models\Location;
 use App\Modules\Character\Application\Contracts\LocationRepositoryInterface;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
@@ -101,10 +101,10 @@ class CreateLocationsTable extends Migration
         ];
 
         foreach ($adjacent_locations as $record) {
-            /** @var  $location \App\Location */
+            /** @var  $location Location */
             $location = Location::query()->find($record['location_id']);
 
-            /** @var  $adjacent_location \App\Location */
+            /** @var  $adjacent_location Location */
             $adjacent_location = Location::query()->find($record['adjacent_location_id']);
 
             $location->addAdjacentLocation($adjacent_location, $record['direction']);

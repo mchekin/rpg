@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Character;
+use App\Models\Character;
 use App\Modules\Equipment\Application\Services\InventoryService;
 use App\Modules\Equipment\UI\Http\CommandMappers\EquipItemCommandMapper;
 use App\Modules\Level\Application\Services\LevelService;

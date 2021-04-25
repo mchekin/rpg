@@ -11,7 +11,7 @@ use App\Modules\Character\Domain\Gender;
 use App\Modules\Character\Domain\Statistics;
 use App\Modules\Character\Domain\HitPoints;
 use App\Modules\Character\Domain\Reputation;
-use App\Character as CharacterModel;
+use App\Models\Character as CharacterModel;
 use App\Modules\Image\Domain\ImageId;
 
 

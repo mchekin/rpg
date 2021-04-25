@@ -3,7 +3,7 @@
 
 namespace App\Modules\Message\UI\Http\CommandMappers;
 
-use App\Character;
+use App\Models\Character;
 use App\Modules\Character\Domain\CharacterId;
 use App\Modules\Message\Application\Commands\SendMessageCommand;
 use Illuminate\Http\Request;

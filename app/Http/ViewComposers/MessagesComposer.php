@@ -2,8 +2,8 @@
 
 namespace App\Http\ViewComposers;
 
-use App\Character;
-use App\Message;
+use App\Models\Character;
+use App\Models\Message;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;

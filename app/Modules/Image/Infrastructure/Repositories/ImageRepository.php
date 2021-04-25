@@ -5,7 +5,7 @@ namespace App\Modules\Image\Infrastructure\Repositories;
 use App\Modules\Character\Domain\CharacterId;
 use App\Modules\Image\Domain\ImageFile;
 use App\Modules\Image\Domain\Image;
-use App\Image as ImageModel;
+use App\Models\Image as ImageModel;
 use App\Modules\Image\Application\Contracts\ImageRepositoryInterface;
 use App\Modules\Image\Domain\ImageId;
 use App\Traits\GeneratesUuid;

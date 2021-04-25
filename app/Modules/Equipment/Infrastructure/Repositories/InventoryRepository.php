@@ -2,7 +2,7 @@
 
 namespace App\Modules\Equipment\Infrastructure\Repositories;
 
-use App\Inventory as InventoryModel;
+use App\Models\Inventory as InventoryModel;
 use App\Modules\Character\Domain\CharacterId;
 use App\Modules\Equipment\Application\Contracts\InventoryRepositoryInterface;
 use App\Modules\Equipment\Domain\Inventory;

@@ -2,8 +2,8 @@
 
 namespace App\Http\ViewComposers;
 
-use App\Battle;
-use App\Character;
+use App\Models\Battle;
+use App\Models\Character;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Arr;

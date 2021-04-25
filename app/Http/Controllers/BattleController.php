@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Battle;
+use App\Models\Battle;
 
 class BattleController extends Controller
 {

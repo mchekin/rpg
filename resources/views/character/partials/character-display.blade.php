@@ -1,5 +1,5 @@
 @php
-    /** @var \App\Character $character */
+    /** @var \App\Models\Character $character */
     $hpPercent = ($character->getHitPoints() / $character->getTotalHitPoints()) * 100;
 @endphp
 
@@ -40,7 +40,7 @@
     @if($character->hasProfilePicture())
         <div class="text-center">
             @php
-                /** @var \App\Character $character */
+                /** @var \App\Models\Character $character */
                 $profile_picture = $character->getProfilePicture();
             @endphp
             <form role="form" method="POST"

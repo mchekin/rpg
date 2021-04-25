@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use App\Traits\UsesStringId;
 use Illuminate\Database\Eloquent\Collection;

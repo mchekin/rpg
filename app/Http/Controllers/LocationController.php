@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Location;
+use App\Models\Location;
 
 class LocationController extends Controller
 {
