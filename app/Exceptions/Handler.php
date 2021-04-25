@@ -24,6 +24,7 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontFlash = [
+        'current_password',
         'password',
         'password_confirmation',
     ];
@@ -35,12 +36,12 @@ class Handler extends ExceptionHandler
      *
      * @param  \Throwable $exception
      * @return void
-     *
-     * @throws Exception
      */
-    public function report(\Throwable $exception)
+    public function register()
     {
-        parent::report($exception);
+        $this->reportable(function (Throwable $e) {
+            //
+        });
     }
 
     /**
