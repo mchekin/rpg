@@ -18,13 +18,13 @@ class VoyagerDatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->seed('DataTypesTableSeeder');
-        $this->seed('DataRowsTableSeeder');
-        $this->seed('MenusTableSeeder');
-        $this->seed('MenuItemsTableSeeder');
-        $this->seed('RolesTableSeeder');
-        $this->seed('PermissionsTableSeeder');
-        $this->seed('PermissionRoleTableSeeder');
-        $this->seed('SettingsTableSeeder');
+        $this->seed(DataTypesTableSeeder::class);
+        $this->seed(DataRowsTableSeeder::class);
+        $this->seed(MenusTableSeeder::class);
+        $this->seed(MenuItemsTableSeeder::class);
+        $this->seed(RolesTableSeeder::class);
+        $this->seed(PermissionsTableSeeder::class);
+        $this->seed(PermissionRoleTableSeeder::class);
+        $this->seed(SettingsTableSeeder::class);
     }
 }
