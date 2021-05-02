@@ -7,3 +7,6 @@ CHANGELOG.md export-ignore
 # Files to keep with LF endings, even on Windows
 *.sh text eol=lf
 /docker/cron/scheduler eol=lf
+/docker/mysql/my.cnf eol=lf
+/docker/nginx/conf.d/app.conf eol=lf
+/docker/php/local.ini eol=lf
