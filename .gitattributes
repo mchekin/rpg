@@ -6,3 +6,4 @@ CHANGELOG.md export-ignore
 
 # Files to keep with LF endings, even on Windows
 *.sh text eol=lf
+/docker/cron/scheduler eol=lf

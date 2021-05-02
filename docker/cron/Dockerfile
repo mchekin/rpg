@@ -25,6 +25,9 @@ WORKDIR /var/www
 # Add crontab file in the cron directory
 ADD ./docker/cron/scheduler /etc/cron.d/scheduler
 
+# Give execution rights on the cron job
+RUN chmod 0644 /etc/cron.d/scheduler
+
 # Apply the cron jobs
 RUN crontab /etc/cron.d/scheduler
 
