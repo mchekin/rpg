@@ -15,7 +15,7 @@
         "bootstrap": "^4.5.3",
         "jquery": "^3.2",
         "laravel-mix": "^6.0.6",
-        "lodash": "^4.17.19",
+        "lodash": "^4.17.21",
         "popper.js": "^1.12",
         "postcss": "^8.1.14",
         "vue": "^2.6.12",
