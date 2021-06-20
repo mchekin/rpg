@@ -46,7 +46,7 @@
               <th scope="row">Effects</th>
               <td>
                 <ul class="list-unstyled modal-item-effects">
-                  <li v-for="effect in itemToDisplay.effects" class="">
+                  <li v-for="effect in itemToDisplay.effects" class="" :key="effect.type">
                     {{ effect.type | capitalize }}: {{ effect.quantity | plusForPositiveNumber }}
                   </li>
                 </ul>
@@ -69,7 +69,7 @@
 
         <div class="my-3 row mx-1 table-dark align-items-center">
 
-          <div v-for="index in total_inventory_slots"
+          <div v-for="index in total_inventory_slots" :key="index"
                :id="index-1"
                :class="[isEquipped(index-1) ? 'inventory-item equipped' : 'inventory-item']"
                @drop="onDrop($event, 'inventory')"
@@ -98,7 +98,7 @@
 
         <div class="my-3 row mx-1 table-dark align-items-center">
 
-          <div v-for="index in total_store_slots"
+          <div v-for="index in total_store_slots" :key="index"
                :id="index-1"
                class="inventory-item"
                @drop="onDrop($event, 'store')"
