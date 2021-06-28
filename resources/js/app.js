@@ -2,7 +2,7 @@
 
 require('./bootstrap');
 
-window.Vue = require('vue');
+window.Vue = require('vue').default;
 
 Vue.filter('underscoreToWhitespace', function (value) {
     return value.split('_').join(' ');
