@@ -4,7 +4,7 @@ namespace App\Modules\Trade\Infrastructure\Repositories;
 
 use App\Modules\Trade\Domain\StoreItem;
 use App\Modules\Trade\Infrastructure\ReconstitutionFactories\StoreReconstitutionFactory;
-use App\Store as StoreModel;
+use App\Models\Store as StoreModel;
 use App\Modules\Character\Domain\CharacterId;
 use App\Modules\Trade\Application\Contracts\StoreRepositoryInterface;
 use App\Modules\Trade\Domain\Store;

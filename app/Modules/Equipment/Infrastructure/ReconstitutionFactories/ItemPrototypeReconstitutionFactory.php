@@ -3,7 +3,7 @@
 
 namespace App\Modules\Equipment\Infrastructure\ReconstitutionFactories;
 
-use App\ItemPrototype as ItemPrototypeModel;
+use App\Models\ItemPrototype as ItemPrototypeModel;
 use App\Modules\Equipment\Domain\ItemPrice;
 use App\Modules\Equipment\Domain\ItemPrototype;
 use App\Modules\Equipment\Domain\ItemEffect;

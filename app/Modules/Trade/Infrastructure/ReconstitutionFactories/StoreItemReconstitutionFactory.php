@@ -3,7 +3,7 @@
 
 namespace App\Modules\Trade\Infrastructure\ReconstitutionFactories;
 
-use App\Item as ItemModel;
+use App\Models\Item as ItemModel;
 use App\Modules\Equipment\Domain\ItemPrice;
 use App\Modules\Equipment\Infrastructure\ReconstitutionFactories\ItemReconstitutionFactory;
 use App\Modules\Trade\Domain\StoreItem;

@@ -2,12 +2,13 @@
 
 namespace App\Modules\Trade\UI\Http\CommandMappers;
 
+use App\Models\User;
 use App\Modules\Character\Domain\CharacterId;
 use App\Modules\Equipment\Domain\ItemId;
 use App\Modules\Trade\Application\Commands\SellItemCommand;
 use App\Modules\Trade\Domain\StoreId;
 use Illuminate\Http\Request;
-use App\User as UserModel;
+use App\Models\User as UserModel;
 
 class SellItemCommandMapper
 {

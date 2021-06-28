@@ -3,12 +3,12 @@
 
 namespace App\Modules\Trade\Infrastructure\ReconstitutionFactories;
 
-use App\Item as ItemModel;
+use App\Models\Item as ItemModel;
 use App\Modules\Equipment\Domain\Money;
 use App\Modules\Trade\Domain\Store;
 use App\Modules\Trade\Domain\StoreId;
 use App\Modules\Trade\Domain\StoreType;
-use App\Store as StoreModel;
+use App\Models\Store as StoreModel;
 use App\Modules\Character\Domain\CharacterId;
 
 class StoreReconstitutionFactory

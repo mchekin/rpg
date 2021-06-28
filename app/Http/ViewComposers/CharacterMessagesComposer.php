@@ -2,8 +2,8 @@
 
 namespace App\Http\ViewComposers;
 
-use App\Character;
-use App\Message;
+use App\Models\Character;
+use App\Models\Message;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;

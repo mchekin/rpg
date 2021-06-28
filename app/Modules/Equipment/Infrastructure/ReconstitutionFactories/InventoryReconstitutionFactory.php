@@ -3,8 +3,8 @@
 
 namespace App\Modules\Equipment\Infrastructure\ReconstitutionFactories;
 
-use App\Item as ItemModel;
-use App\Inventory as InventoryModel;
+use App\Models\Item as ItemModel;
+use App\Models\Inventory as InventoryModel;
 use App\Modules\Character\Domain\CharacterId;
 use App\Modules\Equipment\Domain\Inventory;
 use App\Modules\Equipment\Domain\InventoryId;

@@ -6,7 +6,7 @@ use App\Modules\Character\Domain\CharacterId;
 use App\Modules\Equipment\Domain\Money;
 use App\Modules\Trade\Application\Commands\MoveMoneyToContainerCommand;
 use Illuminate\Http\Request;
-use App\User as UserModel;
+use App\Models\User as UserModel;
 
 class MoveMoneyToContainerCommandMapper
 {

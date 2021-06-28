@@ -2,7 +2,7 @@
 
 namespace App\Console;
 
-use App\Character;
+use App\Models\Character;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 

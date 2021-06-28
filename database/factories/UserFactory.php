@@ -1,21 +1,12 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Model Factories
-|--------------------------------------------------------------------------
-|
-| Here you may define all of your model factories. Model factories give
-| you a convenient way to create models for testing and seeding your
-| database. Just tell the factory how a default model should look.
-|
-*/
+namespace Database\Factories;
 
-use App\Character;
-use App\Inventory;
-use App\Item;
-use App\ItemPrototype;
-use App\Location;
+use App\Models\Character;
+use App\Models\Inventory;
+use App\Models\Item;
+use App\Models\ItemPrototype;
+use App\Models\Location;
 use App\Modules\Character\Application\Contracts\CharacterRepositoryInterface;
 use App\Modules\Character\Domain\HitPoints;
 use App\Modules\Character\Infrastructure\Repositories\RaceRepository;
@@ -23,9 +14,9 @@ use App\Modules\Equipment\Application\Contracts\InventoryRepositoryInterface;
 use App\Modules\Equipment\Application\Contracts\ItemRepositoryInterface;
 use App\Modules\Equipment\Domain\ItemStatus;
 use App\Modules\Trade\Application\Contracts\StoreRepositoryInterface;
-use App\Race;
-use App\Store;
-use App\User;
+use App\Models\Race;
+use App\Models\Store;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Support\Str;
 use Faker\Generator;
@@ -38,9 +29,9 @@ $factory->define(User::class, static function (Generator $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
+        'email_verified_at' => now(),
         'password' => $password ?: $password = bcrypt('secret'),
-        'remember_token' => Str::random(60),
-        'api_token' => Str::random(60),
+        'remember_token' => Str::random(60)
     ];
 });
 

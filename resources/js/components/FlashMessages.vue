@@ -2,7 +2,7 @@
   <Transition name="slide-fade">
     <div v-if="messages.length" class="" role="alert">
       <ul class="list-unstyled">
-        <li v-for="(message, index) in messages" :class="{
+        <li v-for="(message, index) in messages" :key="index" :class="{
           'alert alert-danger': message.type === 'error',
           'alert alert-success': message.type === 'success'
         }">

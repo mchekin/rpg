@@ -1,5 +1,5 @@
 <?php
-/** @var \App\Character $character */
+/** @var \App\Models\Character $character */
 
 $hasFreePoints = ($character->isYou() && $character->available_attribute_points);
 ?>

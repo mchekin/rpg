@@ -4,7 +4,7 @@ namespace App\Modules\Message\Infrastructure\Repositories;
 
 use App\Modules\Message\Domain\MessageId;
 use App\Modules\Message\Domain\Message;
-use App\Message as MessageModel;
+use App\Models\Message as MessageModel;
 use App\Modules\Message\Application\Contracts\MessageRepositoryInterface;
 use App\Traits\GeneratesUuid;
 use Exception;

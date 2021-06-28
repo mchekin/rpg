@@ -1,7 +1,7 @@
 <?php
 
-use App\Location;
-use App\Race;
+use App\Models\Location;
+use App\Models\Race;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;

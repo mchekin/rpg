@@ -4,8 +4,11 @@ FROM php:7.4-fpm
 ARG user
 ARG uid
 
+# Install NodeJS
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash
+
 # Install system dependencies
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     build-essential \
     git \
     curl \
@@ -16,7 +19,7 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip \
     nodejs \
-    npm
+    yarn
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*

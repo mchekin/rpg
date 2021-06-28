@@ -2,7 +2,7 @@
 
 namespace App\Modules\Equipment\Infrastructure\Repositories;
 
-use App\Item as ItemModel;
+use App\Models\Item as ItemModel;
 use App\Modules\Equipment\Domain\ItemId;
 use App\Modules\Equipment\Application\Contracts\ItemRepositoryInterface;
 use App\Modules\Equipment\Domain\Item;

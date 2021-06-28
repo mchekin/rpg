@@ -1,5 +1,5 @@
 <?php
-/** @var \App\Character $character * */
+/** @var \App\Models\Character $character * */
 $class = 'list-group-item-warning';
 
 if (!$character->isNPC()) {

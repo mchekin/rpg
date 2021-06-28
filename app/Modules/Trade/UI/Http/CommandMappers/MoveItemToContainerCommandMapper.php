@@ -6,7 +6,7 @@ use App\Modules\Character\Domain\CharacterId;
 use App\Modules\Trade\Application\Commands\MoveItemToContainerCommand;
 use App\Modules\Equipment\Domain\ItemId;
 use Illuminate\Http\Request;
-use App\User as UserModel;
+use App\Models\User as UserModel;
 
 class MoveItemToContainerCommandMapper
 {

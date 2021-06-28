@@ -3,7 +3,7 @@
 
 namespace App\Modules\Equipment\Infrastructure\ReconstitutionFactories;
 
-use App\Item as ItemModel;
+use App\Models\Item as ItemModel;
 use App\Modules\Character\Domain\CharacterId;
 use App\Modules\Equipment\Domain\Item;
 use App\Modules\Equipment\Domain\ItemEffect;

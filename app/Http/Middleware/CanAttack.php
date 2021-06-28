@@ -2,8 +2,8 @@
 
 namespace App\Http\Middleware;
 
-use App\Character;
-use App\User;
+use App\Models\Character;
+use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
 

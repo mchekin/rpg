@@ -3,7 +3,7 @@
 
 namespace App\Modules\Equipment\Infrastructure\ReconstitutionFactories;
 
-use App\Item as ItemModel;
+use App\Models\Item as ItemModel;
 use App\Modules\Equipment\Domain\InventoryItem;
 use App\Modules\Equipment\Domain\ItemStatus;
 

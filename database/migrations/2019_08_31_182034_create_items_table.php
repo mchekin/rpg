@@ -1,6 +1,6 @@
 <?php
 
-use App\ItemPrototype;
+use App\Models\ItemPrototype;
 use App\Modules\Equipment\Application\Contracts\ItemPrototypeRepositoryInterface;
 use App\Modules\Equipment\Domain\ItemEffect;
 use App\Modules\Equipment\Domain\ItemType;
