@@ -17,7 +17,7 @@
           </div>
 
           <div class="modal-item-price-image">
-            <img :src="itemToDisplay.image_file_path" :alt="itemToDisplay.name">
+            <img :src="'/' + itemToDisplay.image_file_path" :alt="itemToDisplay.name">
           </div>
 
           <table class="table model-item-attributes-table">
