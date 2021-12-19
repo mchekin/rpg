@@ -12,6 +12,7 @@ use App\Modules\Generic\Domain\Container\ContainerSlotIsTakenException;
 use App\Modules\Generic\Domain\Container\ContainerSlotOutOfRangeException;
 use App\Modules\Generic\Domain\Container\ItemNotInContainer;
 use App\Modules\Generic\Domain\Container\NotEnoughSpaceInContainerException;
+use App\Modules\Trade\Domain\Store\StoreDoesNotBuyItems;
 use Illuminate\Support\Collection;
 
 class Store
@@ -145,6 +146,10 @@ class Store
 
     public function takeMoneyOut(Money $money): Money
     {
+        if ($this->type->isSellOnly()) {
+            throw new StoreDoesNotBuyItems('Store does not buy items');
+        }
+
         $this->money = $this->money->remove($money);
 
         return $money;

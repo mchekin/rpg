@@ -2,7 +2,6 @@
 
 namespace App\Modules\Trade\Domain;
 
-use App\Modules\Equipment\Domain\ItemType;
 use InvalidArgumentException;
 
 class StoreType
@@ -49,8 +48,8 @@ class StoreType
         return $this->type;
     }
 
-    public function equals(ItemType $type): bool
+    public function isSellOnly(): bool
     {
-        return $this->type === $type->toString();
+        return $this->type === self::SELL_ONLY;
     }
 }
