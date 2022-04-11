@@ -94,7 +94,7 @@
             <div class="col-md-6">
 
                 <h5 class="text-center">
-                    {{ character.name }}'s Store
+                    {{ character.name }}'s Store ({{ character.store.type | underscoreToWhitespace | capitalize }})
                 </h5>
 
                 <div class="my-3 row mx-1 table-dark align-items-center">
@@ -263,7 +263,8 @@ export default {
                             }
                         }
                     ],
-                    money: 0
+                    money: 0,
+                    type: null
                 }
             }
         }
