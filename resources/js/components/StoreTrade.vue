@@ -270,9 +270,22 @@ export default {
 
         sell(item) {
 
-            if (!item || this.trader.store.money < item.price) {
+            if (!item) {
                 return;
             }
+
+            if (this.trader.store.type === 'sell_only') {
+                this.logError('Sell only store does not buy items');
+
+                return;
+            }
+
+            if (this.trader.store.money < item.price) {
+                this.logError('The store doesn\'t have ' + item.price + ' coins');
+
+                return;
+            }
+
 
             this.exchangeItemForMoney(item);
 
