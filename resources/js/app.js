@@ -24,6 +24,11 @@ Vue.component(
 );
 
 Vue.component(
+    'inventory-management',
+    require('./components/InventoryManagement.vue').default
+);
+
+Vue.component(
     'store-management',
     require('./components/StoreManagement.vue').default
 );
