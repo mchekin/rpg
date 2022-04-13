@@ -213,7 +213,7 @@ export default {
                 .then(() => {
                     this.logSuccess('Equipped: ' + item.name);
                 }).catch(error => {
-                this.logError('Equipping item failed: ' + error.message);
+                this.logError('Equipping item failed: ' + error.response.data.message);
             });
         },
 
@@ -282,7 +282,7 @@ export default {
 
                     this.money_to_store = 0;
                 }).catch(error => {
-                this.logError('Moving item to the store failed: ' + error.message);
+                this.logError('Moving item to the store failed: ' + error.response.data.message);
             });
         },
 

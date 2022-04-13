@@ -379,7 +379,7 @@ export default {
                 .then(() => {
                     this.logSuccess(item.name + ' price changed to ' + newPrice + ' coins');
                 }).catch(error => {
-                this.logError('Changing price failed: ' + error.message);
+                this.logError('Changing price failed: ' + error.response.data.message);
             });
         },
 

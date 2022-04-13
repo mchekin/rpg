@@ -324,7 +324,7 @@ export default {
 
                     this.money_to_store = 0;
                 }).catch(error => {
-                this.logError('Moving item to the store failed: ' + error.message);
+                this.logError('Moving item to the store failed: ' + error.response.data.message);
             });
         },
 
