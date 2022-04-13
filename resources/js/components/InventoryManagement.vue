@@ -201,6 +201,38 @@ export default {
     },
 
     methods: {
+        equipItem(item) {
+
+            if (!item) {
+                return;
+            }
+
+            item.pivot.status = 'equipped';
+
+            axios.post('/api/inventory/item/' + item.id + '/equip')
+                .then(() => {
+                    this.logSuccess('Equipped: ' + item.name);
+                }).catch(error => {
+                this.logError('Equipping item failed: ' + error.message);
+            });
+        },
+
+        unEquipItem(item) {
+
+            if (!item) {
+                return;
+            }
+
+            item.pivot.status = 'in_backpack';
+
+            axios.post('/api/inventory/item/' + item.id + '/un-equip')
+                .then(() => {
+                    this.logSuccess('Un-equipped: ' + item.name);
+                }).catch(error => {
+                this.logError('Un-equipping item failed: ' + error.response.data.message);
+            });
+        },
+
         findFreeStoreSlot() {
 
             for (let slot = 0; slot < this.total_store_slots; slot++) {
@@ -392,10 +424,12 @@ export default {
                 return;
             }
 
+            let inventoryItem = this.getInventoryItem(itemIndex);
+
             if (container === 'equipment') {
-                this.getInventoryItem(itemIndex).pivot.status = 'equipped';
+                this.equipItem(inventoryItem);
             } else {
-                this.getInventoryItem(itemIndex).pivot.status = 'in_backpack';
+                this.unEquipItem(inventoryItem);
             }
         },
 
