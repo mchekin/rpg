@@ -94,7 +94,7 @@
             <div class="col-md-6">
 
                 <h5 class="text-center">
-                    {{ trader.name }}'s Store
+                    {{ trader.name }}'s Store ({{ trader.store.type | underscoreToWhitespace | capitalize }})
                 </h5>
 
                 <div class="my-3 row mx-1 table-dark align-items-center">
@@ -229,7 +229,8 @@ export default {
                             }
                         }
                     ],
-                    money: 0
+                    money: 0,
+                    type: null
                 }
             }
         }
@@ -269,9 +270,22 @@ export default {
 
         sell(item) {
 
-            if (!item || this.trader.store.money < item.price) {
+            if (!item) {
                 return;
             }
+
+            if (this.trader.store.type === 'sell_only') {
+                this.logError('Sell only store does not buy items');
+
+                return;
+            }
+
+            if (this.trader.store.money < item.price) {
+                this.logError('The store doesn\'t have ' + item.price + ' coins');
+
+                return;
+            }
+
 
             this.exchangeItemForMoney(item);
 
@@ -365,7 +379,7 @@ export default {
                 .then(() => {
                     this.logSuccess(item.name + ' price changed to ' + newPrice + ' coins');
                 }).catch(error => {
-                this.logError('Changing price failed: ' + error.message);
+                this.logError('Changing price failed: ' + error.response.data.message);
             });
         },
 

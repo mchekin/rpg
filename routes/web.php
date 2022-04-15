@@ -56,6 +56,10 @@ Route::group(['prefix' => 'admin'], static function () {
 
 Route::middleware(['auth', 'has.character'])->namespace('Api')->prefix('api')->group(static function () {
 
+    // Manage inventory
+    Route::post('/inventory/item/{item}/equip', 'ManageInventoryController@equipItem')->name('inventory.item.equip');
+    Route::post('/inventory/item/{item}/un-equip', 'ManageInventoryController@unEquipItem')->name('inventory.item.un-equip');
+
     // Manage store
     Route::post('/inventory/item/{item}/move-to-store', 'ManageStoreController@moveItemToStore')->name('inventory.item.move-to-store');
     Route::post('/store/item/{item}/change-price', 'ManageStoreController@changeItemPrice')->name('store.item.change-price');

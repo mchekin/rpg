@@ -58,136 +58,82 @@
             </popup-modal>
         </div>
 
-        <div class="row">
-
-            <!-- Left Side -->
-            <div class="col-md-6">
-
-                <h5 class="text-center">
-                    {{ character.name }}'s Inventory
-                </h5>
-
-                <div class="my-3 row mx-1 table-dark align-items-center">
-
-                    <div v-for="index in total_inventory_slots" :key="index"
-                         :id="index-1"
-                         :class="[isEquipped(index-1) ? 'inventory-item equipped' : 'inventory-item']"
-                         @drop="onDrop($event, 'inventory')"
-                         @dragover.prevent
-                         @dragenter.prevent>
-                        <button type="submit"
-                                @click.stop.prevent="openItemModal(getInventoryItem(index-1), 'inventory')"
-                                @dragstart="startDrag($event, index-1, 'inventory')"
-                                draggable="true"
-                                class="btn btn-link-thin"
-                                v-if="getInventoryItem(index-1)">
-                            <img :src="asset(getInventoryItem(index-1).image_file_path)"
-                                 :alt="getInventoryItem(index-1).name">
-                        </button>
-                    </div>
-
+        <div class="mx-1">
+            <div class="row mx-1 table-dark align-items-center"
+                 @drop="onDrop($event, 'equipment')"
+                 @dragover.prevent
+                 @dragenter.prevent>
+                <div class="col-3 equipment-item">
+                    {{ 'head_gear' | underscoreToWhitespace | capitalize }}
+                    <button type="submit"
+                            @click.stop.prevent="openItemModal(getEquipmentItem('head_gear'), 'equipment')"
+                            @dragstart="startDrag($event, parseInt(getEquipmentItem('head_gear').pivot.inventory_slot_number), 'equipment')"
+                            draggable="true"
+                            class="btn btn-link-thin"
+                            v-if="getEquipmentItem('head_gear')">
+                        <img :src="asset(getEquipmentItem('head_gear').image_file_path)"
+                             :alt="getEquipmentItem('head_gear').name">
+                    </button>
                 </div>
-
-            </div>
-
-            <!-- Right Side -->
-            <div class="col-md-6">
-
-                <h5 class="text-center">
-                    {{ character.name }}'s Store ({{ character.store.type | underscoreToWhitespace | capitalize }})
-                </h5>
-
-                <div class="my-3 row mx-1 table-dark align-items-center">
-
-                    <div v-for="index in total_store_slots" :key="index"
-                         :id="index-1"
-                         class="inventory-item"
-                         @drop="onDrop($event, 'store')"
-                         @dragover.prevent
-                         @dragenter.prevent>
-                        <button type="submit"
-                                @click.stop.prevent="openItemModal(getStoreItem(index-1), 'store')"
-                                class="btn btn-link-thin"
-                                @dragstart="startDrag($event, index-1, 'store')"
-                                draggable="true"
-                                v-if="getStoreItem(index-1)">
-                            <img :src="asset(getStoreItem(index-1).image_file_path)" :alt="getStoreItem(index-1).name">
-                        </button>
-                    </div>
-
+                <div class="col-3 equipment-item">
+                    {{ 'body_armor' | underscoreToWhitespace | capitalize }}
+                    <button type="submit"
+                            @click.stop.prevent="openItemModal(getEquipmentItem('body_armor'), 'equipment')"
+                            @dragstart="startDrag($event, parseInt(getEquipmentItem('body_armor').pivot.inventory_slot_number), 'equipment')"
+                            draggable="true"
+                            class="btn btn-link-thin"
+                            v-if="getEquipmentItem('body_armor')">
+                        <img :src="asset(getEquipmentItem('body_armor').image_file_path)"
+                             :alt="getEquipmentItem('body_armor').name">
+                    </button>
                 </div>
-
+                <div class="col-3 equipment-item">
+                    {{ 'main_hand' | underscoreToWhitespace | capitalize }}
+                    <button type="submit"
+                            @click.stop.prevent="openItemModal(getEquipmentItem('main_hand'), 'equipment')"
+                            @dragstart="startDrag($event, parseInt(getEquipmentItem('main_hand').pivot.inventory_slot_number), 'equipment')"
+                            draggable="true"
+                            class="btn btn-link-thin"
+                            v-if="getEquipmentItem('main_hand')">
+                        <img :src="asset(getEquipmentItem('main_hand').image_file_path)"
+                             :alt="getEquipmentItem('main_hand').name">
+                    </button>
+                </div>
+                <div class="col-3 equipment-item">
+                    {{ 'off_hand' | underscoreToWhitespace | capitalize }}
+                    <button type="submit"
+                            @click.stop.prevent="openItemModal(getEquipmentItem('off_hand'), 'equipment')"
+                            @dragstart="startDrag($event, parseInt(getEquipmentItem('off_hand').pivot.inventory_slot_number), 'equipment')"
+                            draggable="true"
+                            class="btn btn-link-thin"
+                            v-if="getEquipmentItem('off_hand')">
+                        <img :src="asset(getEquipmentItem('off_hand').image_file_path)"
+                             :alt="getEquipmentItem('off_hand').name">
+                    </button>
+                </div>
             </div>
         </div>
 
-        <div class="row">
+        <div>
+            <div class="my-3 row mx-1 table-dark align-items-center">
 
-            <!-- Left Side -->
-            <div class="col-md-6">
-                <div class="row">
-                    <div class="col-md-12 text-center my-3">
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text font-weight-bold">
-                                    Money in inventory: {{ character.inventory.money }}
-                                </span>
-                            </div>
-                            <label for="money-to-store"></label>
-                            <input type="number"
-                                   name="money_amount"
-                                   id="money-to-store"
-                                   class="form-control"
-                                   v-model.number="money_to_store"
-                                   min="0"
-                                   :max=character.inventory.money
-                                   aria-label="Money to move to store">
-                            <div class="input-group-append">
-                                <span class="input-group-text">
-                                    <button type="submit"
-                                            class="btn btn-sm btn-secondary"
-                                            @click.stop.prevent="moveMoneyToStore()">
-                                        Move to Store
-                                         <span class="fas fa-long-arrow-alt-right"></span>
-                                    </button>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
+                <div v-for="index in total_inventory_slots" :key="index"
+                     :id="index-1"
+                     :class="[isEquipped(index-1) ? 'inventory-item equipped' : 'inventory-item']"
+                     @drop="onDrop($event, 'inventory')"
+                     @dragover.prevent
+                     @dragenter.prevent>
+                    <button type="submit"
+                            @click.stop.prevent="openItemModal(getInventoryItem(index-1), 'inventory')"
+                            @dragstart="startDrag($event, index-1, 'inventory')"
+                            draggable="true"
+                            class="btn btn-link-thin"
+                            v-if="getInventoryItem(index-1)">
+                        <img :src="asset(getInventoryItem(index-1).image_file_path)"
+                             :alt="getInventoryItem(index-1).name">
+                    </button>
                 </div>
-            </div>
 
-            <!-- Right Side -->
-            <div class="col-md-6">
-                <div class="row">
-                    <div class="col-md-12 text-center my-3">
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <button type="submit"
-                                            class="btn btn-sm btn-secondary"
-                                            @click.stop.prevent="moveMoneyToInventory()">
-                                        <span class="fas fa-long-arrow-alt-left"></span>
-                                        Move to Inventory
-                                    </button>
-                                </span>
-                            </div>
-                            <label for="money-to-inventory"></label>
-                            <input type="number"
-                                   name="money_amount"
-                                   id="money-to-inventory"
-                                   class="form-control"
-                                   v-model.number="money_to_inventory"
-                                   min="0"
-                                   :max=character.store.money
-                                   aria-label="Money to move to inventory">
-                            <div class="input-group-append">
-                                <span class="input-group-text font-weight-bold">
-                                    Money in store: {{ character.store.money }}
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
 
         </div>
@@ -245,26 +191,6 @@ export default {
                         }
                     ],
                     money: 0
-                },
-                store: {
-                    items: [
-                        {
-                            pivot: {
-                                inventory_slot_number: null,
-                                status: ''
-                            },
-                            image_file_path: '',
-                            price: 0,
-                            type: '',
-                            name: '',
-                            effects: {
-                                quantity: 0,
-                                type: ''
-                            }
-                        }
-                    ],
-                    money: 0,
-                    type: null
                 }
             }
         }
@@ -275,6 +201,38 @@ export default {
     },
 
     methods: {
+        equipItem(item) {
+
+            if (!item) {
+                return;
+            }
+
+            item.pivot.status = 'equipped';
+
+            axios.post('/api/inventory/item/' + item.id + '/equip')
+                .then(() => {
+                    this.logSuccess('Equipped: ' + item.name);
+                }).catch(error => {
+                this.logError('Equipping item failed: ' + error.response.data.message);
+            });
+        },
+
+        unEquipItem(item) {
+
+            if (!item) {
+                return;
+            }
+
+            item.pivot.status = 'in_backpack';
+
+            axios.post('/api/inventory/item/' + item.id + '/un-equip')
+                .then(() => {
+                    this.logSuccess('Un-equipped: ' + item.name);
+                }).catch(error => {
+                this.logError('Un-equipping item failed: ' + error.response.data.message);
+            });
+        },
+
         findFreeStoreSlot() {
 
             for (let slot = 0; slot < this.total_store_slots; slot++) {
@@ -428,6 +386,12 @@ export default {
             return base_path + path;
         },
 
+        getEquipmentItem(type) {
+            return this.character.inventory.items.find(
+                item => item.type === type && item.pivot.status === 'equipped'
+            );
+        },
+
         getInventoryItem(index) {
             return this.character.inventory.items.find(
                 item => parseInt(item.pivot.inventory_slot_number) === parseInt(index)
@@ -460,15 +424,12 @@ export default {
                 return;
             }
 
-            if (container === 'store') {
-                let inventoryItem = this.getInventoryItem(itemIndex);
+            let inventoryItem = this.getInventoryItem(itemIndex);
 
-                this.moveItemToStore(inventoryItem);
+            if (container === 'equipment') {
+                this.equipItem(inventoryItem);
             } else {
-
-                let storeItem = this.getStoreItem(itemIndex);
-
-                this.moveItemToInventory(storeItem);
+                this.unEquipItem(inventoryItem);
             }
         },
 
