@@ -7,13 +7,18 @@
                 <div slot="body">
 
                     <div class="font-weight-bold">
-                        {{ itemToDisplay.name }}
 
                         <button type="submit"
                                 class="close"
                                 @click.stop.prevent="showModal = false">
                             x
                         </button>
+
+                        {{ itemToDisplay.name }}
+                        <br>(
+                            <small v-if="showContainer == 'inventory'">{{ customer.name }}'s Inventory</small>
+                            <small v-else>{{ trader.name }}'s Store</small>
+                        )
                     </div>
 
                     <div class="modal-item-price-image">
@@ -24,8 +29,8 @@
                         <caption class="caption-top">Attributes</caption>
                         <tr>
                             <th scope="row">Sell price</th>
-                            <td>
-                                <form>
+                            <td v-if="showContainer == 'inventory'">
+                                <form >
                                     <label for="set-item-price"></label>
                                     <input type="number"
                                            name="money_amount"
@@ -36,6 +41,9 @@
                                            min="0"
                                            aria-label="Set item price">
                                 </form>
+                            </td>
+                            <td v-else>
+                                {{ itemToDisplay.price }}
                             </td>
                         </tr>
                         <tr>
@@ -275,7 +283,7 @@ export default {
             }
 
             if (this.trader.store.type === 'sell_only') {
-                this.logError('Sell only store does not buy items');
+                this.logError('This store only sell items - find a merchant store instead');
 
                 return;
             }
@@ -365,7 +373,6 @@ export default {
         },
 
         changeItemPrice(item) {
-
             if (!item) {
                 return;
             }
