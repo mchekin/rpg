@@ -24,8 +24,8 @@
                         <caption class="caption-top">Attributes</caption>
                         <tr>
                             <th scope="row">Sell price</th>
-                            <td>
-                                <form>
+                            <td v-if="showContainer == 'inventory'">
+                                <form >
                                     <label for="set-item-price"></label>
                                     <input type="number"
                                            name="money_amount"
@@ -36,6 +36,9 @@
                                            min="0"
                                            aria-label="Set item price">
                                 </form>
+                            </td>
+                            <td v-else>
+                                {{ itemToDisplay.price }}
                             </td>
                         </tr>
                         <tr>
@@ -365,7 +368,6 @@ export default {
         },
 
         changeItemPrice(item) {
-
             if (!item) {
                 return;
             }
