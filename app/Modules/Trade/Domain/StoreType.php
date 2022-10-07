@@ -7,7 +7,7 @@ use InvalidArgumentException;
 class StoreType
 {
     public const SELL_ONLY = 'sell_only';
-    public const BUY_AND_SELL = 'by_and_sell';
+    public const BUY_AND_SELL = 'buy_and_sell';
 
     public const TYPES = [
         self::SELL_ONLY,
@@ -27,7 +27,7 @@ class StoreType
     public static function ofType(string $type): self
     {
         if (!in_array($type, self::TYPES, true)) {
-            throw new InvalidArgumentException("$type is not a valid Item Type");
+            throw new InvalidArgumentException("$type is not a valid Store Type");
         }
 
         return new self($type);
