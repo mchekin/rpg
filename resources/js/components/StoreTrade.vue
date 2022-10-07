@@ -283,7 +283,7 @@ export default {
             }
 
             if (this.trader.store.type === 'sell_only') {
-                this.logError('Sell only store does not buy items');
+                this.logError('This store only sell items - find a merchant store instead');
 
                 return;
             }
