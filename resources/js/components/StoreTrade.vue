@@ -7,13 +7,18 @@
                 <div slot="body">
 
                     <div class="font-weight-bold">
-                        {{ itemToDisplay.name }}
 
                         <button type="submit"
                                 class="close"
                                 @click.stop.prevent="showModal = false">
                             x
                         </button>
+
+                        {{ itemToDisplay.name }}
+                        <br>(
+                            <small v-if="showContainer == 'inventory'">{{ customer.name }}'s Inventory</small>
+                            <small v-else>{{ trader.name }}'s Store</small>
+                        )
                     </div>
 
                     <div class="modal-item-price-image">
