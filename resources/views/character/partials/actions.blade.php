@@ -3,12 +3,12 @@
     <div class="text-center mt-3">
         @if($character->isYou())
             <a class="btn btn-sm btn-primary" href="{{ route('inventory.index') }}">
-                Manage Inventory
-                <span class="fas fa-table"></span>
+                Inventory
+                <span class="fas fa-shopping-bag"></span>
             </a>
             <a class="btn btn-sm btn-primary" href="{{ route('store.index') }}">
-                Manage Store
-                <span class="fas fa-table"></span>
+                Store
+                <span class="fas fa-shopping-bag"></span>
             </a>
         @else
             <div class="mx-1 my-3 px-5 text-center" role="group" aria-label="Character Actions">
