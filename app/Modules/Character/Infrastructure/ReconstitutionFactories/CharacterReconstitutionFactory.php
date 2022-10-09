@@ -4,6 +4,7 @@
 namespace App\Modules\Character\Infrastructure\ReconstitutionFactories;
 
 use App\Modules\Character\Domain\CharacterId;
+use App\Modules\Character\Domain\CharacterType;
 use App\Modules\Equipment\Infrastructure\ReconstitutionFactories\InventoryReconstitutionFactory;
 use App\Modules\Character\Domain\Attributes;
 use App\Modules\Character\Domain\Character;
@@ -40,6 +41,7 @@ class CharacterReconstitutionFactory
             $characterModel->getLocationId(),
             $characterModel->getName(),
             new Gender($characterModel->getGender()),
+            new CharacterType($characterModel->getType()),
             $characterModel->getXp(),
             new Reputation(0),
             new Attributes([

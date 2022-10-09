@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Modules\Character\Domain\CharacterType;
 use App\Modules\Equipment\Domain\ItemStatus;
 use App\Modules\Equipment\Domain\ItemType;
 use App\Traits\UsesStringId;
@@ -27,6 +28,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property string location_id
  * @property Race race
  * @property string gender
+ * @property string type
  * @property int total_hit_points
  * @property int victor_xp_gained
  * @property Image profilePicture
@@ -118,14 +120,24 @@ class Character extends Model
         return $this->isPlayerCharacter() && $this->user->isCurrentAuthenticatedUser();
     }
 
+    public function isOwnMerchant(): bool
+    {
+        return $this->isMerchant() && $this->user->isCurrentAuthenticatedUser();
+    }
+
     public function isPlayerCharacter(): bool
     {
-        return $this->user !== null;
+        return $this->type === CharacterType::PLAYER;
+    }
+
+    public function isMerchant(): bool
+    {
+        return $this->type === CharacterType::MERCHANT;
     }
 
     public function isNPC(): bool
     {
-        return $this->user === null;
+        return !$this->isPlayerCharacter();
     }
 
     public function hasProfilePicture(): bool
@@ -256,6 +268,11 @@ class Character extends Model
     public function getGender(): string
     {
         return $this->gender;
+    }
+
+    public function getType(): string
+    {
+        return $this->type;
     }
 
     public function getRaceId(): int
