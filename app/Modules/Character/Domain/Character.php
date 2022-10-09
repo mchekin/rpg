@@ -244,6 +244,11 @@ class Character
         return $this->gender;
     }
 
+    public function getType(): CharacterType
+    {
+        return $this->type;
+    }
+
     public function getXp(): int
     {
         return $this->xp;
