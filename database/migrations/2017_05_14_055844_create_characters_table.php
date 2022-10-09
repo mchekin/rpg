@@ -19,6 +19,7 @@ class CreateCharactersTable extends Migration
 
             $table->string('name')->unique();
             $table->enum('gender', ['male', 'female']);
+            $table->enum('type', ['player', 'merchant', 'civilian', 'monster']);
 
             $table->unsignedInteger('xp')->default(0);
             $table->unsignedInteger('available_attribute_points')->default(0);
