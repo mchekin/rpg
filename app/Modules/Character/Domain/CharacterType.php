@@ -9,13 +9,11 @@ class CharacterType
 {
     public const PLAYER = 'player';
     public const MERCHANT = 'merchant';
-    public const CIVILIAN = 'civilian';
     public const MONSTER = 'monster';
 
     public const TYPES = [
         self::PLAYER,
         self::MERCHANT,
-        self::CIVILIAN,
         self::MONSTER,
     ];
 
