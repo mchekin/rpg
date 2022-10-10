@@ -8,6 +8,7 @@ use App\Models\Item;
 use App\Models\ItemPrototype;
 use App\Models\Location;
 use App\Modules\Character\Application\Contracts\CharacterRepositoryInterface;
+use App\Modules\Character\Domain\CharacterType;
 use App\Modules\Character\Domain\HitPoints;
 use App\Modules\Character\Infrastructure\Repositories\RaceRepository;
 use App\Modules\Equipment\Application\Contracts\InventoryRepositoryInterface;
@@ -17,6 +18,7 @@ use App\Modules\Trade\Application\Contracts\StoreRepositoryInterface;
 use App\Models\Race;
 use App\Models\Store;
 use App\Models\User;
+use App\Modules\Trade\Domain\StoreType;
 use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Support\Str;
 use Faker\Generator;
@@ -48,6 +50,7 @@ $factory->define(Character::class, static function (Generator $faker) {
     $hitPoints = HitPoints::byRace($race);
 
     $genders = ['male', 'female'];
+    $types = CharacterType::TYPES;
 
     $characterId = $characterRepository->nextIdentity()->toString();
 
@@ -62,6 +65,7 @@ $factory->define(Character::class, static function (Generator $faker) {
 
         'name' => $faker->name,
         'gender' => $genders[array_rand($genders)],
+        'type' => $characterType = $types[array_rand($types)],
 
         'xp' => 0,
         'reputation' => 0,
@@ -76,8 +80,8 @@ $factory->define(Character::class, static function (Generator $faker) {
         'hit_points' => $hitPoints->getCurrentHitPoints(),
         'total_hit_points' => $hitPoints->getMaximumHitPoints(),
 
-        'user_id' => static function () {
-            return random_int(0, 3)
+        'user_id' => static function () use ($characterType) {
+            return $characterType === CharacterType::PLAYER
                 ? factory(User::class)->create()->id
                 : null;
         },
@@ -102,7 +106,7 @@ $factory->afterCreating(Character::class, static function (Character $character)
         'id' => $storeRepository->nextIdentity()->toString(),
         'character_id' => $character->getId(),
         'money' => random_int(0, 5000),
-        'type' => 'sell_only',
+        'type' => $character->isMerchant() ? StoreType::BUY_AND_SELL : StoreType::SELL_ONLY,
     ]);
 });
 

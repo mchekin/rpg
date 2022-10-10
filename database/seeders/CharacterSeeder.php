@@ -8,6 +8,7 @@ use App\Models\Item;
 use App\Models\ItemPrototype;
 use App\Models\Location;
 use App\Modules\Character\Application\Contracts\CharacterRepositoryInterface;
+use App\Modules\Character\Domain\CharacterType;
 use App\Modules\Equipment\Application\Contracts\InventoryRepositoryInterface;
 use App\Modules\Equipment\Application\Contracts\ItemRepositoryInterface;
 use App\Modules\Equipment\Domain\ItemStatus;
@@ -55,6 +56,7 @@ class CharacterSeeder extends Seeder
             'id' => $characterRepository->nextIdentity()->toString(),
             'name' => 'Someone',
             'gender' => 'male',
+            'type' => CharacterType::PLAYER,
 
             'xp' => 0,
             'reputation' => 0,
