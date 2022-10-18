@@ -45,15 +45,18 @@ if (!$character->isNPC()) {
                 </a>
             @endif
 
+            @if($character->isMerchant())
+                <a href="{{ route('character.store.index', ['character' => $character]) }}"
+                   class="btn btn-xxs btn-info">
+                    trade <span class="fas fa-money-bill"></span>
+                </a>
+            @endif
+
             <button formaction="{{ route('character.attack', ['character' => $character]) }}"
                     class="btn btn-xxs btn-danger">
                 attack <span class="fas fa-bolt"></span>
             </button>
 
-            <a href="{{ route('character.store.index', ['character' => $character]) }}"
-                    class="btn btn-xxs btn-info">
-                trade <span class="fas fa-money-bill"></span>
-            </a>
         </span>
     @endif
 
