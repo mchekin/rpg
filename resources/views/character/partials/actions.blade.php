@@ -12,7 +12,7 @@
             </a>
         @else
             <div class="mx-1 my-3 px-5 text-center" role="group" aria-label="Character Actions">
-                @if(!$character->isNPC())
+                @if($character->isPlayerCharacter())
                     <a href="{{ route('character.message.index', ['character' => $character]) }}"
                        class="btn btn-sm btn-success">
                         message <span class="fa fa-comment"></span>
@@ -23,6 +23,11 @@
                         class="btn btn-sm btn-danger">
                     attack <span class="fas fa-bolt"></span>
                 </button>
+
+                <a href="{{ route('character.store.index', ['character' => $character]) }}"
+                   class="btn btn-sm btn-info">
+                    trade <span class="fas fa-money-bill"></span>
+                </a>
             </div>
         @endif
     </div>
