@@ -16,7 +16,12 @@ class LocationController extends Controller
 
     public function show(string $locationId)
     {
-        $location = Location::query()->findOrFail($locationId);
+        /** @var Location $location */
+        $location = Location::query()
+            ->with('characters.race')
+            ->with('characters.user')
+            ->with('adjacentLocations')
+            ->findOrFail($locationId);
 
         return view('location.show', compact('location'));
     }
