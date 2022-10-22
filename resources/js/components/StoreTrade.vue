@@ -287,7 +287,7 @@ export default {
                     this.logSuccess('Bought: ' + item.name + ' for ' + item.price + ' coins');
                 }).catch(error => {
                 this.exchangeItemForMoney(item);
-                this.logError('Buying failed: ' + error.response.data.message);
+                this.logError(error.response.data.message);
             });
         },
 
@@ -309,12 +309,12 @@ export default {
                 return;
             }
 
-
             this.exchangeItemForMoney(item);
 
             axios.post('/api/store/' + this.trader.store.id + '/item/' + item.id + '/sell')
                 .then(() => {
                     this.logSuccess('Sold: ' + item.name + ' for ' + item.price + ' coins');
+                    item.price = item.prototype.price;
                 }).catch(error => {
                 this.exchangeMoneyForItem(item);
                 this.logError(error.response.data.message);
