@@ -60,12 +60,12 @@ class TradeService
 
         $itemPrototype = $this->prototypeRepository->getOne($item->getPrototypeId());
 
-        $traderBuyPrice = $itemPrototype->getPrice()->getAmount() * 0.75;
+        $traderBuyPrice = (int)floor($itemPrototype->getPrice()->getAmount() * 0.75);
         $customerSellPrice = $item->getPrice()->getAmount();
 
         if ($traderBuyPrice < $customerSellPrice) {
             throw new SellPriceIsTooHigh(
-                "The store is willing to pay no more than {$traderBuyPrice} coin for {$itemPrototype->getName()}"
+                "The store is willing to pay no more than {$traderBuyPrice} coins for {$itemPrototype->getName()}"
             );
         }
 
