@@ -302,7 +302,7 @@ export default {
                     this.logSuccess('Sold: ' + item.name + ' for ' + item.price + ' coins');
                 }).catch(error => {
                 this.exchangeMoneyForItem(item);
-                this.logError('Selling failed: ' + error.response.data.message);
+                this.logError(error.response.data.message);
             });
         },
 

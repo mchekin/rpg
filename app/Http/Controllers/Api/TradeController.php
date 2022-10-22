@@ -56,7 +56,7 @@ class TradeController extends Controller
         } catch (Exception $exception) {
 
             return response()->json([
-                'message' => 'Error buying item: ' . $exception->getMessage()
+                'message' => 'Error selling item: ' . $exception->getMessage()
             ], 500);
         }
 

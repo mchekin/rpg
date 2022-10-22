@@ -4,10 +4,12 @@
 namespace App\Modules\Trade\Application\Services;
 
 use App\Modules\Equipment\Application\Contracts\InventoryRepositoryInterface;
+use App\Modules\Equipment\Application\Contracts\ItemPrototypeRepositoryInterface;
 use App\Modules\Equipment\Domain\Money;
 use App\Modules\Trade\Application\Commands\BuyItemCommand;
 use App\Modules\Trade\Application\Commands\SellItemCommand;
 use App\Modules\Trade\Application\Contracts\StoreRepositoryInterface;
+use App\Modules\Trade\Domain\Exception\SellPriceIsTooHigh;
 
 class TradeService
 {
@@ -19,14 +21,20 @@ class TradeService
      * @var InventoryRepositoryInterface
      */
     private $inventoryRepository;
+    /**
+     * @var ItemPrototypeRepositoryInterface
+     */
+    private $prototypeRepository;
 
     public function __construct(
         StoreRepositoryInterface $storeRepository,
-        InventoryRepositoryInterface $inventoryRepository
+        InventoryRepositoryInterface $inventoryRepository,
+        ItemPrototypeRepositoryInterface $prototypeRepository
     )
     {
         $this->storeRepository = $storeRepository;
         $this->inventoryRepository = $inventoryRepository;
+        $this->prototypeRepository = $prototypeRepository;
     }
 
     public function buyItem(BuyItemCommand $command): void
@@ -49,7 +57,20 @@ class TradeService
         $store = $this->storeRepository->getOne($command->getStoreId());
 
         $item = $inventory->takeOut($command->getItemId());
-        $money = $store->takeMoneyOut(new Money($item->getPrice()->getAmount()));
+
+        $itemPrototype = $this->prototypeRepository->getOne($item->getPrototypeId());
+
+        $traderBuyPrice = $itemPrototype->getPrice()->getAmount() * 0.75;
+        $customerSellPrice = $item->getPrice()->getAmount();
+
+        if ($traderBuyPrice < $customerSellPrice) {
+            throw new SellPriceIsTooHigh(
+                "The store is willing to pay no more than {$traderBuyPrice} coin for {$itemPrototype->getName()}"
+            );
+        }
+
+        $money = $store->takeMoneyOut(new Money($customerSellPrice));
+
         $store->add($item);
         $inventory->putMoneyIn($money);
 
