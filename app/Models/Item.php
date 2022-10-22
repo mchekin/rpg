@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Modules\Equipment\Domain\ItemStatus;
 use App\Traits\UsesStringId;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
@@ -36,6 +37,11 @@ class Item extends Model
     public function inventory(): BelongsToMany
     {
         return $this->belongsToMany(Inventory::class);
+    }
+
+    public function prototype(): BelongsTo
+    {
+        return $this->belongsTo(ItemPrototype::class);
     }
 
     public function getId(): string

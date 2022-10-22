@@ -46,6 +46,12 @@
                                 {{ itemToDisplay.price }}
                             </td>
                         </tr>
+                        <tr v-if="showContainer == 'inventory'">
+                            <th scope="row">Store buy price</th>
+                            <td>
+                                {{ toStoreBuyPrice(itemToDisplay) }}
+                            </td>
+                        </tr>
                         <tr>
                             <th scope="row">Type</th>
                             <td>{{ itemToDisplay.type | underscoreToWhitespace | capitalize }}</td>
@@ -186,6 +192,9 @@ export default {
                 effects: {
                     quantity: 0,
                     type: ''
+                },
+                prototype: {
+                    price: 0
                 }
             },
             showModal: false,
@@ -211,6 +220,9 @@ export default {
                             effects: {
                                 quantity: 0,
                                 type: ''
+                            },
+                            prototype: {
+                                price: 0
                             }
                         }
                     ],
@@ -234,6 +246,9 @@ export default {
                             effects: {
                                 quantity: 0,
                                 type: ''
+                            },
+                            prototype: {
+                                price: 0
                             }
                         }
                     ],
@@ -410,6 +425,10 @@ export default {
 
         isEquipped(index) {
             return this.getInventoryItem(index) && this.getInventoryItem(index).pivot.status === 'equipped';
+        },
+
+        toStoreBuyPrice(item) {
+            return Math.floor(item.prototype.price * 0.75);
         },
 
         startDrag(evt, itemIndex, container) {
