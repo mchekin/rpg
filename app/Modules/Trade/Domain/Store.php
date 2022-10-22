@@ -64,7 +64,7 @@ class Store
         return $this->id;
     }
 
-    public function addItemToSlot(int $slot, StoreItem $item): void
+    public function addItemToSlot(int $slot, Item $item): void
     {
         if ($slot >= self::NUMBER_OF_SLOTS) {
             throw new ContainerSlotOutOfRangeException("Store slot $slot is out of range.");
@@ -79,8 +79,6 @@ class Store
 
     public function add(Item $item): void
     {
-        $item = new StoreItem($item, $item->getPrice());
-
         $slot = $this->findFreeSlot();
 
         $this->items->put($slot, $item);
@@ -97,16 +95,16 @@ class Store
         throw new ContainerIsFullException('Cannot add to full store');
     }
 
-    public function findItem(ItemId $itemId): ?StoreItem
+    public function findItem(ItemId $itemId): ?Item
     {
-        return $this->items->first(static function (StoreItem $item) use ($itemId) {
+        return $this->items->first(static function (Item $item) use ($itemId) {
             return $item->getId()->equals($itemId);
         });
     }
 
     public function findItemsOfType(ItemType $type): Collection
     {
-        return $this->items->filter(static function (StoreItem $item) use ($type) {
+        return $this->items->filter(static function (Item $item) use ($type) {
             return $item->isOfType($type);
         });
     }
@@ -123,7 +121,7 @@ class Store
 
     public function takeOut(ItemId $itemId): Item
     {
-        $slot = $this->items->search(static function (StoreItem $item) use ($itemId) {
+        $slot = $this->items->search(static function (Item $item) use ($itemId) {
             return $item->getId()->equals($itemId);
         });
 
@@ -131,7 +129,7 @@ class Store
             throw new ItemNotInContainer('Cannot take out item from empty slot');
         }
 
-        /** @var StoreItem $item */
+        /** @var Item $item */
         $item = $this->items->get($slot);
 
         $this->items->forget($slot);

@@ -5,6 +5,7 @@ namespace App\Modules\Trade\Infrastructure\ReconstitutionFactories;
 
 use App\Models\Item as ItemModel;
 use App\Modules\Equipment\Domain\Money;
+use App\Modules\Equipment\Infrastructure\ReconstitutionFactories\ItemReconstitutionFactory;
 use App\Modules\Trade\Domain\Store;
 use App\Modules\Trade\Domain\StoreId;
 use App\Modules\Trade\Domain\StoreType;
@@ -14,13 +15,13 @@ use App\Modules\Character\Domain\CharacterId;
 class StoreReconstitutionFactory
 {
     /**
-     * @var StoreItemReconstitutionFactory
+     * @var ItemReconstitutionFactory
      */
-    private $inventoryItemReconstitutionFactory;
+    private $itemReconstitutionFactory;
 
-    public function __construct(StoreItemReconstitutionFactory $inventoryItemReconstitutionFactory)
+    public function __construct(ItemReconstitutionFactory $itemReconstitutionFactory)
     {
-        $this->inventoryItemReconstitutionFactory = $inventoryItemReconstitutionFactory;
+        $this->itemReconstitutionFactory = $itemReconstitutionFactory;
     }
 
     public function reconstitute(StoreModel $storeModel): Store
@@ -28,7 +29,7 @@ class StoreReconstitutionFactory
         $items = $storeModel->items->mapWithKeys(function (ItemModel $itemModel) {
 
             $key = $itemModel->getInventorySlotNumber();
-            $inventoryItem = $this->inventoryItemReconstitutionFactory->reconstitute($itemModel);
+            $inventoryItem = $this->itemReconstitutionFactory->reconstitute($itemModel);
 
             return [$key => $inventoryItem];
         });

@@ -138,8 +138,25 @@ class Item
         return $this->price;
     }
 
-    public function changePrice(ItemPrice $price): void
+    public function changePrice(ItemPrice $price): self
     {
         $this->price = $price;
+
+        return $this;
+    }
+
+    public function toBaseItem(): Item
+    {
+        return new Item(
+            $this->getId(),
+            $this->getName(),
+            $this->getDescription(),
+            $this->getImageFilePath(),
+            $this->getType(),
+            $this->getEffects(),
+            $this->getPrice(),
+            $this->getPrototypeId(),
+            $this->getCreatorCharacterId()
+        );
     }
 }
