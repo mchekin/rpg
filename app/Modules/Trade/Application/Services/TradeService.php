@@ -5,6 +5,8 @@ namespace App\Modules\Trade\Application\Services;
 
 use App\Modules\Equipment\Application\Contracts\InventoryRepositoryInterface;
 use App\Modules\Equipment\Application\Contracts\ItemPrototypeRepositoryInterface;
+use App\Modules\Equipment\Application\Contracts\ItemRepositoryInterface;
+use App\Modules\Equipment\Domain\ItemPrice;
 use App\Modules\Equipment\Domain\Money;
 use App\Modules\Trade\Application\Commands\BuyItemCommand;
 use App\Modules\Trade\Application\Commands\SellItemCommand;
@@ -24,17 +26,23 @@ class TradeService
     /**
      * @var ItemPrototypeRepositoryInterface
      */
-    private $prototypeRepository;
+    private $itemPrototypeRepository;
+    /**
+     * @var ItemRepositoryInterface
+     */
+    private $itemRepository;
 
     public function __construct(
         StoreRepositoryInterface $storeRepository,
         InventoryRepositoryInterface $inventoryRepository,
-        ItemPrototypeRepositoryInterface $prototypeRepository
+        ItemPrototypeRepositoryInterface $itemPrototypeRepository,
+        ItemRepositoryInterface $itemRepository
     )
     {
         $this->storeRepository = $storeRepository;
         $this->inventoryRepository = $inventoryRepository;
-        $this->prototypeRepository = $prototypeRepository;
+        $this->itemPrototypeRepository = $itemPrototypeRepository;
+        $this->itemRepository = $itemRepository;
     }
 
     public function buyItem(BuyItemCommand $command): void
@@ -58,9 +66,10 @@ class TradeService
 
         $item = $inventory->takeOut($command->getItemId());
 
-        $itemPrototype = $this->prototypeRepository->getOne($item->getPrototypeId());
+        $itemPrototype = $this->itemPrototypeRepository->getOne($item->getPrototypeId());
 
-        $traderBuyPrice = (int)floor($itemPrototype->getPrice()->getAmount() * 0.75);
+        $prototypePrice = $itemPrototype->getPrice()->getAmount();
+        $traderBuyPrice = (int)floor($prototypePrice * 0.75);
         $customerSellPrice = $item->getPrice()->getAmount();
 
         if ($traderBuyPrice < $customerSellPrice) {
@@ -71,9 +80,11 @@ class TradeService
 
         $money = $store->takeMoneyOut(new Money($customerSellPrice));
 
+        $item->changePrice(ItemPrice::ofAmount($prototypePrice));
         $store->add($item);
         $inventory->putMoneyIn($money);
 
+        $this->itemRepository->update($item);
         $this->inventoryRepository->update($inventory);
         $this->storeRepository->update($store);
     }
