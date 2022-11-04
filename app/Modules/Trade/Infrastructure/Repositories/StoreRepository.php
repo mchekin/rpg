@@ -2,7 +2,7 @@
 
 namespace App\Modules\Trade\Infrastructure\Repositories;
 
-use App\Modules\Trade\Domain\StoreItem;
+use App\Modules\Equipment\Domain\Item;
 use App\Modules\Trade\Infrastructure\ReconstitutionFactories\StoreReconstitutionFactory;
 use App\Models\Store as StoreModel;
 use App\Modules\Character\Domain\CharacterId;
@@ -66,7 +66,7 @@ class StoreRepository implements StoreRepositoryInterface
         /** @var StoreModel $storeModel */
         $storeModel = StoreModel::query()->findOrFail($store->getId()->toString());
 
-        $storeItems = $store->getItems()->mapWithKeys(static function (StoreItem $item, int $slot) {
+        $storeItems = $store->getItems()->mapWithKeys(static function (Item $item, int $slot) {
 
             $itemId = $item->getId()->toString();
 

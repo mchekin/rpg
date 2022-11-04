@@ -1,2 +1,2 @@
 {{ $character->name }}
-({{ $character->getLevelNumber() }})
+({{ $character->getRaceName() }})

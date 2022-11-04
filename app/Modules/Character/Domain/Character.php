@@ -23,6 +23,10 @@ class Character
      */
     private $gender;
     /**
+     * @var CharacterType
+     */
+    private $type;
+    /**
      * @var int
      */
     private $levelId;
@@ -78,6 +82,7 @@ class Character
         string $locationId,
         string $name,
         Gender $gender,
+        CharacterType $type,
         int $xp,
         Reputation $reputation,
         Attributes $attributes,
@@ -86,11 +91,11 @@ class Character
         Inventory $inventory,
         int $userId = null,
         ImageId $profilePictureId = null
-    )
-    {
+    ) {
         $this->id = $id;
         $this->name = $name;
         $this->gender = $gender;
+        $this->type = $type;
         $this->levelId = $levelId;
         $this->raceId = $raceId;
         $this->locationId = $locationId;
@@ -239,6 +244,11 @@ class Character
         return $this->gender;
     }
 
+    public function getType(): CharacterType
+    {
+        return $this->type;
+    }
+
     public function getXp(): int
     {
         return $this->xp;
@@ -346,5 +356,10 @@ class Character
     public function getInventory(): Inventory
     {
         return $this->inventory;
+    }
+
+    public function isMerchant(): bool
+    {
+        return $this->type->isMerchant();
     }
 }

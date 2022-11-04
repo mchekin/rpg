@@ -16,6 +16,11 @@ class CreateCharacterCommand
      */
     private $gender;
     /**
+     * @var string
+     */
+    private $type;
+
+    /**
      * @var int
      */
     private $raceId;
@@ -24,10 +29,11 @@ class CreateCharacterCommand
      */
     private $userId;
 
-    public function __construct(string $name, string $gender, int $raceId, string $userId)
+    public function __construct(string $name, string $gender, string $type, int $raceId, string $userId)
     {
         $this->name = $name;
         $this->gender = $gender;
+        $this->type = $type;
         $this->raceId = $raceId;
         $this->userId = $userId;
     }
@@ -40,6 +46,11 @@ class CreateCharacterCommand
     public function getGender(): string
     {
         return $this->gender;
+    }
+
+    public function getCharacterType(): string
+    {
+        return $this->type;
     }
 
     public function getRaceId(): int

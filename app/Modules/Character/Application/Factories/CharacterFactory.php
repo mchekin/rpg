@@ -5,6 +5,7 @@ namespace App\Modules\Character\Application\Factories;
 
 use App\Modules\Character\Application\Commands\CreateCharacterCommand;
 use App\Modules\Character\Domain\CharacterId;
+use App\Modules\Character\Domain\CharacterType;
 use App\Modules\Character\Domain\Race;
 use App\Modules\Equipment\Domain\Inventory;
 use App\Modules\Character\Domain\Statistics;
@@ -26,6 +27,7 @@ class CharacterFactory
             $race->getStartingLocationId(),
             $command->getName(),
             new Gender($command->getGender()),
+            new CharacterType($command->getCharacterType()),
             0,
             new Reputation(0),
             new Attributes([

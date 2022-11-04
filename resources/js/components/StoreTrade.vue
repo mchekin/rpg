@@ -46,6 +46,12 @@
                                 {{ itemToDisplay.price }}
                             </td>
                         </tr>
+                        <tr v-if="showContainer == 'inventory'">
+                            <th scope="row">Store buy price</th>
+                            <td>
+                                {{ toStoreBuyPrice(itemToDisplay) }}
+                            </td>
+                        </tr>
                         <tr>
                             <th scope="row">Type</th>
                             <td>{{ itemToDisplay.type | underscoreToWhitespace | capitalize }}</td>
@@ -186,6 +192,9 @@ export default {
                 effects: {
                     quantity: 0,
                     type: ''
+                },
+                prototype: {
+                    price: 0
                 }
             },
             showModal: false,
@@ -211,6 +220,9 @@ export default {
                             effects: {
                                 quantity: 0,
                                 type: ''
+                            },
+                            prototype: {
+                                price: 0
                             }
                         }
                     ],
@@ -234,6 +246,9 @@ export default {
                             effects: {
                                 quantity: 0,
                                 type: ''
+                            },
+                            prototype: {
+                                price: 0
                             }
                         }
                     ],
@@ -272,7 +287,7 @@ export default {
                     this.logSuccess('Bought: ' + item.name + ' for ' + item.price + ' coins');
                 }).catch(error => {
                 this.exchangeItemForMoney(item);
-                this.logError('Buying failed: ' + error.response.data.message);
+                this.logError(error.response.data.message);
             });
         },
 
@@ -294,15 +309,21 @@ export default {
                 return;
             }
 
+            if (item.prototype.price < item.price) {
+                this.logError('The store is willing to pay no more than ' + item.prototype.price + ' coins for ' + item.name);
+
+                return;
+            }
 
             this.exchangeItemForMoney(item);
 
             axios.post('/api/store/' + this.trader.store.id + '/item/' + item.id + '/sell')
                 .then(() => {
                     this.logSuccess('Sold: ' + item.name + ' for ' + item.price + ' coins');
+                    item.price = item.prototype.price;
                 }).catch(error => {
                 this.exchangeMoneyForItem(item);
-                this.logError('Selling failed: ' + error.response.data.message);
+                this.logError(error.response.data.message);
             });
         },
 
@@ -410,6 +431,10 @@ export default {
 
         isEquipped(index) {
             return this.getInventoryItem(index) && this.getInventoryItem(index).pivot.status === 'equipped';
+        },
+
+        toStoreBuyPrice(item) {
+            return Math.floor(item.prototype.price * 0.75);
         },
 
         startDrag(evt, itemIndex, container) {

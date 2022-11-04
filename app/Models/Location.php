@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Traits\UsesStringId;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -11,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 /**
  * @property string id
  * @property string name
+ * @property Collection adjacentLocations
  */
 class Location extends Model
 {
@@ -76,12 +78,14 @@ class Location extends Model
      */
     public function adjacentLocations()
     {
-        return $this->belongsToMany(Location::class, 'adjacent_location', 'location_id', 'adjacent_location_id');
+        return $this->belongsToMany(Location::class, 'adjacent_location', 'location_id', 'adjacent_location_id')->withPivot('direction');
     }
 
     public function adjacent($type)
     {
-        return $this->adjacentLocations()->wherePivot('direction', $type)->first();
+        return $this->adjacentLocations->filter(function (Location $value, $key) use ($type) {
+            return $value->getOriginal('pivot_direction') === $type;
+        })->first();
     }
 
     public function addAdjacentLocation(Location $adjacent, $direction)

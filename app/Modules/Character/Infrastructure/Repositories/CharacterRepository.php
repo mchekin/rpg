@@ -45,6 +45,7 @@ class CharacterRepository implements CharacterRepositoryInterface
 
             'name' => $character->getName(),
             'gender' => $character->getGender()->getValue(),
+            'type' => $character->getType()->getValue(),
 
             'xp' => $character->getXp(),
             'level_id' => $character->getLevelNumber(),
