@@ -309,6 +309,12 @@ export default {
                 return;
             }
 
+            if (item.prototype.price < item.price) {
+                this.logError('The store is willing to pay no more than ' + item.prototype.price + ' coins for ' + item.name);
+
+                return;
+            }
+
             this.exchangeItemForMoney(item);
 
             axios.post('/api/store/' + this.trader.store.id + '/item/' + item.id + '/sell')
